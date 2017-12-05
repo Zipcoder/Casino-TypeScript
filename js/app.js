@@ -92,7 +92,7 @@ var MilitaryConversionHelper = (function () {
     };
     MilitaryConversionHelper.prototype.convertToPhrase = function (passedMinute) {
         this.timeRepresentation = "";
-        switch (passedMinute / 10) {
+        switch (Math.floor(passedMinute / 10)) {
             case 0: {
                 this.timeRepresentation += "Zero";
                 this.minuteMapping(passedMinute % 10);
@@ -123,6 +123,7 @@ var MilitaryConversionHelper = (function () {
                 break;
             }
         }
+        console.log(this.timeRepresentation);
         return this.timeRepresentation;
     };
     return MilitaryConversionHelper;
@@ -134,7 +135,7 @@ var Problem6 = (function () {
     Problem6.prototype.initiate = function () {
         var inputForm = document.getElementById("user_input");
         var outputBox = document.getElementById("display");
-        outputBox.innerHTML = this.convertMilitaryNotationToPhraseology(inputForm.innerText);
+        outputBox.innerHTML = this.convertStandardToMilitaryPhrase(inputForm.value);
     };
     Problem6.prototype.convertStandardToMilitaryPhrase = function (input) {
         return (this.convertMilitaryNotationToPhraseology(this.convertToMilitaryNotation(input)));
@@ -153,7 +154,9 @@ var Problem6 = (function () {
             }
             return (input);
         }
-        hours += 12;
+        if (hours != 12) {
+            hours += 12;
+        }
         time[0] = "" + hours;
         return (time[0] + ":" + time[1]);
     };
@@ -170,5 +173,5 @@ var Problem6 = (function () {
     return Problem6;
 }());
 /// <reference path="problem6.ts"/>
-var problemObject;
+var problemObject = new Problem6();
 //# sourceMappingURL=app.js.map

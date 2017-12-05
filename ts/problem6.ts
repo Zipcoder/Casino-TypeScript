@@ -5,7 +5,7 @@ class Problem6 {
     initiate():void{
         let inputForm:any = document.getElementById("user_input");
         let outputBox:any = document.getElementById("display");
-        outputBox.innerHTML=this.convertMilitaryNotationToPhraseology(inputForm.innerText);
+        outputBox.innerHTML=this.convertStandardToMilitaryPhrase(inputForm.value);
     }
 
     convertStandardToMilitaryPhrase(input:string):string
@@ -34,7 +34,10 @@ class Problem6 {
 
             return (input);
         }
-        hours+=12;
+        if (hours!=12){
+            hours+=12;
+        }
+
         time[0]=""+hours;
         return (time[0]+":"+time[1]);
     }

@@ -102,7 +102,7 @@ class MilitaryConversionHelper {
 
         this.timeRepresentation="";
 
-        switch (passedMinute/10){
+        switch (Math.floor(passedMinute/10)){
             case 0: {
                 this.timeRepresentation += "Zero";
                 this.minuteMapping(passedMinute%10);
@@ -134,6 +134,7 @@ class MilitaryConversionHelper {
             }
 
         }
+        console.log(this.timeRepresentation);
         return this.timeRepresentation;
     }
 }
