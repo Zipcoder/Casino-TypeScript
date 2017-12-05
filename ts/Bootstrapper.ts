@@ -1,4 +1,3 @@
-/// <reference path="AliceBob.ts" />
+/// <reference path="problem6.ts"/>
 
-let aliceBob = new AliceBob();
-aliceBob.init();
+var problemObject:Problem6;
