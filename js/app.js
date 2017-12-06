@@ -86,7 +86,7 @@ var Craps = (function () {
         this.pointPairs = [new CrapPointPair(6, 8, "6-8"),
             new CrapPointPair(5, 9, "5-9"),
             new CrapPointPair(10, 4, "10-4")];
-        var twoToTwelve;
+        var twoToTwelve = new Array(0);
         for (var i = 2; i < 13; i++) {
             twoToTwelve.push(i);
         }
@@ -170,6 +170,7 @@ var Craps = (function () {
         }
     };
     Craps.prototype.secondaryThrow = function () {
+        //returns -1 if crapped out,
         //returns 1 if point met
         //returns 0 if nothing met
         //returns any other number if pair met
@@ -215,5 +216,263 @@ var Craps = (function () {
         return ("Y" == userInput.toUpperCase());
     };
     return Craps;
+}());
+var CrapsConsole = (function () {
+    function CrapsConsole(user) {
+        this.game = new Craps();
+        this.pointSet = false;
+        this.pointMet = false;
+        this.crappedOut = false;
+        this.player = user;
+    }
+    CrapsConsole.prototype.initialize = function () {
+        this.originalInputElement = document.getElementById("input");
+        this.currentInputElement = this.originalInputElement;
+        this.currentInputElement.innerHTML = "</br>TestingTesting</br>";
+    };
+    CrapsConsole.prototype.finalize = function () {
+    };
+    CrapsConsole.prototype.run = function () {
+        this.initialize();
+        this.welcomePlayer();
+        this.game.determineFirstRoller();
+        do {
+            while (!this.pointSet) {
+                //throws a point instead of a win/loss.
+                this.initialBet();
+                this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
+            }
+            while (!this.pointMet) {
+                //meets their point or craps out
+                this.secondaryBet();
+                this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
+            }
+            if (this.crappedOut) {
+                this.changeTurns(); //Reset flags, change active player
+            }
+            else {
+                this.resetFlags();
+            }
+        } while (this.game.play("Y")); //getStringInput("Continue playing? [Y/N] ")));
+        //NEED TO REWORK PLAY AND INPUT TO ACCOUNT FOR HTML FORMS
+        this.finalize();
+    };
+    CrapsConsole.prototype.initialBet = function () {
+        //System.out.println(game.toString());
+        if (this.game.getPlayerTurn()) {
+            this.opponentInitialBets(this.generateBotBet());
+        }
+        else {
+            this.playerInitialBets();
+        }
+    };
+    CrapsConsole.prototype.playerInitialBets = function () {
+        do {
+            //this.mainPotBet = this.getPositiveDoubleInput("How much would you like to bet? ");
+        } while (this.player.Wallet.getMoney() < this.mainPotBet);
+        this.game.takeBet(this.player.Wallet.takeOutMoney(this.mainPotBet)); //player bet
+        this.game.takeBet(this.mainPotBet); //house bet matches
+        this.displayPlayerBetting(this.mainPotBet);
+    };
+    CrapsConsole.prototype.opponentInitialBets = function (betToMatch) {
+        this.game.takeBet(betToMatch); //house bet to match
+        this.game.takeBet(this.player.Wallet.takeOutMoney(betToMatch)); //player matches bet
+        this.mainPotBet = betToMatch;
+        this.displayOpponentBetting(betToMatch);
+    };
+    CrapsConsole.prototype.generateBotBet = function () {
+        return (Math.random() * (this.player.Wallet.getMoney() / 2));
+    };
+    CrapsConsole.prototype.secondaryBet = function () {
+        //System.out.println(game.toString());
+        if (this.game.getPlayerTurn()) {
+            this.opponentSecondaryBets(this.generateBotBet());
+        }
+        else {
+            this.playerSecondaryBets();
+        }
+    };
+    CrapsConsole.prototype.playerSecondaryBets = function () {
+        do {
+            //this.sidePotBet = getPositiveDoubleInput("How much would you like to bet? ");
+        } while (this.player.Wallet.getMoney() < this.sidePotBet);
+        this.game.takeSideBet(this.player.Wallet.takeOutMoney(this.sidePotBet)); //player bet
+        this.game.takeSideBet(this.sidePotBet); //house bet matches
+        this.displayPlayerBetting(this.sidePotBet);
+    };
+    CrapsConsole.prototype.opponentSecondaryBets = function (betToMatch) {
+        this.game.takeSideBet(betToMatch); //house bet to match
+        this.game.takeSideBet(this.player.Wallet.takeOutMoney(betToMatch)); //player matches bet
+        this.sidePotBet = betToMatch;
+        this.displayOpponentBetting(betToMatch);
+    };
+    CrapsConsole.prototype.resolveInitialThrow = function (resultOfThrownDice) {
+        if (resultOfThrownDice != 0) {
+            //non-Thrower (-1) or thrower (1) wins the mainPotBet
+            this.resolveInitialThrowBet(resultOfThrownDice);
+            return false;
+        }
+        //Point for the first time
+        this.firstPointRolled();
+        return true;
+    };
+    CrapsConsole.prototype.resolveInitialThrowBet = function (a) {
+        if (a == 1) {
+            if (this.game.getPlayerTurn()) {
+                this.playerWinsBothPots(); //Player wins the pot and we go back to bet again
+            }
+            else {
+                this.opponentWinsBothPots(); //mainPotBet will be overwritten in the next
+                //function call, so we can use it here to catch this
+                //method's return
+            }
+        }
+        else {
+            if (this.game.getPlayerTurn()) {
+                this.opponentWinsBothPots();
+            }
+            else {
+                this.playerWinsBothPots();
+            }
+        }
+    };
+    CrapsConsole.prototype.resolveSecondaryThrow = function (resultOfThrownDice) {
+        switch (resultOfThrownDice) {
+            case 0: {
+                this.neitherWinsAnyPot();
+                return false;
+            }
+            case -1: {
+                this.crappedOut = true;
+            }
+            case 1: {
+                this.resolveSecondaryThrowBet(resultOfThrownDice);
+                return true;
+            }
+            default: {
+                this.resolveSecondaryThrowBet(resultOfThrownDice);
+                return false;
+            }
+        } //end switch
+    };
+    CrapsConsole.prototype.resolveSecondaryThrowBet = function (a) {
+        if (a == 1) {
+            if (this.game.getPlayerTurn()) {
+                this.playerWinsBothPots();
+            }
+            else {
+                this.opponentWinsBothPots();
+            }
+        }
+        else if (a == -1) {
+            if (this.game.getPlayerTurn()) {
+                this.opponentWinsBothPots();
+            }
+            else {
+                this.playerWinsBothPots();
+            }
+        }
+        else {
+            if (this.game.getPlayerTurn()) {
+                this.playerWinsSidePot();
+            }
+            else {
+                this.opponentWinsSidePot();
+            }
+        }
+    };
+    CrapsConsole.prototype.displayOpponentBetting = function (passedOpponentBet) {
+        //        System.out.println(game.toString()); //Move to betting logic in order to make it consistent with displayPlayerBetting()
+        //     System.out.println("Opponent bets "+defaultFormat.format(passedOpponentBet));
+        //     System.out.println("You match "+defaultFormat.format(passedOpponentBet));
+        //     System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+    };
+    CrapsConsole.prototype.displayPlayerBetting = function (passedPlayerBet) {
+        //_AND_ after the player enters their bet amount
+        // System.out.println("You bet "+defaultFormat.format(passedPlayerBet));
+        // System.out.println("Opponent matches "+defaultFormat.format(passedPlayerBet));
+        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+    };
+    CrapsConsole.prototype.firstPointRolled = function () {
+        // System.out.println(game.getNumberRolled()+" was rolled... that's our new point.");
+        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now.");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+    };
+    CrapsConsole.prototype.neitherWinsAnyPot = function () {
+        // System.out.println("A "+game.getNumberRolled()+" was rolled... nothing special.");
+        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now.");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+    };
+    CrapsConsole.prototype.playerWinsSidePot = function () {
+        // System.out.println("A "+game.getNumberRolled()+" was rolled, and you won the Side Pot!");
+        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.player.Wallet.addMoney(this.game.emptySidePot());
+        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+        this.sidePotBet = 0;
+    };
+    CrapsConsole.prototype.opponentWinsSidePot = function () {
+        // System.out.println("A "+game.getNumberRolled()+" was rolled, and your opponent won the Side Pot!");
+        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.sidePotBet = this.game.emptySidePot();
+        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+        this.sidePotBet = 0;
+    };
+    CrapsConsole.prototype.opponentWinsBothPots = function () {
+        // System.out.println("A "+game.getNumberRolled()+" was rolled, and your opponent won everything!");
+        // System.out.println(defaultFormat.format(game.getMainPot().getMoney())+" from Main Pot");
+        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.mainPotBet = this.game.emptyPot();
+        this.sidePotBet = this.game.emptySidePot();
+        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+        this.mainPotBet = 0;
+        this.sidePotBet = 0;
+    };
+    CrapsConsole.prototype.playerWinsBothPots = function () {
+        // System.out.println("A "+game.getNumberRolled()+" was rolled, and you won everything!");
+        // System.out.println(defaultFormat.format(game.getMainPot().getMoney())+" from Main Pot");
+        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.player.Wallet.addMoney(this.game.emptyPot());
+        this.player.Wallet.addMoney(this.game.emptySidePot());
+        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.printPots();
+        this.enterAnyKeyToContinue();
+        this.mainPotBet = 0;
+        this.sidePotBet = 0;
+    };
+    CrapsConsole.prototype.welcomePlayer = function () {
+        //System.out.println("Hello, "+player.getName()+". Welcome to the "+game.getClass().getSimpleName()+" table.");
+    };
+    CrapsConsole.prototype.changeTurns = function () {
+        this.resetFlags();
+        this.game.changePlayerTurn();
+    };
+    CrapsConsole.prototype.resetFlags = function () {
+        this.mainPotBet = 0;
+        this.sidePotBet = 0;
+        this.pointSet = false;
+        this.pointMet = false;
+        this.crappedOut = false;
+        this.game.resetTurn();
+    };
+    CrapsConsole.prototype.printPots = function () {
+        // System.out.println(defaultFormat.format(game.getMainPot().getMoney())+" now in Main Pot");
+        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" now in Side Pot");
+    };
+    CrapsConsole.prototype.enterAnyKeyToContinue = function () {
+        //String dump = getStringInput("Enter any key to continue: ");
+    };
+    return CrapsConsole;
 }());
 //# sourceMappingURL=app.js.map

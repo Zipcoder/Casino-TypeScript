@@ -33,7 +33,7 @@ class Craps implements Gamble, Game {
     point:number;
 
     constructor(){
-        let twoToTwelve:Array<number>;
+        let twoToTwelve:Array<number>=new Array(0);
         for (let i:number=2; i<13; i++){
             twoToTwelve.push(i);
         }
@@ -128,7 +128,8 @@ class Craps implements Gamble, Game {
         }
 
     }
-    secondaryThrow():number{//returns -1 if crapped out,
+    secondaryThrow():number{
+        //returns -1 if crapped out,
         //returns 1 if point met
         //returns 0 if nothing met
         //returns any other number if pair met
