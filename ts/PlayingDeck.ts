@@ -18,7 +18,7 @@ class PlayingDeck {
     // public void shuffle(){
     //     Collections.shuffle(cards);
     // }
-    
+
     getAllCards(){
         return this.cards;
     }

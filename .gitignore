@@ -40,3 +40,5 @@ Thumbs.db
 # Other  #
 ##########
 .idea/
+js/app.js
+js/app.js.map
