@@ -169,17 +169,12 @@ class Craps implements Gamble, Game {
             returnMe+="Nobody has rolled yet\n";
         }
 
-        returnMe+="Main pot is "+defaultFormat.format(mainPot.getMoney())+"\n";
-        returnMe+="Side pot is "+defaultFormat.format(sidePot.getMoney())+"\n";
-
+        returnMe+="Main pot is $"+this.mainPot.getMoney()+"\n";
+        returnMe+="Side pot is $"+this.sidePot.getMoney()+"\n";
 
         return returnMe;
     }
-    @Override
-    public boolean play(String userInput) {
-        return ("Y".equalsIgnoreCase(userInput));
+    play(userInput:string):boolean {
+        return ("Y"==userInput.toUpperCase());
     }
-
-
-
 }

@@ -1,9 +1,3 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 var Dice = (function () {
     function Dice(sides) {
         this.sides = sides;
@@ -92,7 +86,6 @@ var Craps = (function () {
         this.pointPairs = [new CrapPointPair(6, 8, "6-8"),
             new CrapPointPair(5, 9, "5-9"),
             new CrapPointPair(10, 4, "10-4")];
-        this.boolean = play(String, userInput);
         var twoToTwelve;
         for (var i = 2; i < 13; i++) {
             twoToTwelve.push(i);
@@ -214,16 +207,13 @@ var Craps = (function () {
         else {
             returnMe += "Nobody has rolled yet\n";
         }
-        returnMe += "Main pot is " + defaultFormat.format(mainPot.getMoney()) + "\n";
-        returnMe += "Side pot is " + defaultFormat.format(sidePot.getMoney()) + "\n";
+        returnMe += "Main pot is $" + this.mainPot.getMoney() + "\n";
+        returnMe += "Side pot is $" + this.sidePot.getMoney() + "\n";
         return returnMe;
     };
-    __decorate([
-        Override
-    ], Craps.prototype, "boolean", void 0);
+    Craps.prototype.play = function (userInput) {
+        return ("Y" == userInput.toUpperCase());
+    };
     return Craps;
 }());
-{
-    return ("Y".equalsIgnoreCase(userInput));
-}
 //# sourceMappingURL=app.js.map
