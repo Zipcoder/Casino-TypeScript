@@ -10,6 +10,10 @@
     padding: 0;
 }
 
+#greeting {
+    text-align: center;
+}
+
 body { font: 14px/1.4 arial, sans-serif; background-color: #F5F5F5;}
 
 article, aside, figure, footer, header, nav, section { display: block; }
