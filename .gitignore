@@ -7,7 +7,7 @@
 *.o
 *.so
 *.idea
-*/js
+js/*
 
 # Packages #
 ############
