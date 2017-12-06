@@ -5,7 +5,7 @@ class Player {
 
     //private playerHand : new Array<>();
 
-    public constructor(name: string, balance: number, age: number) {
+    public constructor(name?: string, balance?: number, age?: number) {
         this._name = name;
         this._balance = balance;
         this._age = age;
