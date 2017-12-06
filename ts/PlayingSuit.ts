@@ -1,3 +1,4 @@
+//import { EnumValues } from '~/node_modules/enum-values';
 
 enum PlayingSuit {
 
@@ -6,9 +7,10 @@ enum PlayingSuit {
     CLUB = "♧",
     SPADE = "♤"
 
-// @Override
-// toString(){
-//     return this.symbol;
-// }
+}
 
+var symbol:string = PlayingSuit.valueOf();
+
+toString = () : string => {
+    return symbol;
 }

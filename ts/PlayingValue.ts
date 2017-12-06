@@ -1,4 +1,4 @@
-//import { EnumValues } from 'enum-values' ;
+import { EnumValues } from '~/node_modules/enum-values';
 
 enum PlayingValue {
 
@@ -17,5 +17,13 @@ enum PlayingValue {
     ACE = "A"
 }
 
+var value: string = PlayingValue.valueOf();
 
+function getValue() {
+    return this.value;
+}
+
+toString = () : string => {
+    return this.value;
+}
 
