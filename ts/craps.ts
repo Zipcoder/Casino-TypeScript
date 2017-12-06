@@ -13,7 +13,7 @@ class Craps implements Game,Gamble{
 		this.userInputElement = document.getElementById("user_input")
   }
 
-init(){
+init():void{
   this.displayElement.innerHTML += "Welcome to Craps! <br />";
   this.start();
 }
@@ -32,26 +32,31 @@ init(){
 
   private start():void{
     while(this.play()){
+    console.log("start() function");
       let target:number;
       this.takeBet();
 
       let rollOne:number = this.roll();
-      this.displayElement.innerHTML += "You rolled " + rollOne;
+      this.displayElement.innerHTML += "You rolled " + rollOne + "<br />";
       target = rollOne;
 
 
       if(rollOne == 7 || rollOne == 11){
         this.playerWin(this.bet);
       } else if(rollOne == 2 || rollOne == 3 || rollOne == 12){
+        console.log("rollOne not pass");
         this.playerLose(this.bet);
       } else{
         this.displayElement.innerHTML += "Target is now " + rollOne;
         let rollTwo:number = this.roll();
         if(rollTwo === 7){
+          console.log("rollTwo = 7");
+          this.displayElement.innerHTML += "Second Roll was 7!";
           this.playerLose(this.bet);
         }
-      }// }this.play = this.playAgain();
+      }
     }
+
   }
 private playAgain():boolean{
   this.displayElement.innerHTML += "Play Again? Y/N";
@@ -64,15 +69,15 @@ private playAgain():boolean{
         this.playerWin(this.bet);
         break;
       } else{
-        this.displayElement.innerHTML += "Target is " + rollOne;
+        this.displayElement.innerHTML += "<br />Target is " + rollOne;
       }
       rollTwo = this.roll();
     }
     return rollTwo;
   }
   private roll():number{
-    let diceOne:number = (Math.random()*6)+1;
-    let diceTwo:number = (Math.random()*6)+1;
+    let diceOne:number = Math.floor(Math.random()*6)+ 1;
+    let diceTwo:number = Math.floor(Math.random()*6)+ 1;
 
     let sum = diceTwo + diceOne;
 
