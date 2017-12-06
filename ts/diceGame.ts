@@ -16,11 +16,10 @@ class DiceGame{
 
         switch(UserInput.userInput.value){
             case "craps":
-<<<<<<< HEAD
-                craps.playCraps();
-=======
+
+
                 craps.printStartCraps();
->>>>>>> 8709fa0c017d0585e1e9e492c990138ba0064f6b
+                
                 document.getElementById("button").setAttribute("onclick", "craps.startCraps");
         }
 
