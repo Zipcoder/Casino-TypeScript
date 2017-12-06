@@ -80,7 +80,7 @@ private playAgain():boolean{
     let diceTwo:number = Math.floor(Math.random()*6)+ 1;
 
     let sum = diceTwo + diceOne;
-
+    console.log("rolling " + sum);
     return sum;
   }
 
