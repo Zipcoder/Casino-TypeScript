@@ -9,19 +9,22 @@ class Casino{
  public enterCasino(){
     Display.print("Welcome to Zip Code Casino." +
         "<br/>You are going to have lots of fun while you are here." +
-        "<br/>Use the drop down menu below to choose whether or not to play a game.");
+        "<br/><br/>Please enter [game] to choose a game or [other] for other options.");
  }
 
  public chooseWhatToDo(){
-     console.log("Something anyting");
      switch (UserInput.userInput.value){
-         case "1":
+         case "game":
              game.ChooseGame();
+             document.getElementById("button").setAttribute("onclick","game.pickGame()");
              break;
-         case "2":
+         case "other":
              Display.print("We currently only have games inside Zip Code Casino." +
-                 "<br/>I'm sorry if there is nothing else to do." +
-                 "<br/>If you'd like a drink ask Tariq :-)");
+                 "<br/>I'm sorry if there is nothing else to do.");
+             break;
+         default:
+             Display.print("Invalid answer please try again.");
+             this.enterCasino();
              break;
      }
  }

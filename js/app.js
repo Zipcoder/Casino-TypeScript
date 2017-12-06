@@ -16,6 +16,12 @@ var BlackJack = /** @class */ (function () {
 var BlackJackConsole = /** @class */ (function () {
     function BlackJackConsole() {
     }
+    BlackJackConsole.prototype.printPlay = function () {
+        Display.print("Your are now in the Black Jack Game." +
+            "<br/>Ryan will get you from HERE!!!");
+    };
+    BlackJackConsole.prototype.play = function () {
+    };
     return BlackJackConsole;
 }());
 var Player = /** @class */ (function () {
@@ -37,7 +43,11 @@ var Display = /** @class */ (function () {
     Display.print = function (input) {
         this.displayEle.innerHTML += input + "<br/><br/>";
     };
+    Display.setCurrentStep = function (step) {
+        this.currentStep = step;
+    };
     Display.displayEle = document.getElementById("display");
+    Display.currentStep = "enterCasino";
     return Display;
 }());
 var UserInput = /** @class */ (function () {
@@ -46,10 +56,104 @@ var UserInput = /** @class */ (function () {
     UserInput.userInput = document.getElementById("user_input");
     return UserInput;
 }());
+var GoFishConsole = /** @class */ (function () {
+    function GoFishConsole() {
+    }
+    GoFishConsole.prototype.printPlay = function () {
+    };
+    GoFishConsole.prototype.play = function () {
+    };
+    return GoFishConsole;
+}());
+///<reference path="blackJackConsole.ts"/>
+///<reference path="goFishConsole.ts"/>
+var blackJack = new BlackJackConsole();
+var goFish = new GoFishConsole();
+var CardGame = /** @class */ (function () {
+    function CardGame() {
+    }
+    CardGame.prototype.printChooseCardGame = function () {
+        Display.print("What type of card game would you like tp play?" +
+            "<br/>Please enter goFish or blackJack");
+    };
+    CardGame.prototype.chooseCardGame = function () {
+        switch (UserInput.userInput.value) {
+            case "goFish":
+                goFish.printPlay();
+                document.getElementById("button").setAttribute("onclick", "goFish.play()");
+                break;
+            case "blackJacK":
+                blackJack.printPlay();
+                document.getElementById("button").setAttribute("onclick", "blackJack.play()");
+                break;
+            default:
+                Display.print("Invalid choice.");
+                // this.chooseCardGame();
+                break;
+        }
+    };
+    return CardGame;
+}());
+var CrapsConsole = /** @class */ (function () {
+    function CrapsConsole() {
+    }
+    CrapsConsole.prototype.printStartCraps = function () {
+        Display.print("Hello Welcome to the craps table." +
+            "<br/>Ryan is the man and is going to make this shit rock!!!");
+    };
+    CrapsConsole.prototype.startCraps = function () {
+        //I just throw this in here for you to run your craps game
+        //You'll have to change the button one level up if this is not the name of this method
+    };
+    return CrapsConsole;
+}());
+///<reference path="crapsConsole.ts"/>
+var craps = new CrapsConsole();
+var DiceGame = /** @class */ (function () {
+    function DiceGame() {
+    }
+    DiceGame.prototype.printChooseDiceGame = function () {
+        Display.print("What type of dice game would you like tp play?" +
+            "<br/>Please enter craps or you can roll out cause this is the only dice game.");
+    };
+    DiceGame.prototype.chooseDiceGame = function () {
+        switch (UserInput.userInput.value) {
+            case "craps":
+                craps.printStartCraps();
+                document.getElementById("button").setAttribute("onclick", "craps.startCraps");
+        }
+    };
+    return DiceGame;
+}());
+///<reference path="cardGame.ts"/>
+///<reference path="diceGame.ts"/>
+var cardGame = new CardGame();
+var diceGame = new DiceGame();
 var Game = /** @class */ (function () {
     function Game() {
     }
     Game.prototype.ChooseGame = function () {
+        // Display.setCurrentStep("game.ChooseGame");
+        Display.print("Here at ZipCode Casino we have both card games and dice games." +
+            "<br/>What type of game would you like to play?" +
+            "<br/><br/>Please enter cardgame for or dicegames.");
+    };
+    Game.prototype.pickGame = function () {
+        switch (UserInput.userInput.value) {
+            case "cardgame":
+                cardGame.printChooseCardGame();
+                document.getElementById("button").setAttribute("onclick", "cardGame.chooseCardGame()");
+                break;
+            case "dicegame":
+                diceGame.printChooseDiceGame();
+                document.getElementById("button").setAttribute("onclick", "diceGame.chooseDiceGame()");
+                break;
+            default:
+                Display.print("Invalid answer please try again.");
+                this.ChooseGame();
+                break;
+        }
+        Display.print("Would you like to leave the game area?");
     };
     return Game;
 }());
@@ -63,18 +167,21 @@ var Casino = /** @class */ (function () {
     Casino.prototype.enterCasino = function () {
         Display.print("Welcome to Zip Code Casino." +
             "<br/>You are going to have lots of fun while you are here." +
-            "<br/>Use the drop down menu below to choose whether or not to play a game.");
+            "<br/><br/>Please enter [game] to choose a game or [other] for other options.");
     };
     Casino.prototype.chooseWhatToDo = function () {
-        console.log("Something anyting");
         switch (UserInput.userInput.value) {
-            case "1":
+            case "game":
                 game.ChooseGame();
+                document.getElementById("button").setAttribute("onclick", "game.pickGame()");
                 break;
-            case "2":
+            case "other":
                 Display.print("We currently only have games inside Zip Code Casino." +
-                    "<br/>I'm sorry if there is nothing else to do." +
-                    "<br/>If you'd like a drink ask Tariq :-)");
+                    "<br/>I'm sorry if there is nothing else to do.");
+                break;
+            default:
+                Display.print("Invalid answer please try again.");
+                this.enterCasino();
                 break;
         }
     };
@@ -88,11 +195,6 @@ var Card = /** @class */ (function () {
     }
     return Card;
 }());
-var CardGame = /** @class */ (function () {
-    function CardGame() {
-    }
-    return CardGame;
-}());
 var CardValue;
 (function (CardValue) {
 })(CardValue || (CardValue = {}));
@@ -100,11 +202,6 @@ var Craps = /** @class */ (function () {
     function Craps() {
     }
     return Craps;
-}());
-var CrapsConsole = /** @class */ (function () {
-    function CrapsConsole() {
-    }
-    return CrapsConsole;
 }());
 ///<reference path="player.ts"/>
 var CrapsPlayer = /** @class */ (function (_super) {
@@ -119,11 +216,6 @@ var Deck = /** @class */ (function () {
     }
     return Deck;
 }());
-var DiceGame = /** @class */ (function () {
-    function DiceGame() {
-    }
-    return DiceGame;
-}());
 var Die = /** @class */ (function () {
     function Die() {
     }
@@ -133,11 +225,6 @@ var GoFish = /** @class */ (function () {
     function GoFish() {
     }
     return GoFish;
-}());
-var GoFishConsole = /** @class */ (function () {
-    function GoFishConsole() {
-    }
-    return GoFishConsole;
 }());
 ///<reference path="player.ts"/>
 var GoFishPlayer = /** @class */ (function (_super) {
