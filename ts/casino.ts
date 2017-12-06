@@ -24,7 +24,6 @@ class Casino{
              break;
          default:
              Display.print("Invalid answer please try again.");
-             this.enterCasino();
              break;
      }
  }

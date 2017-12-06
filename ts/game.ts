@@ -15,7 +15,7 @@ class Game{
         // Display.setCurrentStep("game.ChooseGame");
         Display.print("Here at ZipCode Casino we have both card games and dice games." +
             "<br/>What type of game would you like to play?" +
-            "<br/><br/>Please enter cardgame for or dicegames.");
+            "<br/><br/>Please enter cardgame or dicegames.");
     }
 
     pickGame(){
@@ -30,7 +30,6 @@ class Game{
                 break;
             default:
                 Display.print("Invalid answer please try again.");
-                this.ChooseGame();
                 break;
         }
 
