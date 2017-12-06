@@ -11,13 +11,28 @@ class PlayingDeck {
 
     private cards : Array<PlayingCard>;
 
-    public PlayingDeck(){
+    public constructor() {
         this.populate();
     }
 
-    // public void shuffle(){
-    //     Collections.shuffle(cards);
-    // }
+    // public PlayingDeck(){}
+
+    getRandom(floor:number, ceiling:number) {
+        return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
+    }
+
+    shuffle<PlayingCard>(array: PlayingCard[]): PlayingCard[] {
+
+        if (array.length <= 1) {
+            return array;
+        }
+
+        for (let i = 0; i < array.length; i++) {
+            const randomChoiceIndex = this.getRandom(i, array.length - 1);
+            [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
+        }
+        return array;
+    }
 
     getAllCards(){
         return this.cards;
@@ -30,7 +45,7 @@ class PlayingDeck {
     getAndRemoveCard(){
         if(this.cards.length == 0) {
             this.populate();
-            //shuffle();
+            this.shuffle(this.cards);
         }
         return this.cards.shift();
     }
