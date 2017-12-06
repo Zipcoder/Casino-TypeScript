@@ -1,0 +1,3 @@
+class GoFishPlayer extends Player{
+  
+}

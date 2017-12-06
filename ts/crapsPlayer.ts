@@ -1,0 +1,3 @@
+class CrapsPlayer extends Player{
+
+}

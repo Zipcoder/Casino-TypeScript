@@ -1,0 +1,3 @@
+class BlackJackPlayer extends Player{
+  
+}
