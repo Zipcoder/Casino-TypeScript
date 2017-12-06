@@ -5,11 +5,12 @@ import { PlayingSuit } from "./PlayingSuit";
 import { PlayingValue } from "./PlayingValue";
 
 
-class PlayingCard {
+export class PlayingCard {
+
     suit: PlayingSuit;
     value: PlayingValue;
 
-    public PlayingCard(suit, value){
+    constructor(suit: PlayingSuit, value: PlayingValue) {
         this.suit = suit;
         this.value = value;
     }

@@ -2,10 +2,10 @@
 
 
 
-import { EnumValues } from 'enum-values';
+import { EnumValues } from 'enumValues';
 import { PlayingSuit } from "./PlayingSuit";
 import { PlayingValue } from "./PlayingValue";
-//import { Card } from "ts/PlayingCard";
+import { PlayingCard } from "ts/PlayingCard";
 
 class PlayingDeck {
 
@@ -18,27 +18,25 @@ class PlayingDeck {
     // public void shuffle(){
     //     Collections.shuffle(cards);
     // }
-    //
-    // public ArrayList<PlayingCard> getAllCards(){
-    //     return cards;
-    // }
-    //
-    // public Integer countLeft(){
-    //     return cards.size();
-    // }
-
-    getAndRemoveCard = () : PlayingCard => {
-        if(this.cards.length == 0) {
-            populate();
-            //shuffle();
-        }
-        card = cards.get(0);
-        cards.remove(0);
-        return card;
+    
+    getAllCards(){
+        return this.cards;
     }
 
-    populate = () : void => {
-        cards = new Array<PlayingCard>[];
+    countLeft(){
+        return this.cards.length;
+    }
+
+    getAndRemoveCard(){
+        if(this.cards.length == 0) {
+            this.populate();
+            //shuffle();
+        }
+        return this.cards.shift();
+    }
+
+    populate() {
+        this.cards = new Array<PlayingCard>();
 
         let suits = EnumValues.getValues(PlayingSuit);
         let values = EnumValues.getValues(PlayingValue);
@@ -46,7 +44,7 @@ class PlayingDeck {
         for (let i = 0; i < suits.length; i++){
 
             for (let j = 0; j < values.length; i++) {
-                cards.add(new PlayingCard(suits[i], values[j]));
+                this.cards.push(new PlayingCard(<PlayingSuit>suits[i].valueOf(), <PlayingValue>values[j].valueOf()));
             }
 
         }

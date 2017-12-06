@@ -1,5 +1,3 @@
-import { EnumValues } from './enum-values';
-
 export enum PlayingValue {
 
     TWO = "2",
@@ -17,13 +15,13 @@ export enum PlayingValue {
     ACE = "A"
 }
 
-var value: string = PlayingValue.valueOf();
+let value: string = PlayingValue.valueOf().toString();
 
 function getValue() {
     return this.value;
 }
 
-toString = () : string => {
+function toString(){
     return this.value;
 }
 
