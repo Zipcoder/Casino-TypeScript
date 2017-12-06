@@ -33,7 +33,7 @@ class Craps implements Gamble, Game {
     point:number;
 
     constructor(){
-        let twoToTwelve:Array<number>=new Array(0);
+        let twoToTwelve:Array<number>=[];
         for (let i:number=2; i<13; i++){
             twoToTwelve.push(i);
         }
