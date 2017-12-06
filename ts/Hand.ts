@@ -1,6 +1,6 @@
 import {PlayingCard} from "./PlayingCard";
 
-class Hand {
+export class Hand {
 
     // private ArrayList<PlayingCard> cards = new ArrayList<>();
     cards: PlayingCard[] = new Array<PlayingCard>();
