@@ -139,3 +139,19 @@ h1 {font-weight: bold; margin-left: 10px;}
 #menu button {
     width: 120px;
 }
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: black;
+    padding: 30px 64px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    height:100px;
+    width:200px;
+}
+
