@@ -21,8 +21,10 @@
     <section id="main">
     	<div id="display"></div>
 			<div id="input">
-				<input type="text" name="user_input" id="user_input">
-				<input type="submit" value="submit">
+				<select id="user_input" name="user_input" onchange="casinoStart.chooseWhatToDo()">
+                    <option value="1">Play a game</option>
+                    <option value="2">Get a drink</option>
+                </select>
 			</div>
     </section>
 
