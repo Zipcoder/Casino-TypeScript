@@ -26,23 +26,66 @@ init(){
 }
   }
   play():boolean{
-    return true;
+    var play:boolean = true;
+    return play;
   }
 
-  start():void{
-    while(this.play){
+  private start():void{
+    while(this.play()){
+      let target:number;
       this.takeBet();
 
-      this.displayElement.innerHTML += "You rolled " + this.roll +" and "+ this.roll;
+      let rollOne:number = this.roll();
+      this.displayElement.innerHTML += "You rolled " + rollOne;
+      target = rollOne;
+
+
+      if(rollOne == 7 || rollOne == 11){
+        this.playerWin(this.bet);
+      } else if(rollOne == 2 || rollOne == 3 || rollOne == 12){
+        this.playerLose(this.bet);
+      } else{
+        this.displayElement.innerHTML += "Target is now " + rollOne;
+        let rollTwo:number = this.roll();
+        if(rollTwo === 7){
+          this.playerLose(this.bet);
+        }
+      }// }this.play = this.playAgain();
     }
   }
-  roll():number{
+private playAgain():boolean{
+  this.displayElement.innerHTML += "Play Again? Y/N";
+  return false;
+}
+
+  private checkRollTwo(rollOne:number,rollTwo:number):number{
+    while(rollTwo !== 7){
+      if(rollTwo == rollOne){
+        this.playerWin(this.bet);
+        break;
+      } else{
+        this.displayElement.innerHTML += "Target is " + rollOne;
+      }
+      rollTwo = this.roll();
+    }
+    return rollTwo;
+  }
+  private roll():number{
     let diceOne:number = (Math.random()*6)+1;
     let diceTwo:number = (Math.random()*6)+1;
 
     let sum = diceTwo + diceOne;
 
     return sum;
+  }
+
+  private playerWin(bet:number):void{
+    this.displayElement.innerHTML += "You Win!";
+    this.player.balance += bet;
+  }
+  private playerLose(bet:number):void{
+    this.displayElement.innerHTML += "You Lose";
+    this.player.balance -= bet;
   }
 
 
