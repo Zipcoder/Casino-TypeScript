@@ -14,7 +14,7 @@ class Hand {
         } else {
             let output: string = "";
             this.cards.sort();
-            // I took this out of the sort(## Comparator.comparing(PlayingCard::getValue ##) )
+            // I took this out of the sort(## Comparator.comparing(PlayingCard::getValue) )
             // if it doesn't work, then I'll need to make a comparator
             for (let i = 0; i < this.cards.length; i++) {
                 output += " [" + this.cards[i] + "] ";
