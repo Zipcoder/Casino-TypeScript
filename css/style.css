@@ -14,7 +14,12 @@
     text-align: center;
 }
 
-body { font: 14px/1.4 arial, sans-serif; background-color: #F5F5F5;}
+body {
+    font: 14px/1.4 arial, sans-serif;
+    background-image: url("../Images/Casino.jpg");
+    background-position: center;
+
+}
 
 article, aside, figure, footer, header, nav, section { display: block; }
 a:link, a:visited {
@@ -115,7 +120,16 @@ a:hover, a:active {
 article {margin: 5%;}
 article p { margin-bottom: 20px;}
 section {margin:10px;}
-h1 {font-weight: bold; margin-left: 10px;}
+h1 {
+    font-weight: bold;
+    margin-left: 10px;
+    text-align: center;
+    color: deeppink;
+}
+
+#greetingdiv {
+    background: white;
+}
 #main {
 
 }

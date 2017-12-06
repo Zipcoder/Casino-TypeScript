@@ -92,10 +92,15 @@ class Casino {
         this._casinoPlayer.balance = amount;
     }
 
+    private clearUserInput() : void {
+        this._userInputHTMLElement.value = "";
+    }
+
     private setOnClickAttributeOfSubmitButton(value : string) : void {
         let newOnClickValue : string = "casino.";
         newOnClickValue += value;
         this.submitButtonHTMLElement.setAttribute("OnClick", newOnClickValue);
+        this.clearUserInput();
     }
 
     private validateUserInputString(value : string) : string {
