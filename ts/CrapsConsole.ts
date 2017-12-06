@@ -3,6 +3,7 @@ class CrapsConsole {
 
     originalInputElement:any;
     currentInputElement:any;
+    displayElement:any;
 
     game:Craps = new Craps();
     player:User;
@@ -15,13 +16,21 @@ class CrapsConsole {
     constructor(user:User){
         this.player=user;
     }
+
+    updateDisplay(stringToDisplay:string):void{
+        this.displayElement.innerHTML+="</br>"+stringToDisplay;
+    }
+
     initialize():void{
+        this.displayElement=document.getElementById("display");
         this.originalInputElement=document.getElementById("input");
         this.currentInputElement=this.originalInputElement;
-        this.currentInputElement.innerHTML="</br>TestingTesting</br>";
+        this.currentInputElement.innerHTML="" +
+            "" +
+            "";
     }
     finalize():void{
-
+        this.currentInputElement=this.originalInputElement;
     }
     run():void{
         this.initialize();
@@ -50,7 +59,7 @@ class CrapsConsole {
 
     initialBet():void{
 
-        //System.out.println(game.toString());
+        this.updateDisplay(this.game.toString());
 
 
         if (this.game.getPlayerTurn())
@@ -88,7 +97,7 @@ class CrapsConsole {
 
     secondaryBet():void{
 
-        //System.out.println(game.toString());
+        this.updateDisplay(this.game.toString());
 
         if (this.game.getPlayerTurn())
         {
@@ -206,43 +215,43 @@ class CrapsConsole {
     }
 
     displayOpponentBetting(passedOpponentBet:number):void{//Called _AFTER_ the money transfers have already taken place
-    //        System.out.println(game.toString()); //Move to betting logic in order to make it consistent with displayPlayerBetting()
-    //     System.out.println("Opponent bets "+defaultFormat.format(passedOpponentBet));
-    //     System.out.println("You match "+defaultFormat.format(passedOpponentBet));
-    //     System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet");
+
+        this.updateDisplay("Opponent bets $"+passedOpponentBet);
+        this.updateDisplay("You match $"+passedOpponentBet);
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
     displayPlayerBetting(passedPlayerBet:number):void{//Called _AFTER_ the money transfers have already taken place
         //_AND_ after the player enters their bet amount
-        // System.out.println("You bet "+defaultFormat.format(passedPlayerBet));
-        // System.out.println("Opponent matches "+defaultFormat.format(passedPlayerBet));
-        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet");
+        this.updateDisplay("You bet $"+passedPlayerBet);
+        this.updateDisplay("Opponent matches $"+passedPlayerBet);
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
 
     firstPointRolled():void{
-        // System.out.println(game.getNumberRolled()+" was rolled... that's our new point.");
-        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now.");
+        this.updateDisplay(this.game.getNumberRolled()+" was rolled... that's our new point.");
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
         this.printPots();
         this.enterAnyKeyToContinue();
 
     }
     neitherWinsAnyPot():void{
-        // System.out.println("A "+game.getNumberRolled()+" was rolled... nothing special.");
-        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now.");
+        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled... nothing special.");
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
     playerWinsSidePot():void{
 
-        // System.out.println("A "+game.getNumberRolled()+" was rolled, and you won the Side Pot!");
-        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won the Side Pot!");
+        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.player.Wallet.addMoney(this.game.emptySidePot());
 
-        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -250,12 +259,12 @@ class CrapsConsole {
         this.sidePotBet=0;
     }
     opponentWinsSidePot():void{
-        // System.out.println("A "+game.getNumberRolled()+" was rolled, and your opponent won the Side Pot!");
-        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won the Side Pot!");
+        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.sidePotBet=this.game.emptySidePot();
 
-        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -263,14 +272,14 @@ class CrapsConsole {
         this.sidePotBet=0;
     }
     opponentWinsBothPots():void{
-        // System.out.println("A "+game.getNumberRolled()+" was rolled, and your opponent won everything!");
-        // System.out.println(defaultFormat.format(game.getMainPot().getMoney())+" from Main Pot");
-        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won everything!");
+        this.updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
+        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.mainPotBet=this.game.emptyPot();
         this.sidePotBet=this.game.emptySidePot();
 
-        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -280,14 +289,14 @@ class CrapsConsole {
     }
     playerWinsBothPots():void{
 
-        // System.out.println("A "+game.getNumberRolled()+" was rolled, and you won everything!");
-        // System.out.println(defaultFormat.format(game.getMainPot().getMoney())+" from Main Pot");
-        // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" from Side Pot");
+        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won everything!");
+        this.updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
+        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.player.Wallet.addMoney(this.game.emptyPot());
         this.player.Wallet.addMoney(this.game.emptySidePot());
 
-        // System.out.println("You have "+defaultFormat.format(player.getWallet().getMoney())+" in your wallet now");
+        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -296,7 +305,7 @@ class CrapsConsole {
     }
 
     welcomePlayer():void{
-    //System.out.println("Hello, "+player.getName()+". Welcome to the "+game.getClass().getSimpleName()+" table.");
+    this.updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table.");
     }
     changeTurns():void{
         this.resetFlags();
@@ -312,8 +321,8 @@ class CrapsConsole {
     }
 
     printPots():void{
-    // System.out.println(defaultFormat.format(game.getMainPot().getMoney())+" now in Main Pot");
-    // System.out.println(defaultFormat.format(game.getSidePot().getMoney())+" now in Side Pot");
+    this.updateDisplay("$"+this.game.getMainPot().getMoney()+" now in Main Pot");
+    this.updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot");
     }
     enterAnyKeyToContinue():void{
     //String dump = getStringInput("Enter any key to continue: ");
