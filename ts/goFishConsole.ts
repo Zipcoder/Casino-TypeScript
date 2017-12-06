@@ -1,3 +1,10 @@
 class GoFishConsole{
-  
+
+    printPlay() {
+
+    }
+
+    play() {
+
+    }
 }
