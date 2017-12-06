@@ -1,22 +1,20 @@
+/// <reference path="MoneyContainer.ts"/>
+
 class User {
 
     name: string;
-    wallet = new MoneyContainer();
+    wallet: MoneyContainer = new MoneyContainer();
 
-    // constructor (name){
-    //     this.name = name;
-    // }
-
-    public constructor(name, money){
+    constructor(name: string, money: number) {
         this.name = name;
         this.wallet.addMoney(money);
     }
 
-    getName() {
+    get Name(): string {
         return this.name;
     }
 
-    getWallet() {
+    get Wallet(): MoneyContainer {
         return this.wallet;
     }
 }

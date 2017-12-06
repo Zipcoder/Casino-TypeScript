@@ -1,3 +1,5 @@
-/// <reference path="problem6.ts"/>
 
-var problemObject:Problem6 = new Problem6();
+/// <reference path="CrapsConsole.ts"/>
+
+var craps:CrapsConsole = new CrapsConsole(new User("Tim", 1000));
+

@@ -13,6 +13,7 @@ class MoneyContainer {
     }
 
     takeOutMoney (money){
+
         if (money>0 && money<=this.money){
             this.money-=money;
             return money;
@@ -26,3 +27,4 @@ class MoneyContainer {
         return moneyHolder;
     }
 }
+
