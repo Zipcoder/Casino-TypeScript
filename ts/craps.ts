@@ -10,6 +10,7 @@ class Craps implements Game,Gamble{
 
   takeBet():number{
     do{
+      
     //this.bet = take number input
     //"place your bet"
   }while(this.bet > this.player.balance){
