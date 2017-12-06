@@ -31,7 +31,7 @@ init():void{
   }
 
   private start():void{
-    while(this.play()){
+    //while(this.play()){
     console.log("start() function");
       let target:number;
       this.takeBet();
@@ -54,7 +54,7 @@ init():void{
           this.displayElement.innerHTML += "Second Roll was 7!";
           this.playerLose(this.bet);
         }
-      }
+    //  }
     }
 
   }
