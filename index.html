@@ -11,19 +11,21 @@
 </head>
 <body>
     <header class="main-header group">
-        <div class="title"></div>
+        <div class="title"> <h1>TypeScript Casino</h1></div>
         <div class="lesson-link"><img src="./images/logos/js_logo.png" alt="Javascript"/></div>
         <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
     </header>
+    <div id = greetingdiv>
+        <p id = "greeting" ></p>
+    </div>
 
-    <h1>TypeScript Casino</h1>
-    <p id = "greeting" ></p>
+
 
     <section id="main">
     	<div id="display"></div>
 			<div id="input">
 				<input type="text" name="user_input" id="user_input">
-				<input id = "submit" type="submit" value="submit" onclick="casino.getUserName()">
+				<input id = "submit" type="submit" placeholder="submit" onclick="casino.getUserName()" value="Submit" class ="btn btn-primary">
 			</div>
     </section>
 
