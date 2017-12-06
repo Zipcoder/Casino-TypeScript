@@ -1,2 +1,2 @@
-///<reference path="**.ts"/>
+
 

@@ -1,6 +1,6 @@
-//import { EnumValues } from '~/node_modules/enum-values';
+import { EnumValues } from './enum-values';
 
-enum PlayingSuit {
+export enum PlayingSuit {
 
     HEART = "♡",
     DIAMOND = "♢",
@@ -9,7 +9,7 @@ enum PlayingSuit {
 
 }
 
-var symbol:string = PlayingSuit.valueOf();
+let symbol:string = PlayingSuit.valueOf();
 
 toString = () : string => {
     return symbol;

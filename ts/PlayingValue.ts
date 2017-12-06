@@ -1,6 +1,6 @@
-import { EnumValues } from '~/node_modules/enum-values';
+import { EnumValues } from './enum-values';
 
-enum PlayingValue {
+export enum PlayingValue {
 
     TWO = "2",
     THREE = "3",
