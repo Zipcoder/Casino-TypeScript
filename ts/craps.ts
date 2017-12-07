@@ -14,7 +14,7 @@ class Craps implements Game {
   resetButtonHTMLElement: any;
 
   constructor(player: Player) {
-    this.player = player
+    this.player = player;
     this.playerBalance = player.balance;
     this.displayElement = document.getElementById("display");
     this.userInputElement = document.getElementById("user_input")
@@ -127,14 +127,14 @@ class Craps implements Game {
   }
 
   private playerWin(bet: number): void {
-    console.log("player win");
+    console.log("Player Win");
     this.displayElement.innerHTML += "<br />You Win!";
-    this.player.addToBalance(this.bet);
+    this.player.balance = this.player.balance + (bet * 1);
   }
   private playerLose(bet: number): void {
-    console.log("player lose");
+    console.log("Player Lose");
     this.displayElement.innerHTML += "<br />You Lose";
-    this.player.balance = this.player.balance - this.bet;
+    this.player.balance = this.player.balance - bet;
   }
 
 
