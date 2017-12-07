@@ -3,6 +3,9 @@
 ///<reference path="PlayingValue.ts"/>
 
 
+
+
+
 class GoFish extends CardGame {
 
     private humanPlayer: GoFishPlayer;
@@ -50,20 +53,20 @@ class GoFish extends CardGame {
         this.compPlayer.getHand().clear();
         this.dealInitialHands(7); //change to 6, 5 for 3, 4 players
         do {
-            playHumanTurn(humanPlayer);
-            playComputerTurn(compPlayer);
-        } while (winner == null);
-        endGame();
+            this.playHumanTurn(this.humanPlayer);
+            this.playComputerTurn(this.compPlayer);
+        } while (this.winner == null);
+        this.endGame();
     }
 
     private playHumanTurn(player: GoFishPlayer): void {
-        displayHand(player);
-        tryAskingForValue();
+        this.displayHand(player);
+        this.tryAskingForValue();
     }
 
     private playComputerTurn(compPlayer: GoFishPlayer): void {
-        System.out.println(compPlayer.getUser().getName() + " has " + compPlayer.hand.getAllCards().size() + " cards.");
-        compAskingForValue();
+        updateDisplay(compPlayer.getUser().getName() + " has " + compPlayer.getHand().getAllCards().length + " cards.");
+        this.compAskingForValue();
     }
 
     private compAskingForValue(): void {
@@ -74,32 +77,31 @@ class GoFish extends CardGame {
                 randomValue = this.getRandomPlayingValue(this.compPlayer);
             } while (randomValue == value);
             value = randomValue;
-            System.out.println(this.compPlayer.getUser().getName() + " asks for " + value + "!");
-            if (this.compPlayer.askForValue(humanPlayer, value) > 0) {
-                this.compPlayer.takeCardsFromOther(humanPlayer, value);
-                System.out.println("Since you had " + value + ", " + compPlayer.getUser().getName() + " takes it/them!");
-                if (compPlayer.hand.isHandEmpty()) {
-                    winner = compPlayer;
-                    System.out.println(compPlayer.getUser().getName() + "'s hand is empty!");
+            updateDisplay(this.compPlayer.getUser().getName() + " asks for " + value + "!");
+            if (this.compPlayer.askForValue(this.humanPlayer, value) > 0) {
+                this.compPlayer.takeCardsFromOther(this.humanPlayer, value);
+                updateDisplay("Since you had " + value + ", " + this.compPlayer.getUser().getName() + " takes it/them!");
+                if (this.compPlayer.getHand().isHandEmpty()) {
+                    this.winner = this.compPlayer;
+                    updateDisplay(this.compPlayer.getUser().getName() + "'s hand is empty!");
                     break;
                 }
-                System.out.println(compPlayer.getUser().getName() + " has " + compPlayer.hand.getAllCards().size() + " cards.");
+                updateDisplay(this.compPlayer.getUser().getName() + " has " + this.compPlayer.getHand().getAllCards().length + " cards.");
             } else {
-                System.out.println("You didn't have any of those, " + compPlayer.getUser().getName() + " has to Go Fish!");
-                PlayingCard
-                drawnCard = compPlayer.drawCard();
+                updateDisplay("You didn't have any of those, " + this.compPlayer.getUser().getName() + " has to Go Fish!");
+                let drawnCard: PlayingCard = this.compPlayer.drawCard();
                 if (drawnCard.getValue() == value) {
-                    System.out.println(compPlayer.getUser().getName() + " drew a card.");
-                    if (compPlayer.hand.isHandEmpty()) {
-                        winner = compPlayer;
-                        System.out.println(compPlayer.getUser().getName() + "'s hand is empty!");
+                    updateDisplay(this.compPlayer.getUser().getName() + " drew a card.");
+                    if (this.compPlayer.getHand().isHandEmpty()) {
+                        this.winner = this.compPlayer;
+                        updateDisplay(this.compPlayer.getUser().getName() + "'s hand is empty!");
                         break;
                     }
-                    System.out.println(compPlayer.getUser().getName() + " asked for " + value + " and drew a card of that rank! It can ask for another card!");
+                    updateDisplay(this.compPlayer.getUser().getName() + " asked for " + value + " and drew a card of that rank! It can ask for another card!");
                     continue;
                 } else {
-                    System.out.println(compPlayer.getUser().getName() + " has " + compPlayer.hand.getAllCards().size() + " cards.");
-                    System.out.println("This ends " + compPlayer.getUser().getName() + "'s turn.\n\n");
+                    updateDisplay(compPlayer.getUser().getName() + " has " + compPlayer.hand.getAllCards().size() + " cards.");
+                    updateDisplay("This ends " + compPlayer.getUser().getName() + "'s turn.\n\n");
                     compPlayer.nullAskedValue();
                     break;
                 }
@@ -108,7 +110,8 @@ class GoFish extends CardGame {
     }
 
     private getRandomPlayingValue(compPlayer: GoFishPlayer): PlayingValue {
-        Random random = new Random();
+        Random
+        random = new Random();
         TreeSet < PlayingValue > values = compPlayer.getValuesInHand();
         ArrayList < PlayingValue > list = new ArrayList<>(values);
         return list.get(random.nextInt(list.size()));
@@ -172,8 +175,7 @@ class GoFish extends CardGame {
         if (this.winner, this.humanPlayer) {
             updateDisplay("Congratulations, you won!");
         }
-        else
-        {
+        else {
             updateDisplay("Awww, you loooooost.");
         }
     }
@@ -185,7 +187,7 @@ class GoFish extends CardGame {
         updateDisplay("\n\n What rank do you want to ask for?");
         let values: string = "";
         let valuesInHand: PlayingValue[] = player.getValuesInHand();
-        for(let i = 0; i < valuesInHand.length; i++) {
+        for (let i = 0; i < valuesInHand.length; i++) {
             values += " [" + valuesInHand[i] + "] ";
         }
 
@@ -200,7 +202,7 @@ class GoFish extends CardGame {
     }
 
 
-class GoFishPlayer {
+    class GoFishPlayer {
 
     private user: User;
     private hand: Hand;
@@ -259,7 +261,7 @@ class GoFishPlayer {
         let movingCards: Array<PlayingCard> = other.getAllOfValue(value);
         updateDisplay(other.getUser().getName() + " had " + movingCards.length + " of " + value + "!");
         other.getHand().removeAllOf(movingCards);
-        for(let i = 0; i < movingCards.length; i++) {
+        for (let i = 0; i < movingCards.length; i++) {
             this.addCard(movingCards[i]);
         }
     }
@@ -274,10 +276,13 @@ class GoFishPlayer {
         return drawnCard;
     }
 
-    fourOfKindValue(): PlayingValue{
-        HashMap<PlayingValue, Integer> count = new HashMap<>();
-        PlayingValue hasFour = null;
-        for (PlayingCard card : this.getHand().getAllCards()) {
+    fourOfKindValue(): PlayingValue {
+
+        // Map<PlayingValue, Integer> count = new HashMap<>();
+        let map: Map.prototype.constructor;
+        let hasFour: PlayingValue = null;
+        let cards: PlayingCard[] = this.getHand().getAllCards();
+        for (let i = 0; i < cards.length; i++) {
             if (count.containsKey(card.getValue())) {
                 count.put(card.getValue(), (count.get(card.getValue()) + 1));
                 if (count.get(card.getValue()) == 4) {
@@ -293,8 +298,8 @@ class GoFishPlayer {
     discardFourOfKind(value: PlayingValue): void {
         let cards: PlayingCard[] = this.getHand().getAllCards();
         let movingCards: PlayingCard[] = new Array<PlayingCard>();
-        for(let i = 0; i < cards.length; i++) {
-            if(cards[i].getValue() === value) {
+        for (let i = 0; i < cards.length; i++) {
+            if (cards[i].getValue() === value) {
                 movingCards.push(cards[i]);
             }
         }
@@ -306,12 +311,12 @@ class GoFishPlayer {
         let cards: PlayingCard[] = this.hand.getAllCards();
         let values: PlayingValue[] = new Array<PlayingValue>();
 
-        for(let i = 0; i < cards.length; i ++) {
+        for (let i = 0; i < cards.length; i++) {
             values.push(cards[i].getValue());
         }
         return values;
         // return new TreeSet<>(this.hand.getAllCards().stream().map(PlayingCard::getValue).collect(Collectors.toList()));
     }
 
-    }
+}
 }
