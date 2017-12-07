@@ -1,4 +1,6 @@
 ///<reference path="Player.ts"/>
+/// <reference path="craps.ts" />
+
 
 class Casino {
     private _casinoPlayer : Player = new Player();
@@ -52,7 +54,6 @@ class Casino {
         if (userName != null) {
             this.setPlayerName(userName);
             this.appendToDisplay("What is your age?", true);
-            this.appendToGreeting("<b>Name: </b>" + userName, false);
             this.setOnClickAttributeOfSubmitButton("getUserAge()");
         }
     }
@@ -64,20 +65,50 @@ class Casino {
             let ageNumber = parseInt(ageString);
             this.setPlayerAge(ageNumber);
             this.appendToDisplay("How much money do you have?", true);
-            this.appendToGreeting(" <b>Age:</b>" + ageNumber , false);
             this.setOnClickAttributeOfSubmitButton("getUserMoney()");
         }
     }
 
-    public getUserMoney() {
+    public getUserMoney() : void {
         console.log("getPlayerMoney() function");
         let moneyString : string = this.userInputHTMLElement.value;
         if (moneyString != null) {
             let moneyNumber : number = parseInt(moneyString);
             this.setPlayerMoney(moneyNumber);
-            this.appendToGreeting(" <b>Money:</b> " + moneyNumber, false);
-            this.setOnClickAttributeOfSubmitButton("");
+            this.setOnClickAttributeOfSubmitButton("getGameToBePlayed()");
+            this.appendToDisplay("What game would you like to play?", true);
+            this.appendToDisplay("1) Craps", true);
+            this.appendToDisplay("2) Blackjack", true);
+            this.appendToDisplay("3) Go Fish", true);
+            this.createUserGreeting();
         }
+    }
+
+    private createUserGreeting() : void {
+        this.appendToGreeting("<b>Name: </b>" + this._casinoPlayer.name, false);
+        this.appendToGreeting(" <b>Age:</b>" + this._casinoPlayer.age , false);
+        this.appendToGreeting(" <b>Money:</b> " + this._casinoPlayer.balance, false);
+    }
+    
+
+    public getGameToBePlayed() : void{
+        console.log("getGameToBePlayed() function");
+        let gameChosenString : string = this.userInputHTMLElement.value;
+        let gameChosenNumber : number = parseInt(gameChosenString);
+        if (gameChosenNumber == 1) {
+            let craps = new Craps(this._casinoPlayer);
+            craps.init();
+        }
+        else if (gameChosenNumber == 2) {
+
+        }
+        else if (gameChosenNumber == 3) {
+
+        } 
+        else {
+            this.appendToDisplay("Please choose a valid game number.", true);
+        }
+
     }
 
     private setPlayerName(name : string) : void {
