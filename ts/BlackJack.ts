@@ -2,30 +2,30 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
 
   public const MIN_NUMBER_OF_PLAYERS = 1;
   public const MAX_NUMBER_OF_PLAYERS = 7;
-  private const  pointValues:Map<Card.FaceValue, Integer> = new HashMap<Card.FaceValue, Integer>();
+  private   pointValues= {TWO: 2,THREE:3,FOUR:4,FIVE:5,SIX:6,SEVEN:7,EIGHT:8,NINE:9,TEN:10,JACK:10,QUEEN:10,KING:10,ACE:1};
   private  dealer:BlackJackPlayer = new BlackJackPlayer("Dealer");
-  private  bets:HashMap<Player<BlackJack>, Double> = new HashMap<Player<BlackJack>, Double>();
-  private winners:Array<BlackJackPlayer>  = new Array<>();
-  private push:Array<BlackJackPlayer>  = new Array<>();
+  private  bets= {};
+  private winners:Array<BlackJackPlayer>  = []];
+  private push:Array<BlackJackPlayer>  = [];
 
   constructor(numStandardDecks:number) {
       super(numStandardDecks);
-      this.setPointValues();
   }
 
-  public  getPlayers():Array<BlackJackPlayer> {
-      return  this.players:Array<BlackJackPlayer>;
+  public  getPlayers() {
+      return  this.players;
   }
 
-  public  getDealer():BlackJackPlayer {
+  public  getDealer() {
       return this.dealer;
   }
 
   public dealInitialCards() {
       for(let i = 0; i < 2; i++) {
-          for(let player in this.getPlayers()) {
-              if(this.bets.containsKey(this.getPlayers()[player])) {
-                  this.dealCardToHand(this.getPlayers()[player]);
+          for(let p in this.getPlayers()) {
+            let player = this.getPlayers()[p];
+              if(this.bets[player]!=undefined) {
+                  this.dealCardToHand(player);
               }
           }
           this.dealCardToHand(this.dealer);
@@ -39,8 +39,9 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
 
   public putCardsInDiscardPile() {
       this.discardCards(this.dealer.getHand());
-      for(let player in this.getPlayers()) {
-          this.discardCards(this.getPlayers()[player].getHand());
+      for(let p in this.getPlayers()) {
+        let player = this.getPlayers()[p];
+          this.discardCards(player.getHand());
       }
   }
 
@@ -52,8 +53,9 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
 
   public calculatePlayerScore( player:BlackJackPlayer):number {
       let score = 0;
-      for(let card in player.getHand().getCards()) {
-          score += this.pointValues.get(player.getHand().getCards()[card].getFaceValue());
+      for(let c in player.getHand().getCards()) {
+        let card = player.getHand().getCards()[c];
+          score += this.pointValues[card.getFaceValue()];
       }
       if(player.hasAceInHand() && score <= 11) {
           score += 10;
@@ -72,20 +74,22 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
 
   public determineWinners() {
       if(this.playerHasBust(this.dealer)) {
-          for(let player in this.getPlayers()) {
-            if(this.bets.containsKey(player)) {
+          for(let p in this.getPlayers()) {
+            let player=this.getPlayers()[p];
+            if(this.bets[player]!=undefined) {
                     if (!this.playerHasBust(player)) {
-                      this.winners.push(this.getPlayers()[player]);
+                      this.winners.push(player);
                   }
               }
           }
       }
       else {
-          for(let player in this.getPlayers()) {
-              if(this.bets.containsKey(this.getPlayers()[player])) {
-                  if (!this.playerHasBust(this.getPlayers()[player]) && this.calculatePlayerScore(this.getPlayers()[player]) > this.calculatePlayerScore(this.dealer)) {
+          for(let p in this.getPlayers()) {
+            let player=this.getPlayers()[p];
+              if(this.bets[player]!=undefined) {
+                  if (!this.playerHasBust(player) && this.calculatePlayerScore(player) > this.calculatePlayerScore(this.dealer)) {
                       this.winners.push(player);
-                  } else if (this.calculatePlayerScore(this.getPlayers()[player])==(this.calculatePlayerScore(this.dealer))) {
+                  } else if (this.calculatePlayerScore(player)==(this.calculatePlayerScore(this.dealer))) {
                       this.winners.push(player);
                   }
               }
@@ -93,57 +97,40 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
       }
   }
 
-  @Override
-  public void takeBet(Player player, Double amount) {
-      bets.put(player, amount);
+  public  takeBet( player:Player, amount:number, index:number) {
+    if(this.bets[player]==undefined)
+      this.bets[player]= amount;
+      else this.bets[player]+= amount
       player.bet(amount);
   }
 
-  public void payOutBets() {
-      for(BlackJackPlayer player : winners) {
-          Double amountWon = bets.get(player) * 2;
-          player.receiveWinnings(amountWon);
+  public payOutBets() {
+      for(let player in this.winners) {
+          let amountWon = this.bets[player] * 2;
+          this.winners[player].receiveWinnings(amountWon);
       }
-      for(BlackJackPlayer player : push) {
-          Double amountWon = bets.get(player);
-          player.receiveWinnings(amountWon);
+      for(let player in this.push) {
+          let amountWon = this.bets[this.push[player]];
+          this.push[player].receiveWinnings(amountWon);
       }
-      clearAllBets();
+      this.clearAllBets();
   }
 
-  @Override
-  public void clearAllBets() {
-      bets.clear();
-      winners.clear();
-      push.clear();
+  public clearAllBets() {
+      this.bets={};
+      this.winners=[];
+      this.push=[];
   }
 
-  public HashMap<Player<BlackJack>, Double> getBets() {
-      return bets;
+  public getBets()  {
+      return this.bets;
   }
 
-  public ArrayList<BlackJackPlayer> getWinners() {
-      return winners;
+  public getWinners() {
+      return this.winners;
   }
 
-  public ArrayList<BlackJackPlayer> getPush() {
-      return push;
-  }
-
-  @Override
-  public void setPointValues() {
-      pointValues.put(TWO, 2);
-      pointValues.put(THREE, 3);
-      pointValues.put(FOUR, 4);
-      pointValues.put(FIVE, 5);
-      pointValues.put(SIX, 6);
-      pointValues.put(SEVEN, 7);
-      pointValues.put(EIGHT, 8);
-      pointValues.put(NINE, 9);
-      pointValues.put(TEN, 10);
-      pointValues.put(JACK, 10);
-      pointValues.put(QUEEN, 10);
-      pointValues.put(KING, 10);
-      pointValues.put(ACE, 1);
+  public  getPush() {
+      return this.push;
   }
 }
