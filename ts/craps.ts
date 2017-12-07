@@ -12,6 +12,7 @@ class Craps implements Game {
   submitButtonHTMLElement: any;
   rollButtonHTMLElement: any;
   resetButtonHTMLElement: any;
+  greetingElement: any;
 
   constructor(player: Player) {
     this.player = player;
@@ -33,6 +34,7 @@ class Craps implements Game {
     this.submitButtonHTMLElement.style.display = "";
     this.rollButtonHTMLElement.style.display = "none";
     this.userInputElement.style.display = "";
+    this.greetingElement = document.getElementById("greeting");
 
   }
   takeBet(): void {
@@ -52,6 +54,7 @@ class Craps implements Game {
       this.submitButtonHTMLElement.style.display = "none";
       this.rollButtonHTMLElement.style.display = "";
       this.userInputElement.style.display = "none";
+      this.greetingElement.innerHTML += " <b>Current Bet: </b>$" + this.bet;
     }
 
   }
@@ -130,12 +133,24 @@ class Craps implements Game {
     console.log("Player Win");
     this.displayElement.innerHTML += "<br />You Win!";
     this.player.balance = this.player.balance + (bet * 1);
+    this.createUserGreeting();
+    this.updateScroll();
   }
+
   private playerLose(bet: number): void {
     console.log("Player Lose");
     this.displayElement.innerHTML += "<br />You Lose";
     this.player.balance = this.player.balance - bet;
+    this.createUserGreeting();
+    this.updateScroll();
   }
+
+    private createUserGreeting(): void {
+        this.greetingElement.innerHTML = "";
+        this.greetingElement.innerHTML += "<b>Name: </b>" + this.player.name.substring(0,1).toUpperCase() + this.player.name.substring(1), false;
+        this.greetingElement.innerHTML += " <b>Age: </b>" + this.player.age, false;
+        this.greetingElement.innerHTML += " <b>Money: </b> $" + this.player.balance.toFixed(2), false;
+    }
 
 
 }
