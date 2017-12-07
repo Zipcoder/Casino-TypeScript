@@ -1,8 +1,10 @@
 /// <reference path="Player.ts"/>
 
-class Craps implements Game, Gamble {
+class Craps implements Game {
   bet: number = 0;
   player: Player;
+  playerBalance:number;
+  buttonCount:number;
 
   displayElement: any;
   userInputElement: any;
@@ -10,6 +12,7 @@ class Craps implements Game, Gamble {
 
   constructor(player: Player) {
     this.player = player
+    this.playerBalance = player.balance;
     this.displayElement = document.getElementById("display");
     this.userInputElement = document.getElementById("user_input")
     this.submitButtonHTMLElement = document.getElementById("submit");
@@ -19,14 +22,21 @@ class Craps implements Game, Gamble {
     this.displayElement.innerHTML += "Welcome to Craps! <br />";
     this.displayElement.innerHTML += "Submit your bet: <br />";
     this.submitButtonHTMLElement.setAttribute("onClick", "craps.takeBet()");
+    this.buttonCount = 0;
   }
-  takeBet(): number {
+  takeBet(): void {
     let bet : number = this.userInputElement.value;
     if(bet > this.player.balance){
-      this.displayElement.innerHTML += "No Money";
-    } else{
+      console.log("bet denied");
+      this.displayElement.innerHTML = "Not Enough Money";
+    } else if(bet == null|| bet == 0){
+      console.log("bet = null");
+      this.displayElement.innerHTML = "Invalid Input";
+    }
+    else{
       console.log("Bet accepted");
-      return bet;
+      this.displayElement.innerHTML = "Bet Accepted";
+      this.displayElement.innerHTML += "<br />Click Roll to get started!";
     }
 
   }
@@ -82,11 +92,16 @@ class Craps implements Game, Gamble {
     return rollTwo;
   }
   private roll(): number {
+
     let diceOne: number = Math.floor(Math.random() * 6) + 1;
     let diceTwo: number = Math.floor(Math.random() * 6) + 1;
 
     let sum = diceTwo + diceOne;
+
     console.log("rolling " + sum);
+    this.displayElement.innerHTML += "<br />You rolled " + diceOne + " and " + diceTwo;
+    this.displayElement.innerHTML += "<br />Total " + sum;
+    this.buttonCount++;
     return sum;
   }
 
