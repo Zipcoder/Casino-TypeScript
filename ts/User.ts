@@ -1,8 +1,6 @@
 /// <reference path="MoneyContainer.ts"/>
 
-import {MoneyContainer} from "./MoneyContainer";
-
-export class User {
+class User {
 
     name: string;
     wallet: MoneyContainer = new MoneyContainer();

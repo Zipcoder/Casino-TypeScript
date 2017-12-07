@@ -1,4 +1,4 @@
-export class MoneyContainer {
+class MoneyContainer {
 
     money = 0;
 

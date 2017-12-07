@@ -1,3 +1,4 @@
+/// <reference path="User.ts"/>
 
 class CrapsConsole {
 
@@ -15,13 +16,9 @@ class CrapsConsole {
     pointSet:boolean=false;
     pointMet:boolean=false;
     crappedOut:boolean=false;
-    cont:boolean=false;
 
     constructor(user:User){
         this.player=user;
-    }
-    set Cont(passedValue:boolean){
-        this.cont=passedValue;
     }
     updateDisplay(stringToDisplay:string):void{
         this.displayElement.innerHTML+="</br>"+stringToDisplay;
@@ -99,7 +96,7 @@ class CrapsConsole {
         else
         {
             this.updateDisplay("Enter your bet in the field below and click 'Bet'");
-            this.submitBetButton.onclick(this.playerInitialBets());
+      //      this.submitBetButton.html='<input type="submit" value="Bet" id="bet_submit" onclick="craps.playerInitialBets()"/>    '
         }
 
     }
@@ -336,11 +333,8 @@ class CrapsConsole {
     }
 
     welcomePlayer():void{
-    this.updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table.");
-    this.updateDisplay("Roll to determine who goes first!");
-
-
-
+        this.updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table.");
+        this.updateDisplay("Roll to determine who goes first!");
     }
     changeTurns():void{
         this.resetFlags();

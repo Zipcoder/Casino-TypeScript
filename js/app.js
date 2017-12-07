@@ -1,3 +1,13 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var Dice = (function () {
     function Dice(sides) {
         this.sides = sides;
@@ -217,22 +227,15 @@ var Craps = (function () {
     };
     return Craps;
 }());
+/// <reference path="User.ts"/>
 var CrapsConsole = (function () {
     function CrapsConsole(user) {
         this.game = new Craps();
         this.pointSet = false;
         this.pointMet = false;
         this.crappedOut = false;
-        this.cont = false;
         this.player = user;
     }
-    Object.defineProperty(CrapsConsole.prototype, "Cont", {
-        set: function (passedValue) {
-            this.cont = passedValue;
-        },
-        enumerable: true,
-        configurable: true
-    });
     CrapsConsole.prototype.updateDisplay = function (stringToDisplay) {
         this.displayElement.innerHTML += "</br>" + stringToDisplay;
     };
@@ -296,7 +299,7 @@ var CrapsConsole = (function () {
         }
         else {
             this.updateDisplay("Enter your bet in the field below and click 'Bet'");
-            this.submitBetButton.onclick(this.playerInitialBets());
+            //      this.submitBetButton.html='<input type="submit" value="Bet" id="bet_submit" onclick="craps.playerInitialBets()"/>    '
         }
     };
     CrapsConsole.prototype.playerInitialBets = function () {
@@ -507,7 +510,404 @@ var CrapsConsole = (function () {
     };
     return CrapsConsole;
 }());
+System.register("PlayingSuit", [], function (exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
+    function toString() {
+        return this.symbol;
+    }
+    var PlayingSuit, symbol;
+    return {
+        setters: [],
+        execute: function () {
+            (function (PlayingSuit) {
+                PlayingSuit["HEART"] = "\u2661";
+                PlayingSuit["DIAMOND"] = "\u2662";
+                PlayingSuit["CLUB"] = "\u2667";
+                PlayingSuit["SPADE"] = "\u2664";
+            })(PlayingSuit || (PlayingSuit = {}));
+            exports_1("PlayingSuit", PlayingSuit);
+            symbol = PlayingSuit.valueOf().toString();
+        }
+    };
+});
+System.register("PlayingValue", [], function (exports_2, context_2) {
+    "use strict";
+    var __moduleName = context_2 && context_2.id;
+    function getValue() {
+        return this.value;
+    }
+    function toString() {
+        return this.value;
+    }
+    var PlayingValue, value;
+    return {
+        setters: [],
+        execute: function () {
+            (function (PlayingValue) {
+                PlayingValue["TWO"] = "2";
+                PlayingValue["THREE"] = "3";
+                PlayingValue["FOUR"] = "4";
+                PlayingValue["FIVE"] = "5";
+                PlayingValue["SIX"] = "6";
+                PlayingValue["SEVEN"] = "7";
+                PlayingValue["EIGHT"] = "8";
+                PlayingValue["NINE"] = "9";
+                PlayingValue["TEN"] = "10";
+                PlayingValue["JACK"] = "J";
+                PlayingValue["QUEEN"] = "Q";
+                PlayingValue["KING"] = "K";
+                PlayingValue["ACE"] = "A";
+            })(PlayingValue || (PlayingValue = {}));
+            exports_2("PlayingValue", PlayingValue);
+            value = PlayingValue.valueOf().toString();
+        }
+    };
+});
+///<reference path="PlayingSuit.ts" />
+///<reference path="PlayingValue.ts" />
+System.register("PlayingCard", [], function (exports_3, context_3) {
+    "use strict";
+    var __moduleName = context_3 && context_3.id;
+    var PlayingCard;
+    return {
+        setters: [],
+        execute: function () {///<reference path="PlayingSuit.ts" />
+            ///<reference path="PlayingValue.ts" />
+            PlayingCard = (function () {
+                function PlayingCard(suit, value) {
+                    var _this = this;
+                    this.toString = function () {
+                        return "" + _this.value + _this.suit;
+                    };
+                    this.getSuit = function () {
+                        return _this.suit;
+                    };
+                    this.getValue = function () {
+                        return _this.value;
+                    };
+                    this.suit = suit;
+                    this.value = value;
+                }
+                return PlayingCard;
+            }());
+            exports_3("PlayingCard", PlayingCard);
+        }
+    };
+});
+///<reference path="PlayingCard.ts"/>
+///<reference path="enumValues.d.ts"/>
+System.register("PlayingDeck", ["./enumValues", "PlayingSuit", "PlayingValue", "PlayingCard"], function (exports_4, context_4) {
+    "use strict";
+    var __moduleName = context_4 && context_4.id;
+    var enumValues_1, PlayingSuit_1, PlayingValue_1, PlayingCard_1, PlayingDeck;
+    return {
+        setters: [
+            function (enumValues_1_1) {
+                enumValues_1 = enumValues_1_1;
+            },
+            function (PlayingSuit_1_1) {
+                PlayingSuit_1 = PlayingSuit_1_1;
+            },
+            function (PlayingValue_1_1) {
+                PlayingValue_1 = PlayingValue_1_1;
+            },
+            function (PlayingCard_1_1) {
+                PlayingCard_1 = PlayingCard_1_1;
+            }
+        ],
+        execute: function () {///<reference path="PlayingCard.ts"/>
+            ///<reference path="enumValues.d.ts"/>
+            PlayingDeck = (function () {
+                function PlayingDeck() {
+                    this.populate();
+                }
+                PlayingDeck.prototype.getRandom = function (floor, ceiling) {
+                    return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
+                };
+                PlayingDeck.prototype.shuffle = function () {
+                    if (this.cards.length <= 1) {
+                        return this.cards;
+                    }
+                    for (var i = 0; i < this.cards.length; i++) {
+                        var randomChoiceIndex = this.getRandom(i, this.cards.length - 1);
+                        _a = [this.cards[randomChoiceIndex], this.cards[i]], this.cards[i] = _a[0], this.cards[randomChoiceIndex] = _a[1];
+                    }
+                    return this.cards;
+                    var _a;
+                };
+                PlayingDeck.prototype.getAllCards = function () {
+                    return this.cards;
+                };
+                PlayingDeck.prototype.countLeft = function () {
+                    return this.cards.length;
+                };
+                PlayingDeck.prototype.getAndRemoveCard = function () {
+                    if (this.cards.length == 0) {
+                        this.populate();
+                        this.shuffle();
+                    }
+                    return this.cards.shift();
+                };
+                PlayingDeck.prototype.populate = function () {
+                    this.cards = new Array();
+                    var suits = enumValues_1.EnumValues.getValues(PlayingSuit_1.PlayingSuit);
+                    var values = enumValues_1.EnumValues.getValues(PlayingValue_1.PlayingValue);
+                    for (var i = 0; i < suits.length; i++) {
+                        for (var j = 0; j < values.length; i++) {
+                            this.cards.push(new PlayingCard_1.PlayingCard(suits[i].valueOf(), values[j].valueOf()));
+                        }
+                    }
+                };
+                return PlayingDeck;
+            }());
+            exports_4("PlayingDeck", PlayingDeck);
+        }
+    };
+});
 /// <reference path="CrapsConsole.ts" />
 /// <reference path="User.ts" />
 var craps = new CrapsConsole(new User("Tim", 1000));
+System.register("Hand", [], function (exports_5, context_5) {
+    "use strict";
+    var __moduleName = context_5 && context_5.id;
+    var Hand;
+    return {
+        setters: [],
+        execute: function () {
+            Hand = (function () {
+                function Hand() {
+                    // private ArrayList<PlayingCard> cards = new ArrayList<>();
+                    this.cards = new Array();
+                }
+                Hand.prototype.toString = function () {
+                    if (this.isHandEmpty()) {
+                        return "If there's nothing in your hand, is it a hand?";
+                    }
+                    else {
+                        var output = "";
+                        this.cards.sort();
+                        // I took this out of the sort(## Comparator.comparing(PlayingCard::getValue) )
+                        // if it doesn't work, then I'll need to make a comparator
+                        for (var i = 0; i < this.cards.length; i++) {
+                            output += " [" + this.cards[i] + "] ";
+                        }
+                        return output;
+                    }
+                };
+                Hand.prototype.getAllCards = function () {
+                    return this.cards;
+                };
+                Hand.prototype.isHandEmpty = function () {
+                    return this.cards.length == 0;
+                };
+                Hand.prototype.addCard = function (card) {
+                    this.cards.push(card);
+                };
+                Hand.prototype.removeCard = function (card) {
+                    var index = this.cards.indexOf(card);
+                    if (index != 0 && index != this.cards.length) {
+                    }
+                    this.cards = this.cards.slice(0, index - 1).concat(this.cards.slice(index + 1));
+                };
+                Hand.prototype.getCard = function (card) {
+                    this.removeCard(card);
+                    return card;
+                };
+                Hand.prototype.clear = function () {
+                    this.cards = new Array();
+                };
+                return Hand;
+            }());
+            exports_5("Hand", Hand);
+        }
+    };
+});
+///<reference path="PlayingDeck.ts"/>
+System.register("CardGame", [], function (exports_6, context_6) {
+    "use strict";
+    var __moduleName = context_6 && context_6.id;
+    var CardGame;
+    return {
+        setters: [],
+        execute: function () {///<reference path="PlayingDeck.ts"/>
+            CardGame = (function () {
+                function CardGame() {
+                }
+                return CardGame;
+            }());
+            exports_6("CardGame", CardGame);
+        }
+    };
+});
+System.register("BlackJack", ["PlayingDeck", "./MoneyContainer", "Hand", "CardGame"], function (exports_7, context_7) {
+    "use strict";
+    var __moduleName = context_7 && context_7.id;
+    var PlayingDeck_1, MoneyContainer_1, Hand_1, CardGame_1, BlackJack;
+    return {
+        setters: [
+            function (PlayingDeck_1_1) {
+                PlayingDeck_1 = PlayingDeck_1_1;
+            },
+            function (MoneyContainer_1_1) {
+                MoneyContainer_1 = MoneyContainer_1_1;
+            },
+            function (Hand_1_1) {
+                Hand_1 = Hand_1_1;
+            },
+            function (CardGame_1_1) {
+                CardGame_1 = CardGame_1_1;
+            }
+        ],
+        execute: function () {
+            BlackJack = (function (_super) {
+                __extends(BlackJack, _super);
+                // Java Constructor
+                // public BlackJack() {
+                //
+                //     this.pot = new MoneyContainer();
+                //     this.deck = new PlayingDeck();
+                //     this.deck.shuffle(); // fix this
+                //     this.playerScore = 0;
+                //     this.dealerScore = 0;
+                //     this.player = new Hand();
+                //     this.dealer = new Hand();
+                //
+                //     for (let i: number = 0; i < 2; i++) {
+                //         this.player.addCard(this.deck.getAndRemoveCard());
+                //         this.dealer.addCard(this.deck.getAndRemoveCard());
+                //     }
+                // }
+                function BlackJack() {
+                    var _this = _super.call(this) || this;
+                    _this.pot = new MoneyContainer_1.MoneyContainer();
+                    _this.deck = new PlayingDeck_1.PlayingDeck();
+                    _this.deck.shuffle();
+                    _this.playerScore = 0;
+                    _this.dealerScore = 0;
+                    _this.player = new Hand_1.Hand();
+                    _this.dealer = new Hand_1.Hand();
+                    for (var i = 0; i < 2; i++) {
+                        _this.player.addCard(_this.deck.getAndRemoveCard());
+                        _this.dealer.addCard(_this.deck.getAndRemoveCard());
+                    }
+                    return _this;
+                }
+                BlackJack.prototype.takeBet = function (bet) {
+                    this.pot.addMoney(bet);
+                };
+                BlackJack.prototype.settleBet = function (winnings) {
+                    return (this.pot.takeOutMoney(winnings));
+                };
+                BlackJack.prototype.emptyPot = function () {
+                    return this.pot.takeAllMoney();
+                };
+                BlackJack.prototype.showPot = function () {
+                    return this.pot.getMoney();
+                };
+                BlackJack.prototype.getPlayerScore = function () {
+                    this.playerScore = 0;
+                    var handArray = this.player.getAllCards();
+                    for (var i = 0; i < handArray.length; i++) {
+                        this.playerScore += this.cardScore(handArray[i], this.playerScore);
+                    }
+                    return this.playerScore;
+                };
+                BlackJack.prototype.getDealerScore = function () {
+                    this.dealerScore = 0;
+                    var handArray = this.dealer.getAllCards();
+                    for (var i = 0; i < handArray.length; i++) {
+                        this.dealerScore += this.cardScore(handArray[i], this.dealerScore);
+                    }
+                    return this.dealerScore;
+                };
+                BlackJack.prototype.getDealerScoreShowing = function () {
+                    return (this.cardScore(this.dealer.getAllCards()[0], 0));
+                };
+                BlackJack.prototype.cardScore = function (c, score) {
+                    switch (c.getValue().toString()) {
+                        case "2":
+                            return 2;
+                        case "3":
+                            return 3;
+                        case "4":
+                            return 4;
+                        case "5":
+                            return 5;
+                        case "6":
+                            return 6;
+                        case "7":
+                            return 7;
+                        case "8":
+                            return 8;
+                        case "9":
+                            return 9;
+                        case "10":
+                        case "J":
+                        case "Q":
+                        case "K":
+                            return 10;
+                        default: {
+                            if (score + 11 > 21) {
+                                return 1;
+                            }
+                        }
+                    }
+                    return 11;
+                };
+                BlackJack.prototype.playerHit = function () {
+                    this.player.addCard(this.deck.getAndRemoveCard());
+                    this.playerScore = this.getPlayerScore();
+                };
+                BlackJack.prototype.dealerHit = function () {
+                    this.dealer.addCard(this.deck.getAndRemoveCard());
+                    this.dealerScore = this.getDealerScore();
+                };
+                BlackJack.prototype.dealerHitUntilFinished = function () {
+                    while (this.getDealerScore() <= 17 && this.getPlayerScore() <= 21) {
+                        this.dealer.addCard(this.deck.getAndRemoveCard());
+                    }
+                };
+                BlackJack.prototype.playerWins = function () {
+                    return (((this.getPlayerScore() > this.getDealerScore()) && (this.getPlayerScore() <= 21)) ||
+                        (this.getDealerScore() > 21 && this.getPlayerScore() <= 21));
+                };
+                BlackJack.prototype.finalTableDisplay = function () {
+                    var returnMe = "";
+                    var dealerHand = this.dealer.getAllCards();
+                    var playerHand = this.player.getAllCards();
+                    returnMe += "---\nOpponent\n---\n" + this.getDealerScore() + " Showing\n---\n";
+                    for (var i = 0; i < dealerHand.length; i++) {
+                        returnMe += dealerHand[i].toString() + "\n";
+                    }
+                    returnMe += "\nPot: " + this.pot.getMoney() + "\n\n";
+                    returnMe += "---\nYou\n---\n" + this.getPlayerScore() + "\n---\n";
+                    for (var i = 0; i < playerHand.length; i++) {
+                        returnMe += playerHand[i].toString() + "\n";
+                    }
+                    returnMe += "\n\n";
+                    return returnMe;
+                };
+                BlackJack.prototype.toString = function () {
+                    var returnMe = "";
+                    var playerHand = this.player.getAllCards();
+                    returnMe += "---\nOpponent\n---\n" + this.getDealerScoreShowing() + " Showing\n---\n";
+                    returnMe += this.dealer.getAllCards()[0].toString() + "\n";
+                    returnMe += "[]\n";
+                    returnMe += "\nPot: " + this.pot.getMoney() + "\n\n";
+                    returnMe += "---\nYou\n---\n" + this.getPlayerScore() + "\n---\n";
+                    for (var i = 0; i < playerHand.length; i++) {
+                        returnMe += playerHand[i].toString() + "\n";
+                    }
+                    returnMe += "\n\n";
+                    return returnMe;
+                };
+                BlackJack.prototype.play = function (userInput) {
+                    return ("Y" === (userInput.toUpperCase()));
+                };
+                return BlackJack;
+            }(CardGame_1.CardGame));
+        }
+    };
+});
 //# sourceMappingURL=app.js.map
