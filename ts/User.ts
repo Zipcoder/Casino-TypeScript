@@ -1,20 +1,22 @@
 /// <reference path="MoneyContainer.ts"/>
 
-class User {
+import {MoneyContainer} from "./MoneyContainer";
 
-    name:string;
-    wallet:MoneyContainer = new MoneyContainer();
+export class User {
 
-    constructor(name:string, money:number){
-        this.name=name;
+    name: string;
+    wallet: MoneyContainer = new MoneyContainer();
+
+    constructor(name: string, money: number) {
+        this.name = name;
         this.wallet.addMoney(money);
     }
 
-    get Name():string {
+    get Name(): string {
         return this.name;
     }
 
-    get Wallet():MoneyContainer {
+    get Wallet(): MoneyContainer {
         return this.wallet;
     }
 }
