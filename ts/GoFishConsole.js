@@ -18,6 +18,9 @@ define(["require", "exports", "./Console"], function (require, exports, console)
         }
         GoFishConsole.prototype.start = function () {
         };
+        GoFishConsole.prototype.getNameOfGame = function () {
+            return "Go Fish";
+        };
         return GoFishConsole;
     }(console.Console));
     exports.GoFishConsole = GoFishConsole;

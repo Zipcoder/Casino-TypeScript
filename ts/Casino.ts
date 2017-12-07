@@ -23,16 +23,15 @@ export class Casino {
     this.gameConsoles.push(new GoFishConsole());
     this.gameConsoles.push(new SlotsConsole());
 
-    while(true) {
+    // while(true) {
         this.selectGameToPlay();
-    }
+    // }
   }
 
   selectGameToPlay() {
     var gameNames: string[] = [];
-    var console: any;
-    for(console in this.gameConsoles) {
-      gameNames.push(console.getNameOfGame());
+    for(let consoleKey in this.gameConsoles) {
+      gameNames.push(this.gameConsoles[consoleKey].getNameOfGame());
     }
     Utilities.printMenuName("Select a game to play");
     Utilities.printMenuOptions(gameNames);

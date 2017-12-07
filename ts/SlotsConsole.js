@@ -18,6 +18,9 @@ define(["require", "exports", "./Console"], function (require, exports, console)
         }
         SlotsConsole.prototype.start = function () {
         };
+        SlotsConsole.prototype.getNameOfGame = function () {
+            return "Slots";
+        };
         return SlotsConsole;
     }(console.Console));
     exports.SlotsConsole = SlotsConsole;

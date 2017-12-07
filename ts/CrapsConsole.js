@@ -18,6 +18,9 @@ define(["require", "exports", "./Console"], function (require, exports, console)
         }
         CrapsConsole.prototype.start = function () {
         };
+        CrapsConsole.prototype.getNameOfGame = function () {
+            return "Craps";
+        };
         return CrapsConsole;
     }(console.Console));
     exports.CrapsConsole = CrapsConsole;

@@ -18,6 +18,9 @@ define(["require", "exports", "./Console"], function (require, exports, console)
         }
         BlackJackConsole.prototype.start = function () {
         };
+        BlackJackConsole.prototype.getNameOfGame = function () {
+            return "Blackjack";
+        };
         return BlackJackConsole;
     }(console.Console));
     exports.BlackJackConsole = BlackJackConsole;

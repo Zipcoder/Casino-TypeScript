@@ -12,15 +12,14 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             this.gameConsoles.push(new CrapsConsole_1.CrapsConsole());
             this.gameConsoles.push(new GoFishConsole_1.GoFishConsole());
             this.gameConsoles.push(new SlotsConsole_1.SlotsConsole());
-            while (true) {
-                this.selectGameToPlay();
-            }
+            // while(true) {
+            this.selectGameToPlay();
+            // }
         };
         Casino.prototype.selectGameToPlay = function () {
             var gameNames = [];
-            var console;
-            for (console in this.gameConsoles) {
-                gameNames.push(console.getNameOfGame());
+            for (var consoleKey in this.gameConsoles) {
+                gameNames.push(this.gameConsoles[consoleKey].getNameOfGame());
             }
             Utilities_1.Utilities.printMenuName("Select a game to play");
             Utilities_1.Utilities.printMenuOptions(gameNames);
