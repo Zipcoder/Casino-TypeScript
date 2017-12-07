@@ -1,8 +1,12 @@
-class BlackJack extends CardGame<BlackJack> implements Gamble{
+import {Gamble} from './Gamble';
+import {CardGame} from './CardGame';
+import {BlackJackPlayer} from './BlackJackPlayer';
+
+export class BlackJack extends CardGame<BlackJack> implements Gamble{
 
   public readonly MIN_NUMBER_OF_PLAYERS = 1;
   public readonly MAX_NUMBER_OF_PLAYERS = 7;
-  private  readonly pointValues= {TWO: 2,THREE:3,FOUR:4,FIVE:5,SIX:6,SEVEN:7,EIGHT:8,NINE:9,TEN:10,JACK:10,QUEEN:10,KING:10,ACE:1};
+  private readonly pointValues= {TWO: 2,THREE:3,FOUR:4,FIVE:5,SIX:6,SEVEN:7,EIGHT:8,NINE:9,TEN:10,JACK:10,QUEEN:10,KING:10,ACE:1};
   private  dealer:BlackJackPlayer = new BlackJackPlayer("Dealer");
   private  bets= {};
   private winners:Array<BlackJackPlayer>  = [];
