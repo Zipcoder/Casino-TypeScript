@@ -4,7 +4,7 @@ class Craps implements Game {
   bet: number = 0;
   player: Player;
   playerBalance:number;
-  buttonCount:number;
+  buttonCount:number = 0;
   target:number;
 
   displayElement: any;
@@ -24,7 +24,7 @@ class Craps implements Game {
     this.displayElement.innerHTML += "Submit your bet: <br />";
     this.submitButtonHTMLElement.setAttribute("onClick", "craps.takeBet()");
     this.submitButtonHTMLElement.style.display = "";
-    this.buttonCount = 0;
+
   }
   takeBet(): void {
     let bet : number = this.userInputElement.value;

@@ -1,5 +1,5 @@
 ///<reference path="Player.ts"/>
-/// <reference path="craps.ts" />
+/// <reference path="Craps.ts" />
 
 
 class Casino {
@@ -89,7 +89,7 @@ class Casino {
         this.appendToGreeting(" <b>Age:</b>" + this._casinoPlayer.age , false);
         this.appendToGreeting(" <b>Money:</b> " + this._casinoPlayer.balance, false);
     }
-    
+
 
     public getGameToBePlayed() : void{
         console.log("getGameToBePlayed() function");
@@ -104,7 +104,7 @@ class Casino {
         }
         else if (gameChosenNumber == 3) {
 
-        } 
+        }
         else {
             this.appendToDisplay("Please choose a valid game number.", true);
         }

@@ -4,3 +4,5 @@
 
 let casino = new Casino();
 casino.startCasino();
+
+let craps = new Craps(casino.casinoPlayer);
