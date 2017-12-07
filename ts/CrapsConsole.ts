@@ -21,15 +21,15 @@ class CrapsConsole {
     constructor(user:User){
         this.player=user;
     }
-    updateDisplay(stringToDisplay:string):void{
-        this.displayElement.innerHTML+="</br>"+stringToDisplay;
-    }
+    // updateDisplay(stringToDisplay:string):void{
+    //     document.getElementById("display").innerHTML+="</br>"+stringToDisplay;
+    // }
 
     initialize():void{
         this.displayElement=document.getElementById("display");
         this.inputElement=document.getElementById("input");
         this.inputElement.innerHTML= '<input type="number" name="bet_input" id="bet_input">' +
-                                     '<input type="submit" value="Bet" id="bet_submit" onclick="craps.getInput()"/>    '  +
+                                     '<input type="submit" value="Bet" id="bet_submit" onclick=""/>    '  +
                                      '<input type="button" value="Roll" id="roll" onclick="craps.determineFirstRoller()"/>    ' +
                                      '<input type="button" value="Continue" id="continue" onclick="craps.welcomePlayer()"/>' +
                                      '<input type="button" value="Quit" id="quit" onclick="craps.finalize()"/>';
@@ -47,18 +47,16 @@ class CrapsConsole {
         this.initialize();
 
         this.welcomePlayer();
-        //on roll click, this.determineFirstRoller();
-
         // do {
-        //     while (!this.pointSet) {//Continue to bet until the roller
-        //         //throws a point instead of a win/loss.
-        //        this.initialBetCycle();
-        //     }
-        //     while (!this.pointMet) {//Continue to bet until the roller
-        //         //meets their point or craps out
-        //         this.secondaryBet();
-        //         this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
-        //     }
+                                //     while (!this.pointSet) {//Continue to bet until the roller
+                                //         //throws a point instead of a win/loss.
+                                //        this.initialBetCycle();
+                                //     }
+                                //     while (!this.pointMet) {//Continue to bet until the roller
+                                //         //meets their point or craps out
+                                //         this.secondaryBet();
+                                //         this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
+                                //     }
         //     if (this.crappedOut) {
         //         this.changeTurns();//Reset flags, change active player
         //     } else{
@@ -70,12 +68,25 @@ class CrapsConsole {
     }
     determineFirstRoller():void{
         this.game.determineFirstRoller();
+        this.submitBetButton.setAttribute("onclick","craps.playerInitialBets()");
         this.initialBetCycle();
     }
 
     initialBetCycle():void {
-        this.initialBet();
-        this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
+        if (!this.pointSet) {
+            this.initialBet();
+        }else{
+            this.secondaryBetCycle();
+        }
+    }
+
+    secondaryBetCycle():void{
+        this.rollButton.setAttribute("onclick","craps.playerSecondaryBets()");
+        if (!this.pointMet){
+            this.secondaryBet();
+        } else{
+            //move on from secondaryBet logic
+        }
     }
 
 
@@ -87,7 +98,7 @@ class CrapsConsole {
 
     initialBet():void{
 
-        this.updateDisplay(this.game.toString());
+        updateDisplay(this.game.toString());
 
 
         if (this.game.getPlayerTurn())
@@ -96,20 +107,25 @@ class CrapsConsole {
         }
         else
         {
-            this.updateDisplay("Enter your bet in the field below and click 'Bet'");
-      //      this.submitBetButton.html='<input type="submit" value="Bet" id="bet_submit" onclick="craps.playerInitialBets()"/>    '
+            updateDisplay("Enter your bet in the field below and click 'Bet'");
         }
 
     }
     playerInitialBets():void{
-        do {
-            this.mainPotBet = this.getInput();
-        }while (this.player.Wallet.getMoney()<this.mainPotBet);
+        this.mainPotBet = this.getInput();
+        if (this.player.Wallet.getMoney()<this.mainPotBet){
+            alert("You don't have that much money");
+            this.initialBet();
+        }else {
+            alert("Ok, you bet $"+this.mainPotBet);
+            this.game.takeBet(this.player.Wallet.takeOutMoney(this.mainPotBet));//player bet
+            this.game.takeBet(this.mainPotBet);//house bet matches
 
-        this.game.takeBet(this.player.Wallet.takeOutMoney(this.mainPotBet));//player bet
-        this.game.takeBet(this.mainPotBet);//house bet matches
+            this.displayPlayerBetting(this.mainPotBet);
+            this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
 
-        this.displayPlayerBetting(this.mainPotBet);
+            this.initialBetCycle();
+        }
 
     }
     opponentInitialBets(betToMatch:number):void{
@@ -118,6 +134,10 @@ class CrapsConsole {
         this.mainPotBet=betToMatch;
 
         this.displayOpponentBetting(betToMatch);
+        this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
+
+        this.initialBetCycle();
+
     }
 
     generateBotBet():number{
@@ -126,7 +146,7 @@ class CrapsConsole {
 
     secondaryBet():void{
 
-        this.updateDisplay(this.game.toString());
+        updateDisplay(this.game.toString());
 
         if (this.game.getPlayerTurn())
         {
@@ -134,18 +154,24 @@ class CrapsConsole {
         }
         else
         {
-            this.playerSecondaryBets();
+            updateDisplay("Enter your bet in the field below and click 'Bet'");
         }
     }
     playerSecondaryBets():void{
-        do {
-            //this.sidePotBet = getPositiveDoubleInput("How much would you like to bet? ");
-        }while (this.player.Wallet.getMoney()< this.sidePotBet);
+        this.sidePotBet = this.getInput();
+        if (this.player.Wallet.getMoney()<this.sidePotBet){
+            alert("You don't have that much money");
+            this.secondaryBet();
+        }else {
+            alert("Ok, you bet $"+this.sidePotBet);
+            this.game.takeBet(this.player.Wallet.takeOutMoney(this.sidePotBet));//player bet
+            this.game.takeBet(this.sidePotBet);//house bet matches
 
-        this.game.takeSideBet(this.player.Wallet.takeOutMoney(this.sidePotBet));//player bet
-        this.game.takeSideBet(this.sidePotBet);//house bet matches
+            this.displayPlayerBetting(this.sidePotBet);
+            this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
 
-        this.displayPlayerBetting(this.sidePotBet);
+            this.secondaryBetCycle();
+        }
     }
     opponentSecondaryBets(betToMatch:number):void{
 
@@ -154,6 +180,8 @@ class CrapsConsole {
     this.sidePotBet=betToMatch;
 
     this.displayOpponentBetting(betToMatch);
+    this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
+    this.secondaryBetCycle();
 }
 
     resolveInitialThrow(resultOfThrownDice:number):boolean{
@@ -245,42 +273,42 @@ class CrapsConsole {
 
     displayOpponentBetting(passedOpponentBet:number):void{//Called _AFTER_ the money transfers have already taken place
 
-        this.updateDisplay("Opponent bets $"+passedOpponentBet);
-        this.updateDisplay("You match $"+passedOpponentBet);
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
+        updateDisplay("Opponent bets $"+passedOpponentBet);
+        updateDisplay("You match $"+passedOpponentBet);
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
     displayPlayerBetting(passedPlayerBet:number):void{//Called _AFTER_ the money transfers have already taken place
         //_AND_ after the player enters their bet amount
-        this.updateDisplay("You bet $"+passedPlayerBet);
-        this.updateDisplay("Opponent matches $"+passedPlayerBet);
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
+        updateDisplay("You bet $"+passedPlayerBet);
+        updateDisplay("Opponent matches $"+passedPlayerBet);
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
 
     firstPointRolled():void{
-        this.updateDisplay(this.game.getNumberRolled()+" was rolled... that's our new point.");
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
+        updateDisplay(this.game.getNumberRolled()+" was rolled... that's our new point.");
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
         this.printPots();
         this.enterAnyKeyToContinue();
 
     }
     neitherWinsAnyPot():void{
-        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled... nothing special.");
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
+        updateDisplay("A "+this.game.getNumberRolled()+" was rolled... nothing special.");
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
     playerWinsSidePot():void{
 
-        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won the Side Pot!");
-        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won the Side Pot!");
+        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.player.Wallet.addMoney(this.game.emptySidePot());
 
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -288,12 +316,12 @@ class CrapsConsole {
         this.sidePotBet=0;
     }
     opponentWinsSidePot():void{
-        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won the Side Pot!");
-        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won the Side Pot!");
+        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.sidePotBet=this.game.emptySidePot();
 
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -301,14 +329,14 @@ class CrapsConsole {
         this.sidePotBet=0;
     }
     opponentWinsBothPots():void{
-        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won everything!");
-        this.updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
-        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won everything!");
+        updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.mainPotBet=this.game.emptyPot();
         this.sidePotBet=this.game.emptySidePot();
 
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -318,14 +346,14 @@ class CrapsConsole {
     }
     playerWinsBothPots():void{
 
-        this.updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won everything!");
-        this.updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
-        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won everything!");
+        updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
 
         this.player.Wallet.addMoney(this.game.emptyPot());
         this.player.Wallet.addMoney(this.game.emptySidePot());
 
-        this.updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -334,8 +362,8 @@ class CrapsConsole {
     }
 
     welcomePlayer():void{
-        this.updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table.");
-        this.updateDisplay("Roll to determine who goes first!");
+        updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table.");
+        updateDisplay("Roll to determine who goes first!");
     }
     changeTurns():void{
         this.resetFlags();
@@ -351,8 +379,8 @@ class CrapsConsole {
     }
 
     printPots():void{
-        this.updateDisplay("$"+this.game.getMainPot().getMoney()+" now in Main Pot");
-        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot</br>");
+        updateDisplay("$"+this.game.getMainPot().getMoney()+" now in Main Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot</br>");
     }
     enterAnyKeyToContinue():void{
 
