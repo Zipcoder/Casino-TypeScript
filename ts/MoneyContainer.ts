@@ -1,18 +1,19 @@
-class MoneyContainer {
+export class MoneyContainer {
 
-    money:number = 0;
+    money = 0;
 
-    getMoney():number {
+    getMoney() {
         return this.money;
     }
 
-    addMoney(money:number):void {
-        if (money>0) {
+    addMoney(money) {
+        if (money > 0) {
             this.money += money;
         }
     }
 
-    takeOutMoney (money:number):number{
+    takeOutMoney (money){
+
         if (money>0 && money<=this.money){
             this.money-=money;
             return money;
@@ -20,9 +21,10 @@ class MoneyContainer {
         return 0.0;
     }
 
-    takeAllMoney():number{
-        let moneyHolder:number = this.money;
+    takeAllMoney(){
+        let moneyHolder: number = this.money;
         this.money=0.0;
         return moneyHolder;
     }
 }
+
