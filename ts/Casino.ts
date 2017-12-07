@@ -80,7 +80,7 @@ class Casino {
             this.appendToDisplay("Not an age.", true);
             return false;
         }
-        return true; 
+        return true;
     }
 
     public getUserMoney(): void {
@@ -95,7 +95,7 @@ class Casino {
                 this.appendToDisplay("1) Craps", true);
                 this.appendToDisplay("2) Blackjack", true);
                 this.appendToDisplay("3) Go Fish", true);
-                this.createUserGreeting();   
+                this.createUserGreeting();
             }
         }
     }
@@ -127,7 +127,6 @@ class Casino {
         let gameChosenString: string = this.userInputHTMLElement.value;
         let gameChosenNumber: number = parseInt(gameChosenString);
         if (gameChosenNumber == 1) {
-            let craps = new Craps(this._casinoPlayer);
             craps.init();
         }
         else if (gameChosenNumber == 2) {
