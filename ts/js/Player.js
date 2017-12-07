@@ -7,42 +7,27 @@ define(["require", "exports"], function (require, exports) {
             this.id = Player.nextId;
             Player.nextId++;
         }
+        Player.prototype.bet = function (money) {
+            this.money -= money;
+        };
+        Player.prototype.receiveWinnings = function (money) {
+            this.money += money;
+        };
+        Player.prototype.cashOut = function () {
+            this.money = 0.0;
+        };
+        Player.prototype.getName = function () {
+            return this.name;
+        };
+        Player.prototype.getMoney = function () {
+            return this.money;
+        };
+        Player.prototype.setMoney = function (money) {
+            this.money = money;
+        };
         Player.nextId = 1;
         return Player;
     }());
     exports.Player = Player;
 });
-// public class Player<T extends Game> {
-//
-//     private String name;
-//     private Double money;
-//
-//     public Player(String name) {
-//         this.name = name;
-//     }
-//
-//     public void bet(Double money) {
-//         this.money -= money;
-//     }
-//
-//     public void receiveWinnings(Double money) {
-//         this.money += money;
-//     }
-//
-//     public void cashOut() {
-//         money = 0.0;
-//     }
-//
-//     public String getName() {
-//         return name;
-//     }
-//
-//     public Double getMoney() {
-//         return money;
-//     }
-//
-//     public void setMoney(Double money) {
-//         this.money = money;
-//     }
-// }
 //# sourceMappingURL=Player.js.map

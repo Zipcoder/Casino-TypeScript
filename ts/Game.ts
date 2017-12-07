@@ -16,7 +16,7 @@ export abstract class Game<T extends Game<T>> {
     var moneyString: string[] = [];
     let i = 1;
     for(let player in this.players) {
-      moneyString.push("Player " + i + ", " + player.getName() + ", Total money: $" + player.getMoney());
+      moneyString.push("Player " + i + ", " + this.players[player].getName() + ", Total money: $" + this.players[player].getMoney());
       i++;
     }
     return "[ " + moneyString.join(" ] , [ ") + " ]";
