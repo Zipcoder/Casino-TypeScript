@@ -14,6 +14,11 @@
     text-align: center;
     color: white;
     background-color: black;
+    font-size: 26px;
+}
+
+#mainMenu {
+    margin-left: 2%;
 }
 
 body {

@@ -8,12 +8,15 @@ class Casino {
     private _userInputHTMLElement: any;
     private _greetingElement: any;
     private _submitButtonHTMLElement: any;
+    private _mainMenuButtonHTMLElement : any;
 
     constructor() {
         this._displayHTMLElement = document.getElementById("display");
         this._userInputHTMLElement = document.getElementById("user_input");
         this._greetingElement = document.getElementById("greeting");
         this._submitButtonHTMLElement = document.getElementById("submit");
+        this._mainMenuButtonHTMLElement = document.getElementById("mainMenu");
+        this._mainMenuButtonHTMLElement.style.display = "none";
     }
 
     public startCasino(): void {
@@ -139,6 +142,7 @@ class Casino {
             this.appendToDisplay("Please choose a valid game number.", true);
         }
         this.clearUserInput();
+        this._mainMenuButtonHTMLElement.style.display = "";
 
     }
 
@@ -173,6 +177,18 @@ class Casino {
         else {
             return value;
         }
+    }
+
+    public goToMainMenu() : void {
+        console.log("Main menu button clicked");
+        console.log("GABII");
+        this._displayHTMLElement = "";
+        this.appendToDisplay("What game would you like to play?", true);
+        this.appendToDisplay("1) Craps", true);
+        this.appendToDisplay("2) Blackjack", true);
+        console.log("BRIAN");
+        this.appendToDisplay("3) Go Fish", true);
+        this.setOnClickAttributeOfSubmitButton("getGameToBePlayed()");
     }
 
     get casinoPlayer(): Player {
