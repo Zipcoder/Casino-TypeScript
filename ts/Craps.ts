@@ -24,19 +24,19 @@ export class Craps implements Gamble, Game {
 
     pointPairs: Array<CrapPointPair> =
         [new CrapPointPair(6, 8, "6-8"),
-            new CrapPointPair(5, 9, "5-9"),
-            new CrapPointPair(10, 4, "10-4")];
-    pair: CrapPointPair;
-    dice: Dice<number>;
-    numberRolled: number;
-    mainPot: MoneyContainer;
-    sidePot: MoneyContainer;
-    isPlayerTurn: boolean;
-    point: number;
+         new CrapPointPair(5, 9, "5-9"),
+         new CrapPointPair(10, 4, "10-4")];
+    pair:CrapPointPair;
+    dice:Dice<number>;
+    numberRolled:number;
+    mainPot:MoneyContainer;
+    sidePot:MoneyContainer;
+    isPlayerTurn:boolean;
+    point:number;
 
-    constructor() {
-        let twoToTwelve: Array<number> = new Array(0);
-        for (let i: number = 2; i < 13; i++) {
+    constructor(){
+        let twoToTwelve:Array<number>=[];
+        for (let i:number=2; i<13; i++){
             twoToTwelve.push(i);
         }
         this.dice = new Dice(twoToTwelve);

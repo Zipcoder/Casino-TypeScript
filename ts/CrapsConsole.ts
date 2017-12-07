@@ -25,41 +25,44 @@ export class CrapsConsole {
         this.displayElement.innerHTML += "</br>" + stringToDisplay;
     }
 
-    initialize(): void {
-        this.displayElement = document.getElementById("display");
-        this.originalInputElement = document.getElementById("input");
-        this.currentInputElement = this.originalInputElement;
-        this.currentInputElement.innerHTML = "" +
-            "" +
-            "";
-    }
+    initialize():void{
+        this.displayElement=document.getElementById("display");
+        this.originalInputElement=document.getElementById("input");
+        this.currentInputElement=this.originalInputElement;
+        this.currentInputElement.innerHTML= '<input type="text" name="bet_input" id="bet_input"> ' +
+                                            '<input type="submit" value="bet_submit" onclick="craps.getPositiveDoubleInput(document.getElementById("bet_input"))">'
 
-    finalize(): void {
-        this.currentInputElement = this.originalInputElement;
+        ;
+    }
+    finalize():void{
+        this.currentInputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
+                                            '<input type="submit" value="submit" onclick="craps.run()">';
+
     }
 
     run(): void {
         this.initialize();
         this.welcomePlayer();
-        this.game.determineFirstRoller();
-        do {
-            while (!this.pointSet) {//Continue to bet until the roller
-                //throws a point instead of a win/loss.
-                this.initialBet();
-                this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
-            }
-            while (!this.pointMet) {//Continue to bet until the roller
-                //meets their point or craps out
-                this.secondaryBet();
-                this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
-            }
-            if (this.crappedOut) {
-                this.changeTurns();//Reset flags, change active player
-            } else {
-                this.resetFlags();
-            }
-        } while (this.game.play("Y"));//getStringInput("Continue playing? [Y/N] ")));
-        //NEED TO REWORK PLAY AND INPUT TO ACCOUNT FOR HTML FORMS
+        // this.game.determineFirstRoller();
+        // do {
+        //     while (!this.pointSet) {//Continue to bet until the roller
+        //         //throws a point instead of a win/loss.
+        //         this.initialBet();
+        //         this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
+        //     }
+        //     while (!this.pointMet) {//Continue to bet until the roller
+        //         //meets their point or craps out
+        //         this.secondaryBet();
+        //         this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
+        //     }
+        //     if (this.crappedOut) {
+        //         this.changeTurns();//Reset flags, change active player
+        //     } else{
+        //         this.resetFlags();
+        //     }
+        // }while(this.game.play("Y"));//getStringInput("Continue playing? [Y/N] ")));
+        // //NEED TO REWORK PLAY AND INPUT TO ACCOUNT FOR HTML FORMS
+
         this.finalize();
     }
 
