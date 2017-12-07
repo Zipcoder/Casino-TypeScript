@@ -9,6 +9,7 @@ class Casino {
     private _greetingElement: any;
     private _submitButtonHTMLElement: any;
     private _mainMenuButtonHTMLElement : any;
+    private _resetButtonHTMLElement : any;
 
     constructor() {
         this._displayHTMLElement = document.getElementById("display");
@@ -17,6 +18,7 @@ class Casino {
         this._submitButtonHTMLElement = document.getElementById("submit");
         this._mainMenuButtonHTMLElement = document.getElementById("mainMenu");
         this._mainMenuButtonHTMLElement.style.display = "none";
+        this._resetButtonHTMLElement = document.getElementById("resetButton");
     }
 
     public startCasino(): void {
@@ -181,12 +183,15 @@ class Casino {
 
     public goToMainMenu() : void {
         console.log("Main menu button clicked");
+        this._mainMenuButtonHTMLElement.style.display = "none";
+        this._resetButtonHTMLElement.style.display = "none";
         this._displayHTMLElement.innerHTML = "Welcome to the Main Menu!";
         this.appendToDisplay("What game would you like to play?", true);
         this.appendToDisplay("1) Craps", true);
         this.appendToDisplay("2) Blackjack", true);
         this.appendToDisplay("3) Go Fish", true);
         this.setOnClickAttributeOfSubmitButton("getGameToBePlayed()");
+
     }
 
     get casinoPlayer(): Player {
