@@ -9,6 +9,8 @@ class GoFishPlayer extends CardPlayer {
         super();
     }
 
+    
+
     askOpponentForCard(otherPlayer: GoFishPlayer, cardRequest: Card): boolean{
         if(otherPlayer.hasCardOfRank(cardRequest)){
             return true;
@@ -26,21 +28,21 @@ class GoFishPlayer extends CardPlayer {
         return;
     }
 
-    tallyBooks(): any{
+    // tallyBooks(): any{
 
-        var counts = {};
+    //     var counts = {};
           
-        for(var i = 0; i<this.hand.length;i++){
-              var rank = this.hand[i].getValue();
-              counts[rank] = (counts[rank] || 0) + 1;
+    //     for(var i = 0; i<this.hand.length;i++){
+    //           var rank = this.hand[i].getValue();
+    //           counts[value] = (counts[value] || 0) + 1;
 
-              if (counts[rank] > 3){
-                console.log("you have four " + this.hand[i].getValue()+ "s. Book it!");
-                }
+    //           if (counts[value] == 4){
+    //             console.log("you have four " + this.hand[i].getValue()+ "s. Book it!");
+    //             }
                                
-            }   
-            return this.hand;
-    }
+    //         }   
+    //         return this.hand;
+    // }
     
     removeCardFromHand(card: Card) {
         this.hand = this.hand.filter(e => e !== card);
@@ -71,7 +73,10 @@ goFishPlayer.addCardToHand(card5);
 goFishPlayer.addCardToHand(card6);
 goFishPlayer.addCardToHand(card7);
 
-console.log(goFishPlayer.tallyBooks());
+
+
+
+//console.log(goFishPlayer.tallyBooks());
 
     
         // public Integer playPotentialBooksInHand() {
