@@ -3,11 +3,11 @@
 
 
 class Casino {
-    private _casinoPlayer : Player = new Player();
-    private _displayHTMLElement : any;
-    private _userInputHTMLElement : any;
-    private _greetingElement : any;
-    private _submitButtonHTMLElement : any;
+    private _casinoPlayer: Player = new Player();
+    private _displayHTMLElement: any;
+    private _userInputHTMLElement: any;
+    private _greetingElement: any;
+    private _submitButtonHTMLElement: any;
 
     constructor() {
         this._displayHTMLElement = document.getElementById("display");
@@ -25,11 +25,11 @@ class Casino {
         this._displayHTMLElement.scrollTop = this._displayHTMLElement.scrollHeight;
     }
 
-    private static lineBreak() : string {
+    private static lineBreak(): string {
         return "<br />";
     }
 
-    private appendToDisplay(message : string, lineBreak : boolean) : void {
+    private appendToDisplay(message: string, lineBreak: boolean): void {
         if (lineBreak) {
             this._displayHTMLElement.innerHTML += Casino.lineBreak() + message;
         }
@@ -39,7 +39,7 @@ class Casino {
         this.updateScroll();
     }
 
-    private appendToGreeting(message : string, lineBreak : boolean) : void {
+    private appendToGreeting(message: string, lineBreak: boolean): void {
         if (lineBreak) {
             this._greetingElement.innerHTML += Casino.lineBreak() + message;
         }
@@ -48,13 +48,13 @@ class Casino {
         }
     }
 
-    private printWelcomeMessage() : void {
+    private printWelcomeMessage(): void {
         this.appendToDisplay("Welcome to the Casino!", false);
     }
 
-    public getUserName() : void {
+    public getUserName(): void {
         console.log("getUserName() function");
-        let userName : string = this.userInputHTMLElement.value;
+        let userName: string = this.userInputHTMLElement.value;
         userName = this.validateUserInputString(userName);
         if (userName != null) {
             this.setPlayerName(userName);
@@ -63,43 +63,69 @@ class Casino {
         }
     }
 
-    public getUserAge() : void {
+    public getUserAge(): void {
         console.log("getUserAge() function")
-        let ageString : string = this.userInputHTMLElement.value;
+        let ageString: string = this.userInputHTMLElement.value;
         if (ageString != null) {
-            let ageNumber = parseInt(ageString);
-            this.setPlayerAge(ageNumber);
-            this.appendToDisplay("How much money do you have?", true);
-            this.setOnClickAttributeOfSubmitButton("getUserMoney()");
+            if (this.validateAge(ageString)) {
+                this.setPlayerAge(parseFloat(ageString));
+                this.appendToDisplay("How much money do you have?", true);
+                this.setOnClickAttributeOfSubmitButton("getUserMoney()");
+            }
         }
     }
 
-    public getUserMoney() : void {
-        console.log("getPlayerMoney() function");
-        let moneyString : string = this.userInputHTMLElement.value;
+    private validateAge(inputString: string): boolean {
+        if (isNaN(parseInt(inputString))) {
+            this.appendToDisplay("Not an age.", true);
+            return false;
+        }
+        return true; 
+    }
+
+    public getUserMoney(): void {
+        console.log("getUserMoney() function");
+        let moneyString: string = this.userInputHTMLElement.value;
         if (moneyString != null) {
-            let moneyNumber : number = parseInt(moneyString);
-            this.setPlayerMoney(moneyNumber);
-            this.setOnClickAttributeOfSubmitButton("getGameToBePlayed()");
-            this.appendToDisplay("What game would you like to play?", true);
-            this.appendToDisplay("1) Craps", true);
-            this.appendToDisplay("2) Blackjack", true);
-            this.appendToDisplay("3) Go Fish", true);
-            this.createUserGreeting();
+            if (this.validateMoney(moneyString)) {
+                let moneyNumber: number = parseFloat(moneyString);
+                this.setPlayerMoney(moneyNumber);
+                this.setOnClickAttributeOfSubmitButton("getGameToBePlayed()");
+                this.appendToDisplay("What game would you like to play?", true);
+                this.appendToDisplay("1) Craps", true);
+                this.appendToDisplay("2) Blackjack", true);
+                this.appendToDisplay("3) Go Fish", true);
+                this.createUserGreeting();   
+            }
         }
     }
 
-    private createUserGreeting() : void {
-        this.appendToGreeting("<b>Name: </b>" + this._casinoPlayer.name, false);
-        this.appendToGreeting(" <b>Age:</b>" + this._casinoPlayer.age , false);
-        this.appendToGreeting(" <b>Money:</b> " + this._casinoPlayer.balance, false);
+    private validateMoney(inputString : string) : boolean {
+        if (isNaN(parseFloat(inputString))) {
+            this.appendToDisplay("Not a number.", true);
+            return false;
+        }
+        let moneyNumber : number = parseFloat(inputString);
+        if (moneyNumber >= 100) {
+            return true;
+        }
+        else {
+            this.appendToDisplay("You must have at least $100 dollars to play in the casino.", true);
+            return false;
+        }
+    }
+
+    private createUserGreeting(): void {
+        this.appendToGreeting("<b>Name: </b>" + this._casinoPlayer.name.substring(0,1).toUpperCase() + this._casinoPlayer.name.substring(1), false);
+        this.appendToGreeting(" <b>Age: </b>" + this._casinoPlayer.age, false);
+        this.appendToGreeting(" <b>Money: </b> $" + this._casinoPlayer.balance.toFixed(2), false);
     }
 
 
-    public getGameToBePlayed() : void{
+    public getGameToBePlayed(): void {
         console.log("getGameToBePlayed() function");
-        let gameChosenString : string = this.userInputHTMLElement.value;
-        let gameChosenNumber : number = parseInt(gameChosenString);
+        let gameChosenString: string = this.userInputHTMLElement.value;
+        let gameChosenNumber: number = parseInt(gameChosenString);
         if (gameChosenNumber == 1) {
             let craps = new Craps(this._casinoPlayer);
             craps.init();
@@ -113,33 +139,34 @@ class Casino {
         else {
             this.appendToDisplay("Please choose a valid game number.", true);
         }
+        this.clearUserInput();
 
     }
 
-    private setPlayerName(name : string) : void {
+    private setPlayerName(name: string): void {
         this._casinoPlayer.name = name;
     }
 
-    private setPlayerAge(age : number) : void {
+    private setPlayerAge(age: number): void {
         this._casinoPlayer.age = age;
     }
 
-    private setPlayerMoney(amount : number) : void {
+    private setPlayerMoney(amount: number): void {
         this._casinoPlayer.balance = amount;
     }
 
-    private clearUserInput() : void {
+    private clearUserInput(): void {
         this._userInputHTMLElement.value = "";
     }
 
-    private setOnClickAttributeOfSubmitButton(value : string) : void {
-        let newOnClickValue : string = "casino.";
+    private setOnClickAttributeOfSubmitButton(value: string): void {
+        let newOnClickValue: string = "casino.";
         newOnClickValue += value;
         this.submitButtonHTMLElement.setAttribute("OnClick", newOnClickValue);
         this.clearUserInput();
     }
 
-    private validateUserInputString(value : string) : string {
+    private validateUserInputString(value: string): string {
         if (value.length === 0) {
             this.appendToDisplay("Please make sure you typed something in.", true);
             return null;
