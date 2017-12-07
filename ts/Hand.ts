@@ -16,7 +16,7 @@ class Hand {
             let output: string = "";
             this.cards.sort();
             // I took this out of the sort(## Comparator.comparing(PlayingCard::getValue) )
-            // if it doesn't work, then I'll need to make a comparator
+            // if it doesn't work, then we'll need to make a comparator
             for (let i = 0; i < this.cards.length; i++) {
                 output += " [" + this.cards[i] + "] ";
             }
@@ -42,6 +42,16 @@ class Hand {
 
         }
         this.cards = this.cards.slice(0, index - 1).concat(this.cards.slice(index + 1));
+    }
+
+    public removeAllOf(movingCards: PlayingCard[]): void {
+        for(let i = 0; i < movingCards.length; i++) {
+            for(let j = 0; j < this.cards.length; j++) {
+                if(movingCards[i] === this.cards[j]) {
+                    this.cards.splice(j, 1);
+                }
+            }
+        }
     }
 
     public getCard(card : PlayingCard): PlayingCard {
