@@ -28,61 +28,52 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             return this.players;
         };
         Craps.prototype.getSumOfDice = function () {
-            return getValueOfDieOne() + getValueOfDieTwo();
+            return this.getValueOfDieOne() + this.getValueOfDieTwo();
+        };
+        Craps.prototype.getValueOfDieOne = function () {
+            return this.dice.getDice()[0].getValue();
+        };
+        Craps.prototype.getValueOfDieTwo = function () {
+            return this.dice.getDice()[1].getValue();
+        };
+        Craps.prototype.getDice = function () {
         };
         return Craps;
     }(Game_1.Game));
     exports.Craps = Craps;
 });
 // public class Craps extends Game implements Gamble{
-// 
-//     @Override
-//     public ArrayList<CrapsPlayer> getPlayers() {
-//         return (ArrayList<CrapsPlayer>) players;
-//     }
-// 
-//     public Integer getSumOfDice() {
-//         return getValueOfDieOne() + getValueOfDieTwo();
-//     }
-// 
-//     public Integer getValueOfDieOne() {
-//         return dice.getDice().get(0).getValue();
-//     }
-// 
-//     public Integer getValueOfDieTwo() {
-//         return dice.getDice().get(1).getValue();
-//     }
-// 
+//
 //     public Dice getDice() {
 //         return dice;
 //     }
-// 
+//
 //     public void rollDice() {
 //         dice.rollDice();
 //     }
-// 
+//
 //     public Integer getPoint() {
 //         return point;
 //     }
-// 
+//
 //     public void setPoint(Integer point) {
 //         this.point = point;
 //     }
-// 
+//
 //     public boolean isPassBetsWin() {
 //         return passBetsWin;
 //     }
-// 
+//
 //     public void setPassBetsWin(boolean passBetsWin) {
 //         this.passBetsWin = passBetsWin;
 //     }
-// 
+//
 //     @Override
 //     public void takeBet(Player player, Double amount) {
 //         bets.put(player, amount);
 //         player.bet(amount);
 //     }
-// 
+//
 //     @Override
 //     public void payOutBets() {
 //         if(passBetsWin) {
@@ -99,18 +90,18 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
 //         }
 //         clearAllBets();
 //     }
-// 
+//
 //     @Override
 //     public void clearAllBets() {
 //         bets.clear();
 //         playersOnPass.clear();
 //         playersOnDontPass.clear();
 //     }
-// 
+//
 //     public void putPlayerOnPass(CrapsPlayer player) {
 //         playersOnPass.add(player);
 //     }
-// 
+//
 //     public void putPlayerOnDontPass(CrapsPlayer player) {
 //         playersOnDontPass.add(player);
 //     }
