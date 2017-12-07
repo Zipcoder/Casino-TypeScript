@@ -181,12 +181,10 @@ class Casino {
 
     public goToMainMenu() : void {
         console.log("Main menu button clicked");
-        console.log("GABII");
-        this._displayHTMLElement = "";
+        this._displayHTMLElement.innerHTML = "Welcome to the Main Menu!";
         this.appendToDisplay("What game would you like to play?", true);
         this.appendToDisplay("1) Craps", true);
         this.appendToDisplay("2) Blackjack", true);
-        console.log("BRIAN");
         this.appendToDisplay("3) Go Fish", true);
         this.setOnClickAttributeOfSubmitButton("getGameToBePlayed()");
     }
