@@ -29,9 +29,11 @@ class Craps implements Game {
     this.displayElement.innerHTML = "Welcome to Craps! <br />";
     this.displayElement.innerHTML += "Submit your bet: <br />";
     this.submitButtonHTMLElement.setAttribute("onClick", "craps.takeBet()");
+    this.userInputElement.setAttribute("type","number");
     this.submitButtonHTMLElement.style.display = "";
     this.rollButtonHTMLElement.style.display = "none";
     this.userInputElement.style.display = "";
+
   }
   takeBet(): void {
     let bet: number = this.userInputElement.value;
@@ -39,11 +41,11 @@ class Craps implements Game {
       console.log("bet denied");
       this.displayElement.innerHTML = "Not Enough Money";
     } else if (bet == null || bet == 0) {
-      console.log("bet = null");
+      console.log("bet = 0");
       this.displayElement.innerHTML = "Invalid Input";
     }
     else {
-      console.log("Bet accepted");
+      console.log("Bet accepted " + bet);
       this.bet = this.userInputElement.value;
       this.displayElement.innerHTML = "Bet Accepted";
       this.displayElement.innerHTML += "<br />Click Roll to get started!";
@@ -58,20 +60,16 @@ class Craps implements Game {
     return play;
   }
 
-  private playAgain(): boolean {
-    this.displayElement.innerHTML += "Play Again? Y/N";
-    return false;
-  }
-
   updateScroll(): void {
     this.displayElement.scrollTop = this.displayElement.scrollHeight;
   }
 
   private roll(): number {
-    console.log(this.bet + " roll func");
+    console.log("Player Balance: " + this.player.balance);
+    console.log("Player Bet: " + this.bet);
 
     this.buttonCount++;
-    console.log("button count " + this.buttonCount);
+    console.log("Button Count: " + this.buttonCount);
 
     let diceOne: number = Math.floor(Math.random() * 6) + 1;
     let diceTwo: number = Math.floor(Math.random() * 6) + 1;
@@ -81,30 +79,37 @@ class Craps implements Game {
       this.target = sum;
       this.displayElement.innerHTML += "<br />Target is now " + sum;
     }
+    if(this.buttonCount >= 1){
+      this.removeResetButton();
+    }
 
-    console.log("rolling " + sum);
+    console.log("Rolling Dice " + sum);
     this.displayElement.innerHTML += "<br />You rolled " + diceOne + " and " + diceTwo;
     this.displayElement.innerHTML += "<br />Total " + sum;
     this.updateScroll();
 
     if (this.buttonCount === 1 && (sum == 7 || sum == 11)) {
-      console.log("first roll win, 7 or 11")
+      console.log("First Roll Win, 7 or 11")
       this.playerWin(this.bet);
       this.removeRollButton();
+      this.showResetButton();
 
     } else if (this.buttonCount === 1 && (sum == 2 || sum == 3 || sum == 12)) {
-      console.log("rollOne not pass");
+      console.log("First Roll not pass");
       this.playerLose(this.bet);
       this.removeRollButton();
+      this.showResetButton();
 
     } else {
       if (this.buttonCount > 1 && sum == this.target) {
         this.playerWin(this.bet);
         this.removeRollButton();
+        this.showResetButton();
 
       } else if (this.buttonCount > 1 && sum == 7) {
         this.playerLose(this.bet);
         this.removeRollButton();
+        this.showResetButton();
       }
     }
 
@@ -113,14 +118,23 @@ class Craps implements Game {
   private removeRollButton() {
     this.rollButtonHTMLElement.style.display = "none";
   }
+  private removeResetButton() {
+    this.resetButtonHTMLElement.style.display = "none";
+  }
+  private showResetButton(){
+    this.resetButtonHTMLElement.style.display = "";
+
+  }
 
   private playerWin(bet: number): void {
+    console.log("player win");
     this.displayElement.innerHTML += "<br />You Win!";
-    this.player.balance += bet;
+    this.player.addToBalance(this.bet);
   }
   private playerLose(bet: number): void {
+    console.log("player lose");
     this.displayElement.innerHTML += "<br />You Lose";
-    this.player.balance -= bet;
+    this.player.balance = this.player.balance - this.bet;
   }
 
 
