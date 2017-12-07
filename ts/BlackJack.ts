@@ -1,11 +1,15 @@
-class BlackJack extends CardGame<BlackJack> implements Gamble{
+import {Gamble} from './Gamble';
+import {CardGame} from './CardGame';
+import {BlackJackPlayer} from './BlackJackPlayer';
 
-  public const MIN_NUMBER_OF_PLAYERS = 1;
-  public const MAX_NUMBER_OF_PLAYERS = 7;
-  private   pointValues= {TWO: 2,THREE:3,FOUR:4,FIVE:5,SIX:6,SEVEN:7,EIGHT:8,NINE:9,TEN:10,JACK:10,QUEEN:10,KING:10,ACE:1};
+export class BlackJack extends CardGame<BlackJack> implements Gamble{
+
+  public readonly MIN_NUMBER_OF_PLAYERS = 1;
+  public readonly MAX_NUMBER_OF_PLAYERS = 7;
+  private readonly pointValues= {TWO: 2,THREE:3,FOUR:4,FIVE:5,SIX:6,SEVEN:7,EIGHT:8,NINE:9,TEN:10,JACK:10,QUEEN:10,KING:10,ACE:1};
   private  dealer:BlackJackPlayer = new BlackJackPlayer("Dealer");
   private  bets= {};
-  private winners:Array<BlackJackPlayer>  = []];
+  private winners:Array<BlackJackPlayer>  = [];
   private push:Array<BlackJackPlayer>  = [];
 
   constructor(numStandardDecks:number) {
@@ -24,7 +28,7 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
       for(let i = 0; i < 2; i++) {
           for(let p in this.getPlayers()) {
             let player = this.getPlayers()[p];
-              if(this.bets[player]!=undefined) {
+              if(this.bets[player.id]!=undefined) {
                   this.dealCardToHand(player);
               }
           }
@@ -34,7 +38,7 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
 
   public dealCardToHand(player:BlackJackPlayer) {
       this.shuffleCardsWhenStockIsEmpty();
-      this.player.addCardToHand(this.drawFromStock());
+      player.addCardToHand(this.drawFromStock());
   }
 
   public putCardsInDiscardPile() {
@@ -76,7 +80,7 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
       if(this.playerHasBust(this.dealer)) {
           for(let p in this.getPlayers()) {
             let player=this.getPlayers()[p];
-            if(this.bets[player]!=undefined) {
+            if(this.bets[player.id]!=undefined) {
                     if (!this.playerHasBust(player)) {
                       this.winners.push(player);
                   }
@@ -86,7 +90,7 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
       else {
           for(let p in this.getPlayers()) {
             let player=this.getPlayers()[p];
-              if(this.bets[player]!=undefined) {
+              if(this.bets[player.id]!=undefined) {
                   if (!this.playerHasBust(player) && this.calculatePlayerScore(player) > this.calculatePlayerScore(this.dealer)) {
                       this.winners.push(player);
                   } else if (this.calculatePlayerScore(player)==(this.calculatePlayerScore(this.dealer))) {
@@ -97,20 +101,20 @@ class BlackJack extends CardGame<BlackJack> implements Gamble{
       }
   }
 
-  public  takeBet( player:Player, amount:number, index:number) {
-    if(this.bets[player]==undefined)
-      this.bets[player]= amount;
-      else this.bets[player]+= amount
+  public  takeBet( player:BlackJackPlayer, amount:number) {
+    if(this.bets[player.id]==undefined)
+      this.bets[player.id]= amount;
+      else this.bets[player.id]+= amount
       player.bet(amount);
   }
 
   public payOutBets() {
       for(let player in this.winners) {
-          let amountWon = this.bets[player] * 2;
+          let amountWon = this.bets[this.winners[player].id] * 2;
           this.winners[player].receiveWinnings(amountWon);
       }
       for(let player in this.push) {
-          let amountWon = this.bets[this.push[player]];
+          let amountWon = this.bets[this.push[player].id];
           this.push[player].receiveWinnings(amountWon);
       }
       this.clearAllBets();
