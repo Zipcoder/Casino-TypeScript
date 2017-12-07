@@ -3,16 +3,16 @@ class Card{
     private value;
     private suit;
 
-    constructor(value: String, suit: String){
+    constructor(value: string, suit: string){
         this.value = value;
         this.suit = suit;
     }  
 
-    getValue(): Value{
+    getValue(): string{
         return this.value;
     }
 
-    getSuit(): Suit{
+    getSuit(): string{
         return this.suit;
     }
 }
