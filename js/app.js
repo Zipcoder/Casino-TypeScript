@@ -1,13 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var Dice = (function () {
     function Dice(sides) {
         this.sides = sides;
@@ -80,6 +70,7 @@ var User = (function () {
 }());
 /// <reference path="Gamble.ts"/>
 /// <reference path="Game.ts"/>
+/// <reference path="Dice.ts"/>
 var CrapPointPair = (function () {
     function CrapPointPair(a, b, text) {
         this.a = a;
@@ -228,6 +219,7 @@ var Craps = (function () {
     return Craps;
 }());
 /// <reference path="User.ts"/>
+/// <reference path="Craps.ts"/>
 var CrapsConsole = (function () {
     function CrapsConsole(user) {
         this.game = new Craps();
@@ -668,6 +660,218 @@ System.register("PlayingDeck", ["./enumValues", "PlayingSuit", "PlayingValue", "
 /// <reference path="CrapsConsole.ts" />
 /// <reference path="User.ts" />
 var craps = new CrapsConsole(new User("Tim", 1000));
+// import {PlayingDeck} from "./PlayingDeck";
+// import {MoneyContainer} from "./MoneyContainer";
+// import {Hand} from "./Hand";
+// import {PlayingCard} from "./PlayingCard";
+// import {CardGame} from "./CardGame";
+//
+// class BlackJack extends CardGame implements Gamble {
+//
+//     pot: MoneyContainer;
+//
+//     deck: PlayingDeck;
+//     playerScore: number;
+//     dealerScore: number;
+//     player: Hand;
+//     dealer: Hand;
+//
+//     // Java Constructor
+//     // public BlackJack() {
+//     //
+//     //     this.pot = new MoneyContainer();
+//     //     this.deck = new PlayingDeck();
+//     //     this.deck.shuffle(); // fix this
+//     //     this.playerScore = 0;
+//     //     this.dealerScore = 0;
+//     //     this.player = new Hand();
+//     //     this.dealer = new Hand();
+//     //
+//     //     for (let i: number = 0; i < 2; i++) {
+//     //         this.player.addCard(this.deck.getAndRemoveCard());
+//     //         this.dealer.addCard(this.deck.getAndRemoveCard());
+//     //     }
+//     // }
+//
+//     constructor() {
+//         super();// It made me add this because it requires a super constructor for derived classes ¯\_(ツ)_/¯
+//         this.pot = new MoneyContainer();
+//         this.deck = new PlayingDeck();
+//         this.deck.shuffle();
+//         this.playerScore = 0;
+//         this.dealerScore = 0;
+//         this.player = new Hand();
+//         this.dealer = new Hand();
+//
+//         for (let i: number = 0; i < 2; i++) {
+//             this.player.addCard(this.deck.getAndRemoveCard());
+//             this.dealer.addCard(this.deck.getAndRemoveCard());
+//         }
+//
+//     }
+//
+//     takeBet(bet: number) {
+//         this.pot.addMoney(bet);
+//     }
+//
+//
+//     settleBet(winnings: number) {
+//         return (this.pot.takeOutMoney(winnings));
+//     }
+//
+//     emptyPot() {
+//         return this.pot.takeAllMoney();
+//     }
+//
+//     showPot() {
+//         return this.pot.getMoney();
+//     }
+//
+//
+//     getPlayerScore() {
+//         this.playerScore = 0;
+//         let handArray: PlayingCard[] = this.player.getAllCards();
+//
+//
+//         for (let i = 0; i < handArray.length; i++) {
+//             this.playerScore += this.cardScore(handArray[i], this.playerScore);
+//         }
+//
+//         return this.playerScore;
+//     }
+//
+//
+//     getDealerScore() {
+//         this.dealerScore = 0;
+//         let handArray: PlayingCard[] = this.dealer.getAllCards();
+//
+//         for (let i = 0; i < handArray.length; i++) {
+//             this.dealerScore += this.cardScore(handArray[i], this.dealerScore);
+//         }
+//
+//         return this.dealerScore;
+//     }
+//
+//     getDealerScoreShowing() {
+//         return (this.cardScore(this.dealer.getAllCards()[0], 0));
+//     }
+//
+//     cardScore(c: PlayingCard, score: number) {
+//
+//         switch (c.getValue().toString()) {
+//             case "2":
+//                 return 2;
+//             case "3":
+//                 return 3;
+//             case "4":
+//                 return 4;
+//             case "5":
+//                 return 5;
+//             case "6":
+//                 return 6;
+//             case "7":
+//                 return 7;
+//             case "8":
+//                 return 8;
+//             case "9":
+//                 return 9;
+//             case "10":
+//             case "J":
+//             case "Q":
+//             case "K":
+//                 return 10;
+//             default: {
+//                 if (score + 11 > 21) {
+//                     return 1;
+//                 }
+//             }
+//         }
+//         return 11;
+//     }
+//
+//     playerHit() {
+//         this.player.addCard(this.deck.getAndRemoveCard());
+//         this.playerScore = this.getPlayerScore();
+//     }
+//
+//     dealerHit() {
+//         this.dealer.addCard(this.deck.getAndRemoveCard());
+//         this.dealerScore = this.getDealerScore();
+//     }
+//
+//     dealerHitUntilFinished() {
+//         while (this.getDealerScore() <= 17 && this.getPlayerScore() <= 21) {
+//             this.dealer.addCard(this.deck.getAndRemoveCard());
+//         }
+//     }
+//
+//     playerWins() {
+//         return (((this.getPlayerScore() > this.getDealerScore()) && (this.getPlayerScore() <= 21)) ||
+//             (this.getDealerScore() > 21 && this.getPlayerScore() <= 21));
+//     }
+//
+//     finalTableDisplay() {
+//         let returnMe: string = "";
+//         let dealerHand: PlayingCard[] = this.dealer.getAllCards();
+//         let playerHand: PlayingCard[] = this.player.getAllCards();
+//
+//         returnMe += "---\nOpponent\n---\n" + this.getDealerScore() + " Showing\n---\n";
+//         for (let i = 0; i < dealerHand.length; i++) {
+//             returnMe += dealerHand[i].toString() + "\n";
+//         }
+//
+//
+//         returnMe += "\nPot: " + this.pot.getMoney() + "\n\n";
+//
+//         returnMe += "---\nYou\n---\n" + this.getPlayerScore() + "\n---\n";
+//         for (let i = 0; i < playerHand.length; i++) {
+//             returnMe += playerHand[i].toString() + "\n";
+//         }
+//
+//         returnMe += "\n\n";
+//
+//         return returnMe;
+//     }
+//
+//
+//     toString() {
+//         let returnMe: string = "";
+//         let playerHand: PlayingCard[] = this.player.getAllCards();
+//
+//         returnMe += "---\nOpponent\n---\n" + this.getDealerScoreShowing() + " Showing\n---\n";
+//         returnMe += this.dealer.getAllCards()[0].toString() + "\n";
+//         returnMe += "[]\n";
+//
+//
+//         returnMe += "\nPot: " + this.pot.getMoney() + "\n\n";
+//
+//         returnMe += "---\nYou\n---\n" + this.getPlayerScore() + "\n---\n";
+//         for (let i = 0; i < playerHand.length; i++)
+//         {
+//             returnMe += playerHand[i].toString() + "\n";
+//         }
+//
+//         returnMe += "\n\n";
+//
+//         return returnMe;
+//     }
+//
+//     play(userInput: string) {
+//         return ("Y" === (userInput.toUpperCase()));
+//     }
+//
+// } 
+// ///<reference path="PlayingDeck.ts"/>
+//
+// import {PlayingDeck} from "./PlayingDeck";
+//
+// export abstract class CardGame implements Game {
+//
+//     abstract play(userInput: string): boolean;
+//
+//     deck: PlayingDeck;
+//
+// }
 System.register("Hand", [], function (exports_5, context_5) {
     "use strict";
     var __moduleName = context_5 && context_5.id;
@@ -720,193 +924,6 @@ System.register("Hand", [], function (exports_5, context_5) {
                 return Hand;
             }());
             exports_5("Hand", Hand);
-        }
-    };
-});
-///<reference path="PlayingDeck.ts"/>
-System.register("CardGame", [], function (exports_6, context_6) {
-    "use strict";
-    var __moduleName = context_6 && context_6.id;
-    var CardGame;
-    return {
-        setters: [],
-        execute: function () {///<reference path="PlayingDeck.ts"/>
-            CardGame = (function () {
-                function CardGame() {
-                }
-                return CardGame;
-            }());
-            exports_6("CardGame", CardGame);
-        }
-    };
-});
-System.register("BlackJack", ["PlayingDeck", "./MoneyContainer", "Hand", "CardGame"], function (exports_7, context_7) {
-    "use strict";
-    var __moduleName = context_7 && context_7.id;
-    var PlayingDeck_1, MoneyContainer_1, Hand_1, CardGame_1, BlackJack;
-    return {
-        setters: [
-            function (PlayingDeck_1_1) {
-                PlayingDeck_1 = PlayingDeck_1_1;
-            },
-            function (MoneyContainer_1_1) {
-                MoneyContainer_1 = MoneyContainer_1_1;
-            },
-            function (Hand_1_1) {
-                Hand_1 = Hand_1_1;
-            },
-            function (CardGame_1_1) {
-                CardGame_1 = CardGame_1_1;
-            }
-        ],
-        execute: function () {
-            BlackJack = (function (_super) {
-                __extends(BlackJack, _super);
-                // Java Constructor
-                // public BlackJack() {
-                //
-                //     this.pot = new MoneyContainer();
-                //     this.deck = new PlayingDeck();
-                //     this.deck.shuffle(); // fix this
-                //     this.playerScore = 0;
-                //     this.dealerScore = 0;
-                //     this.player = new Hand();
-                //     this.dealer = new Hand();
-                //
-                //     for (let i: number = 0; i < 2; i++) {
-                //         this.player.addCard(this.deck.getAndRemoveCard());
-                //         this.dealer.addCard(this.deck.getAndRemoveCard());
-                //     }
-                // }
-                function BlackJack() {
-                    var _this = _super.call(this) || this;
-                    _this.pot = new MoneyContainer_1.MoneyContainer();
-                    _this.deck = new PlayingDeck_1.PlayingDeck();
-                    _this.deck.shuffle();
-                    _this.playerScore = 0;
-                    _this.dealerScore = 0;
-                    _this.player = new Hand_1.Hand();
-                    _this.dealer = new Hand_1.Hand();
-                    for (var i = 0; i < 2; i++) {
-                        _this.player.addCard(_this.deck.getAndRemoveCard());
-                        _this.dealer.addCard(_this.deck.getAndRemoveCard());
-                    }
-                    return _this;
-                }
-                BlackJack.prototype.takeBet = function (bet) {
-                    this.pot.addMoney(bet);
-                };
-                BlackJack.prototype.settleBet = function (winnings) {
-                    return (this.pot.takeOutMoney(winnings));
-                };
-                BlackJack.prototype.emptyPot = function () {
-                    return this.pot.takeAllMoney();
-                };
-                BlackJack.prototype.showPot = function () {
-                    return this.pot.getMoney();
-                };
-                BlackJack.prototype.getPlayerScore = function () {
-                    this.playerScore = 0;
-                    var handArray = this.player.getAllCards();
-                    for (var i = 0; i < handArray.length; i++) {
-                        this.playerScore += this.cardScore(handArray[i], this.playerScore);
-                    }
-                    return this.playerScore;
-                };
-                BlackJack.prototype.getDealerScore = function () {
-                    this.dealerScore = 0;
-                    var handArray = this.dealer.getAllCards();
-                    for (var i = 0; i < handArray.length; i++) {
-                        this.dealerScore += this.cardScore(handArray[i], this.dealerScore);
-                    }
-                    return this.dealerScore;
-                };
-                BlackJack.prototype.getDealerScoreShowing = function () {
-                    return (this.cardScore(this.dealer.getAllCards()[0], 0));
-                };
-                BlackJack.prototype.cardScore = function (c, score) {
-                    switch (c.getValue().toString()) {
-                        case "2":
-                            return 2;
-                        case "3":
-                            return 3;
-                        case "4":
-                            return 4;
-                        case "5":
-                            return 5;
-                        case "6":
-                            return 6;
-                        case "7":
-                            return 7;
-                        case "8":
-                            return 8;
-                        case "9":
-                            return 9;
-                        case "10":
-                        case "J":
-                        case "Q":
-                        case "K":
-                            return 10;
-                        default: {
-                            if (score + 11 > 21) {
-                                return 1;
-                            }
-                        }
-                    }
-                    return 11;
-                };
-                BlackJack.prototype.playerHit = function () {
-                    this.player.addCard(this.deck.getAndRemoveCard());
-                    this.playerScore = this.getPlayerScore();
-                };
-                BlackJack.prototype.dealerHit = function () {
-                    this.dealer.addCard(this.deck.getAndRemoveCard());
-                    this.dealerScore = this.getDealerScore();
-                };
-                BlackJack.prototype.dealerHitUntilFinished = function () {
-                    while (this.getDealerScore() <= 17 && this.getPlayerScore() <= 21) {
-                        this.dealer.addCard(this.deck.getAndRemoveCard());
-                    }
-                };
-                BlackJack.prototype.playerWins = function () {
-                    return (((this.getPlayerScore() > this.getDealerScore()) && (this.getPlayerScore() <= 21)) ||
-                        (this.getDealerScore() > 21 && this.getPlayerScore() <= 21));
-                };
-                BlackJack.prototype.finalTableDisplay = function () {
-                    var returnMe = "";
-                    var dealerHand = this.dealer.getAllCards();
-                    var playerHand = this.player.getAllCards();
-                    returnMe += "---\nOpponent\n---\n" + this.getDealerScore() + " Showing\n---\n";
-                    for (var i = 0; i < dealerHand.length; i++) {
-                        returnMe += dealerHand[i].toString() + "\n";
-                    }
-                    returnMe += "\nPot: " + this.pot.getMoney() + "\n\n";
-                    returnMe += "---\nYou\n---\n" + this.getPlayerScore() + "\n---\n";
-                    for (var i = 0; i < playerHand.length; i++) {
-                        returnMe += playerHand[i].toString() + "\n";
-                    }
-                    returnMe += "\n\n";
-                    return returnMe;
-                };
-                BlackJack.prototype.toString = function () {
-                    var returnMe = "";
-                    var playerHand = this.player.getAllCards();
-                    returnMe += "---\nOpponent\n---\n" + this.getDealerScoreShowing() + " Showing\n---\n";
-                    returnMe += this.dealer.getAllCards()[0].toString() + "\n";
-                    returnMe += "[]\n";
-                    returnMe += "\nPot: " + this.pot.getMoney() + "\n\n";
-                    returnMe += "---\nYou\n---\n" + this.getPlayerScore() + "\n---\n";
-                    for (var i = 0; i < playerHand.length; i++) {
-                        returnMe += playerHand[i].toString() + "\n";
-                    }
-                    returnMe += "\n\n";
-                    return returnMe;
-                };
-                BlackJack.prototype.play = function (userInput) {
-                    return ("Y" === (userInput.toUpperCase()));
-                };
-                return BlackJack;
-            }(CardGame_1.CardGame));
         }
     };
 });

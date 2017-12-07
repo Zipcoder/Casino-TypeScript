@@ -1,4 +1,5 @@
 /// <reference path="User.ts"/>
+/// <reference path="Craps.ts"/>
 
 class CrapsConsole {
 
@@ -72,7 +73,7 @@ class CrapsConsole {
         this.initialBetCycle();
     }
 
-    initialBetCycle() {
+    initialBetCycle():void {
         this.initialBet();
         this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
     }
@@ -350,8 +351,8 @@ class CrapsConsole {
     }
 
     printPots():void{
-    this.updateDisplay("$"+this.game.getMainPot().getMoney()+" now in Main Pot");
-    this.updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot</br>");
+        this.updateDisplay("$"+this.game.getMainPot().getMoney()+" now in Main Pot");
+        this.updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot</br>");
     }
     enterAnyKeyToContinue():void{
 

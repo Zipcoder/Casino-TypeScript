@@ -1,5 +1,6 @@
 /// <reference path="Gamble.ts"/>
 /// <reference path="Game.ts"/>
+/// <reference path="Dice.ts"/>
 
 class CrapPointPair {
     a:number;
