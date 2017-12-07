@@ -1,13 +1,12 @@
 ///<reference path="PlayingCard.ts"/>
+///<reference path="enumValues.d.ts"/>
 
-
-
-import { EnumValues } from 'enumValues';
+import { EnumValues } from './enumValues';
 import { PlayingSuit } from "./PlayingSuit";
 import { PlayingValue } from "./PlayingValue";
-import { PlayingCard } from "ts/PlayingCard";
+import { PlayingCard } from "./PlayingCard";
 
-class PlayingDeck {
+export class PlayingDeck {
 
     private cards : Array<PlayingCard>;
 
@@ -15,42 +14,40 @@ class PlayingDeck {
         this.populate();
     }
 
-    // public PlayingDeck(){}
-
     getRandom(floor:number, ceiling:number) {
         return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
     }
 
-    shuffle<PlayingCard>(array: PlayingCard[]): PlayingCard[] {
+    shuffle(): PlayingCard[] {
 
-        if (array.length <= 1) {
-            return array;
+        if (this.cards.length <= 1) {
+            return this.cards;
         }
 
-        for (let i = 0; i < array.length; i++) {
-            const randomChoiceIndex = this.getRandom(i, array.length - 1);
-            [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
+        for (let i = 0; i < this.cards.length; i++) {
+            const randomChoiceIndex = this.getRandom(i, this.cards.length - 1);
+            [this.cards[i], this.cards[randomChoiceIndex]] = [this.cards[randomChoiceIndex], this.cards[i]];
         }
-        return array;
-    }
-
-    getAllCards(){
         return this.cards;
     }
 
-    countLeft(){
+    getAllCards(): Array<PlayingCard>{
+        return this.cards;
+    }
+
+    countLeft(): number{
         return this.cards.length;
     }
 
-    getAndRemoveCard(){
+    getAndRemoveCard<PlayingCard>(){
         if(this.cards.length == 0) {
             this.populate();
-            this.shuffle(this.cards);
+            this.shuffle();
         }
         return this.cards.shift();
     }
 
-    populate() {
+    populate(): void {
         this.cards = new Array<PlayingCard>();
 
         let suits = EnumValues.getValues(PlayingSuit);
