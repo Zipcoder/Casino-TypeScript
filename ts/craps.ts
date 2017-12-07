@@ -101,7 +101,14 @@ class Craps implements Game {
     }
     return rollTwo;
   }
+
+    updateScroll(): void {
+        this.displayElement.scrollTop = this.displayElement.scrollHeight;
+    }
+
   private roll(): number {
+
+
     this.buttonCount++;
     console.log("button count " + this.buttonCount);
 
@@ -116,6 +123,7 @@ class Craps implements Game {
     console.log("rolling " + sum);
     this.displayElement.innerHTML += "<br />You rolled " + diceOne + " and " + diceTwo;
     this.displayElement.innerHTML += "<br />Total " + sum;
+    this.updateScroll();
 
     return sum;
   }
