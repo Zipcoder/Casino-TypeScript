@@ -1,12 +1,13 @@
 ///<reference path="PlayingCard.ts"/>
 ///<reference path="enumValues.d.ts"/>
 
-import { EnumValues } from './enumValues';
-import { PlayingSuit } from "./PlayingSuit";
-import { PlayingValue } from "./PlayingValue";
-import { PlayingCard } from "./PlayingCard";
+// import { PlayingSuit } from "./PlayingSuit";
+// import { PlayingValue } from "./PlayingValue";
+// import { PlayingCard } from "./PlayingCard";
 
-export class PlayingDeck {
+import {EnumValues} from "./enumValues";
+
+class PlayingDeck {
 
     private cards : Array<PlayingCard>;
 
@@ -14,7 +15,7 @@ export class PlayingDeck {
         this.populate();
     }
 
-    getRandom(floor:number, ceiling:number) {
+    getRandom(floor: number, ceiling: number) {
         return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
     }
 
@@ -39,7 +40,7 @@ export class PlayingDeck {
         return this.cards.length;
     }
 
-    public getAndRemoveCard<PlayingCard>(){
+    public getAndRemoveCard(): PlayingCard{
         if(this.cards.length == 0) {
             this.populate();
             this.shuffle();

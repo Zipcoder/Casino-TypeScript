@@ -1,34 +1,24 @@
-import {PlayingDeck} from "./PlayingDeck";
-import {MoneyContainer} from "./MoneyContainer";
-import {Hand} from "./Hand";
-import {PlayingCard} from "./PlayingCard";
-import {CardGame} from "./CardGame";
+///<reference path="CardGame.ts"/>
+///<reference path="MoneyContainer.ts"/>
+///<reference path="Hand.ts"/>
+///<reference path="PlayingCard.ts"/>
+///<reference path="PlayingDeck.ts"/>
 
-export class BlackJack extends CardGame implements Gamble {
 
+// import {PlayingDeck} from "./PlayingDeck";
+// import {MoneyContainer} from "./MoneyContainer";
+// import {Hand} from "./Hand";
+// import {PlayingCard} from "./PlayingCard";
+// import {CardGame} from "./CardGame";
+
+class BlackJack extends CardGame implements Gamble {
+
+    deck: PlayingDeck;
     private pot: MoneyContainer;
-    private deck: PlayingDeck;
     private playerScore: number;
     private dealerScore: number;
     private player: Hand;
     private dealer: Hand;
-
-    // Java Constructor
-    // public BlackJack() {
-    //
-    //     this.pot = new MoneyContainer();
-    //     this.deck = new PlayingDeck();
-    //     this.deck.shuffle(); // fix this
-    //     this.playerScore = 0;
-    //     this.dealerScore = 0;
-    //     this.player = new Hand();
-    //     this.dealer = new Hand();
-    //
-    //     for (let i: number = 0; i < 2; i++) {
-    //         this.player.addCard(this.deck.getAndRemoveCard());
-    //         this.dealer.addCard(this.deck.getAndRemoveCard());
-    //     }
-    // }
 
     public constructor() {
         super();// It made me add this because it requires a super constructor for derived classes ¯\_(ツ)_/¯
