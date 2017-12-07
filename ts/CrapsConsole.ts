@@ -21,17 +21,14 @@ class CrapsConsole {
     constructor(user:User){
         this.player=user;
     }
-    // updateDisplay(stringToDisplay:string):void{
-    //     document.getElementById("display").innerHTML+="</br>"+stringToDisplay;
-    // }
 
     initialize():void{
         this.displayElement=document.getElementById("display");
         this.inputElement=document.getElementById("input");
         this.inputElement.innerHTML= '<input type="number" name="bet_input" id="bet_input">' +
-                                     '<input type="submit" value="Bet" id="bet_submit" onclick=""/>    '  +
+                                     '<input type="submit" value="Bet" id="bet_submit" onclick="" disabled="true"/>    '  +
                                      '<input type="button" value="Roll" id="roll" onclick="craps.determineFirstRoller()"/>    ' +
-                                     '<input type="button" value="Continue" id="continue" onclick=""/>' +
+                                     '<input type="button" value="Continue" id="continue" onclick="craps.beginInitialPlay()" disabled="true"/>' +
                                      '<input type="button" value="Quit" id="quit" onclick="craps.finalize()"/>';
         this.submitBetButton=document.getElementById("bet_submit");
         this.rollButton=document.getElementById("roll");
@@ -48,11 +45,17 @@ class CrapsConsole {
         this.initialize();
 
         this.welcomePlayer();
-        // this.finalize();
     }
     determineFirstRoller():void{
+        this.rollButton.disabled=true;
+        this.submitBetButton.disabled=false;
+        this.continueButton.disabled=true;
         this.game.determineFirstRoller();
-        this.submitBetButton.setAttribute("onclick","craps.playerInitialBets()");
+        this.beginInitialPlay();
+    }
+
+    beginInitialPlay() {
+        this.submitBetButton.setAttribute("onclick", "craps.playerInitialBets()");
         this.initialBetCycle();
     }
 
@@ -60,7 +63,6 @@ class CrapsConsole {
         if (!this.pointSet) {
             this.initialBet();
         }else{
-            alert("Secondary Bet Cycle");
             this.secondaryBetCycle();
         }
     }
@@ -68,11 +70,9 @@ class CrapsConsole {
     secondaryBetCycle():void{
         this.submitBetButton.setAttribute("onclick","craps.playerSecondaryBets()");
         if (!this.pointMet){
-            alert("Point Not Met");
             this.secondaryBet();
         } else{
             //move on from secondaryBet logic
-            alert("Point met, cleaning up");
             this.postRoundCleanup();
         }
     }
@@ -84,13 +84,14 @@ class CrapsConsole {
         } else {
             this.resetFlags();
         }
-        updateDisplay("Play Again?");
+        this.continueButton.disabled=false;
+        updateDisplay("Click 'Continue' to play again, or 'Quit' to not");
     }
 
     getInput():number{
         let inputAlias:any = document.getElementById("bet_input");
 
-        return +inputAlias.value;
+        return +(inputAlias.value);
     }
 
     initialBet():void{
@@ -357,7 +358,7 @@ class CrapsConsole {
     }
 
     welcomePlayer():void{
-        updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table.");
+        updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table. Click 'Quit' anytime to leave the game");
         updateDisplay("Roll to determine who goes first!");
     }
     changeTurns():void{
