@@ -4,8 +4,11 @@ define(["require", "exports"], function (require, exports) {
     var Utilities = (function () {
         function Utilities() {
         }
+        Utilities.printLine = function (input) {
+            Utilities.displayEle.innerHTML += input + "<br/>";
+        };
         Utilities.printMenuName = function (menuName) {
-            Utilities.displayEle.innerHTML += menuName + "<br/>";
+            Utilities.printLine(menuName);
         };
         Utilities.printMenuOptions = function (menuOptions) {
             Utilities.displayEle.innerHTML += "[ " + menuOptions.join(" ] * [ ") + " ]" + "<br/>";
@@ -29,6 +32,88 @@ define(["require", "exports"], function (require, exports) {
                 }
             }, 1000);
             return input;
+        };
+        Utilities.getUserInput = function (thePrompt) {
+            Utilities.displayEle.innerHTML += thePrompt + "<br/>";
+            var input = "";
+            setTimeout(function () {
+                input = prompt(thePrompt);
+            }, 1000);
+            return input;
+        };
+        Utilities.getIntegerInput = function (thePrompt) {
+            var userIntegerInput = 0;
+            setTimeout(function () {
+                var isValidInput = false;
+                while (!isValidInput) {
+                    var input = Utilities.getDoubleInput(thePrompt);
+                    if (Math.floor(input) - input === 0) {
+                        isValidInput = true;
+                    }
+                    else {
+                        alert("Invalid selection");
+                    }
+                }
+            }, 1000);
+            return userIntegerInput;
+        };
+        Utilities.getDoubleInput = function (thePrompt) {
+            var userDoubleInput = 0.0;
+            setTimeout(function () {
+                var isValidInput = false;
+                while (!isValidInput) {
+                    var input = Utilities.getUserInput(thePrompt);
+                    if (typeof (input) === 'number') {
+                        isValidInput = true;
+                    }
+                    else {
+                        alert("Invalid selection");
+                    }
+                }
+            }, 1000);
+            return userDoubleInput;
+        };
+        Utilities.getMoneyInput = function (thePrompt) {
+            var userIntegerInput = 0;
+            setTimeout(function () {
+                var isValidInput = false;
+                while (!isValidInput) {
+                    var input = Utilities.getDoubleInput(thePrompt);
+                    if (input >= 0) {
+                        if (Math.floor(input * 100) - input * 100 === 0) {
+                            isValidInput = true;
+                        }
+                        else {
+                            alert("Must enter an amount with up to two decimal places in accuracy");
+                        }
+                    }
+                    else {
+                        alert("Must enter a positive amount");
+                    }
+                }
+            }, 1000);
+            return userIntegerInput;
+        };
+        Utilities.getYesOrNoInput = function (thePrompt) {
+            var result = false;
+            setTimeout(function () {
+                var isValidInput = false;
+                while (!isValidInput) {
+                    var input = Utilities.getUserInput(thePrompt);
+                    if ("Y" === input.toUpperCase()) {
+                        result = true;
+                        isValidInput = true;
+                    }
+                    else if ("N" === input.toUpperCase()) {
+                        result = false;
+                        isValidInput = true;
+                    }
+                    else {
+                        alert("Invalid selection, must enter Y or N");
+                    }
+                }
+            }, 1000);
+            return result;
         };
         Utilities.displayEle = document.getElementById("display");
         Utilities.userInputEle = document.getElementById("user_input");
