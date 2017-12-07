@@ -1,9 +1,12 @@
 
 class CrapsConsole {
 
-    originalInputElement:any;
-    currentInputElement:any;
+    inputElement:any;
     displayElement:any;
+    rollButton:any;
+    continueButton:any;
+    quitButton:any;
+    submitBetButton:any;
 
     game:Craps = new Craps();
     player:User;
@@ -12,37 +15,46 @@ class CrapsConsole {
     pointSet:boolean=false;
     pointMet:boolean=false;
     crappedOut:boolean=false;
+    cont:boolean=false;
 
     constructor(user:User){
         this.player=user;
     }
-
+    set Cont(passedValue:boolean){
+        this.cont=passedValue;
+    }
     updateDisplay(stringToDisplay:string):void{
         this.displayElement.innerHTML+="</br>"+stringToDisplay;
     }
 
     initialize():void{
         this.displayElement=document.getElementById("display");
-        this.originalInputElement=document.getElementById("input");
-        this.currentInputElement=this.originalInputElement;
-        this.currentInputElement.innerHTML= '<input type="text" name="bet_input" id="bet_input"> ' +
-                                            '<input type="submit" value="bet_submit" onclick="craps.getPositiveDoubleInput(document.getElementById("bet_input"))">'
-
-        ;
+        this.inputElement=document.getElementById("input");
+        this.inputElement.innerHTML= '<input type="number" name="bet_input" id="bet_input">' +
+                                     '<input type="submit" value="Bet" id="bet_submit" onclick="craps.getInput()"/>    '  +
+                                     '<input type="button" value="Roll" id="roll" onclick="craps.determineFirstRoller()"/>    ' +
+                                     '<input type="button" value="Continue" id="continue" onclick="craps.welcomePlayer()"/>' +
+                                     '<input type="button" value="Quit" id="quit" onclick="craps.finalize()"/>';
+        this.submitBetButton=document.getElementById("bet_submit");
+        this.rollButton=document.getElementById("roll");
+        this.continueButton=document.getElementById("continue");
+        this.quitButton=document.getElementById("quit");
     }
     finalize():void{
-        this.currentInputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
-                                            '<input type="submit" value="submit" onclick="craps.run()">';
+        this.inputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
+                                            '<input type="submit" value="Submit" onclick="craps.run()">';
+        this.displayElement.innerText='';
     }
     run():void{
         this.initialize();
+
         this.welcomePlayer();
-        // this.game.determineFirstRoller();
+        //on roll click, this.determineFirstRoller();
+
         // do {
         //     while (!this.pointSet) {//Continue to bet until the roller
         //         //throws a point instead of a win/loss.
-        //         this.initialBet();
-        //         this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
+        //        this.initialBetCycle();
         //     }
         //     while (!this.pointMet) {//Continue to bet until the roller
         //         //meets their point or craps out
@@ -56,7 +68,23 @@ class CrapsConsole {
         //     }
         // }while(this.game.play("Y"));//getStringInput("Continue playing? [Y/N] ")));
         // //NEED TO REWORK PLAY AND INPUT TO ACCOUNT FOR HTML FORMS
-        this.finalize();
+        // this.finalize();
+    }
+    determineFirstRoller():void{
+        this.game.determineFirstRoller();
+        this.initialBetCycle();
+    }
+
+    initialBetCycle() {
+        this.initialBet();
+        this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
+    }
+
+
+    getInput():number{
+        let inputAlias:any = document.getElementById("bet_input");
+
+        return +inputAlias.value;
     }
 
     initialBet():void{
@@ -70,13 +98,14 @@ class CrapsConsole {
         }
         else
         {
-            this.playerInitialBets();
+            this.updateDisplay("Enter your bet in the field below and click 'Bet'");
+            this.submitBetButton.onclick(this.playerInitialBets());
         }
 
     }
     playerInitialBets():void{
         do {
-            //this.mainPotBet = this.getPositiveDoubleInput("How much would you like to bet? ");
+            this.mainPotBet = this.getInput();
         }while (this.player.Wallet.getMoney()<this.mainPotBet);
 
         this.game.takeBet(this.player.Wallet.takeOutMoney(this.mainPotBet));//player bet
@@ -308,6 +337,10 @@ class CrapsConsole {
 
     welcomePlayer():void{
     this.updateDisplay("Hello, "+this.player.Name+". Welcome to the Craps table.");
+    this.updateDisplay("Roll to determine who goes first!");
+
+
+
     }
     changeTurns():void{
         this.resetFlags();
@@ -324,9 +357,9 @@ class CrapsConsole {
 
     printPots():void{
     this.updateDisplay("$"+this.game.getMainPot().getMoney()+" now in Main Pot");
-    this.updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot");
+    this.updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot</br>");
     }
     enterAnyKeyToContinue():void{
-    //String dump = getStringInput("Enter any key to continue: ");
+
     }
 }

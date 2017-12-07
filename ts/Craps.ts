@@ -152,26 +152,26 @@ class Craps implements Gamble, Game {
         let returnMe:string="";
 
         if (this.isPlayerTurn){
-            returnMe+="It is your turn\n";
+            returnMe+="It is your turn</br>";
         } else{
-            returnMe+="It is your opponent's turn\n";
+            returnMe+="It is your opponent's turn</br>";
         }
 
         if (this.point==0){
-            returnMe+="Point has not been set, and so we do not have a pair to side bet on\n";
+            returnMe+="Point has not been set, and so we do not have a pair to side bet on</br>";
         } else{
-            returnMe+="Point is "+this.point+" and we are making side bets on "+this.pair.text+"\n";
+            returnMe+="Point is "+this.point+" and we are making side bets on "+this.pair.text+"</br>";
         }
 
         if (this.numberRolled!=0){
-            returnMe+="Last roll was "+this.numberRolled+"\n";
+            returnMe+="Last roll was "+this.numberRolled+"</br>";
         }
         else{
-            returnMe+="Nobody has rolled yet\n";
+            returnMe+="Nobody has rolled yet</br>";
         }
 
-        returnMe+="Main pot is $"+this.mainPot.getMoney()+"\n";
-        returnMe+="Side pot is $"+this.sidePot.getMoney()+"\n";
+        returnMe+="Main pot is $"+this.mainPot.getMoney()+"</br>";
+        returnMe+="Side pot is $"+this.sidePot.getMoney()+"</br>";
 
         return returnMe;
     }
