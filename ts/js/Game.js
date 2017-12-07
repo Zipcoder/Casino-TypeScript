@@ -15,7 +15,7 @@ define(["require", "exports"], function (require, exports) {
             var moneyString = [];
             var i = 1;
             for (var player in this.players) {
-                moneyString.push("Player " + i + ", " + player.getName() + ", Total money: $" + player.getMoney());
+                moneyString.push("Player " + i + ", " + this.players[player].getName() + ", Total money: $" + this.players[player].getMoney());
                 i++;
             }
             return "[ " + moneyString.join(" ] , [ ") + " ]";

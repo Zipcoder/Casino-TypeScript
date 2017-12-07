@@ -37,73 +37,58 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             return this.dice.getDice()[1].getValue();
         };
         Craps.prototype.getDice = function () {
+            return this.dice;
+        };
+        Craps.prototype.rollDice = function () {
+            this.dice.rollDice();
+        };
+        Craps.prototype.getPoint = function () {
+            return this.point;
+        };
+        Craps.prototype.setPoint = function (point) {
+            this.point = point;
+        };
+        Craps.prototype.isPassBetsWin = function () {
+            return this.passBetsWin;
+        };
+        Craps.prototype.setPassBetsWin = function (passBetsWin) {
+            this.passBetsWin = passBetsWin;
+        };
+        Craps.prototype.takeBet = function (player, amount) {
+            if (this.bets[player.id] == undefined)
+                this.bets[player.id] = amount;
+            else
+                this.bets[player.id] += amount;
+            player.bet(amount);
+        };
+        Craps.prototype.payOutBets = function () {
+            if (this.passBetsWin) {
+                for (var player in this.playersOnPass) {
+                    var amountWon = this.bets[player] * 2;
+                    this.playersOnPass[player].receiveWinnings(amountWon);
+                }
+            }
+            else {
+                for (var player in this.playersOnDontPass) {
+                    var amountWon = this.bets[player] * 2;
+                    this.playersOnDontPass[player].receiveWinnings(amountWon);
+                }
+            }
+            this.clearAllBets();
+        };
+        Craps.prototype.clearAllBets = function () {
+            this.bets = {};
+            this.playersOnPass = [];
+            this.playersOnDontPass = [];
+        };
+        Craps.prototype.putPlayerOnPass = function (player) {
+            this.playersOnPass.push(player);
+        };
+        Craps.prototype.putPlayerOnDontPass = function (player) {
+            this.playersOnDontPass.push(player);
         };
         return Craps;
     }(Game_1.Game));
     exports.Craps = Craps;
 });
-// public class Craps extends Game implements Gamble{
-//
-//     public Dice getDice() {
-//         return dice;
-//     }
-//
-//     public void rollDice() {
-//         dice.rollDice();
-//     }
-//
-//     public Integer getPoint() {
-//         return point;
-//     }
-//
-//     public void setPoint(Integer point) {
-//         this.point = point;
-//     }
-//
-//     public boolean isPassBetsWin() {
-//         return passBetsWin;
-//     }
-//
-//     public void setPassBetsWin(boolean passBetsWin) {
-//         this.passBetsWin = passBetsWin;
-//     }
-//
-//     @Override
-//     public void takeBet(Player player, Double amount) {
-//         bets.put(player, amount);
-//         player.bet(amount);
-//     }
-//
-//     @Override
-//     public void payOutBets() {
-//         if(passBetsWin) {
-//             for(CrapsPlayer player : playersOnPass) {
-//                 Double amountWon = bets.get(player) * 2;
-//                 player.receiveWinnings(amountWon);
-//             }
-//         }
-//         else {
-//             for(CrapsPlayer player : playersOnDontPass) {
-//                 Double amountWon = bets.get(player) * 2;
-//                 player.receiveWinnings(amountWon);
-//             }
-//         }
-//         clearAllBets();
-//     }
-//
-//     @Override
-//     public void clearAllBets() {
-//         bets.clear();
-//         playersOnPass.clear();
-//         playersOnDontPass.clear();
-//     }
-//
-//     public void putPlayerOnPass(CrapsPlayer player) {
-//         playersOnPass.add(player);
-//     }
-//
-//     public void putPlayerOnDontPass(CrapsPlayer player) {
-//         playersOnDontPass.add(player);
-//     }
-// }
 //# sourceMappingURL=Craps.js.map
