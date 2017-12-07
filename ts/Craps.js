@@ -18,24 +18,23 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             _this.MIN_NUMBER_OF_PLAYERS = 1;
             _this.MAX_NUMBER_OF_PLAYERS = 8;
             _this.dice = new Dice_1.Dice(2);
+            _this.bets = {};
+            _this.playersOnPass = [];
+            _this.playersOnDontPass = [];
+            _this.passBetsWin = true;
             return _this;
         }
+        Craps.prototype.getPlayers = function () {
+            return this.players;
+        };
+        Craps.prototype.getSumOfDice = function () {
+            return getValueOfDieOne() + getValueOfDieTwo();
+        };
         return Craps;
     }(Game_1.Game));
     exports.Craps = Craps;
 });
 // public class Craps extends Game implements Gamble{
-// 
-//     public final int MIN_NUMBER_OF_PLAYERS = 1;
-//     public final int MAX_NUMBER_OF_PLAYERS = 8;
-// 
-//     private Dice dice = new Dice(2);
-//     private Integer point;
-// 
-//     private HashMap<Player<Craps>, Double> bets = new HashMap<Player<Craps>, Double>();
-//     private ArrayList<CrapsPlayer> playersOnPass = new ArrayList<>();
-//     private ArrayList<CrapsPlayer> playersOnDontPass = new ArrayList<>();
-//     private boolean passBetsWin = true;
 // 
 //     @Override
 //     public ArrayList<CrapsPlayer> getPlayers() {
