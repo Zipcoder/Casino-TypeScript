@@ -44,6 +44,7 @@ class Craps implements Game {
     }
     else{
       console.log("Bet accepted");
+      this.bet = this.userInputElement.value;
       this.displayElement.innerHTML = "Bet Accepted";
       this.displayElement.innerHTML += "<br />Click Roll to get started!";
       this.submitButtonHTMLElement.style.display = "none";
@@ -107,7 +108,7 @@ class Craps implements Game {
     }
 
   private roll(): number {
-
+    console.log(this.bet + " roll func");
 
     this.buttonCount++;
     console.log("button count " + this.buttonCount);
