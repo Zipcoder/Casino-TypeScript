@@ -4,4 +4,5 @@ export abstract class Console {
   }
 
   abstract start(): void;
+  abstract getNameOfGame(): string;
 }

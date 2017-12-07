@@ -7,4 +7,8 @@ export class BlackJackConsole extends console.Console {
   start() {
 
   }
+
+  getNameOfGame() {
+    return "Blackjack";
+  }
 }

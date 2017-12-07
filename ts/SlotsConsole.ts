@@ -3,4 +3,8 @@ export class SlotsConsole extends console.Console {
   start() {
 
   }
+
+  getNameOfGame() {
+    return "Slots";
+  }
 }

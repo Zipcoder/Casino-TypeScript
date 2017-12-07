@@ -32,6 +32,9 @@ define("BlackJackConsole", ["require", "exports", "Console"], function (require,
     }(console.Console));
     exports.BlackJackConsole = BlackJackConsole;
 });
+// import {Casino} from './Casino'
+// let casino = new Casino();
+// casino.startCasino();
 define("CrapsConsole", ["require", "exports", "Console"], function (require, exports, console) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -156,11 +159,5 @@ define("Casino", ["require", "exports", "BlackJackConsole", "CrapsConsole", "GoF
         return Casino;
     }());
     exports.Casino = Casino;
-});
-define("Bootstrapper", ["require", "exports", "Casino"], function (require, exports, Casino_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var casino = new Casino_1.Casino();
-    casino.startCasino();
 });
 //# sourceMappingURL=main.js.map

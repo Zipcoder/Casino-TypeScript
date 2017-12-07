@@ -18,7 +18,6 @@ export class Casino {
   }
 
   startCasino() {
-    this.displayEle += "Hello are you working?";
     this.gameConsoles.push(new BlackJackConsole());
     this.gameConsoles.push(new CrapsConsole());
     this.gameConsoles.push(new GoFishConsole());
