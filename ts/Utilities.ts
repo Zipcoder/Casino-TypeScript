@@ -4,8 +4,12 @@ export class Utilities {
   static userInputEle : any = document.getElementById("user_input");
   static buttonEle : any = document.getElementById("my_button");
 
+  static printLine(input: string) {
+    Utilities.displayEle.innerHTML += input + "<br/>";
+  }
+
   static printMenuName(menuName: string) {
-    Utilities.displayEle.innerHTML += menuName + "<br/>";
+    Utilities.printLine(menuName);
   }
 
   static printMenuOptions(menuOptions: string[]) {

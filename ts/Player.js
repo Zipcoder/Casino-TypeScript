@@ -1,16 +1,17 @@
-import {Game} from './Game';
-export class Player<T extends Game<T>> {
-  name: string;
-  money: number;
-  id: number;
-  static nextId = 1;
-  
-  constructor(name: string) {
-    this.name = name;
-    this.id = Player.nextId;
-    Player.nextId++;
-  }
-}
+define(["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Player = (function () {
+        function Player(name) {
+            this.name = name;
+            this.id = Player.nextId;
+            Player.nextId++;
+        }
+        Player.nextId = 1;
+        return Player;
+    }());
+    exports.Player = Player;
+});
 // public class Player<T extends Game> {
 //
 //     private String name;
@@ -44,3 +45,4 @@ export class Player<T extends Game<T>> {
 //         this.money = money;
 //     }
 // }
+//# sourceMappingURL=Player.js.map

@@ -1,5 +1,6 @@
-import * as console from './Console';
-export class BlackJackConsole extends console.Console {
+import {Console} from './Console'
+import {Utilities} from './Utilities'
+export class BlackJackConsole extends Console {
 
   private  nameOfGame:string = "BlackJack";
 
@@ -13,10 +14,10 @@ export class BlackJackConsole extends console.Console {
     }
 
     public  setUpGame() {
-        this.printMenuName(string.format("Welcome to %s", this.nameOfGame));
-        let numPlayers:number = getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
-        let playerNames:Array<string> = getPlayerNames(numPlayers);
-        let players:Array<BlackJackPlayer>  = Array<BlackJackPlayer>();
+        Utilities.printMenuName("Welcome to " + this.getNameOfGame());
+        let numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
+        let playerNames:string[] = this.getPlayerNames(numPlayers);
+        let players:Array<BlackJackPlayer>  = [];
         for(let name in playerNames) {
             let player:BlackJackPlayer  = new BlackJackPlayer(playerNames[name]);
             players.push(player);
@@ -32,16 +33,17 @@ export class BlackJackConsole extends console.Console {
             }
         }
 
-        System.out.println("\nDealing cards...\n");
+        Utilities.printLine("<br/> Dealing cards...<br/>");
         this.game.dealInitialCards();
 
         this.displayDealerFaceUpCard();
 
         for(let currentPlayerIndex = 0; currentPlayerIndex < this.game.getNumPlayers(); currentPlayerIndex++) {
-            let currentPlayer = this.game.getPlayers().get(currentPlayerIndex);
+            let currentPlayer = this.game.getPlayers()[currentPlayerIndex];
             if(this.game.getBets().containsKey(currentPlayer)) {
-                System.out.printf("Player %d, %s turn:\n", currentPlayerIndex + 1, currentPlayer.getName());
-                this.playerTakeTurn(currentPlayer);
+              let playerNumber = currentPlayerIndex + 1;
+              Utilities.printLine("Player " + playerNumber + ", " + currentPlayer.getName() + " turn:");
+              this.playerTakeTurn(currentPlayer);
             }
         }
         this.dealerHitsUntilFinished();
@@ -52,46 +54,46 @@ export class BlackJackConsole extends console.Console {
     }
 
     public displayDealerFaceUpCard() {
-        System.out.printf("Dealer showing %s\n\n", game.getDealer().getHand().getCard(0));
+        Utilities.printLine("Dealer showing " + this.game.getDealer().getHand().getCard(0));
     }
 
-    public playerTakeTurn(BlackJackPlayer player) {
-         let finishedTurn = false;
+    public playerTakeTurn(player: BlackJackPlayer) {
+        let finishedTurn = false;
         while(!finishedTurn) {
-            System.out.printf("Your cards: %s\n", player.getHand());
+            Utilities.printLine("Your cards: " + player.getHand());
             finishedTurn = this.hitOrStay();
         }
-        System.out.println();
+        Utilities.printLine("");
     }
 
-    public  makeBet( player:BlackJackPlayer) {
+    public  makeBet(player: BlackJackPlayer) {
         let amountAvailableToBet = player.getMoney();
         let amount = 0.0;
         let isValidInput = false;
         while(!isValidInput) {
-            amount = this.getMoneyInput(String.format("%s, how much would you like to bet?", player.getName()));
+            amount = this.getMoneyInput(player.getName() + ", how much would you like to bet?");
             if(amount <= amountAvailableToBet) {
                 isValidInput = true;
             } else {
-                System.out.println("Sorry you do not have that much money to bet.");
+                Utilities.printLine("Sorry you do not have that much money to bet.");
             }
         }
         this.game.takeBet(player, amount);
     }
 
-    public hitOrStay():boolean {
+    public hitOrStay(): boolean {
         if(this.game.calculatePlayerScore(this.currentPlayer) == 21) {
-            System.out.println("21!!");
+            Utilities.printLine("21!!");
             return true;
         }
-        let toHit:boolean = this.getYesOrNoInput("Do you want to hit? Y or N");
+        let toHit = Utilities.getYesOrNoInput("Do you want to hit? Y or N");
         if(toHit) {
             this.game.dealCardToHand(this.currentPlayer);
         } else {
             return true;
         }
         if(this.game.playerHasBust(this.currentPlayer)) {
-            System.out.printf("Bust! %s\n", this.currentPlayer.getHand());
+            Utilities.printLine("Bust! " + this.currentPlayer.getHand());
             return true;
         }
         return false;
@@ -105,15 +107,14 @@ export class BlackJackConsole extends console.Console {
     }
 
     public displayEndOfRound() {
-        System.out.printf("\nDealer score: %d %s\n", game.calculatePlayerScore(game.getDealer()),
-                this.game.getDealer().getHand());
+        Utilities.printLine("<br/>Dealer score: " + this.game.calculatePlayerScore(game.getDealer()) + this.game.getDealer().getHand());
         for(let player in this.game.getPlayers()) {
             if(this.game.getBets().containsKey(this.game.getPlayers()[player])) {
-                System.out.printf("%s score: %d %s\n", this.game.getPlayers()[player].getName(), this.game.calculatePlayerScore(this.game.getPlayers()[player]),
-                        player.getHand());
+                Utilities.printLine(this.game.getPlayers()[player].getName() + " score: " + this.game.calculatePlayerScore(this.game.getPlayers()[player]) +
+                        " " + player.getHand());
             }
         }
-        System.out.println();
+        Utilities.printLine("");
     }
 
     public payOutBets() {
@@ -122,10 +123,10 @@ export class BlackJackConsole extends console.Console {
     }
 
     public  askContinueOrCashOut() {
-        System.out.println(this.game.printPlayersMoney());
+        Utilities.printLine(this.game.printPlayersMoney());
         for(let player in this.game.getPlayers()) {
             if(this.game.getPlayers()[player].getMoney() > 0) {
-                boolean cashOut = getYesOrNoInput(String.format("%s, Cash Out? Y or N", this.game.getPlayers()[player].getName()));
+                let cashOut = Utilities.getYesOrNoInput(this.game.getPlayers()[player].getName() + ", Cash Out? Y or N");
                 if(cashOut) {
                     this.game.getPlayers()[player].cashOut();
                 }
