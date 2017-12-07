@@ -1,14 +1,16 @@
+///<reference path="PlayingCard.ts"/>
+
 import {PlayingCard} from "./PlayingCard";
 
 export class Hand {
 
     // private ArrayList<PlayingCard> cards = new ArrayList<>();
-    cards: PlayingCard[] = new Array<PlayingCard>();
+    private cards: PlayingCard[] = new Array<PlayingCard>();
 
     public constructor() {
     }
 
-    toString() {
+    public toString() {
         if (this.isHandEmpty()) {
             return "If there's nothing in your hand, is it a hand?";
         } else {
@@ -23,19 +25,19 @@ export class Hand {
         }
     }
 
-    getAllCards() {
+    public getAllCards() {
         return this.cards;
     }
 
-    isHandEmpty() {
+    public isHandEmpty() {
         return this.cards.length == 0;
     }
 
-    addCard(card) {
+    public addCard(card) {
         this.cards.push(card);
     }
 
-    removeCard(card) {
+    public removeCard(card) {
         let index: number = this.cards.indexOf(card);
         if (index != 0 && index != this.cards.length) {
 
@@ -43,12 +45,12 @@ export class Hand {
         this.cards = this.cards.slice(0, index - 1).concat(this.cards.slice(index + 1));
     }
 
-    getCard(card) {
+    public getCard(card) {
         this.removeCard(card);
         return card;
     }
 
-    clear() {
+    public clear() {
         this.cards = new Array();
     }
 }

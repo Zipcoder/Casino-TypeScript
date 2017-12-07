@@ -18,7 +18,7 @@ export class PlayingDeck {
         return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
     }
 
-    shuffle(): PlayingCard[] {
+    public shuffle(): PlayingCard[] {
 
         if (this.cards.length <= 1) {
             return this.cards;
@@ -31,15 +31,15 @@ export class PlayingDeck {
         return this.cards;
     }
 
-    getAllCards(): Array<PlayingCard>{
+    public getAllCards(): Array<PlayingCard>{
         return this.cards;
     }
 
-    countLeft(): number{
+    public countLeft(): number{
         return this.cards.length;
     }
 
-    getAndRemoveCard<PlayingCard>(){
+    public getAndRemoveCard<PlayingCard>(){
         if(this.cards.length == 0) {
             this.populate();
             this.shuffle();
@@ -47,7 +47,7 @@ export class PlayingDeck {
         return this.cards.shift();
     }
 
-    populate(): void {
+    public populate(): void {
         this.cards = new Array<PlayingCard>();
 
         let suits = EnumValues.getValues(PlayingSuit);

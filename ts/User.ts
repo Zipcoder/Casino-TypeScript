@@ -4,19 +4,19 @@ import {MoneyContainer} from "./MoneyContainer";
 
 export class User {
 
-    name: string;
-    wallet: MoneyContainer = new MoneyContainer();
+    private name: string;
+    private wallet: MoneyContainer = new MoneyContainer();
 
-    constructor(name: string, money: number) {
+    public constructor(name: string, money: number) {
         this.name = name;
         this.wallet.addMoney(money);
     }
 
-    get Name(): string {
+    public getName(): string {
         return this.name;
     }
 
-    get Wallet(): MoneyContainer {
+    public getWallet(): MoneyContainer {
         return this.wallet;
     }
 }

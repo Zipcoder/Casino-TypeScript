@@ -7,10 +7,10 @@ import { PlayingValue } from "./PlayingValue";
 
 export class PlayingCard {
 
-    suit: PlayingSuit;
-    value: PlayingValue;
+    private suit: PlayingSuit;
+    private value: PlayingValue;
 
-    constructor(suit: PlayingSuit, value: PlayingValue) {
+    public constructor(suit: PlayingSuit, value: PlayingValue) {
         this.suit = suit;
         this.value = value;
     }
