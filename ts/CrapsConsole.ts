@@ -31,7 +31,7 @@ class CrapsConsole {
         this.inputElement.innerHTML= '<input type="number" name="bet_input" id="bet_input">' +
                                      '<input type="submit" value="Bet" id="bet_submit" onclick=""/>    '  +
                                      '<input type="button" value="Roll" id="roll" onclick="craps.determineFirstRoller()"/>    ' +
-                                     '<input type="button" value="Continue" id="continue" onclick="craps.welcomePlayer()"/>' +
+                                     '<input type="button" value="Continue" id="continue" onclick=""/>' +
                                      '<input type="button" value="Quit" id="quit" onclick="craps.finalize()"/>';
         this.submitBetButton=document.getElementById("bet_submit");
         this.rollButton=document.getElementById("roll");
@@ -42,28 +42,12 @@ class CrapsConsole {
         this.inputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
                                             '<input type="submit" value="Submit" onclick="craps.run()">';
         this.displayElement.innerText='';
+        this.resetFlags();
     }
     run():void{
         this.initialize();
 
         this.welcomePlayer();
-        // do {
-                                //     while (!this.pointSet) {//Continue to bet until the roller
-                                //         //throws a point instead of a win/loss.
-                                //        this.initialBetCycle();
-                                //     }
-                                //     while (!this.pointMet) {//Continue to bet until the roller
-                                //         //meets their point or craps out
-                                //         this.secondaryBet();
-                                //         this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
-                                //     }
-        //     if (this.crappedOut) {
-        //         this.changeTurns();//Reset flags, change active player
-        //     } else{
-        //         this.resetFlags();
-        //     }
-        // }while(this.game.play("Y"));//getStringInput("Continue playing? [Y/N] ")));
-        // //NEED TO REWORK PLAY AND INPUT TO ACCOUNT FOR HTML FORMS
         // this.finalize();
     }
     determineFirstRoller():void{
@@ -76,19 +60,32 @@ class CrapsConsole {
         if (!this.pointSet) {
             this.initialBet();
         }else{
+            alert("Secondary Bet Cycle");
             this.secondaryBetCycle();
         }
     }
 
     secondaryBetCycle():void{
-        this.rollButton.setAttribute("onclick","craps.playerSecondaryBets()");
+        this.submitBetButton.setAttribute("onclick","craps.playerSecondaryBets()");
         if (!this.pointMet){
+            alert("Point Not Met");
             this.secondaryBet();
         } else{
             //move on from secondaryBet logic
+            alert("Point met, cleaning up");
+            this.postRoundCleanup();
         }
     }
 
+
+    postRoundCleanup() {
+        if (this.crappedOut) {
+            this.changeTurns();//Reset flags, change active player
+        } else {
+            this.resetFlags();
+        }
+        updateDisplay("Play Again?");
+    }
 
     getInput():number{
         let inputAlias:any = document.getElementById("bet_input");
@@ -114,10 +111,9 @@ class CrapsConsole {
     playerInitialBets():void{
         this.mainPotBet = this.getInput();
         if (this.player.Wallet.getMoney()<this.mainPotBet){
-            alert("You don't have that much money");
+            updateDisplay("You don't have that much money");
             this.initialBet();
         }else {
-            alert("Ok, you bet $"+this.mainPotBet);
             this.game.takeBet(this.player.Wallet.takeOutMoney(this.mainPotBet));//player bet
             this.game.takeBet(this.mainPotBet);//house bet matches
 
@@ -160,10 +156,9 @@ class CrapsConsole {
     playerSecondaryBets():void{
         this.sidePotBet = this.getInput();
         if (this.player.Wallet.getMoney()<this.sidePotBet){
-            alert("You don't have that much money");
+            updateDisplay("You don't have that much money");
             this.secondaryBet();
         }else {
-            alert("Ok, you bet $"+this.sidePotBet);
             this.game.takeBet(this.player.Wallet.takeOutMoney(this.sidePotBet));//player bet
             this.game.takeBet(this.sidePotBet);//house bet matches
 
