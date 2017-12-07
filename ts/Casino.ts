@@ -21,6 +21,10 @@ class Casino {
         this.appendToDisplay("What is your name?", true);
     }
 
+    updateScroll(): void {
+        this._displayHTMLElement.scrollTop = this._displayHTMLElement.scrollHeight;
+    }
+
     private static lineBreak() : string {
         return "<br />";
     }
@@ -32,6 +36,7 @@ class Casino {
         else {
             this._displayHTMLElement.innerHTML += message;
         }
+        this.updateScroll();
     }
 
     private appendToGreeting(message : string, lineBreak : boolean) : void {
