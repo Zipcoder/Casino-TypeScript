@@ -10,6 +10,8 @@ class Craps implements Game {
   displayElement: any;
   userInputElement: any;
   submitButtonHTMLElement:any;
+  rollButtonHTMLElement: any;
+  resetButtonHTMLElement: any;
 
   constructor(player: Player) {
     this.player = player
@@ -17,14 +19,19 @@ class Craps implements Game {
     this.displayElement = document.getElementById("display");
     this.userInputElement = document.getElementById("user_input")
     this.submitButtonHTMLElement = document.getElementById("submit");
+    this.rollButtonHTMLElement = document.getElementById("rollButton");
+    this.resetButtonHTMLElement = document.getElementById("resetButton");
   }
 
   init(): void {
+    this.resetButtonHTMLElement.style.display = "";
+    this.buttonCount = 0;
     this.displayElement.innerHTML = "Welcome to Craps! <br />";
     this.displayElement.innerHTML += "Submit your bet: <br />";
     this.submitButtonHTMLElement.setAttribute("onClick", "craps.takeBet()");
     this.submitButtonHTMLElement.style.display = "";
-
+    this.rollButtonHTMLElement.style.display ="none";
+    this.userInputElement.style.display = "";
   }
   takeBet(): void {
     let bet : number = this.userInputElement.value;
@@ -40,6 +47,8 @@ class Craps implements Game {
       this.displayElement.innerHTML = "Bet Accepted";
       this.displayElement.innerHTML += "<br />Click Roll to get started!";
       this.submitButtonHTMLElement.style.display = "none";
+      this.rollButtonHTMLElement.style.display = "";
+      this.userInputElement.style.display = "none";
     }
 
   }
