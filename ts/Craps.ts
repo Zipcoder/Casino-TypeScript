@@ -1,6 +1,8 @@
 import {Game} from './Game'
 import {Gamble} from './Gamble'
 import {Dice} from './Dice'
+import {Player} from './Player'
+import {CrapsPlayer} from './CrapsPlayer'
 export class Craps extends Game<Craps> implements Gamble<Craps> {
   MIN_NUMBER_OF_PLAYERS = 1;
   MAX_NUMBER_OF_PLAYERS = 8;
@@ -30,71 +32,63 @@ export class Craps extends Game<Craps> implements Gamble<Craps> {
   }
 
   getDice() {
-    
+    return this.dice;
+  }
+
+  rollDice() {
+    this.dice.rollDice();
+  }
+
+  getPoint() : number {
+    return this.point;
+  }
+
+  setPoint(point: number) {
+    this.point = point;
+  }
+
+  isPassBetsWin() : boolean {
+    return this.passBetsWin;
+  }
+
+  setPassBetsWin(passBetsWin: boolean) {
+    this.passBetsWin = passBetsWin;
+  }
+
+  takeBet(player:Player<Craps>, amount:number) {
+    if(this.bets[player.id]==undefined)
+      this.bets[player.id]= amount;
+      else this.bets[player.id]+= amount;
+      player.bet(amount);
+  }
+
+  payOutBets() {
+    if(this.passBetsWin) {
+        for(let player in this.playersOnPass) {
+            let amountWon = this.bets[player] * 2;
+            this.playersOnPass[player].receiveWinnings(amountWon);
+        }
+    }
+    else {
+        for(let player in this.playersOnDontPass) {
+            let amountWon = this.bets[player] * 2;
+            this.playersOnDontPass[player].receiveWinnings(amountWon);
+        }
+    }
+    this.clearAllBets();
+  }
+
+  clearAllBets() {
+    this.bets={};
+    this.playersOnPass = [];
+    this.playersOnDontPass = [];
+  }
+
+  putPlayerOnPass(player: CrapsPlayer) {
+    this.playersOnPass.push(player);
+  }
+
+  putPlayerOnDontPass(player: CrapsPlayer) {
+    this.playersOnDontPass.push(player);
   }
 }
-// public class Craps extends Game implements Gamble{
-
-//
-//     public Dice getDice() {
-//         return dice;
-//     }
-//
-//     public void rollDice() {
-//         dice.rollDice();
-//     }
-//
-//     public Integer getPoint() {
-//         return point;
-//     }
-//
-//     public void setPoint(Integer point) {
-//         this.point = point;
-//     }
-//
-//     public boolean isPassBetsWin() {
-//         return passBetsWin;
-//     }
-//
-//     public void setPassBetsWin(boolean passBetsWin) {
-//         this.passBetsWin = passBetsWin;
-//     }
-//
-//     @Override
-//     public void takeBet(Player player, Double amount) {
-//         bets.put(player, amount);
-//         player.bet(amount);
-//     }
-//
-//     @Override
-//     public void payOutBets() {
-//         if(passBetsWin) {
-//             for(CrapsPlayer player : playersOnPass) {
-//                 Double amountWon = bets.get(player) * 2;
-//                 player.receiveWinnings(amountWon);
-//             }
-//         }
-//         else {
-//             for(CrapsPlayer player : playersOnDontPass) {
-//                 Double amountWon = bets.get(player) * 2;
-//                 player.receiveWinnings(amountWon);
-//             }
-//         }
-//         clearAllBets();
-//     }
-//
-//     @Override
-//     public void clearAllBets() {
-//         bets.clear();
-//         playersOnPass.clear();
-//         playersOnDontPass.clear();
-//     }
-//
-//     public void putPlayerOnPass(CrapsPlayer player) {
-//         playersOnPass.add(player);
-//     }
-//
-//     public void putPlayerOnDontPass(CrapsPlayer player) {
-//         playersOnDontPass.add(player);
-//     }
-// }
