@@ -17,14 +17,42 @@ export class CrapsConsole extends Console {
 
   setUpGame() {
     Utilities.printMenuName("Welcome to " + this.getNameOfGame());
+    var numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
+    let playerNames:string[] = this.getPlayerNames(numPlayers);
+    let players:Array<CrapsPlayer>  = [];
+    for(let name in playerNames) {
+        let player:CrapsPlayer  = new CrapsPlayer(playerNames[name]);
+        players.push(player);
+    }
+    this.game.addPlayers(players);
+    this.getPlayerChips(this.game);
   }
 
   playRound() {
-
+    this.currentPlayer = this.game.getPlayers()[this.currentPlayerIndex];
+    if(this.currentPlayer.getMoney() > 0) {
+      this.askContinueOrCashOut();
+      if(this.currentPlayer.getMoney() > 0) {
+        var playerNumber = this.currentPlayerIndex + 1;
+        Utilities.printLine("Player " + playerNumber + " turn:");
+        this.playerTakeTurn(this.currentPlayer);
+      }
+    }
+    this.currentPlayerIndex++;
+    this.currentPlayerIndex %= this.game.getNumPlayers();
   }
 
   askContinueOrCashOut() {
-
+    Utilities.printLine(this.game.printPlayersMoney());
+    for(let p in this.game.getPlayers()) {
+      let player = this.game.getPlayers()[p];
+        if(player.getMoney() > 0) {
+            let cashOut = Utilities.getYesOrNoInput(player.getName() + ", Cash Out? Y or N");
+            if(cashOut) {
+                player.cashOut();
+            }
+        }
+    }
   }
 
   playerTakeTurn(player: CrapsPlayer) {
@@ -38,48 +66,10 @@ export class CrapsConsole extends Console {
   getNameOfGame() {
     return "Craps";
   }
+
+
 }
 
-    // @Override
-    // public void setUpGame() {
-    //     printMenuName(String.format("Welcome to %s", nameOfGame));
-    //     int numPlayers = getNumPlayers(game.MIN_NUMBER_OF_PLAYERS, game.MAX_NUMBER_OF_PLAYERS);
-    //     ArrayList<String> playerNames = getPlayerNames(numPlayers);
-    //     ArrayList<CrapsPlayer> players = new ArrayList<>();
-    //     for(String name : playerNames) {
-    //         CrapsPlayer player = new CrapsPlayer(name);
-    //         players.add(player);
-    //     }
-    //     game.addPlayers(players);
-    //     getPlayerChips(game);
-    // }
-    //
-    // @Override
-    // public void playRound() {
-    //     currentPlayer = game.getPlayers().get(currentPlayerIndex);
-    //     if(currentPlayer.getMoney() > 0) {
-    //         askContinueOrCashOut();
-    //         if(currentPlayer.getMoney() > 0) {
-    //             System.out.printf("Player %d turn:\n", currentPlayerIndex + 1);
-    //             playerTakeTurn(currentPlayer);
-    //         }
-    //     }
-    //     currentPlayerIndex++;
-    //     currentPlayerIndex %= game.getNumPlayers();
-    // }
-    //
-    // public void askContinueOrCashOut() {
-    //     System.out.println(game.printPlayersMoney());
-    //     for(CrapsPlayer player : game.getPlayers()) {
-    //         if(player.getMoney() > 0) {
-    //             boolean cashOut = getYesOrNoInput(String.format("%s, Cash Out? Y or N", player.getName()));
-    //             if(cashOut) {
-    //                 player.cashOut();
-    //             }
-    //         }
-    //     }
-    // }
-    //
     // public void playerTakeTurn(CrapsPlayer player) {
     //     makeBet(player);
     //     for(CrapsPlayer otherPlayer : game.getPlayers()) {

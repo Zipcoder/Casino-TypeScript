@@ -9,7 +9,8 @@ export class Casino {
 
   gameConsoles: Console[];
   displayEle: any;
-  userInputEle : any;
+  userInputEle: any;
+  static buttonEle = document.getElementById("my_button");
 
   constructor() {
     this.gameConsoles = [];
@@ -35,16 +36,23 @@ export class Casino {
     }
     Utilities.printMenuName("Select a game to play");
     Utilities.printMenuOptions(gameNames);
-    var choice = Utilities.getMenuInput(">> ", gameNames).toUpperCase();
-    this.goToGame(choice);
+    // var choice = Utilities.getMenuInput(">> ", gameNames).toUpperCase();
+    var _this = this;
+    Casino.buttonEle.addEventListener("click", function() {
+      var choice: string = _this.userInputEle.value.toUpperCase();
+      _this.goToGame(choice);
+    })
   }
 
   goToGame(gameName: string) {
+    console.log("got here");
+    console.log(gameName);
     switch (gameName) {
         case "BLACKJACK":
             this.startBlackJack();
             break;
         case "CRAPS":
+        console.log("started craps");
             this.startCraps();
             break;
         case "GO FISH":
@@ -61,6 +69,7 @@ export class Casino {
   }
 
   startCraps() {
+    console.log("actually starts");
       this.gameConsoles[1].start();
   }
 

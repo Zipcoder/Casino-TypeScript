@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Utilities", "./Console", "./Craps"], function (require, exports, Utilities_1, Console_1, Craps_1) {
+define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPlayer"], function (require, exports, Utilities_1, Console_1, Craps_1, CrapsPlayer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var CrapsConsole = (function (_super) {
@@ -25,10 +25,40 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps"], function (
         };
         CrapsConsole.prototype.setUpGame = function () {
             Utilities_1.Utilities.printMenuName("Welcome to " + this.getNameOfGame());
+            var numPlayers = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
+            var playerNames = this.getPlayerNames(numPlayers);
+            var players = [];
+            for (var name_1 in playerNames) {
+                var player = new CrapsPlayer_1.CrapsPlayer(playerNames[name_1]);
+                players.push(player);
+            }
+            this.game.addPlayers(players);
+            this.getPlayerChips(this.game);
         };
         CrapsConsole.prototype.playRound = function () {
+            this.currentPlayer = this.game.getPlayers()[this.currentPlayerIndex];
+            if (this.currentPlayer.getMoney() > 0) {
+                this.askContinueOrCashOut();
+                if (this.currentPlayer.getMoney() > 0) {
+                    var playerNumber = this.currentPlayerIndex + 1;
+                    Utilities_1.Utilities.printLine("Player " + playerNumber + " turn:");
+                    this.playerTakeTurn(this.currentPlayer);
+                }
+            }
+            this.currentPlayerIndex++;
+            this.currentPlayerIndex %= this.game.getNumPlayers();
         };
         CrapsConsole.prototype.askContinueOrCashOut = function () {
+            Utilities_1.Utilities.printLine(this.game.printPlayersMoney());
+            for (var p in this.game.getPlayers()) {
+                var player = this.game.getPlayers()[p];
+                if (player.getMoney() > 0) {
+                    var cashOut = Utilities_1.Utilities.getYesOrNoInput(player.getName() + ", Cash Out? Y or N");
+                    if (cashOut) {
+                        player.cashOut();
+                    }
+                }
+            }
         };
         CrapsConsole.prototype.playerTakeTurn = function (player) {
         };
@@ -41,46 +71,6 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps"], function (
     }(Console_1.Console));
     exports.CrapsConsole = CrapsConsole;
 });
-// @Override
-// public void setUpGame() {
-//     printMenuName(String.format("Welcome to %s", nameOfGame));
-//     int numPlayers = getNumPlayers(game.MIN_NUMBER_OF_PLAYERS, game.MAX_NUMBER_OF_PLAYERS);
-//     ArrayList<String> playerNames = getPlayerNames(numPlayers);
-//     ArrayList<CrapsPlayer> players = new ArrayList<>();
-//     for(String name : playerNames) {
-//         CrapsPlayer player = new CrapsPlayer(name);
-//         players.add(player);
-//     }
-//     game.addPlayers(players);
-//     getPlayerChips(game);
-// }
-//
-// @Override
-// public void playRound() {
-//     currentPlayer = game.getPlayers().get(currentPlayerIndex);
-//     if(currentPlayer.getMoney() > 0) {
-//         askContinueOrCashOut();
-//         if(currentPlayer.getMoney() > 0) {
-//             System.out.printf("Player %d turn:\n", currentPlayerIndex + 1);
-//             playerTakeTurn(currentPlayer);
-//         }
-//     }
-//     currentPlayerIndex++;
-//     currentPlayerIndex %= game.getNumPlayers();
-// }
-//
-// public void askContinueOrCashOut() {
-//     System.out.println(game.printPlayersMoney());
-//     for(CrapsPlayer player : game.getPlayers()) {
-//         if(player.getMoney() > 0) {
-//             boolean cashOut = getYesOrNoInput(String.format("%s, Cash Out? Y or N", player.getName()));
-//             if(cashOut) {
-//                 player.cashOut();
-//             }
-//         }
-//     }
-// }
-//
 // public void playerTakeTurn(CrapsPlayer player) {
 //     makeBet(player);
 //     for(CrapsPlayer otherPlayer : game.getPlayers()) {

@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Player"], function (require, exports, Console_1, Utilities_1, BlackJack_1, Player_1) {
+define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./BlackJackPlayer"], function (require, exports, Console_1, Utilities_1, BlackJack_1, BlackJackPlayer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var BlackJackConsole = (function (_super) {
@@ -29,7 +29,7 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Play
             var playerNames = this.getPlayerNames(numPlayers);
             var players = [];
             for (var name_1 in playerNames) {
-                var player = new Player_1.Player(playerNames[name_1]);
+                var player = new BlackJackPlayer_1.BlackJackPlayer(playerNames[name_1]);
                 players.push(player);
             }
             this.game.addPlayers(players);
