@@ -1,17 +1,17 @@
 import {Gamble} from './Gamble';
 import {CardGame} from './CardGame';
-import {Player<BlackJack>} from './Player<BlackJack>';
-//import {Player} from './Player';
+import {BlackJackPlayer} from './BlackJackPlayer';
+import {Player} from './Player';
 
 export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
 
   public readonly MIN_NUMBER_OF_PLAYERS = 1;
   public readonly MAX_NUMBER_OF_PLAYERS = 7;
   private readonly pointValues= {TWO: 2,THREE:3,FOUR:4,FIVE:5,SIX:6,SEVEN:7,EIGHT:8,NINE:9,TEN:10,JACK:10,QUEEN:10,KING:10,ACE:1};
-  private  dealer:Player<BlackJack> = new Player<BlackJack>("Dealer");
+  private  dealer:BlackJackPlayer = new BlackJackPlayer("Dealer");
   private  bets= {};
-  private winners:Array<Player<BlackJack>>  = [];
-  private push:Array<Player<BlackJack>>  = [];
+  private winners:Array<BlackJackPlayer>  = [];
+  private push:Array<BlackJackPlayer>  = [];
 
   constructor(numStandardDecks:number) {
       super(numStandardDecks);
@@ -22,7 +22,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
       return  this.players;
   }
 
-  public  getDealer():Player<BlackJack> {
+  public  getDealer():BlackJackPlayer {
       return this.dealer;
   }
 
@@ -38,7 +38,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
       }
   }
 
-  public dealCardToHand(player:Player<BlackJack>) {
+  public dealCardToHand(player:BlackJackPlayer) {
       this.shuffleCardsWhenStockIsEmpty();
       player.addCardToHand(this.drawFromStock());
   }
@@ -57,7 +57,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
       }
   }
 
-  public calculatePlayerScore( player:Player<BlackJack>):number {
+  public calculatePlayerScore( player:BlackJackPlayer):number {
       let score = 0;
       for(let c in player.getHand().getCards()) {
         let card = player.getHand().getCards()[c];
@@ -69,7 +69,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
       return score;
   }
 
-  public playerHasBust( player:Player<BlackJack>):boolean {
+  public playerHasBust( player:BlackJackPlayer):boolean {
       if(this.calculatePlayerScore(player) > 21) {
           return true;
       }
@@ -103,7 +103,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
       }
   }
 
-  public  takeBet( player:Player<BlackJack>, amount:number) {
+  public  takeBet( player:BlackJackPlayer, amount:number) {
     if(this.bets[player.id]==undefined)
       this.bets[player.id]= amount;
       else this.bets[player.id]+= amount
@@ -132,11 +132,11 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
       return this.bets;
   }
 
-  public getWinners():Array<Player<BlackJack>> {
+  public getWinners():Array<BlackJackPlayer> {
       return this.winners;
   }
 
-  public  getPush():Array<Player<BlackJack>> {
+  public  getPush():Array<BlackJackPlayer> {
       return this.push;
   }
 }

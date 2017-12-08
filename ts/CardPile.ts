@@ -1,10 +1,13 @@
+
 import {Cards} from './Cards'
 export class CardPile {
 
-    private cards:Array<Card> = Array<Cards>();
+export class CardPile {
+
+    private cards:Array<Card> = Array<Card>();
 
     public shuffle() {
-        Collections.shuffle(this.cards);
+        //Collections.shuffle(this.cards);
     }
 
     public addCardToPile(card:Card) {
@@ -36,7 +39,7 @@ export class CardPile {
         temp.addCardsToPile(cardPile);
         while(temp.numCards() > 0) {
             let nextCard = temp.getCard(0);
-            if(cards.contains(nextCard)) {
+            if(this.cards.contains(nextCard)) {
                 temp.removeCard(nextCard);
             } else {
                 return false;

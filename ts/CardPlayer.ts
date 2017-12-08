@@ -1,5 +1,7 @@
 import {Player} from './Player';
 import {CardGame} from './CardGame';
+import {CardPile} from './CardPile';
+import {Card} from './Card';
 
 export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
 
@@ -17,7 +19,7 @@ export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
         this.hand.addCardsToPile(cardPile);
     }
 
-    public hasCardsOfRank(rank:Card.FaceValue):boolean {
+    public hasCardsOfRank(rank:FaceValue):boolean {
         let hand:CardPile = this.getHand();
         for(Card.Suit suit : Card.Suit.values()) {
              cardToCheck:Card = new Card(rank, suit);
