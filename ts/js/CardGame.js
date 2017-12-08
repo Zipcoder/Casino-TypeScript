@@ -8,20 +8,19 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Game"], function (require, exports, Game_1) {
+define(["require", "exports", "./Game", "./CardPile", "./StandardDeck"], function (require, exports, Game_1, CardPile_1, StandardDeck_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    './CardPile';
     var CardGame = (function (_super) {
         __extends(CardGame, _super);
         function CardGame(numStandardDecks) {
             var _this = _super.call(this) || this;
-            _this.setOfAllCards = new module_1.CardPile();
-            _this.stockPile = new module_1.CardPile();
-            _this.discardPile = new module_1.CardPile();
+            _this.setOfAllCards = new CardPile_1.CardPile();
+            _this.stockPile = new CardPile_1.CardPile();
+            _this.discardPile = new CardPile_1.CardPile();
             _this.numStandardDecks = numStandardDecks;
             for (var i = 0; i < numStandardDecks; i++) {
-                var deck = new StandardDeck();
+                var deck = new StandardDeck_1.StandardDeck();
                 _this.setOfAllCards.addCardsToPile(deck);
             }
             _this.stockPile.addCardsToPile(_this.setOfAllCards);
@@ -34,18 +33,19 @@ define(["require", "exports", "./Game"], function (require, exports, Game_1) {
             this.clearDiscardPile();
         };
         CardGame.prototype.clearDiscardPile = function () {
-            this.discardPile = new module_1.CardPile();
+            this.discardPile = new CardPile_1.CardPile();
         };
         CardGame.prototype.getStockPile = function () {
             return this.stockPile;
         };
         CardGame.prototype.drawFromStock = function () {
-            var topCard = this.stockPile.shift();
+            var topCard = this.stockPile.getCard(0);
+            this.stockPile.removeCard(topCard);
             return topCard;
         };
         CardGame.prototype.discardCards = function (cards) {
             this.discardPile.addCardsToPile(cards);
-            cards.getCards().clear();
+            cards.clear();
         };
         CardGame.prototype.getDiscardPile = function () {
             return this.discardPile;

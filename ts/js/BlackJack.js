@@ -8,12 +8,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./CardGame"], function (require, exports, CardGame_1) {
+define(["require", "exports", "./CardGame", "./BlackJackPlayer"], function (require, exports, CardGame_1, BlackJackPlayer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    from;
-    './Player<BlackJack>';
-    //import {Player} from './Player';
     var BlackJack = (function (_super) {
         __extends(BlackJack, _super);
         function BlackJack(numStandardDecks) {
@@ -21,10 +18,11 @@ define(["require", "exports", "./CardGame"], function (require, exports, CardGam
             _this.MIN_NUMBER_OF_PLAYERS = 1;
             _this.MAX_NUMBER_OF_PLAYERS = 7;
             _this.pointValues = { TWO: 2, THREE: 3, FOUR: 4, FIVE: 5, SIX: 6, SEVEN: 7, EIGHT: 8, NINE: 9, TEN: 10, JACK: 10, QUEEN: 10, KING: 10, ACE: 1 };
-            _this.dealer = new module_1.Player("Dealer");
+            _this.dealer = new BlackJackPlayer_1.BlackJackPlayer("Dealer");
             _this.bets = {};
             _this.winners = [];
             _this.push = [];
+            _this.players = [];
             return _this;
         }
         BlackJack.prototype.getPlayers = function () {
@@ -135,6 +133,21 @@ define(["require", "exports", "./CardGame"], function (require, exports, CardGam
         };
         BlackJack.prototype.getPush = function () {
             return this.push;
+        };
+        BlackJack.prototype.getNumPlayers = function () {
+            return this.players.length;
+        };
+        BlackJack.prototype.addPlayers = function (players) {
+            this.players = players;
+        };
+        BlackJack.prototype.printPlayersMoney = function () {
+            var moneyString = [];
+            var i = 1;
+            for (var player in this.players) {
+                moneyString.push("Player " + i + ", " + this.players[player].getName() + ", Total money: $" + this.players[player].getMoney());
+                i++;
+            }
+            return "[ " + moneyString.join(" ] , [ ") + " ]";
         };
         return BlackJack;
     }(CardGame_1.CardGame));

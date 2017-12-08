@@ -8,14 +8,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Player"], function (require, exports, Player_1) {
+define(["require", "exports", "./Player", "./CardPile", "./Card"], function (require, exports, Player_1, CardPile_1, Card_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var CardPlayer = (function (_super) {
         __extends(CardPlayer, _super);
         function CardPlayer(name) {
             var _this = _super.call(this, name) || this;
-            _this.hand = new CardPile();
+            _this.hand = new CardPile_1.CardPile();
             return _this;
         }
         CardPlayer.prototype.addCardToHand = function (card) {
@@ -26,10 +26,8 @@ define(["require", "exports", "./Player"], function (require, exports, Player_1)
         };
         CardPlayer.prototype.hasCardsOfRank = function (rank) {
             var hand = this.getHand();
-            for (Card.Suit; suit; )
-                : Card.Suit.values();
-            {
-                cardToCheck: Card = new Card(rank, suit);
+            for (var suit in Object.keys(Card_1.Card.suits)) {
+                var cardToCheck = new Card_1.Card(rank, suit);
                 if (hand.contains(cardToCheck)) {
                     return true;
                 }

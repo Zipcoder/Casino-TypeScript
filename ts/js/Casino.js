@@ -23,15 +23,22 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             }
             Utilities_1.Utilities.printMenuName("Select a game to play");
             Utilities_1.Utilities.printMenuOptions(gameNames);
-            var choice = Utilities_1.Utilities.getMenuInput(">> ", gameNames).toUpperCase();
-            this.goToGame(choice);
+            // var choice = Utilities.getMenuInput(">> ", gameNames).toUpperCase();
+            var _this = this;
+            Casino.buttonEle.addEventListener("click", function () {
+                var choice = _this.userInputEle.value.toUpperCase();
+                _this.goToGame(choice);
+            });
         };
         Casino.prototype.goToGame = function (gameName) {
+            console.log("got here");
+            console.log(gameName);
             switch (gameName) {
                 case "BLACKJACK":
                     this.startBlackJack();
                     break;
                 case "CRAPS":
+                    console.log("started craps");
                     this.startCraps();
                     break;
                 case "GO FISH":
@@ -46,6 +53,7 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             this.gameConsoles[0].start();
         };
         Casino.prototype.startCraps = function () {
+            console.log("actually starts");
             this.gameConsoles[1].start();
         };
         Casino.prototype.startGoFish = function () {
@@ -54,6 +62,7 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
         Casino.prototype.startSlots = function () {
             this.gameConsoles[3].start();
         };
+        Casino.buttonEle = document.getElementById("my_button");
         return Casino;
     }());
     exports.Casino = Casino;

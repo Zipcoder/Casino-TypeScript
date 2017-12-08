@@ -16,6 +16,9 @@ define(["require", "exports", "./CardPlayer"], function (require, exports, CardP
         function BlackJackPlayer(name) {
             return _super.call(this, name) || this;
         }
+        BlackJackPlayer.prototype.hasAceInHand = function () {
+            return this.hasCardsOfRank("ACE");
+        };
         return BlackJackPlayer;
     }(CardPlayer_1.CardPlayer));
     exports.BlackJackPlayer = BlackJackPlayer;

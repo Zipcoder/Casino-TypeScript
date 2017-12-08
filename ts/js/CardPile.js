@@ -3,10 +3,16 @@ define(["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var CardPile = (function () {
         function CardPile() {
-            this.cards = Array();
+            this.cards = [];
         }
         CardPile.prototype.shuffle = function () {
-            Collections.shuffle(this.cards);
+            var j, x, i;
+            for (i = this.cards.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = this.cards[i];
+                this.cards[i] = this.cards[j];
+                this.cards[j] = x;
+            }
         };
         CardPile.prototype.addCardToPile = function (card) {
             this.cards.push(card);
@@ -18,24 +24,19 @@ define(["require", "exports"], function (require, exports) {
             }
         };
         CardPile.prototype.contains = function (card) {
-            if (this.cards.contains(card)) {
-                return true;
-            }
-            else {
-                for (var c in this.cards) {
-                    if (this.cards[c] == (card)) {
-                        return true;
-                    }
+            for (var c in this.cards) {
+                if (this.cards[c].matches((card))) {
+                    return true;
                 }
-                return false;
             }
+            return false;
         };
         CardPile.prototype.containsAll = function (cardPile) {
             var temp = new CardPile();
             temp.addCardsToPile(cardPile);
             while (temp.numCards() > 0) {
                 var nextCard = temp.getCard(0);
-                if (cards.contains(nextCard)) {
+                if (this.contains(nextCard)) {
                     temp.removeCard(nextCard);
                 }
                 else {
@@ -51,31 +52,29 @@ define(["require", "exports"], function (require, exports) {
             return this.cards[index];
         };
         CardPile.prototype.removeCard = function (card) {
-            var matchedCards = new Array();
-            for (var c in this.cards) {
+            for (var c = 0; c < this.cards.length; c++) {
                 var other = this.cards[c];
-                if (other == card) {
-                    matchedCards.push(other);
+                if (other.matches(card)) {
+                    this.cards.splice(c, 1);
+                    return;
                 }
             }
-            if (matchedCards.length > 0) {
-                this.cards.remove(matchedCards[0]);
-            }
+        };
+        CardPile.prototype.clear = function () {
+            this.cards = [];
         };
         CardPile.prototype.getCards = function () {
             return this.cards;
         };
         CardPile.prototype.toString = function () {
-            StringJoiner;
-            stringJoiner = new StringJoiner(", ");
-            for (Card; card; )
-                : cards;
-            {
-                stringJoiner.add(card.getFaceValue().getIcon() + card.getSuit().getIcon());
+            var icons = [];
+            for (var c in this.cards) {
+                icons.push(this.cards[c].getIcon());
             }
-            return stringJoiner.toString();
+            return icons.toString();
         };
         return CardPile;
     }());
+    exports.CardPile = CardPile;
 });
 //# sourceMappingURL=CardPile.js.map
