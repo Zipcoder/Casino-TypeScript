@@ -16,17 +16,19 @@
         <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
     </header>
 
-    <h1>GIMME A CARD!</h1>
+    <h1>WELCOME TO CRAPS GAME</h1>
 
-    <section id="main">
-    	<div id="display"></div>
-			<div id="input">
-				<input type="submit" value="   hit   " onclick="dealer.hit()">
-                <input type="submit" value="  stay  " onclick="dealer.stay()">
-                <form method="get" action="craps.html">
-                    <button type="submit">Craps Game</button>
-                </form>
+    <section id="mainCraps">
+        <div id="displayCraps">
+            <h6 id="rollOne"></h6>
+        </div>
+			<div id="inputCraps">
+                        Enter your amount:<br>
+                        <input type="text" name="betAmount" id="betAmount" placeholder="$">
+                        <input type="submit" value="Play" onclick="craps.play()">
                 
+                <input type="submit" value="Roll" onclick="craps.roll()">
+                <input type="submit" value="RollTwo" onclick="craps.checkRollTwo()">
 			</div>
     </section>
 

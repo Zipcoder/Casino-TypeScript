@@ -16,17 +16,25 @@
         <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
     </header>
 
-    <h1>GIMME A CARD!</h1>
+    <h1>WELCOME TO CRAPS GAME</h1>
 
-    <section id="main">
-    	<div id="display"></div>
-			<div id="input">
-				<input type="submit" value="   hit   " onclick="dealer.hit()">
-                <input type="submit" value="  stay  " onclick="dealer.stay()">
-                <form method="get" action="craps.html">
-                    <button type="submit">Craps Game</button>
-                </form>
+    <section id="mainCraps">
+        <div id="displayCraps">
+            <div class="choice-panel">
                 
+                <div class="description"><span>Craps is a dice game in which players place wagers on the outcome of the roll, or a series of rolls, of a pair of dice. <a href="http://en.wikipedia.org/wiki/Craps" target="_blank">Read More ></a></span></div>
+                
+                <div class="centered-button">
+                    
+                    <button id="playnowbutton" class="big-button" type="button" onClick="gotoplay()">Play Now!</button>
+                    
+                </div>
+                
+            </div>
+        </div>
+			<div id="inputCraps">
+                <input type="submit" value="Play" onclick="craps.play()">
+				<input type="submit" value="Roll" onclick="craps.roll()">
 			</div>
     </section>
 

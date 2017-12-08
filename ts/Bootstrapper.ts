@@ -1,4 +1,7 @@
-/// <reference path="Dealer.ts" />
+/// <reference path="Craps.ts" />
+/// <reference path="Player.ts" />
 
-let dealer = new Dealer();
-dealer.init();
+let merin = new Player("Merin", 400);
+
+let craps = new Craps(merin);
+craps.init();
