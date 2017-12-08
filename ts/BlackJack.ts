@@ -4,13 +4,6 @@
 ///<reference path="PlayingCard.ts"/>
 ///<reference path="PlayingDeck.ts"/>
 
-
-// import {PlayingDeck} from "./PlayingDeck";
-// import {MoneyContainer} from "./MoneyContainer";
-// import {Hand} from "./Hand";
-// import {PlayingCard} from "./PlayingCard";
-// import {CardGame} from "./CardGame";
-
 class BlackJack extends CardGame implements Gamble {
 
     deck: PlayingDeck;
