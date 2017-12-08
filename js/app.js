@@ -434,19 +434,20 @@ var CrapsConsole = (function () {
         this.inputElement = document.getElementById("input");
         this.inputElement.innerHTML = '<input type="number" name="bet_input" id="bet_input">' +
             '<input type="submit" value="Bet" id="bet_submit" onclick="" disabled="true"/>    ' +
-            '<input type="button" value="Roll" id="roll" onclick="craps.determineFirstRoller()"/>    ' +
-            '<input type="button" value="Continue" id="continue" onclick="craps.beginInitialPlay()" disabled="true"/>' +
-            '<input type="button" value="Quit" id="quit" onclick="craps.finalize()"/>';
+            '<input type="button" value="Roll" id="roll" onclick="casino.craps.determineFirstRoller()"/>    ' +
+            '<input type="button" value="Continue" id="continue" onclick="casino.craps.beginInitialPlay()" disabled="true"/>' +
+            '<input type="button" value="Quit" id="quit" onclick="casino.craps.finalize()"/>';
         this.submitBetButton = document.getElementById("bet_submit");
         this.rollButton = document.getElementById("roll");
         this.continueButton = document.getElementById("continue");
         this.quitButton = document.getElementById("quit");
     };
     CrapsConsole.prototype.finalize = function () {
-        this.inputElement.innerHTML = '<input type="text" name="user_input" id="user_input"> ' +
-            '<input type="submit" value="Submit" onclick="craps.run()">';
+        // this.inputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
+        //                                     '<input type="submit" value="Submit" onclick="casino.run()">';
         this.displayElement.innerText = '';
         this.resetFlags();
+        casino.run();
         return;
     };
     CrapsConsole.prototype.run = function () {
@@ -461,7 +462,7 @@ var CrapsConsole = (function () {
         this.rollButton.disabled = true;
         this.submitBetButton.disabled = false;
         this.continueButton.disabled = true;
-        this.submitBetButton.setAttribute("onclick", "craps.playerInitialBets()");
+        this.submitBetButton.setAttribute("onclick", "casino.craps.playerInitialBets()");
         this.initialBetCycle();
     };
     CrapsConsole.prototype.initialBetCycle = function () {
@@ -469,7 +470,7 @@ var CrapsConsole = (function () {
             this.initialBet();
         }
         else {
-            this.submitBetButton.setAttribute("onclick", "craps.playerSecondaryBets()");
+            this.submitBetButton.setAttribute("onclick", "casino.craps.playerSecondaryBets()");
             this.secondaryBetCycle();
         }
     };
@@ -729,12 +730,62 @@ var CrapsConsole = (function () {
     };
     return CrapsConsole;
 }());
+/// <reference path="User.ts"/>
+/// <reference path="Craps.ts"/>
+var Casino = (function () {
+    function Casino() {
+        this.havePlayer = false;
+    }
+    Casino.prototype.initialize = function () {
+        this.displayElement = document.getElementById("display");
+        updateDisplay("Create a player using the fields below");
+        this.inputElement = document.getElementById("input");
+        this.inputElement.innerHTML = '<label>Name:</label><input type="text" name="name_input" id="name_input"></br>' +
+            '<label>Cash:</label><input type="number" name="wallet_input" id="wallet_input"></br>' +
+            '<input type="submit" value="Create Player" id="submit" onclick="casino.createPlayer()">';
+    };
+    Casino.prototype.finalize = function () {
+        this.inputElement.innerHTML = '<input type="text" name="user_input" id="user_input"> ' +
+            '<input type="submit" value="Submit" onclick="craps.run()">';
+        this.displayElement.innerText = '';
+    };
+    ////////
+    Casino.prototype.run = function () {
+        if (this.havePlayer) {
+            this.displayElement.innerHTML = '';
+            updateDisplay("Hello, " + user.name + ". Welcome to the casino. You have $" + user.Wallet.getMoney().toFixed(2) + ". Choose a game below.");
+            this.inputElement.innerHTML = '<input type="button" value="Craps" id="craps_button" onclick="casino.craps.run()"></br>' +
+                '<input type="button" value="BlackJack" id="blackjack_button" onclick="casino.notImplemented()"></br>' +
+                '<input type="button" value="GoFish" id="gofish_button" onclick="casino.notImplemented()"></br>';
+        }
+        else {
+            this.initialize();
+        }
+    };
+    Casino.prototype.createPlayer = function () {
+        var nameAlias = document.getElementById("name_input");
+        var cashAlias = document.getElementById("wallet_input");
+        this.displayElement.innerText = '';
+        this.nameInput = nameAlias.value;
+        this.cashInput = +(cashAlias.value);
+        user = new User(this.nameInput, this.cashInput);
+        this.havePlayer = true;
+        this.craps = new CrapsConsole(user);
+        this.run();
+    };
+    Casino.prototype.notImplemented = function () {
+        updateDisplay("Sorry, that feature is not yet implemented");
+    };
+    return Casino;
+}());
 /// <reference path="CrapsConsole.ts" />
 /// <reference path="User.ts" />
+/// <reference path="Casino.ts"/>
 function updateDisplay(stringToDisplay) {
     document.getElementById("display").innerHTML += "</br>" + stringToDisplay;
 }
-var craps = new CrapsConsole(new User("Tim", 1000));
+var casino = new Casino();
+var user;
 // ///<reference path="PlayingDeck.ts"/>
 //
 // import {PlayingDeck} from "./PlayingDeck";

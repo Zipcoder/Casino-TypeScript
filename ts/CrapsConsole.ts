@@ -27,19 +27,20 @@ class CrapsConsole {
         this.inputElement=document.getElementById("input");
         this.inputElement.innerHTML= '<input type="number" name="bet_input" id="bet_input">' +
                                      '<input type="submit" value="Bet" id="bet_submit" onclick="" disabled="true"/>    '  +
-                                     '<input type="button" value="Roll" id="roll" onclick="craps.determineFirstRoller()"/>    ' +
-                                     '<input type="button" value="Continue" id="continue" onclick="craps.beginInitialPlay()" disabled="true"/>' +
-                                     '<input type="button" value="Quit" id="quit" onclick="craps.finalize()"/>';
+                                     '<input type="button" value="Roll" id="roll" onclick="casino.craps.determineFirstRoller()"/>    ' +
+                                     '<input type="button" value="Continue" id="continue" onclick="casino.craps.beginInitialPlay()" disabled="true"/>' +
+                                     '<input type="button" value="Quit" id="quit" onclick="casino.craps.finalize()"/>';
         this.submitBetButton=document.getElementById("bet_submit");
         this.rollButton=document.getElementById("roll");
         this.continueButton=document.getElementById("continue");
         this.quitButton=document.getElementById("quit");
     }
     finalize():void{
-        this.inputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
-                                            '<input type="submit" value="Submit" onclick="craps.run()">';
+        // this.inputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
+        //                                     '<input type="submit" value="Submit" onclick="casino.run()">';
         this.displayElement.innerText='';
         this.resetFlags();
+        casino.run();
         return;
     }
     run():void{
@@ -56,7 +57,7 @@ class CrapsConsole {
         this.rollButton.disabled=true;
         this.submitBetButton.disabled=false;
         this.continueButton.disabled=true;
-        this.submitBetButton.setAttribute("onclick", "craps.playerInitialBets()");
+        this.submitBetButton.setAttribute("onclick", "casino.craps.playerInitialBets()");
         this.initialBetCycle();
     }
 
@@ -64,7 +65,7 @@ class CrapsConsole {
         if (!this.pointSet) {
             this.initialBet();
         }else{
-            this.submitBetButton.setAttribute("onclick","craps.playerSecondaryBets()");
+            this.submitBetButton.setAttribute("onclick","casino.craps.playerSecondaryBets()");
             this.secondaryBetCycle();
         }
     }
