@@ -24,7 +24,7 @@ export class Card {
       return this.faceValue +" "+this.suit;
   }
 
-  faceValues: string[] = [
+  static faceValues: string[] = [
     "ACE",
     "TWO",
     "THREE",
@@ -40,7 +40,7 @@ export class Card {
     "KING"
   ];
 
-  suits: string[] = [
+  static suits: string[] = [
     "SPADES",
     "HEARTS",
     "DIAMONDS",

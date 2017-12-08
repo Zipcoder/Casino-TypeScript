@@ -1,5 +1,5 @@
 import {Cards} from './Cards'
-class CardPile {
+export class CardPile {
 
     private cards:Array<Card> = Array<Cards>();
 
