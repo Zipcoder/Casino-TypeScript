@@ -1,4 +1,6 @@
 /// <reference path="Player.ts"/>
+/// <reference path="Interfaces/Gamble.ts"/>
+/// <reference path="Interfaces/Game.ts"/>
 
 class Craps implements Game,Gamble{
   bet: number = 0;
