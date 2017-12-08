@@ -16,6 +16,8 @@ class Craps implements Game,Gamble{
   resetButtonHTMLElement: any;
   greetingElement: any;
   mainMenuButton: any;
+  crapsButtonHTMLElement:any;
+  blackJackButtonHTMLElement:any;
 
   constructor(player: Player) {
     this.player = player;
@@ -26,6 +28,8 @@ class Craps implements Game,Gamble{
     this.rollButtonHTMLElement = document.getElementById("rollButton");
     this.resetButtonHTMLElement = document.getElementById("resetButton");
     this.mainMenuButton = document.getElementById("mainMenu");
+    this.crapsButtonHTMLElement = document.getElementById("crapsButton");
+    this.blackJackButtonHTMLElement = document.getElementById("blackJackButton");
   }
 
   play(): void {
@@ -41,6 +45,7 @@ class Craps implements Game,Gamble{
     this.showMainMenuButton();
     this.hideRollButton();
     this.createUserGreeting();
+    this.hideGameButtons();
   }
 
   takeBet(): void {
@@ -202,5 +207,9 @@ class Craps implements Game,Gamble{
 
   private resetDisplayTo(message:string){
     this.displayElement.innerHTML = message;
+  }
+  private hideGameButtons(){
+    this.crapsButtonHTMLElement.style.display = "none";
+    this.blackJackButtonHTMLElement.style.display = "none";
   }
 }
