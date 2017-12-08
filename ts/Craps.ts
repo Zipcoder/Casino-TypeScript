@@ -1,5 +1,6 @@
 /// <reference path="Gamble.ts"/>
 /// <reference path="Game.ts"/>
+/// <reference path="Dice.ts"/>
 
 class CrapPointPair {
     a:number;
@@ -170,8 +171,8 @@ class Craps implements Gamble, Game {
             returnMe+="Nobody has rolled yet</br>";
         }
 
-        returnMe+="Main pot is $"+this.mainPot.getMoney()+"</br>";
-        returnMe+="Side pot is $"+this.sidePot.getMoney()+"</br>";
+        returnMe+="Main pot is $"+this.mainPot.getMoney().toFixed(2)+"</br>";
+        returnMe+="Side pot is $"+this.sidePot.getMoney().toFixed(2)+"</br>";
 
         return returnMe;
     }
