@@ -82,7 +82,7 @@ class Craps implements Game {
     let diceOne: number = Math.floor(Math.random() * 6) + 1;
     let diceTwo: number = Math.floor(Math.random() * 6) + 1;
 
-    let sum = diceTwo + diceOne;
+    var sum = diceTwo + diceOne;
     if (this.buttonCount === 1) {
       this.target = sum;
       this.displayElement.innerHTML += "<br />Target is now " + sum;
@@ -110,18 +110,22 @@ class Craps implements Game {
       this.showResetButton();
 
     } else {
-        if (this.buttonCount > 1 && sum == this.target) {
-        this.playerWin(this.bet);
-        this.hideRollButton();
-        this.showResetButton();
-
-      } else if (this.buttonCount > 1 && sum == 7) {
-        this.playerLose(this.bet);
-        this.hideRollButton();
-        this.showResetButton();
-      }
+        this.checkNextRoll(sum);
     }
     return sum;
+  }
+
+  private checkNextRoll(sum : number){
+    if (this.buttonCount > 1 && sum == this.target) {
+    this.playerWin(this.bet);
+    this.hideRollButton();
+    this.showResetButton();
+
+  } else if (this.buttonCount > 1 && sum == 7) {
+    this.playerLose(this.bet);
+    this.hideRollButton();
+    this.showResetButton();
+  }
   }
 
   private showRollButton() {
