@@ -106,21 +106,21 @@ class Craps {
       this.showResetButton();
 
     } else {
-        this.checkNextRoll(sum);
+      this.checkNextRoll(sum);
     }
   }
 
-  private checkNextRoll(sum : number){
+  private checkNextRoll(sum: number) {
     if (this.buttonCount > 1 && sum == this.target) {
-    this.playerWin(this.bet);
-    this.hideRollButton();
-    this.showResetButton();
+      this.playerWin(this.bet);
+      this.hideRollButton();
+      this.showResetButton();
 
-  } else if (this.buttonCount > 1 && sum == 7) {
-    this.playerLose(this.bet);
-    this.hideRollButton();
-    this.showResetButton();
-  }
+    } else if (this.buttonCount > 1 && sum == 7) {
+      this.playerLose(this.bet);
+      this.hideRollButton();
+      this.showResetButton();
+    }
   }
 
   private showRollButton() {
