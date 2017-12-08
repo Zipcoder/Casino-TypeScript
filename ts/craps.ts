@@ -2,7 +2,7 @@
 /// <reference path="Interfaces/Gamble.ts"/>
 /// <reference path="Interfaces/Game.ts"/>
 
-class Craps implements Game,Gamble{
+class Craps implements Game, Gamble {
   bet: number = 0;
   player: Player;
   playerBalance: number;
@@ -30,33 +30,34 @@ class Craps implements Game,Gamble{
 
   play(): void {
     this.buttonCount = 0;
-    this.displayElement.innerHTML = "Welcome to Craps! <br />";
-    this.displayElement.innerHTML += "Submit your bet: <br />";
     this.submitButtonHTMLElement.setAttribute("onClick", "craps.takeBet()");
     this.userInputElement.setAttribute("type", "number");
     this.greetingElement = document.getElementById("greeting");
+    this.resetDisplayTo("Welcome to Craps!");
+    this.addToDisplay("Submit your bet!", true);
     this.showResetButton();
     this.showSubmitButton();
     this.showUserInputBar();
     this.showMainMenuButton();
     this.hideRollButton();
+    this.createUserGreeting();
   }
 
   takeBet(): void {
     let bet: number = this.userInputElement.value;
     if (bet > this.player.balance) {
       console.log("bet denied");
-      this.displayElement.innerHTML = "Not Enough Money";
+      this.resetDisplayTo("Not Enough Money");
     } else if (bet == null || bet == 0) {
       console.log("bet = 0");
-      this.displayElement.innerHTML = "Invalid Input";
+      this.resetDisplayTo("Invalid Input");
     }
     else {
       console.log("Bet accepted " + bet);
       this.bet = this.userInputElement.value;
-      this.displayElement.innerHTML = "Bet Accepted";
-      this.displayElement.innerHTML += "<br />Click Roll to get started!";
       this.greetingElement.innerHTML += " <b>Current Bet: </b>$" + this.bet;
+      this.resetDisplayTo("Bet Accepted");
+      this.addToDisplay("Click the Die to get started!", true);
       this.hideSubmitButton();
       this.showRollButton();
       this.hideUserInputBar();
@@ -69,21 +70,19 @@ class Craps implements Game,Gamble{
   }
 
   private roll(): void {
+    this.buttonCount++;
     console.log("Player Balance: " + this.player.balance);
     console.log("Player Bet: " + this.bet);
-
-    this.buttonCount++;
-
     console.log("Button Count: " + this.buttonCount);
 
-    let diceOne: number = Math.floor(Math.random() * 6) + 1;
-    let diceTwo: number = Math.floor(Math.random() * 6) + 1;
+    let diceOne: number = this.getRandomNumberOneToSix();
+    let diceTwo: number = this.getRandomNumberOneToSix();
 
     var sum = diceTwo + diceOne;
 
     if (this.buttonCount === 1) {
       this.target = sum;
-      this.displayElement.innerHTML += "<br />Target is now " + sum;
+      this.addToDisplay("Target is now " + sum, true);
     }
 
     if (this.buttonCount >= 1) {
@@ -91,8 +90,8 @@ class Craps implements Game,Gamble{
     }
 
     console.log("Rolling Dice " + sum);
-    this.displayElement.innerHTML += "<br />You rolled " + diceOne + " and " + diceTwo;
-    this.displayElement.innerHTML += "<br />Total " + sum;
+    this.addToDisplay("You rolled " + diceOne + " and " + diceTwo, true);
+    this.addToDisplay("Total " + sum, true);
     this.updateScroll();
 
     if (this.buttonCount === 1 && (sum == 7 || sum == 11)) {
@@ -102,7 +101,7 @@ class Craps implements Game,Gamble{
       this.showResetButton();
 
     } else if (this.buttonCount === 1 && (sum == 2 || sum == 3 || sum == 12)) {
-      console.log("First Roll not pass");
+      console.log("First Roll Lose/not pass");
       this.playerLose(this.bet);
       this.hideRollButton();
       this.showResetButton();
@@ -163,7 +162,7 @@ class Craps implements Game,Gamble{
 
   private playerWin(bet: number): void {
     console.log("Player Win");
-    this.displayElement.innerHTML += "<br />You Win!";
+    this.addToDisplay("You Win!", true);
     this.player.balance = this.player.balance + (bet * 1);
     this.createUserGreeting();
     this.updateScroll();
@@ -171,10 +170,14 @@ class Craps implements Game,Gamble{
 
   private playerLose(bet: number): void {
     console.log("Player Lose");
-    this.displayElement.innerHTML += "<br />You Lose";
+    this.addToDisplay("You Lose", true);
     this.player.balance = this.player.balance - bet;
     this.createUserGreeting();
     this.updateScroll();
+  }
+
+  private getRandomNumberOneToSix(): number {
+    return Math.floor(Math.random() * 6) + 1;
   }
 
   private createUserGreeting(): void {
@@ -182,5 +185,22 @@ class Craps implements Game,Gamble{
     this.greetingElement.innerHTML += "<b>Name: </b>" + this.player.name.substring(0, 1).toUpperCase() + this.player.name.substring(1), false;
     this.greetingElement.innerHTML += " <b>Age: </b>" + this.player.age, false;
     this.greetingElement.innerHTML += " <b>Money: </b> $" + this.player.balance.toFixed(2), false;
+  }
+
+  private static lineBreak(): string {
+    return "<br />";
+  }
+
+  private addToDisplay(message: string, lineBreak: boolean): void {
+    if (lineBreak) {
+      this.displayElement.innerHTML += Craps.lineBreak() + message;
+    }
+    else {
+      this.displayElement.innerHTML += message;
+    }
+  }
+
+  private resetDisplayTo(message: string) {
+    this.greetingElement.innerHTML = message;
   }
 }
