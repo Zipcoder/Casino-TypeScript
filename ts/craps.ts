@@ -1,6 +1,6 @@
 /// <reference path="Player.ts"/>
 
-class Craps {
+class Craps implements Game,Gamble{
   bet: number = 0;
   player: Player;
   playerBalance: number;
@@ -26,7 +26,7 @@ class Craps {
     this.mainMenuButton = document.getElementById("mainMenu");
   }
 
-  init(): void {
+  play(): void {
     this.buttonCount = 0;
     this.displayElement.innerHTML = "Welcome to Craps! <br />";
     this.displayElement.innerHTML += "Submit your bet: <br />";

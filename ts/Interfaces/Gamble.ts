@@ -1,3 +1,3 @@
 interface Gamble {
-    takeBet() : number;
+    takeBet() : void;
 }

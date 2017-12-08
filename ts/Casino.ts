@@ -132,7 +132,7 @@ class Casino {
         let gameChosenString: string = this.userInputHTMLElement.value;
         let gameChosenNumber: number = parseInt(gameChosenString);
         if (gameChosenNumber == 1) {
-            craps.init();
+            craps.play();
         }
         else if (gameChosenNumber == 2) {
 

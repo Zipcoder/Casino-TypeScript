@@ -11,23 +11,6 @@ class Player {
         this._age = age;
     }
 
-    // getName(): string {
-    //     return this.name;
-    // }
-    //
-    // setName(newName: string): void {
-    //     this.name = newName;
-    // }
-    //
-    // getBalance(): number {
-    //     return this.balance;
-    // }
-    //
-    // setBalance(newBalance: number): void {
-    //     this.balance = newBalance;
-    // }
-
-
     get name(): string {
         return this._name;
     }
@@ -52,7 +35,4 @@ class Player {
         this._age = value;
     }
 
-    addToBalance (amount : number) : void {
-        this._balance += amount;
-    }
 }

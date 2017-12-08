@@ -1,3 +1,3 @@
 interface Game {
-    play() : boolean;
+    play() : void;
 }
