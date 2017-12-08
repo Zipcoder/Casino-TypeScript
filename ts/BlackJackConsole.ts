@@ -69,9 +69,9 @@ class BlackJackConsole {
     playerInitialBets(): void {
         do {
             this.potBet = this.getInput();
-        } while (this.player.Wallet.getMoney() < this.potBet);
+        } while (this.player.getWallet().getMoney() < this.potBet);
 
-        this.game.takeBet(this.player.Wallet.takeOutMoney(this.potBet));//player bet
+        this.game.takeBet(this.player.getWallet().takeOutMoney(this.potBet));//player bet
         this.game.takeBet(this.potBet);//house bet matches
 
         this.displayPlayerBetting(this.potBet);
@@ -80,7 +80,7 @@ class BlackJackConsole {
 
     opponentInitialBets(betToMatch: number): void {
         this.game.takeBet(betToMatch);//house bet to match
-        this.game.takeBet(this.player.Wallet.takeOutMoney(betToMatch));//player matches bet
+        this.game.takeBet(this.player.getWallet().takeOutMoney(betToMatch));//player matches bet
         this.potBet = betToMatch;
 
         this.displayOpponentBetting(betToMatch);
@@ -90,7 +90,7 @@ class BlackJackConsole {
 
         this.updateDisplay("Opponent bets $" + passedOpponentBet);
         this.updateDisplay("You match $" + passedOpponentBet);
-        this.updateDisplay("You have $" + this.player.Wallet.getMoney() + " in your wallet");
+        this.updateDisplay("You have $" + this.player.getWallet().getMoney() + " in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
@@ -99,7 +99,7 @@ class BlackJackConsole {
         //_AND_ after the player enters their bet amount
         this.updateDisplay("You bet $" + passedPlayerBet);
         this.updateDisplay("Opponent matches $" + passedPlayerBet);
-        this.updateDisplay("You have $" + this.player.Wallet.getMoney() + " in your wallet");
+        this.updateDisplay("You have $" + this.player.getWallet().getMoney() + " in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
@@ -114,7 +114,7 @@ class BlackJackConsole {
     }
 
     generateBotBet(): number {
-        return (Math.random() * (this.player.Wallet.getMoney() / 2));
+        return (Math.random() * (this.player.getWallet().getMoney() / 2));
     }
 
     changeTurns(): void {

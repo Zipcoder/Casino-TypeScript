@@ -3,9 +3,6 @@
 ///<reference path="PlayingValue.ts"/>
 
 
-
-
-
 class GoFish extends CardGame {
 
     private humanPlayer: GoFishPlayer;
