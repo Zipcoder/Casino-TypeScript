@@ -1,7 +1,10 @@
 /// <reference path="display.ts"/>
+///<reference path="craps.ts"/>
+
+
 class CrapsConsole{
 
-<<<<<<< HEAD
+
   crapsGame: Craps = new Craps();
   playAgain: string;
   moneyToBet: number;
@@ -23,7 +26,7 @@ class CrapsConsole{
   //   }
   // }
 
-=======
+
     printStartCraps() {
         Display.print("Hello Welcome to the craps table." +
             "<br/>Ryan is the man and is going to make this shit rock!!!")
@@ -33,5 +36,5 @@ class CrapsConsole{
         //I just throw this in here for you to run your craps game
         //You'll have to change the button one level up if this is not the name of this method
     }
->>>>>>> 8709fa0c017d0585e1e9e492c990138ba0064f6b
+
 }
