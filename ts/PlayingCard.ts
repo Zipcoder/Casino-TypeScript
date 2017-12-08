@@ -1,29 +1,29 @@
 ///<reference path="PlayingSuit.ts" />
 ///<reference path="PlayingValue.ts" />
 
-import { PlayingSuit } from "./PlayingSuit";
-import { PlayingValue } from "./PlayingValue";
+// import { PlayingSuit } from "./PlayingSuit";
+// import { PlayingValue } from "./PlayingValue";
 
 
-export class PlayingCard {
+class PlayingCard {
 
-    suit: PlayingSuit;
-    value: PlayingValue;
+    private suit: PlayingSuit;
+    private value: PlayingValue;
 
-    constructor(suit: PlayingSuit, value: PlayingValue) {
+    public constructor(suit: PlayingSuit, value: PlayingValue) {
         this.suit = suit;
         this.value = value;
     }
 
-    public toString = () : string => {
+    public toString(): string {
         return "" + this.value + this.suit;
     }
 
-    public getSuit = () : PlayingSuit => {
+    public getSuit(): PlayingSuit {
         return this.suit;
     }
 
-    public getValue = () : PlayingValue => {
+    public getValue(): PlayingValue {
         return this.value;
     }
 

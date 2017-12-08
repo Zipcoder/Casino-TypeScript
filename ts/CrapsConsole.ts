@@ -3,12 +3,12 @@
 
 class CrapsConsole {
 
-    inputElement:any;
-    displayElement:any;
-    rollButton:any;
-    continueButton:any;
-    quitButton:any;
-    submitBetButton:any;
+    inputElement: any;
+    displayElement: any;
+    rollButton: any;
+    continueButton: any;
+    quitButton: any;
+    submitBetButton: any;
 
     game:Craps = new Craps();
     player:User;
@@ -35,18 +35,20 @@ class CrapsConsole {
         this.continueButton=document.getElementById("continue");
         this.quitButton=document.getElementById("quit");
     }
-    finalize():void{
+    finalize():void {
         // this.inputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
         //                                     '<input type="submit" value="Submit" onclick="casino.run()">';
-        this.displayElement.innerText='';
+        this.displayElement.innerText = '';
         this.resetFlags();
         casino.run();
         return;
     }
+
     run():void{
         this.initialize();
 
         this.welcomePlayer();
+
     }
     determineFirstRoller():void{
         this.game.determineFirstRoller();

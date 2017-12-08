@@ -1,5 +1,7 @@
 /// <reference path="MoneyContainer.ts"/>
 
+// import {MoneyContainer} from "./MoneyContainer";
+
 class User {
 
     name: string;

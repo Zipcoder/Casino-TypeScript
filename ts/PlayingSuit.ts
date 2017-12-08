@@ -1,4 +1,4 @@
-export enum PlayingSuit {
+enum PlayingSuit {
 
     HEART = "♡",
     DIAMOND = "♢",
