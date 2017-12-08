@@ -9,6 +9,6 @@ export class BlackJackPlayer extends CardPlayer<BlackJack> {
     }
 
     public hasAceInHand():boolean {
-        return this.hasCardsOfRank(BlackJack.ACE);
+        return this.hasCardsOfRank("ACE");
     }
 }
