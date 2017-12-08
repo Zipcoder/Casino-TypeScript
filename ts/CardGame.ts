@@ -34,4 +34,11 @@ abstract class CardGame{
         }
     }
 
+    showDealerHand(){
+        for(var i = 0; i< this.getCardPlayers()[1].getHand().length;i++){
+            console.log(this.getCardPlayers()[1].getHand()[i].getValue()
+                 + ", "+this.getCardPlayers()[1].getHand()[i].getSuit());
+        }
+    }
+
 }

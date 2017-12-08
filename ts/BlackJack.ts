@@ -6,7 +6,6 @@
 class BlackJack extends CardGame{
     private dealer: BlackJackPlayer;
     
-    
     constructor(){
         super();
         this.dealer = new BlackJackPlayer();
@@ -14,20 +13,6 @@ class BlackJack extends CardGame{
 
     getDealer(): BlackJackPlayer{
         return this.dealer;
-    }
-
-    addCardPlayer(cardPlayer: CardPlayer){
-        super.getCardPlayers().push(cardPlayer);
-    }
-
-    dealInitialCards(){
-        deck.shuffle(47);
-        for(var i = 0; i < 2; i++){
-            for(var j = 0; j < super.getCardPlayers().length; j++){
-                var nextCard = deck.getTopCard();
-                super.getCardPlayers()[j].getHand().push(nextCard);
-            }
-        }
     }
 
     hitPlayer(blackJackPlayer: BlackJackPlayer){
@@ -87,7 +72,7 @@ class BlackJack extends CardGame{
 var blackJack = new BlackJack();
 var blackJackPlayer = new CardPlayer();
 blackJack.addCardPlayer(blackJackPlayer);
-blackJack.dealInitialCards();
+blackJack.deal(2);
 var score = blackJack.calculatePlayerScore(blackJackPlayer);
 console.log(score);
 

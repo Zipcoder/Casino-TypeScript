@@ -16,10 +16,13 @@ class GoFish extends CardGame {
             
             goFish.addCardPlayer(dealer);
             goFish.addCardPlayer(player);
+            goFish.deal(7);
                     
             console.log("Let's play some GoFish!");
-           
+            console.log("player hand");
             goFish.showPlayerHand();
+            console.log("dealer hand");
+            goFish.showDealerHand();
         //     boolean playing = true;
         //     while (playing) {
         //         playerTurn();

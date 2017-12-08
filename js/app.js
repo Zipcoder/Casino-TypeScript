@@ -146,6 +146,12 @@ class CardGame {
                 + ", " + this.getCardPlayers()[0].getHand()[i].getSuit());
         }
     }
+    showDealerHand() {
+        for (var i = 0; i < this.getCardPlayers()[1].getHand().length; i++) {
+            console.log(this.getCardPlayers()[1].getHand()[i].getValue()
+                + ", " + this.getCardPlayers()[1].getHand()[i].getSuit());
+        }
+    }
 }
 class Deck {
     constructor() {
@@ -182,18 +188,6 @@ class BlackJack extends CardGame {
     }
     getDealer() {
         return this.dealer;
-    }
-    addCardPlayer(cardPlayer) {
-        super.getCardPlayers().push(cardPlayer);
-    }
-    dealInitialCards() {
-        deck.shuffle(47);
-        for (var i = 0; i < 2; i++) {
-            for (var j = 0; j < super.getCardPlayers().length; j++) {
-                var nextCard = deck.getTopCard();
-                super.getCardPlayers()[j].getHand().push(nextCard);
-            }
-        }
     }
     hitPlayer(blackJackPlayer) {
         var nextCard = deck.getTopCard();
@@ -239,7 +233,7 @@ class BlackJack extends CardGame {
 var blackJack = new BlackJack();
 var blackJackPlayer = new CardPlayer();
 blackJack.addCardPlayer(blackJackPlayer);
-blackJack.dealInitialCards();
+blackJack.deal(2);
 var score = blackJack.calculatePlayerScore(blackJackPlayer);
 console.log(score);
 /// <reference path="Player.ts" />
@@ -331,8 +325,12 @@ class GoFish extends CardGame {
         var player = new CardPlayer();
         goFish.addCardPlayer(dealer);
         goFish.addCardPlayer(player);
+        goFish.deal(7);
         console.log("Let's play some GoFish!");
+        console.log("player hand");
         goFish.showPlayerHand();
+        console.log("dealer hand");
+        goFish.showDealerHand();
         //     boolean playing = true;
         //     while (playing) {
         //         playerTurn();
