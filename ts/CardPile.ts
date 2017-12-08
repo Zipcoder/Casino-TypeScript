@@ -65,6 +65,10 @@ export class CardPile {
       }
     }
 
+    public clear() {
+      this.cards = [];
+    }
+
     public  getCards():Array<Card> {
         return this.cards;
     }

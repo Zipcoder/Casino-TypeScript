@@ -1,6 +1,7 @@
 import {Game} from './Game';
 import {CardPile} from './CardPile';
 import {Card} from './Card';
+import {StandardDeck} from './StandardDeck'
 
 export abstract class CardGame<T extends Game<T>> extends Game<T> {
 
@@ -44,7 +45,7 @@ export abstract class CardGame<T extends Game<T>> extends Game<T> {
 
     public discardCards(cards: CardPile) {
         this.discardPile.addCardsToPile(cards);
-        cards.getCards().clear();
+        cards.clear();
     }
 
     public getDiscardPile():CardPile {
