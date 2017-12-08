@@ -4,6 +4,9 @@ define(["require", "exports"], function (require, exports) {
     var Utilities = (function () {
         function Utilities() {
         }
+        Utilities.clearDisplay = function () {
+            Utilities.displayEle.innerHTML = "";
+        };
         Utilities.printLine = function (input) {
             Utilities.displayEle.innerHTML += input + "<br/>";
         };

@@ -34,6 +34,12 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
         Craps.prototype.getPlayers = function () {
             return this.players;
         };
+        Craps.prototype.getPlayersOnPass = function () {
+            return this.playersOnPass;
+        };
+        Craps.prototype.getPlayersOnDontPass = function () {
+            return this.playersOnDontPass;
+        };
         Craps.prototype.getSumOfDice = function () {
             return this.getValueOfDieOne() + this.getValueOfDieTwo();
         };
@@ -62,23 +68,28 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             this.passBetsWin = passBetsWin;
         };
         Craps.prototype.takeBet = function (player, amount) {
-            if (this.bets[player.id] == undefined)
+            if (this.bets[player.id] == undefined) {
                 this.bets[player.id] = amount;
-            else
+                console.log(this.bets[player.id]);
+            }
+            else {
                 this.bets[player.id] += amount;
+            }
             player.bet(amount);
         };
         Craps.prototype.payOutBets = function () {
             if (this.passBetsWin) {
-                for (var player in this.playersOnPass) {
-                    var amountWon = this.bets[player] * 2;
-                    this.playersOnPass[player].receiveWinnings(amountWon);
+                for (var i = 0; i < this.playersOnPass.length; i++) {
+                    var playerId = this.playersOnPass[i].id;
+                    var amountWon = this.bets[playerId] * 2;
+                    this.playersOnPass[i].receiveWinnings(amountWon);
                 }
             }
             else {
-                for (var player in this.playersOnDontPass) {
-                    var amountWon = this.bets[player] * 2;
-                    this.playersOnDontPass[player].receiveWinnings(amountWon);
+                for (var i = 0; i < this.playersOnDontPass.length; i++) {
+                    var playerId = this.playersOnDontPass[i].id;
+                    var amountWon = this.bets[playerId] * 2;
+                    this.playersOnDontPass[i].receiveWinnings(amountWon);
                 }
             }
             this.clearAllBets();
