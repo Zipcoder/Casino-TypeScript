@@ -71,7 +71,7 @@ class Craps implements Game {
     this.displayElement.scrollTop = this.displayElement.scrollHeight;
   }
 
-  private roll(): number {
+  private roll(): void {
     console.log("Player Balance: " + this.player.balance);
     console.log("Player Bet: " + this.bet);
 
@@ -112,7 +112,6 @@ class Craps implements Game {
     } else {
         this.checkNextRoll(sum);
     }
-    return sum;
   }
 
   private checkNextRoll(sum : number){
