@@ -12,20 +12,20 @@ export class CrapsConsole extends Console {
 
   start() {
     this.setUpGame();
-    this.playRoundsUntilAllPlayersCashOut(this.game);
+    //this.playRoundsUntilAllPlayersCashOut(this.game);
   }
 
   setUpGame() {
     Utilities.printMenuName("Welcome to " + this.getNameOfGame());
-    var numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
-    let playerNames:string[] = this.getPlayerNames(numPlayers);
-    let players:Array<CrapsPlayer>  = [];
-    for(let name in playerNames) {
-        let player:CrapsPlayer  = new CrapsPlayer(playerNames[name]);
-        players.push(player);
-    }
-    this.game.addPlayers(players);
-    this.getPlayerChips(this.game);
+    // var numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
+    // let playerNames:string[] = this.getPlayerNames(numPlayers);
+    // let players:Array<CrapsPlayer>  = [];
+    // for(let name in playerNames) {
+    //     let player:CrapsPlayer  = new CrapsPlayer(playerNames[name]);
+    //     players.push(player);
+    // }
+    // this.game.addPlayers(players);
+    // this.getPlayerChips(this.game);
   }
 
   playRound() {

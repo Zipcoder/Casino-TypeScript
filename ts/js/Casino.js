@@ -2,10 +2,13 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Casino = (function () {
+        // displayEle: any;
+        // userInputEle: any;
+        //static buttonEle = document.getElementById("my_button");
         function Casino() {
             this.gameConsoles = [];
-            this.displayEle = document.getElementById("display");
-            this.userInputEle = document.getElementById("user_input");
+            // this.displayEle = document.getElementById("display");
+            // this.userInputEle = document.getElementById("user_input");
         }
         Casino.prototype.startCasino = function () {
             this.gameConsoles.push(new BlackJackConsole_1.BlackJackConsole());
@@ -25,8 +28,8 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             Utilities_1.Utilities.printMenuOptions(gameNames);
             // var choice = Utilities.getMenuInput(">> ", gameNames).toUpperCase();
             var _this = this;
-            Casino.buttonEle.addEventListener("click", function () {
-                var choice = _this.userInputEle.value.toUpperCase();
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function () {
+                var choice = Utilities_1.Utilities.userInputEle.value.toUpperCase();
                 _this.goToGame(choice);
             });
         };
@@ -62,7 +65,6 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
         Casino.prototype.startSlots = function () {
             this.gameConsoles[3].start();
         };
-        Casino.buttonEle = document.getElementById("my_button");
         return Casino;
     }());
     exports.Casino = Casino;
