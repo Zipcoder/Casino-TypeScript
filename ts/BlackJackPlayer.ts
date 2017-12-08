@@ -8,7 +8,7 @@ export class BlackJackPlayer extends CardPlayer<BlackJack> {
         super(name);
     }
 
-    // public hasAceInHand():boolean {
-    //     return this.hasCardsOfRank(BlackJack.ACE);
-    // }
+    public hasAceInHand():boolean {
+        return this.hasCardsOfRank(BlackJack.ACE);
+    }
 }

@@ -33,4 +33,5 @@ export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
     public getHand():CardPile {
         return this.hand;
     }
+
 }
