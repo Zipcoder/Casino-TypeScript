@@ -40,6 +40,7 @@ class CrapsConsole {
                                             '<input type="submit" value="Submit" onclick="craps.run()">';
         this.displayElement.innerText='';
         this.resetFlags();
+        return;
     }
     run():void{
         this.initialize();
@@ -47,14 +48,14 @@ class CrapsConsole {
         this.welcomePlayer();
     }
     determineFirstRoller():void{
-        this.rollButton.disabled=true;
-        this.submitBetButton.disabled=false;
-        this.continueButton.disabled=true;
         this.game.determineFirstRoller();
         this.beginInitialPlay();
     }
 
     beginInitialPlay() {
+        this.rollButton.disabled=true;
+        this.submitBetButton.disabled=false;
+        this.continueButton.disabled=true;
         this.submitBetButton.setAttribute("onclick", "craps.playerInitialBets()");
         this.initialBetCycle();
     }
@@ -63,12 +64,12 @@ class CrapsConsole {
         if (!this.pointSet) {
             this.initialBet();
         }else{
+            this.submitBetButton.setAttribute("onclick","craps.playerSecondaryBets()");
             this.secondaryBetCycle();
         }
     }
 
     secondaryBetCycle():void{
-        this.submitBetButton.setAttribute("onclick","craps.playerSecondaryBets()");
         if (!this.pointMet){
             this.secondaryBet();
         } else{
@@ -145,12 +146,9 @@ class CrapsConsole {
 
         updateDisplay(this.game.toString());
 
-        if (this.game.getPlayerTurn())
-        {
+        if (this.game.getPlayerTurn()) {
             this.opponentSecondaryBets(this.generateBotBet());
-        }
-        else
-        {
+        } else {
             updateDisplay("Enter your bet in the field below and click 'Bet'");
         }
     }
@@ -160,8 +158,8 @@ class CrapsConsole {
             updateDisplay("You don't have that much money");
             this.secondaryBet();
         }else {
-            this.game.takeBet(this.player.Wallet.takeOutMoney(this.sidePotBet));//player bet
-            this.game.takeBet(this.sidePotBet);//house bet matches
+            this.game.takeSideBet(this.player.Wallet.takeOutMoney(this.sidePotBet));//player bet
+            this.game.takeSideBet(this.sidePotBet);//house bet matches
 
             this.displayPlayerBetting(this.sidePotBet);
             this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
@@ -269,42 +267,42 @@ class CrapsConsole {
 
     displayOpponentBetting(passedOpponentBet:number):void{//Called _AFTER_ the money transfers have already taken place
 
-        updateDisplay("Opponent bets $"+passedOpponentBet);
-        updateDisplay("You match $"+passedOpponentBet);
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
+        updateDisplay("Opponent bets $"+passedOpponentBet.toFixed(2));
+        updateDisplay("You match $"+passedOpponentBet.toFixed(2));
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
     displayPlayerBetting(passedPlayerBet:number):void{//Called _AFTER_ the money transfers have already taken place
         //_AND_ after the player enters their bet amount
-        updateDisplay("You bet $"+passedPlayerBet);
-        updateDisplay("Opponent matches $"+passedPlayerBet);
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet");
+        updateDisplay("You bet $"+passedPlayerBet.toFixed(2));
+        updateDisplay("Opponent matches $"+passedPlayerBet.toFixed(2));
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
 
     firstPointRolled():void{
         updateDisplay(this.game.getNumberRolled()+" was rolled... that's our new point.");
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet now.");
         this.printPots();
         this.enterAnyKeyToContinue();
 
     }
     neitherWinsAnyPot():void{
         updateDisplay("A "+this.game.getNumberRolled()+" was rolled... nothing special.");
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now.");
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet now.");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
     playerWinsSidePot():void{
 
         updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won the Side Pot!");
-        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney().toFixed(2)+" from Side Pot");
 
         this.player.Wallet.addMoney(this.game.emptySidePot());
 
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -313,11 +311,11 @@ class CrapsConsole {
     }
     opponentWinsSidePot():void{
         updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won the Side Pot!");
-        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney().toFixed(2)+" from Side Pot");
 
         this.sidePotBet=this.game.emptySidePot();
 
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -326,13 +324,13 @@ class CrapsConsole {
     }
     opponentWinsBothPots():void{
         updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and your opponent won everything!");
-        updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
-        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("$"+this.game.getMainPot().getMoney().toFixed(2)+" from Main Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney().toFixed(2)+" from Side Pot");
 
         this.mainPotBet=this.game.emptyPot();
         this.sidePotBet=this.game.emptySidePot();
 
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -343,13 +341,13 @@ class CrapsConsole {
     playerWinsBothPots():void{
 
         updateDisplay("A "+this.game.getNumberRolled()+" was rolled, and you won everything!");
-        updateDisplay("$"+this.game.getMainPot().getMoney()+" from Main Pot");
-        updateDisplay("$"+this.game.getSidePot().getMoney()+" from Side Pot");
+        updateDisplay("$"+this.game.getMainPot().getMoney().toFixed(2)+" from Main Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney().toFixed(2)+" from Side Pot");
 
         this.player.Wallet.addMoney(this.game.emptyPot());
         this.player.Wallet.addMoney(this.game.emptySidePot());
 
-        updateDisplay("You have $"+this.player.Wallet.getMoney()+" in your wallet now");
+        updateDisplay("You have $"+this.player.Wallet.getMoney().toFixed(2)+" in your wallet now");
         this.printPots();
 
         this.enterAnyKeyToContinue();
@@ -375,10 +373,9 @@ class CrapsConsole {
     }
 
     printPots():void{
-        updateDisplay("$"+this.game.getMainPot().getMoney()+" now in Main Pot");
-        updateDisplay("$"+this.game.getSidePot().getMoney()+" now in Side Pot</br>");
+        updateDisplay("$"+this.game.getMainPot().getMoney().toFixed(2)+" now in Main Pot");
+        updateDisplay("$"+this.game.getSidePot().getMoney().toFixed(2)+" now in Side Pot</br>");
     }
     enterAnyKeyToContinue():void{
-
     }
 }
