@@ -86,7 +86,7 @@ var Craps = (function () {
         this.pointPairs = [new CrapPointPair(6, 8, "6-8"),
             new CrapPointPair(5, 9, "5-9"),
             new CrapPointPair(10, 4, "10-4")];
-        var twoToTwelve = new Array(0);
+        var twoToTwelve = [];
         for (var i = 2; i < 13; i++) {
             twoToTwelve.push(i);
         }
@@ -191,25 +191,25 @@ var Craps = (function () {
     Craps.prototype.toString = function () {
         var returnMe = "";
         if (this.isPlayerTurn) {
-            returnMe += "It is your turn\n";
+            returnMe += "It is your turn</br>";
         }
         else {
-            returnMe += "It is your opponent's turn\n";
+            returnMe += "It is your opponent's turn</br>";
         }
         if (this.point == 0) {
-            returnMe += "Point has not been set, and so we do not have a pair to side bet on\n";
+            returnMe += "Point has not been set, and so we do not have a pair to side bet on</br>";
         }
         else {
-            returnMe += "Point is " + this.point + " and we are making side bets on " + this.pair.text + "\n";
+            returnMe += "Point is " + this.point + " and we are making side bets on " + this.pair.text + "</br>";
         }
         if (this.numberRolled != 0) {
-            returnMe += "Last roll was " + this.numberRolled + "\n";
+            returnMe += "Last roll was " + this.numberRolled + "</br>";
         }
         else {
-            returnMe += "Nobody has rolled yet\n";
+            returnMe += "Nobody has rolled yet</br>";
         }
-        returnMe += "Main pot is $" + this.mainPot.getMoney() + "\n";
-        returnMe += "Side pot is $" + this.sidePot.getMoney() + "\n";
+        returnMe += "Main pot is $" + this.mainPot.getMoney() + "</br>";
+        returnMe += "Side pot is $" + this.sidePot.getMoney() + "</br>";
         return returnMe;
     };
     Craps.prototype.play = function (userInput) {
@@ -223,46 +223,71 @@ var CrapsConsole = (function () {
         this.pointSet = false;
         this.pointMet = false;
         this.crappedOut = false;
+        this.cont = false;
         this.player = user;
     }
+    Object.defineProperty(CrapsConsole.prototype, "Cont", {
+        set: function (passedValue) {
+            this.cont = passedValue;
+        },
+        enumerable: true,
+        configurable: true
+    });
     CrapsConsole.prototype.updateDisplay = function (stringToDisplay) {
         this.displayElement.innerHTML += "</br>" + stringToDisplay;
     };
     CrapsConsole.prototype.initialize = function () {
         this.displayElement = document.getElementById("display");
-        this.originalInputElement = document.getElementById("input");
-        this.currentInputElement = this.originalInputElement;
-        this.currentInputElement.innerHTML = "" +
-            "" +
-            "";
+        this.inputElement = document.getElementById("input");
+        this.inputElement.innerHTML = '<input type="number" name="bet_input" id="bet_input">' +
+            '<input type="submit" value="Bet" id="bet_submit" onclick="craps.getInput()"/>    ' +
+            '<input type="button" value="Roll" id="roll" onclick="craps.determineFirstRoller()"/>    ' +
+            '<input type="button" value="Continue" id="continue" onclick="craps.welcomePlayer()"/>' +
+            '<input type="button" value="Quit" id="quit" onclick="craps.finalize()"/>';
+        this.submitBetButton = document.getElementById("bet_submit");
+        this.rollButton = document.getElementById("roll");
+        this.continueButton = document.getElementById("continue");
+        this.quitButton = document.getElementById("quit");
     };
     CrapsConsole.prototype.finalize = function () {
-        this.currentInputElement = this.originalInputElement;
+        this.inputElement.innerHTML = '<input type="text" name="user_input" id="user_input"> ' +
+            '<input type="submit" value="Submit" onclick="craps.run()">';
+        this.displayElement.innerText = '';
     };
     CrapsConsole.prototype.run = function () {
         this.initialize();
         this.welcomePlayer();
+        //on roll click, this.determineFirstRoller();
+        // do {
+        //     while (!this.pointSet) {//Continue to bet until the roller
+        //         //throws a point instead of a win/loss.
+        //        this.initialBetCycle();
+        //     }
+        //     while (!this.pointMet) {//Continue to bet until the roller
+        //         //meets their point or craps out
+        //         this.secondaryBet();
+        //         this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
+        //     }
+        //     if (this.crappedOut) {
+        //         this.changeTurns();//Reset flags, change active player
+        //     } else{
+        //         this.resetFlags();
+        //     }
+        // }while(this.game.play("Y"));//getStringInput("Continue playing? [Y/N] ")));
+        // //NEED TO REWORK PLAY AND INPUT TO ACCOUNT FOR HTML FORMS
+        // this.finalize();
+    };
+    CrapsConsole.prototype.determineFirstRoller = function () {
         this.game.determineFirstRoller();
-        do {
-            while (!this.pointSet) {
-                //throws a point instead of a win/loss.
-                this.initialBet();
-                this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
-            }
-            while (!this.pointMet) {
-                //meets their point or craps out
-                this.secondaryBet();
-                this.pointMet = this.resolveSecondaryThrow(this.game.secondaryThrow());
-            }
-            if (this.crappedOut) {
-                this.changeTurns(); //Reset flags, change active player
-            }
-            else {
-                this.resetFlags();
-            }
-        } while (this.game.play("Y")); //getStringInput("Continue playing? [Y/N] ")));
-        //NEED TO REWORK PLAY AND INPUT TO ACCOUNT FOR HTML FORMS
-        this.finalize();
+        this.initialBetCycle();
+    };
+    CrapsConsole.prototype.initialBetCycle = function () {
+        this.initialBet();
+        this.pointSet = this.resolveInitialThrow(this.game.initialThrow());
+    };
+    CrapsConsole.prototype.getInput = function () {
+        var inputAlias = document.getElementById("bet_input");
+        return +inputAlias.value;
     };
     CrapsConsole.prototype.initialBet = function () {
         this.updateDisplay(this.game.toString());
@@ -270,12 +295,13 @@ var CrapsConsole = (function () {
             this.opponentInitialBets(this.generateBotBet());
         }
         else {
-            this.playerInitialBets();
+            this.updateDisplay("Enter your bet in the field below and click 'Bet'");
+            this.submitBetButton.onclick(this.playerInitialBets());
         }
     };
     CrapsConsole.prototype.playerInitialBets = function () {
         do {
-            //this.mainPotBet = this.getPositiveDoubleInput("How much would you like to bet? ");
+            this.mainPotBet = this.getInput();
         } while (this.player.Wallet.getMoney() < this.mainPotBet);
         this.game.takeBet(this.player.Wallet.takeOutMoney(this.mainPotBet)); //player bet
         this.game.takeBet(this.mainPotBet); //house bet matches
@@ -459,6 +485,7 @@ var CrapsConsole = (function () {
     };
     CrapsConsole.prototype.welcomePlayer = function () {
         this.updateDisplay("Hello, " + this.player.Name + ". Welcome to the Craps table.");
+        this.updateDisplay("Roll to determine who goes first!");
     };
     CrapsConsole.prototype.changeTurns = function () {
         this.resetFlags();
@@ -474,13 +501,13 @@ var CrapsConsole = (function () {
     };
     CrapsConsole.prototype.printPots = function () {
         this.updateDisplay("$" + this.game.getMainPot().getMoney() + " now in Main Pot");
-        this.updateDisplay("$" + this.game.getSidePot().getMoney() + " now in Side Pot");
+        this.updateDisplay("$" + this.game.getSidePot().getMoney() + " now in Side Pot</br>");
     };
     CrapsConsole.prototype.enterAnyKeyToContinue = function () {
-        //String dump = getStringInput("Enter any key to continue: ");
     };
     return CrapsConsole;
 }());
-/// <reference path="CrapsConsole.ts"/>
+/// <reference path="CrapsConsole.ts" />
+/// <reference path="User.ts" />
 var craps = new CrapsConsole(new User("Tim", 1000));
 //# sourceMappingURL=app.js.map

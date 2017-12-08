@@ -1,37 +1,26 @@
-import {PlayingDeck} from "./PlayingDeck";
-import {MoneyContainer} from "./MoneyContainer";
-import {Hand} from "./Hand";
-import {PlayingCard} from "./PlayingCard";
-import {CardGame} from "./CardGame";
+///<reference path="CardGame.ts"/>
+///<reference path="MoneyContainer.ts"/>
+///<reference path="Hand.ts"/>
+///<reference path="PlayingCard.ts"/>
+///<reference path="PlayingDeck.ts"/>
+
+
+// import {PlayingDeck} from "./PlayingDeck";
+// import {MoneyContainer} from "./MoneyContainer";
+// import {Hand} from "./Hand";
+// import {PlayingCard} from "./PlayingCard";
+// import {CardGame} from "./CardGame";
 
 class BlackJack extends CardGame implements Gamble {
 
-    pot: MoneyContainer;
-
     deck: PlayingDeck;
-    playerScore: number;
-    dealerScore: number;
-    player: Hand;
-    dealer: Hand;
+    private pot: MoneyContainer;
+    private playerScore: number;
+    private dealerScore: number;
+    private player: Hand;
+    private dealer: Hand;
 
-    // Java Constructor
-    // public BlackJack() {
-    //
-    //     this.pot = new MoneyContainer();
-    //     this.deck = new PlayingDeck();
-    //     this.deck.shuffle(); // fix this
-    //     this.playerScore = 0;
-    //     this.dealerScore = 0;
-    //     this.player = new Hand();
-    //     this.dealer = new Hand();
-    //
-    //     for (let i: number = 0; i < 2; i++) {
-    //         this.player.addCard(this.deck.getAndRemoveCard());
-    //         this.dealer.addCard(this.deck.getAndRemoveCard());
-    //     }
-    // }
-
-    constructor() {
+    public constructor() {
         super();// It made me add this because it requires a super constructor for derived classes ¯\_(ツ)_/¯
         this.pot = new MoneyContainer();
         this.deck = new PlayingDeck();
@@ -48,25 +37,25 @@ class BlackJack extends CardGame implements Gamble {
 
     }
 
-    takeBet(bet: number) {
+    public takeBet(bet: number) {
         this.pot.addMoney(bet);
     }
 
 
-    settleBet(winnings: number) {
+    public settleBet(winnings: number) {
         return (this.pot.takeOutMoney(winnings));
     }
 
-    emptyPot() {
+    public emptyPot() {
         return this.pot.takeAllMoney();
     }
 
-    showPot() {
+    public showPot() {
         return this.pot.getMoney();
     }
 
 
-    getPlayerScore() {
+    public getPlayerScore() {
         this.playerScore = 0;
         let handArray: PlayingCard[] = this.player.getAllCards();
 
@@ -79,7 +68,7 @@ class BlackJack extends CardGame implements Gamble {
     }
 
 
-    getDealerScore() {
+    private getDealerScore() {
         this.dealerScore = 0;
         let handArray: PlayingCard[] = this.dealer.getAllCards();
 
@@ -90,11 +79,11 @@ class BlackJack extends CardGame implements Gamble {
         return this.dealerScore;
     }
 
-    getDealerScoreShowing() {
+    public getDealerScoreShowing() {
         return (this.cardScore(this.dealer.getAllCards()[0], 0));
     }
 
-    cardScore(c: PlayingCard, score: number) {
+    private cardScore(c: PlayingCard, score: number) {
 
         switch (c.getValue().toString()) {
             case "2":
@@ -127,28 +116,28 @@ class BlackJack extends CardGame implements Gamble {
         return 11;
     }
 
-    playerHit() {
+    public playerHit() {
         this.player.addCard(this.deck.getAndRemoveCard());
         this.playerScore = this.getPlayerScore();
     }
 
-    dealerHit() {
+    public dealerHit() {
         this.dealer.addCard(this.deck.getAndRemoveCard());
         this.dealerScore = this.getDealerScore();
     }
 
-    dealerHitUntilFinished() {
+    public dealerHitUntilFinished() {
         while (this.getDealerScore() <= 17 && this.getPlayerScore() <= 21) {
             this.dealer.addCard(this.deck.getAndRemoveCard());
         }
     }
 
-    playerWins() {
+    public playerWins() {
         return (((this.getPlayerScore() > this.getDealerScore()) && (this.getPlayerScore() <= 21)) ||
             (this.getDealerScore() > 21 && this.getPlayerScore() <= 21));
     }
 
-    finalTableDisplay() {
+    public finalTableDisplay() {
         let returnMe: string = "";
         let dealerHand: PlayingCard[] = this.dealer.getAllCards();
         let playerHand: PlayingCard[] = this.player.getAllCards();
@@ -172,7 +161,7 @@ class BlackJack extends CardGame implements Gamble {
     }
 
 
-    toString() {
+    public toString() {
         let returnMe: string = "";
         let playerHand: PlayingCard[] = this.player.getAllCards();
 
@@ -194,7 +183,7 @@ class BlackJack extends CardGame implements Gamble {
         return returnMe;
     }
 
-    play(userInput: string) {
+    public play(userInput: string) {
         return ("Y" === (userInput.toUpperCase()));
     }
 

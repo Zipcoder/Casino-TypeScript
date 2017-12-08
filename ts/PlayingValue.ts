@@ -1,4 +1,4 @@
-export enum PlayingValue {
+enum PlayingValue {
 
     TWO = "2",
     THREE = "3",

@@ -1,18 +1,18 @@
-export class MoneyContainer {
+class MoneyContainer {
 
-    money = 0;
+    private money: number = 0;
 
-    getMoney() {
-        return this.money;
+    public getMoney(): number {
+        return parseInt(this.money.toFixed(2));
     }
 
-    addMoney(money) {
+    public addMoney(money: number): void {
         if (money > 0) {
             this.money += money;
         }
     }
 
-    takeOutMoney (money){
+    public takeOutMoney(money): number{
 
         if (money>0 && money<=this.money){
             this.money-=money;
@@ -21,7 +21,7 @@ export class MoneyContainer {
         return 0.0;
     }
 
-    takeAllMoney(){
+    public takeAllMoney(): number{
         let moneyHolder: number = this.money;
         this.money=0.0;
         return moneyHolder;
