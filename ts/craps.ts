@@ -1,10 +1,20 @@
 /// <reference path="display.ts"/>
+///<reference path="die.ts"/>
+///<reference path="crapsPlayer.ts"/>
+///<reference path="userInput.ts"/>
+///<reference path="crapsConsole.ts"/>
+
+
 class Craps implements Gamble{
   point: number;
   pot: number = 0;
-  die: Die = new Die();
+  public die: Die = new Die();
   crapsPlayer: CrapsPlayer = new CrapsPlayer();
   displayEle: any = document.getElementById("display");
+
+  constructor() {
+    
+  }
 
   setPoint(pointInput: number){
     this.point = pointInput;
@@ -32,17 +42,44 @@ class Craps implements Gamble{
       return 1;
     }
   }
-  hasMoneyToMakeBet(moneyToBet: number):boolean{
-    if(this.crapsPlayer.getMoney() < moneyToBet){
-      return false;
+    hasMoneyToMakeBet(moneyToBet: number):boolean{
+        if(this.crapsPlayer.getMoney() < moneyToBet){
+            return false;
+        }
+        return true;
+
     }
-    return true;
+    cashInWinnings(){
+        this.crapsPlayer.setMoney(this.crapsPlayer.getMoney() + this.getPot() * 2);
+
+    }
+
+  getUserBet() {
+      let moneyToBet: number;
+      moneyToBet = parseInt(UserInput.userInput.value);
+      console.log(moneyToBet);
+      this.placeBet(moneyToBet);
+      Display.print("Your current bet is " + moneyToBet);
+      document.getElementById("button").style.display = "none";
+      document.getElementById("rollButton").removeAttribute("disabled");
+      //document.getElementById("rollButton").setAttribute("onclick", "");
+      if (moneyToBet > 0){
+          Display.print("whats up");
+          console.log("testing money to bet chaining system");
+      }
+
 
   }
-  cashInWinnings(){
-    this.crapsPlayer.setMoney(this.crapsPlayer.getMoney() + this.getPot() * 2);
 
+   rollTheDice(){
+      this.die.rollDie();
+      if(this.die.diceTotal() > 0){
+          console.log(this.die.diceTotal() + "Are we rolling?");
+          Display.print("Testing" + this.die.diceTotal());
+      }
   }
+
+
   firstRollLogic():number{
     if(this.die.diceTotal() == 7 || this.die.diceTotal() == 11){
       this.cashInWinnings();

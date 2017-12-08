@@ -27,5 +27,6 @@ class Casino{
              this.enterCasino();
              break;
      }
+     UserInput.clearTextBox();
  }
 }

@@ -33,7 +33,6 @@ class Game{
                 this.ChooseGame();
                 break;
         }
-
-        Display.print("Would you like to leave the game area?");
+        UserInput.clearTextBox();
     }
 }

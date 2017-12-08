@@ -17,11 +17,10 @@ class DiceGame{
         switch(UserInput.userInput.value){
             case "craps":
 
+                craps.startCrapsBetting();
 
-                craps.printStartCraps();
-                
-                document.getElementById("button").setAttribute("onclick", "craps.startCraps");
         }
+        UserInput.clearTextBox();
 
     }
 }

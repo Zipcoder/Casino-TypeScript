@@ -1,37 +1,88 @@
 /// <reference path="display.ts"/>
-class CrapsConsole{
+///<reference path="craps.ts"/>
+///<reference path="userInput.ts"/>
+
+class CrapsConsole {
 
 
-  crapsGame: Craps = new Craps();
-  playAgain: string;
-  moneyToBet: number;
+    crapsGame = new Craps();
+    moneyToBet: number;
+    playAgain: string;
 
-  // playCraps(){
-  //
-  //   do{
-  //     //some greeting message prints prior to choosing craps? or does it happen here
-  //     //here makes sense for the game logic and how I have it set up to repeat itself
-  //     //I'm sure we can change this tho
-  //     Display.print("Let's play some basic AF Craps!")
-  //
-  //     do{
-  //       this.moneyToBet =
-  //     }while (this.crapsGame.placeBet(4/*gotta change*/) == 1)
-  //     Display.print("Your current bet is " );
-  //     Display.print("Let's get the dice rolling");//all filler right now
-  //     //prompt user to roll
-  //   }
-  // }
+    constructor() {
 
+    }
 
-    printStartCraps() {
+    startCrapsBetting() {
         Display.print("Hello Welcome to the craps table." +
-            "<br/>Ryan is the man and is going to make this shit rock!!!")
-    }
+            "<br/>Ryan is the man and is going to make this rock!!!");
+        UserInput.userInput.value = "";
 
-    startCraps(){
-        //I just throw this in here for you to run your craps game
-        //You'll have to change the button one level up if this is not the name of this method
+        Display.print("Let's play some basic AF Craps!");
+
+        Display.print("How much would you like to bet? You have " + this.crapsGame.crapsPlayer.getMoney());
+
+        document.getElementById("button").setAttribute("onclick", "crapsGame.getUserBet()");
+
+        document.getElementById("rollButton").setAttribute("onclick", "crapsGame.rollTheDice()");
+
+
+
     }
+    crapsLogic() {
+        this.crapsGame.die.rollDie();
+        if (this.crapsGame.firstRollLogic() === 1) {
+        }
+            this.crapsGame.subsequentRollLogic();
+        }
+
+
+
+
+    // playCraps() {
+    //
+    //     Display.print("Hello Welcome to the craps table." +
+    //         "<br/>Ryan is the man and is going to make this rock!!!");
+    //     UserInput.userInput.value = "";
+    //
+    //     do {
+    //         Display.print("Let's play some basic AF Craps!");
+    //
+    //         //do {
+    //         Display.print("How much would you like to bet? You have " + this.crapsGame.crapsPlayer.getMoney());
+    //
+    //         Display.print("Is this working?");
+    //         this.moneyToBet = parseInt(UserInput.userInput.value);
+    //         document.getElementById("button").setAttribute("onclick", "this.crapsGame.placeBet(" + this.moneyToBet + ")");
+    //
+    //
+    //         } while (this.crapsGame.placeBet(this.moneyToBet) === 1);
+    //
+    //     do {
+    //         Display.print("Your current bet is " + this.moneyToBet);
+    //         document.getElementById("rollButton").removeAttribute("disabled");
+    //         Display.print("Let's get the dice rolling, click the roll button!");//all filler right now
+    //         document.getElementById("rollButton").setAttribute("onclick", "this.crapsLogic()");
+    //
+    //         if (this.crapsGame.crapsPlayer.getMoney() === 0) {
+    //             Display.print("Out of money buddy, see ya later!")
+    //             //have to send them back to beginning
+    //
+    //         }
+    //
+    //         Display.print("Would you like to play again? [yes] or [no]");
+    //         this.playAgain = UserInput.userInput.value;
+    //     } while (this.playAgain.toLowerCase() === "yes");
+    //     document.getElementById("button").setAttribute("onclick", "CrapsConsole.playCraps()");
+    // }
+
+    //
+    // crapsLogic() {
+    //     this.crapsGame.die.rollDie();
+    //     if (this.crapsGame.firstRollLogic() === 1) {
+    //         this.crapsGame.subsequentRollLogic();
+    //     }
+    //
+    // }
 
 }
