@@ -1,4 +1,6 @@
-import {Card} from './Card'
+
+import {Cards} from './Cards'
+export class CardPile {
 
 export class CardPile {
 
