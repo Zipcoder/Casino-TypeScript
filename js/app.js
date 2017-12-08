@@ -31,9 +31,11 @@ var Casino = /** @class */ (function () {
         this.player = new Player(this.name, this.money);
     };
     Casino.prototype.displayOptions = function () {
-        this.displayEle.innerHTML += "Player: " + this.player.getName() + "<br/>Money: " + this.player.getBalance() + "<br/>" +
+        this.displayEle.innerHTML += "<br/>Player: " + this.player.getName() + "<br/>Money: " + this.player.getBalance() + "<br/>" +
             "What would you like to do?";
-        this.displayEle.innerHTML += "<br/><button> <a href = \"index.html\">Play BlackJack</a> </button>";
+        this.displayEle.innerHTML += "<br/><button> <a href = \"index.html\">Play BlackJack</a> </button>" + "     " +
+            "<br/><button> <a href = \"craps.html\">Play Craps</a> </button>" + "     " +
+            "<br/><button> <a href = \"goFish.html\">Play Go Fish</a> </button>";
     };
     return Casino;
 }());
