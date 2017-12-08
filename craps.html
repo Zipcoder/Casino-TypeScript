@@ -20,15 +20,18 @@
 
     <section id="mainCraps">
         <div id="displayCraps">
-            <h6 id="rollOne"></h6>
+            <div>
+                <span><img src="./images/dice/dice_1.png"></span>
+                <span></span>
+            </div>
         </div>
 			<div id="inputCraps">
                         Enter your amount:<br>
                         <input type="text" name="betAmount" id="betAmount" placeholder="$">
                         <input type="submit" value="Play" onclick="craps.play()">
                 
-                <input type="submit" value="Roll" onclick="craps.roll()">
-                <input type="submit" value="RollTwo" onclick="craps.checkRollTwo()">
+                <input type="submit" id="roll" value="Roll" onclick="craps.roll()">
+                <input type="submit" id="rollTwo" value="RollTwo" onclick="craps.checkRollTwo()">
 			</div>
     </section>
 
