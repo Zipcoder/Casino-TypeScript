@@ -1,5 +1,5 @@
 ///<reference path="Player.ts"/>
-/// <reference path="Craps.ts" />
+/// <reference path="craps.ts" />
 
 
 class Casino {
