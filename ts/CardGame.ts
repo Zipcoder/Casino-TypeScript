@@ -1,5 +1,6 @@
 import {Game} from './Game';
-import {CardPile} form './CardPile';
+import {CardPile} from './CardPile';
+import {Card} from './Card';
 
 export abstract class CardGame<T extends Game<T>> extends Game<T> {
 
@@ -36,7 +37,8 @@ export abstract class CardGame<T extends Game<T>> extends Game<T> {
     }
 
     public  drawFromStock():Card {
-        let topCard = this.stockPile.shift();
+        let topCard = this.stockPile.getCard(0);
+        this.stockPile.removeCard(topCard);
         return topCard;
     }
 
