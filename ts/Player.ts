@@ -1,4 +1,4 @@
-class Player {
+class Player{
    
     private name: string;
     private wallet: number;

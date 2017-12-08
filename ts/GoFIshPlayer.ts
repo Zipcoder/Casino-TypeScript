@@ -9,8 +9,7 @@ class GoFishPlayer extends CardPlayer {
         
     }
 
-    
-    askOpponentForCard(otherPlayer: GoFishPlayer, cardRequest: String): boolean{
+    askOpponentForCard(otherPlayer: CardPlayer, cardRequest: String): boolean{
         if(otherPlayer.hasCardOfValue(cardRequest)){
             return true;
         }else{
@@ -18,9 +17,10 @@ class GoFishPlayer extends CardPlayer {
         }
     }
 
-    tallyBooks(): Card[]{
+    tallyBooks(): number{
 
         var counts = {};
+        var numBooks = 0
           
         for(var i = 0; i<this.hand.length;i++){
               var rank = this.hand[i].getValue();
@@ -28,18 +28,30 @@ class GoFishPlayer extends CardPlayer {
 
               if (counts[rank] == 4){
                 console.log("you have four " + this.hand[i].getValue()+ "s. Book it!");
+                numBooks++;
                 }
                                
-            }   
-            return this.hand;
+        }
+        return numBooks;       
     }
-    
-    removeCardFromHand(card: Card) {
-        this.hand = this.hand.filter(e => e !== card);
+
+    playerHasABook(): boolean{
+        if(this.tallyBooks() > 0){
+            return true;
+        }   
+        return false;
     }
-    
-    
-    
+
+    removeAllCardsByValue(cardValueToDiscard: String){
+        for(var i = 0; i < this.hand.length; i++){
+            if(cardValueToDiscard == this.hand[i].getValue()){
+                this.hand = this.hand.filter(e => e != this.getCardByValue(cardValueToDiscard));        
+            }
+        }
+    }
+    // removeCardFromHand(card: Card) {
+    //     this.hand = this.hand.filter(e => e !== card);
+    // }
 }        
 
 var goFishPlayer = new GoFishPlayer();
@@ -64,48 +76,10 @@ goFishPlayer.addCardToHand(card6);
 goFishPlayer.addCardToHand(card7);
 
 
-
-
 console.log("books tally output: "+ goFishPlayer.tallyBooks());
+goFishPlayer.removeAllCardsByValue("Queen");
+console.log("books tally after remove: "+ goFishPlayer.tallyBooks());
 
     
-        // public Integer playPotentialBooksInHand() {
-        //     HashMap<Card.FaceValue, Integer> numberOfEachValue = new HashMap<>();
-        //     for(Card card : getHand().getCards()) {
-        //         Card.FaceValue key = card.getFaceValue();
-        //         if(numberOfEachValue.containsKey(key)) {
-        //             numberOfEachValue.put(key, numberOfEachValue.get(key) + 1);
-        //         } else {
-        //             numberOfEachValue.put(key, 1);
-        //         }
-        //     }
-    
-        //     ArrayList<Card.FaceValue> fourOfAKindValues = new ArrayList<>();
-    
-        //     for(Card.FaceValue value : numberOfEachValue.keySet()) {
-        //         if(numberOfEachValue.get(value) == 4) {
-        //             fourOfAKindValues.add(value);
-        //         }
-        //     }
-    
-        //     for(Card.FaceValue value : fourOfAKindValues) {
-        //         CardPile book = new CardPile();
-        //         for(Card card : getHand().getCards()) {
-        //             if(card.getFaceValue().equals(value)) {
-        //                 book.addCardToPile(card);
-        //             }
-        //         }
-        //         books.add(book);
-        //         for(Card card : book.getCards()) {
-        //             getHand().removeCard(card);
-        //         }
-        //     }
-    
-        //     return fourOfAKindValues.size();
-        // }
-    
-        // public void goFish(Card card) {
-        //     addCardToHand(card);
-        // }
-    
+
     

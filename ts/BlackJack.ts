@@ -1,39 +1,37 @@
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardGame.ts" />
+/// <reference path="CardPlayer.ts" />
 /// <reference path="Deck.ts" />
 
 class BlackJack extends CardGame{
     private dealer: BlackJackPlayer;
-    private blackJackPlayers: BlackJackPlayer[];
-    private deck: Deck;
-
+    
+    
     constructor(){
         super();
         this.dealer = new BlackJackPlayer();
-        this.blackJackPlayers = [];
-        this.deck = new Deck();
-    }
-
-    addBlackJackPlayer(player: BlackJackPlayer){
-        this.blackJackPlayers.push(player);
     }
 
     getDealer(): BlackJackPlayer{
         return this.dealer;
     }
 
+    addCardPlayer(cardPlayer: CardPlayer){
+        super.getCardPlayers().push(cardPlayer);
+    }
+
     dealInitialCards(){
-        this.deck.shuffle(47);
+        deck.shuffle(47);
         for(var i = 0; i < 2; i++){
-            for(var j = 0; j < this.blackJackPlayers.length; j++){
-                var nextCard = this.deck.getTopCard();
-                this.blackJackPlayers[j].getHand().push(nextCard);
+            for(var j = 0; j < super.getCardPlayers().length; j++){
+                var nextCard = deck.getTopCard();
+                super.getCardPlayers()[j].getHand().push(nextCard);
             }
         }
     }
 
     hitPlayer(blackJackPlayer: BlackJackPlayer){
-        var nextCard = this.deck.getTopCard();
+        var nextCard = deck.getTopCard();
         blackJackPlayer.getHand().push(nextCard);
     }
 
@@ -51,7 +49,7 @@ class BlackJack extends CardGame{
         }
     }
     
-    calculatePlayerScore(blackJackPlayer: BlackJackPlayer): number{
+    calculatePlayerScore(blackJackPlayer: CardPlayer): number{
         var score = 0;
         for(var i = 0; i < blackJackPlayer.getHand().length; i++){
             score += blackJack.getCardPointValue(blackJackPlayer.getHand()[i]);
@@ -82,13 +80,13 @@ class BlackJack extends CardGame{
 
     }
     
-}
+        }
     
 
 
 var blackJack = new BlackJack();
-var blackJackPlayer = new BlackJackPlayer();
-blackJack.addBlackJackPlayer(blackJackPlayer);
+var blackJackPlayer = new CardPlayer();
+blackJack.addCardPlayer(blackJackPlayer);
 blackJack.dealInitialCards();
 var score = blackJack.calculatePlayerScore(blackJackPlayer);
 console.log(score);

@@ -120,7 +120,32 @@ class Game {
     }
 }
 /// <reference path="Game.ts" />
-class CardGame extends Game {
+class CardGame {
+    constructor() {
+        this.deck = new Deck;
+        this.cardPlayers = [];
+    }
+    getCardPlayers() {
+        return this.cardPlayers;
+    }
+    addCardPlayer(cardPlayer) {
+        this.getCardPlayers().push(cardPlayer);
+    }
+    deal(numCards) {
+        deck.shuffle(47);
+        for (var i = 0; i < numCards; i++) {
+            for (var j = 0; j < this.getCardPlayers().length; j++) {
+                var nextCard = deck.getTopCard();
+                this.getCardPlayers()[j].getHand().push(nextCard);
+            }
+        }
+    }
+    showPlayerHand() {
+        for (var i = 0; i < this.getCardPlayers()[0].getHand().length; i++) {
+            console.log(this.getCardPlayers()[0].getHand()[i].getValue()
+                + ", " + this.getCardPlayers()[0].getHand()[i].getSuit());
+        }
+    }
 }
 class Deck {
     constructor() {
@@ -148,31 +173,30 @@ deck.shuffle(4);
 console.log(deck);
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardGame.ts" />
+/// <reference path="CardPlayer.ts" />
 /// <reference path="Deck.ts" />
 class BlackJack extends CardGame {
     constructor() {
         super();
         this.dealer = new BlackJackPlayer();
-        this.blackJackPlayers = [];
-        this.deck = new Deck();
-    }
-    addBlackJackPlayer(player) {
-        this.blackJackPlayers.push(player);
     }
     getDealer() {
         return this.dealer;
     }
+    addCardPlayer(cardPlayer) {
+        super.getCardPlayers().push(cardPlayer);
+    }
     dealInitialCards() {
-        this.deck.shuffle(47);
+        deck.shuffle(47);
         for (var i = 0; i < 2; i++) {
-            for (var j = 0; j < this.blackJackPlayers.length; j++) {
-                var nextCard = this.deck.getTopCard();
-                this.blackJackPlayers[j].getHand().push(nextCard);
+            for (var j = 0; j < super.getCardPlayers().length; j++) {
+                var nextCard = deck.getTopCard();
+                super.getCardPlayers()[j].getHand().push(nextCard);
             }
         }
     }
     hitPlayer(blackJackPlayer) {
-        var nextCard = this.deck.getTopCard();
+        var nextCard = deck.getTopCard();
         blackJackPlayer.getHand().push(nextCard);
     }
     getCardPointValue(card) {
@@ -213,8 +237,8 @@ class BlackJack extends CardGame {
     }
 }
 var blackJack = new BlackJack();
-var blackJackPlayer = new BlackJackPlayer();
-blackJack.addBlackJackPlayer(blackJackPlayer);
+var blackJackPlayer = new CardPlayer();
+blackJack.addCardPlayer(blackJackPlayer);
 blackJack.dealInitialCards();
 var score = blackJack.calculatePlayerScore(blackJackPlayer);
 console.log(score);
@@ -248,17 +272,29 @@ class GoFishPlayer extends CardPlayer {
     }
     tallyBooks() {
         var counts = {};
+        var numBooks = 0;
         for (var i = 0; i < this.hand.length; i++) {
             var rank = this.hand[i].getValue();
             counts[rank] = (counts[rank] || 0) + 1;
             if (counts[rank] == 4) {
                 console.log("you have four " + this.hand[i].getValue() + "s. Book it!");
+                numBooks++;
             }
         }
-        return this.hand;
+        return numBooks;
     }
-    removeCardFromHand(card) {
-        this.hand = this.hand.filter(e => e !== card);
+    playerHasABook() {
+        if (this.tallyBooks() > 0) {
+            return true;
+        }
+        return false;
+    }
+    removeAllCardsByValue(cardValueToDiscard) {
+        for (var i = 0; i < this.hand.length; i++) {
+            if (cardValueToDiscard == this.hand[i].getValue()) {
+                this.hand = this.hand.filter(e => e != this.getCardByValue(cardValueToDiscard));
+            }
+        }
     }
 }
 var goFishPlayer = new GoFishPlayer();
@@ -279,37 +315,34 @@ goFishPlayer.addCardToHand(card5);
 goFishPlayer.addCardToHand(card6);
 goFishPlayer.addCardToHand(card7);
 console.log("books tally output: " + goFishPlayer.tallyBooks());
-// public Integer playPotentialBooksInHand() {
-//     HashMap<Card.FaceValue, Integer> numberOfEachValue = new HashMap<>();
-//     for(Card card : getHand().getCards()) {
-//         Card.FaceValue key = card.getFaceValue();
-//         if(numberOfEachValue.containsKey(key)) {
-//             numberOfEachValue.put(key, numberOfEachValue.get(key) + 1);
-//         } else {
-//             numberOfEachValue.put(key, 1);
-//         }
-//     }
-//     ArrayList<Card.FaceValue> fourOfAKindValues = new ArrayList<>();
-//     for(Card.FaceValue value : numberOfEachValue.keySet()) {
-//         if(numberOfEachValue.get(value) == 4) {
-//             fourOfAKindValues.add(value);
-//         }
-//     }
-//     for(Card.FaceValue value : fourOfAKindValues) {
-//         CardPile book = new CardPile();
-//         for(Card card : getHand().getCards()) {
-//             if(card.getFaceValue().equals(value)) {
-//                 book.addCardToPile(card);
-//             }
-//         }
-//         books.add(book);
-//         for(Card card : book.getCards()) {
-//             getHand().removeCard(card);
-//         }
-//     }
-//     return fourOfAKindValues.size();
-// }
-// public void goFish(Card card) {
-//     addCardToHand(card);
-// }
+goFishPlayer.removeAllCardsByValue("Queen");
+console.log("books tally after remove: " + goFishPlayer.tallyBooks());
+/// <reference path="CardGame.ts" />
+/// <reference path="CardPlayer.ts" />
+/// <reference path="Deck.ts" />
+/// <reference path="GoFIshPlayer.ts" />
+class GoFish extends CardGame {
+    constructor() {
+        super();
+    }
+    goFishStart() {
+        var goFish = new GoFish();
+        var dealer = new CardPlayer();
+        var player = new CardPlayer();
+        goFish.addCardPlayer(dealer);
+        goFish.addCardPlayer(player);
+        console.log("Let's play some GoFish!");
+        goFish.showPlayerHand();
+        //     boolean playing = true;
+        //     while (playing) {
+        //         playerTurn();
+        //         dealerTurn();
+        //         playing = checkForWin();
+        //     }
+        //     gameOptions();
+        // }
+    }
+}
+var goFish = new GoFish();
+goFish.goFishStart();
 //# sourceMappingURL=app.js.map
