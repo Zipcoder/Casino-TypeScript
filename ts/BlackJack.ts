@@ -1,8 +1,9 @@
 import {Gamble} from './Gamble';
 import {CardGame} from './CardGame';
 import {BlackJackPlayer} from './BlackJackPlayer';
+//import {Player} from './Player';
 
-export class BlackJack extends CardGame<BlackJack> implements Gamble{
+export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
 
   public readonly MIN_NUMBER_OF_PLAYERS = 1;
   public readonly MAX_NUMBER_OF_PLAYERS = 7;
@@ -12,15 +13,17 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble{
   private winners:Array<BlackJackPlayer>  = [];
   private push:Array<BlackJackPlayer>  = [];
 
+
   constructor(numStandardDecks:number) {
       super(numStandardDecks);
+
   }
 
-  public  getPlayers() {
+  public  getPlayers(){
       return  this.players;
   }
 
-  public  getDealer() {
+  public  getDealer():BlackJackPlayer {
       return this.dealer;
   }
 
@@ -126,15 +129,15 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble{
       this.push=[];
   }
 
-  public getBets()  {
+  public getBets():{}  {
       return this.bets;
   }
 
-  public getWinners() {
+  public getWinners():Array<BlackJackPlayer> {
       return this.winners;
   }
 
-  public  getPush() {
+  public  getPush():Array<BlackJackPlayer> {
       return this.push;
   }
 }

@@ -3,6 +3,7 @@ import {BlackJack} from './BlackJack';
 
 export class BlackJackPlayer extends CardPlayer<BlackJack> {
 
+    
     constructor(name:string) {
         super(name);
     }
