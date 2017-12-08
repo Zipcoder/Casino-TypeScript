@@ -11,4 +11,21 @@ class Display{
     static setCurrentStep(step : String){
         this.currentStep = step;
     }
+
+    static hideUserInputButtonAndTextBox(){
+        document.getElementById("button").style.display = "none";
+        document.getElementById("user_input").style.display = "none";
+    }
+
+    static showUserInputButtonAndTextBox(){
+        document.getElementById("button").style.display = "";
+        document.getElementById("user_input").style.display = "";
+    }
+
+    static hideRollButton(){
+        document.getElementById("rollButton").style.display = "none";
+    }
+    static showRollButton(){
+        document.getElementById("rollButton").style.display = "";
+    }
 }
