@@ -2,6 +2,7 @@ import {Console} from './Console';
 import {Utilities} from './Utilities';
 import {BlackJack} from './BlackJack';
 import {Player} from './Player';
+import {CardPlayer} from './CardPlayer';
 import {BlackJackPlayer} from './BlackJackPlayer';
 
 export class BlackJackConsole extends Console {

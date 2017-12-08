@@ -1,7 +1,7 @@
 import {Gamble} from './Gamble';
 import {CardGame} from './CardGame';
+import {CardPlayer} from './CardPlayer';
 import {BlackJackPlayer} from './BlackJackPlayer';
-import {Player} from './Player';
 
 export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
 
@@ -19,6 +19,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
   }
 
   public  getPlayers(){
+
       return  this.players;
   }
 
@@ -46,7 +47,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
   public putCardsInDiscardPile() {
       this.discardCards(this.dealer.getHand());
       for(let p in this.getPlayers()) {
-        let player = this.getPlayers()[p];
+        let player:BlackJackPlayer  = this.getPlayers()[p];
           this.discardCards(player.getHand());
       }
   }
@@ -138,5 +139,27 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
 
   public  getPush():Array<BlackJackPlayer> {
       return this.push;
+  }
+
+  players: BlackJackPlayer[] = [];
+
+
+
+  getNumPlayers() : number {
+    return this.players.length;
+  }
+
+  addPlayers(players: BlackJackPlayer[]) {
+    this.players = players;
+  }
+
+  printPlayersMoney() : string {
+    var moneyString: string[] = [];
+    let i = 1;
+    for(let player in this.players) {
+      moneyString.push("Player " + i + ", " + this.players[player].getName() + ", Total money: $" + this.players[player].getMoney());
+      i++;
+    }
+    return "[ " + moneyString.join(" ] , [ ") + " ]";
   }
 }
