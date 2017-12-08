@@ -9,7 +9,7 @@ export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
         super(name);
     }
 
-    public addCardToHand( card:Card) {
+    public addCardToHand(card:Card) {
         this.hand.addCardToPile(card);
     }
 
@@ -17,7 +17,7 @@ export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
         this.hand.addCardsToPile(cardPile);
     }
 
-    public hasCardsOfRank(rank:Card.FaceValue) {
+    public hasCardsOfRank(rank:Card.FaceValue):boolean {
         let hand:CardPile = this.getHand();
         for(Card.Suit suit : Card.Suit.values()) {
              cardToCheck:Card = new Card(rank, suit);
@@ -28,7 +28,7 @@ export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
         return false;
     }
 
-    public getHand() {
+    public getHand():CardPile {
         return this.hand;
     }
 }
