@@ -2,8 +2,8 @@
 
 class BlackJackPlayer extends CardPlayer{
 
-    constructor(){
-        super();
+    constructor(player: Player){
+        super(player);
     }
 
     hasAceInHand(): boolean{

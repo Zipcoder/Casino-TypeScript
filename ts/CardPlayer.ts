@@ -4,8 +4,8 @@ class CardPlayer extends Player{
 
     hand: Card[];
 
-    constructor(){
-        super();
+    constructor(player: Player){
+        super(player.Name, player.Wallet);
         this.hand = [];
     }
 
@@ -39,15 +39,15 @@ class CardPlayer extends Player{
 
 }
 
-var cardPlayer = new CardPlayer();
-var card = new Card("Queen", "Hearts");
-var card2 = new Card("King", "Clubs");
-var card3 = new Card("7", "Spades");
-cardPlayer.addCardToHand(card);
-cardPlayer.addCardToHand(card2);
-cardPlayer.addCardToHand(card3);
-cardPlayer.hasCardOfValue("Queen");
-console.log(cardPlayer.hasCardOfValue("Queen"));
-console.log(cardPlayer.getCardByValue("Queen"));
-console.log(cardPlayer.hasCardOfValue("Queen"));
-console.log(cardPlayer.getHand());
+// var cardPlayer = new CardPlayer();
+// var card = new Card("Queen", "Hearts");
+// var card2 = new Card("King", "Clubs");
+// var card3 = new Card("7", "Spades");
+// cardPlayer.addCardToHand(card);
+// cardPlayer.addCardToHand(card2);
+// cardPlayer.addCardToHand(card3);
+// cardPlayer.hasCardOfValue("Queen");
+// console.log(cardPlayer.hasCardOfValue("Queen"));
+// console.log(cardPlayer.getCardByValue("Queen"));
+// console.log(cardPlayer.hasCardOfValue("Queen"));
+// console.log(cardPlayer.getHand());

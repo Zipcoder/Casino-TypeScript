@@ -1,44 +1,35 @@
 /// <reference path="Game.ts" />
 abstract class CardGame{
 
-    private deck: Deck;
-    protected cardPlayers: CardPlayer[];
+    abstract deck: Deck;
+
     
-    constructor(){
-        this.deck = new Deck;
-        this.cardPlayers = []
-    }
+    // constructor(){
+    //     this.deck = new Deck;
+    //     this.cardPlayers = []
+    // }
 
-    getCardPlayers(){
-        return this.cardPlayers;
-    }
+    // getCardPlayers(){
+    //     return this.cardPlayers;
+    // }
 
-    addCardPlayer(cardPlayer: CardPlayer){
-        this.getCardPlayers().push(cardPlayer);
-    }
+    // addCardPlayer(cardPlayer: CardPlayer){
+    //     this.getCardPlayers().push(cardPlayer);
+    // }
 
-    deal(numCards: number){
-        deck.shuffle(47);
-        for(var i = 0; i < numCards; i++){
-            for(var j = 0; j < this.getCardPlayers().length; j++){
-                var nextCard = deck.getTopCard();
-                this.getCardPlayers()[j].getHand().push(nextCard);
-            }
-        }
-}
 
-    showPlayerHand(){
-        for(var i = 0; i< this.getCardPlayers()[0].getHand().length;i++){
-            console.log(this.getCardPlayers()[0].getHand()[i].getValue()
-                 + ", "+this.getCardPlayers()[0].getHand()[i].getSuit());
-        }
-    }
 
-    showDealerHand(){
-        for(var i = 0; i< this.getCardPlayers()[1].getHand().length;i++){
-            console.log(this.getCardPlayers()[1].getHand()[i].getValue()
-                 + ", "+this.getCardPlayers()[1].getHand()[i].getSuit());
-        }
-    }
-
+    // showPlayerHand(){
+    //     for(var i = 0; i< this.getCardPlayers()[0].getHand().length;i++){
+    //         console.log(this.getCardPlayers()[0].getHand()[i].getValue()
+    //              + ", " + this.getCardPlayers()[0].getHand()[i].getSuit());
+    //     }
+    // }
+    //
+    // showDealerHand(){
+    //     for(var i = 0; i< this.getCardPlayers()[1].getHand().length;i++){
+    //         console.log(this.getCardPlayers()[1].getHand()[i].getValue()
+    //              + ", " + this.getCardPlayers()[1].getHand()[i].getSuit());
+    //     }
+    // }
 }

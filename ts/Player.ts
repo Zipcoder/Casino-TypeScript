@@ -4,33 +4,29 @@ class Player{
     private wallet: number;
     private score: number;
 
-    constructor(){
-        this.name;
-        this.wallet;
-        this.score;
+    constructor(name: string, wallet: number){
+        this.name = name
+        this.wallet = wallet;
+        this.score = 0;
     }
 
-    getName(): string{
+    get Name(): string{
         return this.name;
     }
 
-    setName(name: string){
-        this.name = name;
-    }
-
-    getWallet(): number{
+    get Wallet(): number{
         return this.wallet
     }
 
-    setWallet(wallet: number){
+    set Wallet(wallet: number){
         this.wallet = wallet;
     }
 
-    getScore(): number{
+    get Score(): number{
         return this.score;
     }
 
-    setScore(score: number){
+    set Score(score: number){
         this.score = score;
     }
 }

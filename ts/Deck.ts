@@ -18,13 +18,13 @@ class Deck{
         return this.deck.pop();
     }
 
-    shuffle(times?:number){
+    shuffle(times?: number){
         for(var i = 0; i < (times || 1); i++){
             this.deck.sort(function(a, b) { return (0.5 - Math.random()); });
         }
     }
 }
 
-var deck = new Deck();
-deck.shuffle(4);
-console.log(deck);
+// var deck = new Deck();
+// deck.shuffle(4);
+// console.log(deck);
