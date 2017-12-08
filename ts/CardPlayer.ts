@@ -19,10 +19,10 @@ export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
         this.hand.addCardsToPile(cardPile);
     }
 
-    public hasCardsOfRank(rank:FaceValue):boolean {
+    public hasCardsOfRank(rank: string):boolean {
         let hand:CardPile = this.getHand();
-        for(Card.Suit suit : Card.Suit.values()) {
-             cardToCheck:Card = new Card(rank, suit);
+        for(let suit in Object.keys(Card.suits)) {
+             let cardToCheck:Card = new Card(rank, suit);
             if(hand.contains(cardToCheck)) {
                 return true;
             }
