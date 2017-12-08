@@ -1,14 +1,14 @@
 import {Console} from './Console';
 import {Utilities} from './Utilities';
 import {BlackJack} from './BlackJack';
-import {BlackJackPlayer} from './BlackJackPlayer';
+import {Player} from './Player';
 
 export class BlackJackConsole extends Console {
 
   private  nameOfGame:string = "BlackJack";
 
     private  game:BlackJack = new BlackJack(1);
-    private  currentPlayer:BlackJackPlayer;
+    private  currentPlayer:Player<BlackJack>;
 
 
     public start() {
@@ -20,9 +20,9 @@ export class BlackJackConsole extends Console {
         Utilities.printMenuName("Welcome to " + this.getNameOfGame());
         let numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
         let playerNames:string[] = this.getPlayerNames(numPlayers);
-        let players:Array<BlackJackPlayer>  = [];
+        let players:Array<Player<BlackJack>>  = [];
         for(let name in playerNames) {
-            let player:BlackJackPlayer  = new BlackJackPlayer(playerNames[name]);
+            let player:Player<BlackJack>  = new Player<BlackJack>(playerNames[name]);
             players.push(player);
         }
         this.game.addPlayers(players);
@@ -61,7 +61,7 @@ export class BlackJackConsole extends Console {
         Utilities.printLine("Dealer showing " + this.game.getDealer().getHand().getCard(0));
     }
 
-    public playerTakeTurn(player: BlackJackPlayer) {
+    public playerTakeTurn(player: Player<BlackJack>) {
         let finishedTurn = false;
         while(!finishedTurn) {
             Utilities.printLine("Your cards: " + player.getHand());
@@ -70,7 +70,7 @@ export class BlackJackConsole extends Console {
         Utilities.printLine("");
     }
 
-    public  makeBet(player: BlackJackPlayer) {
+    public  makeBet(player: Player<BlackJack>) {
         let amountAvailableToBet = player.getMoney();
         let amount = 0.0;
         let isValidInput = false;

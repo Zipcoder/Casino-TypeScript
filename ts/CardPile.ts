@@ -32,10 +32,10 @@ class CardPile {
     }
 
     public  containsAll( cardPile:CardPile):boolean {
-        CardPile temp = new CardPile();
+        let temp = new CardPile();
         temp.addCardsToPile(cardPile);
         while(temp.numCards() > 0) {
-            Card nextCard = temp.getCard(0);
+            let nextCard = temp.getCard(0);
             if(cards.contains(nextCard)) {
                 temp.removeCard(nextCard);
             } else {
@@ -70,7 +70,7 @@ class CardPile {
         return this.cards;
     }
 
-    
+
     public  toString():String {
         StringJoiner stringJoiner = new StringJoiner(", ");
         for(Card card : cards) {

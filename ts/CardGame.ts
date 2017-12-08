@@ -1,4 +1,6 @@
 import {Game} from './Game';
+import {CardPile} form './CardPile';
+
 export abstract class CardGame<T extends Game<T>> extends Game<T> {
 
     private numStandardDecks:number;
