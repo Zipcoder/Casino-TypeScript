@@ -4,7 +4,13 @@ export class CardPile {
     private cards: Card[] = [];
 
     public shuffle() {
-        Collections.shuffle(this.cards);
+      var j, x, i;
+      for (i = this.cards.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = this.cards[i];
+        this.cards[i] = this.cards[j];
+        this.cards[j] = x;
+      }
     }
 
     public addCardToPile(card:Card) {
