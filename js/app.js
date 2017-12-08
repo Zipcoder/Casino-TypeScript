@@ -120,7 +120,38 @@ class Game {
     }
 }
 /// <reference path="Game.ts" />
-class CardGame extends Game {
+class CardGame {
+    constructor() {
+        this.deck = new Deck;
+        this.cardPlayers = [];
+    }
+    getCardPlayers() {
+        return this.cardPlayers;
+    }
+    addCardPlayer(cardPlayer) {
+        this.getCardPlayers().push(cardPlayer);
+    }
+    deal(numCards) {
+        deck.shuffle(47);
+        for (var i = 0; i < numCards; i++) {
+            for (var j = 0; j < this.getCardPlayers().length; j++) {
+                var nextCard = deck.getTopCard();
+                this.getCardPlayers()[j].getHand().push(nextCard);
+            }
+        }
+    }
+    showPlayerHand() {
+        for (var i = 0; i < this.getCardPlayers()[0].getHand().length; i++) {
+            console.log(this.getCardPlayers()[0].getHand()[i].getValue()
+                + ", " + this.getCardPlayers()[0].getHand()[i].getSuit());
+        }
+    }
+    showDealerHand() {
+        for (var i = 0; i < this.getCardPlayers()[1].getHand().length; i++) {
+            console.log(this.getCardPlayers()[1].getHand()[i].getValue()
+                + ", " + this.getCardPlayers()[1].getHand()[i].getSuit());
+        }
+    }
 }
 class Deck {
     constructor() {
@@ -148,28 +179,19 @@ deck.shuffle(4);
 console.log(deck);
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardGame.ts" />
+/// <reference path="CardPlayer.ts" />
 /// <reference path="Deck.ts" />
 class BlackJack extends CardGame {
     constructor() {
         super();
         this.dealer = new BlackJackPlayer();
-        this.blackJackPlayers = [];
-        this.deck = new Deck();
-    }
-    addBlackJackPlayer(player) {
-        this.blackJackPlayers.push(player);
     }
     getDealer() {
         return this.dealer;
     }
-    dealInitialCards() {
-        this.deck.shuffle(47);
-        for (var i = 0; i < 2; i++) {
-            for (var j = 0; j < this.blackJackPlayers.length; j++) {
-                var nextCard = this.deck.getTopCard();
-                this.blackJackPlayers[j].getHand().push(nextCard);
-            }
-        }
+    hitPlayer(blackJackPlayer) {
+        var nextCard = deck.getTopCard();
+        blackJackPlayer.getHand().push(nextCard);
     }
     getCardPointValue(card) {
         if (card.getValue() == "K" ||
@@ -191,15 +213,134 @@ class BlackJack extends CardGame {
         }
         return score;
     }
+    // play()     
+    pressPlay() {
+        //creates a blackJackGame
+        //creates a player and a dealer
+        //adds player/dealer to the gam
+    }
+    askForHitOrStay() {
+    }
+    dealerPlay() {
+    }
+    isPlayerWinner(blackJackPlayer, dealer) {
+        return false;
+    }
+    playAgain(input) {
+        return input;
+    }
 }
 var blackJack = new BlackJack();
-var blackJackPlayer = new BlackJackPlayer();
-blackJack.addBlackJackPlayer(blackJackPlayer);
-blackJack.dealInitialCards();
+var blackJackPlayer = new CardPlayer();
+blackJack.addCardPlayer(blackJackPlayer);
+blackJack.deal(2);
 var score = blackJack.calculatePlayerScore(blackJackPlayer);
 console.log(score);
 /// <reference path="Player.ts" />
 // var player = new Player();
 // player.setName("Tariq");
 // console.log(player.getName());
+//  play()     
+//  dealInitialCards(player);
+//  dealInitialCards(dealer)
+//    askForHitOrStay();
+//    dealerPlay();
+//    checkWin();
+// if(playAgain()){
+//     play();
+// }else{
+// exit
+/// <reference path="Deck.ts" />
+/// <reference path="CardPlayer.ts" />
+class GoFishPlayer extends CardPlayer {
+    constructor() {
+        super();
+    }
+    askOpponentForCard(otherPlayer, cardRequest) {
+        if (otherPlayer.hasCardOfValue(cardRequest)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    tallyBooks() {
+        var counts = {};
+        var numBooks = 0;
+        for (var i = 0; i < this.hand.length; i++) {
+            var rank = this.hand[i].getValue();
+            counts[rank] = (counts[rank] || 0) + 1;
+            if (counts[rank] == 4) {
+                console.log("you have four " + this.hand[i].getValue() + "s. Book it!");
+                numBooks++;
+            }
+        }
+        return numBooks;
+    }
+    playerHasABook() {
+        if (this.tallyBooks() > 0) {
+            return true;
+        }
+        return false;
+    }
+    removeAllCardsByValue(cardValueToDiscard) {
+        for (var i = 0; i < this.hand.length; i++) {
+            if (cardValueToDiscard == this.hand[i].getValue()) {
+                this.hand = this.hand.filter(e => e != this.getCardByValue(cardValueToDiscard));
+            }
+        }
+    }
+}
+var goFishPlayer = new GoFishPlayer();
+var card0 = new Card("Queen", "Hearts");
+var card1 = new Card("Queen", "Hearts");
+var card2 = new Card("Queen", "Hearts");
+var card3 = new Card("Queen", "Hearts");
+var card4 = new Card("King", "Hearts");
+var card5 = new Card("King", "Hearts");
+var card6 = new Card("King", "Hearts");
+var card7 = new Card("King", "Hearts");
+goFishPlayer.addCardToHand(card0);
+goFishPlayer.addCardToHand(card1);
+goFishPlayer.addCardToHand(card2);
+goFishPlayer.addCardToHand(card3);
+goFishPlayer.addCardToHand(card4);
+goFishPlayer.addCardToHand(card5);
+goFishPlayer.addCardToHand(card6);
+goFishPlayer.addCardToHand(card7);
+console.log("books tally output: " + goFishPlayer.tallyBooks());
+goFishPlayer.removeAllCardsByValue("Queen");
+console.log("books tally after remove: " + goFishPlayer.tallyBooks());
+/// <reference path="CardGame.ts" />
+/// <reference path="CardPlayer.ts" />
+/// <reference path="Deck.ts" />
+/// <reference path="GoFIshPlayer.ts" />
+class GoFish extends CardGame {
+    constructor() {
+        super();
+    }
+    goFishStart() {
+        var goFish = new GoFish();
+        var dealer = new CardPlayer();
+        var player = new CardPlayer();
+        goFish.addCardPlayer(dealer);
+        goFish.addCardPlayer(player);
+        goFish.deal(7);
+        console.log("Let's play some GoFish!");
+        console.log("player hand");
+        goFish.showPlayerHand();
+        console.log("dealer hand");
+        goFish.showDealerHand();
+        //     boolean playing = true;
+        //     while (playing) {
+        //         playerTurn();
+        //         dealerTurn();
+        //         playing = checkForWin();
+        //     }
+        //     gameOptions();
+        // }
+    }
+}
+var goFish = new GoFish();
+goFish.goFishStart();
 //# sourceMappingURL=app.js.map

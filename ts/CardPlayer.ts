@@ -36,6 +36,7 @@ class CardPlayer extends Player{
         }
         return undefined;
     }
+
 }
 
 var cardPlayer = new CardPlayer();
