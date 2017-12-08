@@ -15,7 +15,7 @@ export class BlackJackConsole extends Console {
 
     public start() {
         this.setUpGame();
-        this.playRoundsUntilAllPlayersCashOut(this.game);
+        // this.playRoundsUntilAllPlayersCashOut(this.game);
     }
 
     public  setUpGame() {

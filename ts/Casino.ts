@@ -38,9 +38,11 @@ export class Casino {
     Utilities.printMenuOptions(gameNames);
     // var choice = Utilities.getMenuInput(">> ", gameNames).toUpperCase();
     var _this = this;
-    Utilities.buttonEle.addEventListener("click", function() {
+    Utilities.buttonEle.addEventListener("click", function getChoice() {
       var choice: string = Utilities.userInputEle.value.toUpperCase();
+      Utilities.userInputEle.value = "";
       _this.goToGame(choice);
+      this.removeEventListener("click", getChoice);
     })
   }
 

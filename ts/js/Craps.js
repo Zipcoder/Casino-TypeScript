@@ -17,6 +17,7 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.MIN_NUMBER_OF_PLAYERS = 1;
             _this.MAX_NUMBER_OF_PLAYERS = 8;
+            _this.players = [];
             _this.dice = new Dice_1.Dice(2);
             _this.bets = {};
             _this.playersOnPass = [];
@@ -24,6 +25,12 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             _this.passBetsWin = true;
             return _this;
         }
+        Craps.prototype.addPlayers = function (players) {
+            this.players = players;
+        };
+        Craps.prototype.getNumPlayers = function () {
+            return this.players.length;
+        };
         Craps.prototype.getPlayers = function () {
             return this.players;
         };
@@ -86,6 +93,15 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
         };
         Craps.prototype.putPlayerOnDontPass = function (player) {
             this.playersOnDontPass.push(player);
+        };
+        Craps.prototype.printPlayersMoney = function () {
+            var moneyString = [];
+            var i = 1;
+            for (var player in this.players) {
+                moneyString.push("Player " + i + ", " + this.players[player].getName() + ", Total money: $" + this.players[player].getMoney());
+                i++;
+            }
+            return "[ " + moneyString.join(" ] , [ ") + " ]";
         };
         return Craps;
     }(Game_1.Game));

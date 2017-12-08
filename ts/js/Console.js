@@ -4,6 +4,8 @@ define(["require", "exports", "./Utilities"], function (require, exports, Utilit
     var Console = (function () {
         function Console() {
         }
+        // abstract setUpGame(): void;
+        // abstract playRound(): void;
         Console.prototype.getNumPlayers = function (min, max) {
             if (min == max) {
                 return min;
@@ -37,11 +39,11 @@ define(["require", "exports", "./Utilities"], function (require, exports, Utilit
                 i++;
             }
         };
-        Console.prototype.playRoundsUntilAllPlayersCashOut = function (game) {
-            while (this.atLeastOnePlayerHasMoney(game)) {
-                this.playRound();
-            }
-        };
+        // playRoundsUntilAllPlayersCashOut(game) {
+        //     while(this.atLeastOnePlayerHasMoney(game)) {
+        //         this.playRound();
+        //     }
+        // }
         Console.prototype.atLeastOnePlayerHasMoney = function (game) {
             var players = game.getPlayers();
             for (var player in players) {
