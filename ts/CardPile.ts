@@ -1,35 +1,36 @@
 import {Card} from './Card'
-
 export class CardPile {
 
-    private cards:Array<Card> = Array<Card>();
+    private cards: Card[] = [];
 
     public shuffle() {
-        //Collections.shuffle(this.cards);
+      var j, x, i;
+      for (i = this.cards.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = this.cards[i];
+        this.cards[i] = this.cards[j];
+        this.cards[j] = x;
+      }
     }
 
     public addCardToPile(card:Card) {
         this.cards.push(card);
     }
 
-    public addCardsToPile( cards:CardPile) {
+    public addCardsToPile(cards:CardPile) {
         for(let c in cards.getCards()) {
           let card=cards.getCards()[c];
             this.addCardToPile(card);
         }
     }
 
-    public  contains( card:Card):boolean {
-        if(this.cards.contains(card)) {
-            return true;
-        } else {
-            for(let c in this.cards) {
-                if(this.cards[c]==(card)) {
-                    return true;
-                }
-            }
-            return false;
-        }
+    public contains(card:Card):boolean {
+      for(let c in this.cards) {
+          if(this.cards[c].matches((card))) {
+              return true;
+          }
+      }
+      return false;
     }
 
     public  containsAll( cardPile:CardPile):boolean {
@@ -37,7 +38,7 @@ export class CardPile {
         temp.addCardsToPile(cardPile);
         while(temp.numCards() > 0) {
             let nextCard = temp.getCard(0);
-            if(this.cards.contains(nextCard)) {
+            if(this.contains(nextCard)) {
                 temp.removeCard(nextCard);
             } else {
                 return false;
@@ -55,16 +56,13 @@ export class CardPile {
     }
 
     public removeCard( card:Card) {
-        let matchedCards = new Array<Card>();
-        for(let c in this.cards) {
-          let other=this.cards[c];
-            if(other==card) {
-                matchedCards.push(other);
-            }
-        }
-        if(matchedCards.length > 0) {
-            this.cards.remove(matchedCards[0]);
-        }
+      for(let c = 0; c < this.cards.length; c++) {
+        let other=this.cards[c];
+          if(other.matches(card)) {
+              this.cards.splice(c, 1);
+              return;
+          }
+      }
     }
 
     public  getCards():Array<Card> {
@@ -73,10 +71,10 @@ export class CardPile {
 
 
     public  toString():String {
-        StringJoiner stringJoiner = new StringJoiner(", ");
-        for(Card card : cards) {
-            stringJoiner.add(card.getFaceValue().getIcon() + card.getSuit().getIcon());
-        }
-        return stringJoiner.toString();
+      var icons: string[] = [];
+      for(let c in this.cards) {
+        icons.push(this.cards[c].getIcon());
+      }
+      return icons.toString();
     }
 }
