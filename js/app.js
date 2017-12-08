@@ -521,6 +521,155 @@ var BlackJackConsole = (function () {
     };
     return BlackJackConsole;
 }());
+/// <reference path="Gamble.ts"/>
+/// <reference path="Game.ts"/>
+var CrapPointPair = (function () {
+    function CrapPointPair(a, b, text) {
+        this.a = a;
+        this.b = b;
+        this.text = text;
+    }
+    CrapPointPair.prototype.isInPair = function (passed) {
+        return (this.a == passed || this.b == passed);
+    };
+    return CrapPointPair;
+}());
+var Craps = (function () {
+    function Craps() {
+        this.pointPairs = [new CrapPointPair(6, 8, "6-8"),
+            new CrapPointPair(5, 9, "5-9"),
+            new CrapPointPair(10, 4, "10-4")];
+        var twoToTwelve = [];
+        for (var i = 2; i < 13; i++) {
+            twoToTwelve.push(i);
+        }
+        this.dice = new Dice(twoToTwelve);
+        this.mainPot = new MoneyContainer();
+        this.sidePot = new MoneyContainer();
+        this.numberRolled = 0;
+        this.point = 0;
+        this.determineFirstRoller();
+    }
+    //Add to pot
+    Craps.prototype.takeBet = function (bet) {
+        this.mainPot.addMoney(bet);
+    };
+    Craps.prototype.takeSideBet = function (bet) {
+        this.sidePot.addMoney(bet);
+    };
+    //remove some from pot
+    Craps.prototype.settleBet = function (winnings) {
+        return (this.mainPot.takeOutMoney(winnings));
+    };
+    Craps.prototype.settleSideBet = function (winnings) {
+        return (this.sidePot.takeOutMoney(winnings));
+    };
+    //Take all from pot
+    Craps.prototype.emptyPot = function () {
+        return this.mainPot.takeAllMoney();
+    };
+    Craps.prototype.emptySidePot = function () {
+        return this.sidePot.takeAllMoney();
+    };
+    Craps.prototype.determineFirstRoller = function () {
+        //Player vs House, highest goes first, house wins tie
+        this.isPlayerTurn = (this.dice.rollDie() - this.dice.rollDie() > 0);
+    };
+    Craps.prototype.changePlayerTurn = function () {
+        this.isPlayerTurn = !this.isPlayerTurn;
+        this.resetTurn();
+    };
+    Craps.prototype.resetTurn = function () {
+        this.numberRolled = 0;
+        this.point = 0;
+    };
+    Craps.prototype.getPlayerTurn = function () {
+        return this.isPlayerTurn;
+    };
+    Craps.prototype.getNumberRolled = function () {
+        return this.numberRolled;
+    };
+    Craps.prototype.getSidePot = function () {
+        return this.sidePot;
+    };
+    Craps.prototype.getMainPot = function () {
+        return this.mainPot;
+    };
+    Craps.prototype.initialThrow = function () {
+        //returns -1 if 2/3/12
+        // 1 if 7/11,
+        // 0 if point set
+        this.numberRolled = this.dice.rollDie();
+        switch (this.numberRolled) {
+            case 2:
+            case 3:
+            case 12: {
+                return -1;
+            }
+            case 7:
+            case 11: {
+                return 1;
+            }
+            default: {
+                this.point = this.numberRolled;
+                for (var i = 0; i < this.pointPairs.length; i++) {
+                    if (this.pointPairs[i].isInPair(this.point)) {
+                        this.pair = this.pointPairs[i];
+                        break;
+                    }
+                }
+                return 0;
+            }
+        }
+    };
+    Craps.prototype.secondaryThrow = function () {
+        //returns -1 if crapped out,
+        //returns 1 if point met
+        //returns 0 if nothing met
+        //returns any other number if pair met
+        this.numberRolled = this.dice.rollDie();
+        if (this.numberRolled == this.point) {
+            return 1;
+        }
+        else if (this.numberRolled == 7) {
+            return -1;
+        }
+        else if (this.pair.isInPair(this.numberRolled)) {
+            return this.numberRolled;
+        }
+        else {
+            return 0; //Neutral.
+        }
+    };
+    Craps.prototype.toString = function () {
+        var returnMe = "";
+        if (this.isPlayerTurn) {
+            returnMe += "It is your turn</br>";
+        }
+        else {
+            returnMe += "It is your opponent's turn</br>";
+        }
+        if (this.point == 0) {
+            returnMe += "Point has not been set, and so we do not have a pair to side bet on</br>";
+        }
+        else {
+            returnMe += "Point is " + this.point + " and we are making side bets on " + this.pair.text + "</br>";
+        }
+        if (this.numberRolled != 0) {
+            returnMe += "Last roll was " + this.numberRolled + "</br>";
+        }
+        else {
+            returnMe += "Nobody has rolled yet</br>";
+        }
+        returnMe += "Main pot is $" + this.mainPot.getMoney() + "</br>";
+        returnMe += "Side pot is $" + this.sidePot.getMoney() + "</br>";
+        return returnMe;
+    };
+    Craps.prototype.play = function (userInput) {
+        return ("Y" == userInput.toUpperCase());
+    };
+    return Craps;
+}());
 var CrapsConsole = (function () {
     function CrapsConsole(user) {
         this.game = new Craps();
@@ -810,163 +959,6 @@ var CrapsConsole = (function () {
     CrapsConsole.prototype.enterAnyKeyToContinue = function () {
     };
     return CrapsConsole;
-}());
-/// <reference path="CrapsConsole.ts" />
-///<reference path="BlackJackConsole.ts"/>
-/// <reference path="User.ts" />
-function updateDisplay(stringToDisplay) {
-    document.getElementById("display").innerHTML = +"<br />" + stringToDisplay;
-}
-var craps = new CrapsConsole(new User("Tim", 1000));
-var blackjack = new BlackJackConsole(new User("Jim", 1000));
-/// <reference path="Gamble.ts"/>
-/// <reference path="Game.ts"/>
-var CrapPointPair = (function () {
-    function CrapPointPair(a, b, text) {
-        this.a = a;
-        this.b = b;
-        this.text = text;
-    }
-    CrapPointPair.prototype.isInPair = function (passed) {
-        return (this.a == passed || this.b == passed);
-    };
-    return CrapPointPair;
-}());
-var Craps = (function () {
-    function Craps() {
-        this.pointPairs = [new CrapPointPair(6, 8, "6-8"),
-            new CrapPointPair(5, 9, "5-9"),
-            new CrapPointPair(10, 4, "10-4")];
-        var twoToTwelve = [];
-        for (var i = 2; i < 13; i++) {
-            twoToTwelve.push(i);
-        }
-        this.dice = new Dice(twoToTwelve);
-        this.mainPot = new MoneyContainer();
-        this.sidePot = new MoneyContainer();
-        this.numberRolled = 0;
-        this.point = 0;
-        this.determineFirstRoller();
-    }
-    //Add to pot
-    Craps.prototype.takeBet = function (bet) {
-        this.mainPot.addMoney(bet);
-    };
-    Craps.prototype.takeSideBet = function (bet) {
-        this.sidePot.addMoney(bet);
-    };
-    //remove some from pot
-    Craps.prototype.settleBet = function (winnings) {
-        return (this.mainPot.takeOutMoney(winnings));
-    };
-    Craps.prototype.settleSideBet = function (winnings) {
-        return (this.sidePot.takeOutMoney(winnings));
-    };
-    //Take all from pot
-    Craps.prototype.emptyPot = function () {
-        return this.mainPot.takeAllMoney();
-    };
-    Craps.prototype.emptySidePot = function () {
-        return this.sidePot.takeAllMoney();
-    };
-    Craps.prototype.determineFirstRoller = function () {
-        //Player vs House, highest goes first, house wins tie
-        this.isPlayerTurn = (this.dice.rollDie() - this.dice.rollDie() > 0);
-    };
-    Craps.prototype.changePlayerTurn = function () {
-        this.isPlayerTurn = !this.isPlayerTurn;
-        this.resetTurn();
-    };
-    Craps.prototype.resetTurn = function () {
-        this.numberRolled = 0;
-        this.point = 0;
-    };
-    Craps.prototype.getPlayerTurn = function () {
-        return this.isPlayerTurn;
-    };
-    Craps.prototype.getNumberRolled = function () {
-        return this.numberRolled;
-    };
-    Craps.prototype.getSidePot = function () {
-        return this.sidePot;
-    };
-    Craps.prototype.getMainPot = function () {
-        return this.mainPot;
-    };
-    Craps.prototype.initialThrow = function () {
-        //returns -1 if 2/3/12
-        // 1 if 7/11,
-        // 0 if point set
-        this.numberRolled = this.dice.rollDie();
-        switch (this.numberRolled) {
-            case 2:
-            case 3:
-            case 12: {
-                return -1;
-            }
-            case 7:
-            case 11: {
-                return 1;
-            }
-            default: {
-                this.point = this.numberRolled;
-                for (var i = 0; i < this.pointPairs.length; i++) {
-                    if (this.pointPairs[i].isInPair(this.point)) {
-                        this.pair = this.pointPairs[i];
-                        break;
-                    }
-                }
-                return 0;
-            }
-        }
-    };
-    Craps.prototype.secondaryThrow = function () {
-        //returns -1 if crapped out,
-        //returns 1 if point met
-        //returns 0 if nothing met
-        //returns any other number if pair met
-        this.numberRolled = this.dice.rollDie();
-        if (this.numberRolled == this.point) {
-            return 1;
-        }
-        else if (this.numberRolled == 7) {
-            return -1;
-        }
-        else if (this.pair.isInPair(this.numberRolled)) {
-            return this.numberRolled;
-        }
-        else {
-            return 0; //Neutral.
-        }
-    };
-    Craps.prototype.toString = function () {
-        var returnMe = "";
-        if (this.isPlayerTurn) {
-            returnMe += "It is your turn</br>";
-        }
-        else {
-            returnMe += "It is your opponent's turn</br>";
-        }
-        if (this.point == 0) {
-            returnMe += "Point has not been set, and so we do not have a pair to side bet on</br>";
-        }
-        else {
-            returnMe += "Point is " + this.point + " and we are making side bets on " + this.pair.text + "</br>";
-        }
-        if (this.numberRolled != 0) {
-            returnMe += "Last roll was " + this.numberRolled + "</br>";
-        }
-        else {
-            returnMe += "Nobody has rolled yet</br>";
-        }
-        returnMe += "Main pot is $" + this.mainPot.getMoney() + "</br>";
-        returnMe += "Side pot is $" + this.sidePot.getMoney() + "</br>";
-        return returnMe;
-    };
-    Craps.prototype.play = function (userInput) {
-        return ("Y" == userInput.toUpperCase());
-    };
-    return Craps;
 }());
 var Dice = (function () {
     function Dice(sides) {
