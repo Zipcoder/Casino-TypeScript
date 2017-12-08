@@ -1255,4 +1255,12 @@ var GoFishPlayer = (function () {
     };
     return GoFishPlayer;
 }());
+/// <reference path="CrapsConsole.ts" />
+///<reference path="BlackJackConsole.ts"/>
+/// <reference path="User.ts" />
+function updateDisplay(stringToDisplay) {
+    document.getElementById("display").innerHTML = +"<br />" + stringToDisplay;
+}
+var craps = new CrapsConsole(new User("Tim", 1000));
+var blackjack = new BlackJackConsole(new User("Jim", 1000));
 //# sourceMappingURL=app.js.map
