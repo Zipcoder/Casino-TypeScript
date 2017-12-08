@@ -28,9 +28,10 @@ class CardGame{
                 break;
             default:
                 Display.print("Invalid choice.")
-                // this.chooseCardGame();
+                this.chooseCardGame();
                 break;
         }
+        UserInput.clearTextBox();
 
     }
 

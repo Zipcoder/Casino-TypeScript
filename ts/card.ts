@@ -16,11 +16,11 @@ class Card{
         return this.suit.toString() + "" + this.value.toString()
     }
 
-    // private getSymbol(): String{
-    //     return Suit[this.suit.valueOf()];
-    // }
-    //
-    // private getCardValue(): number{
-    //     return CardValue[this.value.valueOf()];
-    // }
+    public getSymbol(): String{
+        return this.suit.getSymbol();
+    }
+
+    public getValue(): number{
+        return this.value.getValue();
+    }
 }

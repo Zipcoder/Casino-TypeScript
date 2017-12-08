@@ -32,7 +32,6 @@ class Game{
                 Display.print("Invalid answer please try again.");
                 break;
         }
-
-        Display.print("Would you like to leave the game area?");
+        UserInput.clearTextBox();
     }
 }

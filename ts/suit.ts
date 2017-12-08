@@ -6,6 +6,7 @@
 class Suit{
 
     private static suit: Suit[] = new Array<Suit>();
+
     public static CLUB = new Suit("♧");
     public static DIAMOND = new Suit( "♢");
     public static HEART = new Suit("♡");

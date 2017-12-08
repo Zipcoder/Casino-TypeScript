@@ -26,5 +26,6 @@ class Casino{
              Display.print("Invalid answer please try again.");
              break;
      }
+     UserInput.clearTextBox();
  }
 }

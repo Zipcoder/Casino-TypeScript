@@ -1,6 +1,38 @@
 ///<reference path="player.ts"/>
+///<reference path="card.ts"/>
+
 
 
 class BlackJackPlayer extends Player{
-  
+
+    hand: Card[] = new Array<Card>();
+
+    super(){
+        this.setName("BlackJack PLayer");
+    }
+
+    public hitStay(answer: String){
+        if(answer.toLowerCase() == "yes"){
+            return true;
+        }
+        return false;
+    }
+
+    public placeBet(bet: number): number{
+        this.setMoney(this.getMoney() - bet);
+        return bet;
+    }
+
+    public getHand(){
+        return this.hand.toString();
+    }
+
+    public getHandTotal(){
+        let total = 0;
+        for(let card of this.hand){
+            total += card.getValue();
+        }
+        return total;
+    }
+
 }
