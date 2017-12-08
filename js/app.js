@@ -171,6 +171,10 @@ class BlackJack extends CardGame {
             }
         }
     }
+    hitPlayer(blackJackPlayer) {
+        var nextCard = this.deck.getTopCard();
+        blackJackPlayer.getHand().push(nextCard);
+    }
     getCardPointValue(card) {
         if (card.getValue() == "K" ||
             card.getValue() == "Q" ||
@@ -191,6 +195,22 @@ class BlackJack extends CardGame {
         }
         return score;
     }
+    // play()     
+    pressPlay() {
+        //creates a blackJackGame
+        //creates a player and a dealer
+        //adds player/dealer to the gam
+    }
+    askForHitOrStay() {
+    }
+    dealerPlay() {
+    }
+    isPlayerWinner(blackJackPlayer, dealer) {
+        return false;
+    }
+    playAgain(input) {
+        return input;
+    }
 }
 var blackJack = new BlackJack();
 var blackJackPlayer = new BlackJackPlayer();
@@ -202,4 +222,94 @@ console.log(score);
 // var player = new Player();
 // player.setName("Tariq");
 // console.log(player.getName());
+//  play()     
+//  dealInitialCards(player);
+//  dealInitialCards(dealer)
+//    askForHitOrStay();
+//    dealerPlay();
+//    checkWin();
+// if(playAgain()){
+//     play();
+// }else{
+// exit
+/// <reference path="Deck.ts" />
+/// <reference path="CardPlayer.ts" />
+class GoFishPlayer extends CardPlayer {
+    constructor() {
+        super();
+    }
+    askOpponentForCard(otherPlayer, cardRequest) {
+        if (otherPlayer.hasCardOfValue(cardRequest)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    tallyBooks() {
+        var counts = {};
+        for (var i = 0; i < this.hand.length; i++) {
+            var rank = this.hand[i].getValue();
+            counts[rank] = (counts[rank] || 0) + 1;
+            if (counts[rank] == 4) {
+                console.log("you have four " + this.hand[i].getValue() + "s. Book it!");
+            }
+        }
+        return this.hand;
+    }
+    removeCardFromHand(card) {
+        this.hand = this.hand.filter(e => e !== card);
+    }
+}
+var goFishPlayer = new GoFishPlayer();
+var card0 = new Card("Queen", "Hearts");
+var card1 = new Card("Queen", "Hearts");
+var card2 = new Card("Queen", "Hearts");
+var card3 = new Card("Queen", "Hearts");
+var card4 = new Card("King", "Hearts");
+var card5 = new Card("King", "Hearts");
+var card6 = new Card("King", "Hearts");
+var card7 = new Card("King", "Hearts");
+goFishPlayer.addCardToHand(card0);
+goFishPlayer.addCardToHand(card1);
+goFishPlayer.addCardToHand(card2);
+goFishPlayer.addCardToHand(card3);
+goFishPlayer.addCardToHand(card4);
+goFishPlayer.addCardToHand(card5);
+goFishPlayer.addCardToHand(card6);
+goFishPlayer.addCardToHand(card7);
+console.log("books tally output: " + goFishPlayer.tallyBooks());
+// public Integer playPotentialBooksInHand() {
+//     HashMap<Card.FaceValue, Integer> numberOfEachValue = new HashMap<>();
+//     for(Card card : getHand().getCards()) {
+//         Card.FaceValue key = card.getFaceValue();
+//         if(numberOfEachValue.containsKey(key)) {
+//             numberOfEachValue.put(key, numberOfEachValue.get(key) + 1);
+//         } else {
+//             numberOfEachValue.put(key, 1);
+//         }
+//     }
+//     ArrayList<Card.FaceValue> fourOfAKindValues = new ArrayList<>();
+//     for(Card.FaceValue value : numberOfEachValue.keySet()) {
+//         if(numberOfEachValue.get(value) == 4) {
+//             fourOfAKindValues.add(value);
+//         }
+//     }
+//     for(Card.FaceValue value : fourOfAKindValues) {
+//         CardPile book = new CardPile();
+//         for(Card card : getHand().getCards()) {
+//             if(card.getFaceValue().equals(value)) {
+//                 book.addCardToPile(card);
+//             }
+//         }
+//         books.add(book);
+//         for(Card card : book.getCards()) {
+//             getHand().removeCard(card);
+//         }
+//     }
+//     return fourOfAKindValues.size();
+// }
+// public void goFish(Card card) {
+//     addCardToHand(card);
+// }
 //# sourceMappingURL=app.js.map

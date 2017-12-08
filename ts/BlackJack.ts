@@ -32,6 +32,11 @@ class BlackJack extends CardGame{
         }
     }
 
+    hitPlayer(blackJackPlayer: BlackJackPlayer){
+        var nextCard = this.deck.getTopCard();
+        blackJackPlayer.getHand().push(nextCard);
+    }
+
     getCardPointValue(card: Card): number{
         if(card.getValue() == "K"||
             card.getValue() == "Q" || 
@@ -53,7 +58,33 @@ class BlackJack extends CardGame{
         }
         return score;
     }
+
+    // play()     
+    pressPlay(){
+        //creates a blackJackGame
+        //creates a player and a dealer
+        //adds player/dealer to the gam
+    }
+    
+    askForHitOrStay(){
+
+    }
+    
+    dealerPlay(){
+    }
+    
+    isPlayerWinner(blackJackPlayer: BlackJackPlayer, dealer: BlackJackPlayer): boolean{
+        return false;
+    }
+    
+    playAgain(input: boolean): boolean{
+        return input;
+
+    }
+    
 }
+    
+
 
 var blackJack = new BlackJack();
 var blackJackPlayer = new BlackJackPlayer();

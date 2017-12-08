@@ -1,48 +1,38 @@
 /// <reference path="Deck.ts" />
-
-
+/// <reference path="CardPlayer.ts" />
 
 class GoFishPlayer extends CardPlayer {
     private books: Card[];
-
+    private cardPointValues;
     constructor(){
         super();
+        
     }
 
     
-
-    askOpponentForCard(otherPlayer: GoFishPlayer, cardRequest: Card): boolean{
-        if(otherPlayer.hasCardOfRank(cardRequest)){
+    askOpponentForCard(otherPlayer: GoFishPlayer, cardRequest: String): boolean{
+        if(otherPlayer.hasCardOfValue(cardRequest)){
             return true;
         }else{
             return false;
         }
     }
 
-    passCardRequested(cardRequest: Card): Card{
-        for(var i=0; i<this.hand.length; i++){
-            if(this.hand[i].getValue() == cardRequest.getValue()){
-                return this.hand[i];
-            }
-        }
-        return;
-    }
+    tallyBooks(): Card[]{
 
-    // tallyBooks(): any{
-
-    //     var counts = {};
+        var counts = {};
           
-    //     for(var i = 0; i<this.hand.length;i++){
-    //           var rank = this.hand[i].getValue();
-    //           counts[value] = (counts[value] || 0) + 1;
+        for(var i = 0; i<this.hand.length;i++){
+              var rank = this.hand[i].getValue();
+              counts[rank] = (counts[rank] || 0) + 1;
 
-    //           if (counts[value] == 4){
-    //             console.log("you have four " + this.hand[i].getValue()+ "s. Book it!");
-    //             }
+              if (counts[rank] == 4){
+                console.log("you have four " + this.hand[i].getValue()+ "s. Book it!");
+                }
                                
-    //         }   
-    //         return this.hand;
-    // }
+            }   
+            return this.hand;
+    }
     
     removeCardFromHand(card: Card) {
         this.hand = this.hand.filter(e => e !== card);
@@ -76,7 +66,7 @@ goFishPlayer.addCardToHand(card7);
 
 
 
-//console.log(goFishPlayer.tallyBooks());
+console.log("books tally output: "+ goFishPlayer.tallyBooks());
 
     
         // public Integer playPotentialBooksInHand() {
