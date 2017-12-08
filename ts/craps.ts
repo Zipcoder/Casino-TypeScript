@@ -1,6 +1,6 @@
 /// <reference path="Player.ts"/>
 
-class Craps implements Game {
+class Craps {
   bet: number = 0;
   player: Player;
   playerBalance: number;
@@ -60,11 +60,6 @@ class Craps implements Game {
       this.hideUserInputBar();
       this.hideMainMenuButton();
     }
-
-  }
-  play(): boolean {
-    var play: boolean = true;
-    return play;
   }
 
   updateScroll(): void {
@@ -83,6 +78,7 @@ class Craps implements Game {
     let diceTwo: number = Math.floor(Math.random() * 6) + 1;
 
     var sum = diceTwo + diceOne;
+
     if (this.buttonCount === 1) {
       this.target = sum;
       this.displayElement.innerHTML += "<br />Target is now " + sum;
