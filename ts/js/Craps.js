@@ -28,6 +28,9 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
         Craps.prototype.addPlayers = function (players) {
             this.players = players;
         };
+        Craps.prototype.getNumPlayers = function () {
+            return this.players.length;
+        };
         Craps.prototype.getPlayers = function () {
             return this.players;
         };
@@ -90,6 +93,15 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
         };
         Craps.prototype.putPlayerOnDontPass = function (player) {
             this.playersOnDontPass.push(player);
+        };
+        Craps.prototype.printPlayersMoney = function () {
+            var moneyString = [];
+            var i = 1;
+            for (var player in this.players) {
+                moneyString.push("Player " + i + ", " + this.players[player].getName() + ", Total money: $" + this.players[player].getMoney());
+                i++;
+            }
+            return "[ " + moneyString.join(" ] , [ ") + " ]";
         };
         return Craps;
     }(Game_1.Game));

@@ -40,6 +40,7 @@ export class Casino {
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function getChoice() {
       var choice: string = Utilities.userInputEle.value.toUpperCase();
+      Utilities.userInputEle.value = "";
       _this.goToGame(choice);
       this.removeEventListener("click", getChoice);
     })

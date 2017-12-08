@@ -30,6 +30,7 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function getChoice() {
                 var choice = Utilities_1.Utilities.userInputEle.value.toUpperCase();
+                Utilities_1.Utilities.userInputEle.value = "";
                 _this.goToGame(choice);
                 this.removeEventListener("click", getChoice);
             });

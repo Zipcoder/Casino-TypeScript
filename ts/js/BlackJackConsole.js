@@ -21,7 +21,7 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
         }
         BlackJackConsole.prototype.start = function () {
             this.setUpGame();
-            this.playRoundsUntilAllPlayersCashOut(this.game);
+            // this.playRoundsUntilAllPlayersCashOut(this.game);
         };
         BlackJackConsole.prototype.setUpGame = function () {
             Utilities_1.Utilities.printMenuName("Welcome to " + this.getNameOfGame());

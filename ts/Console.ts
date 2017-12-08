@@ -4,7 +4,7 @@ export abstract class Console {
 
   }
 
-  // abstract getNameOfGame(): string;
+  abstract getNameOfGame(): string;
   abstract start(): void;
   // abstract setUpGame(): void;
   // abstract playRound(): void;
@@ -45,11 +45,11 @@ export abstract class Console {
     }
   }
 
-  playRoundsUntilAllPlayersCashOut(game) {
-      while(this.atLeastOnePlayerHasMoney(game)) {
-          this.playRound();
-      }
-  }
+  // playRoundsUntilAllPlayersCashOut(game) {
+  //     while(this.atLeastOnePlayerHasMoney(game)) {
+  //         this.playRound();
+  //     }
+  // }
 
   atLeastOnePlayerHasMoney(game) : boolean {
     var players = game.getPlayers();

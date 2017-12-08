@@ -11,6 +11,8 @@ export class CrapsConsole extends Console {
   currentPlayerIndex = 0;
   i = 1;
 
+  continueRolling = true;
+
   start() {
     switch(this.i) {
       case 1:
@@ -25,6 +27,9 @@ export class CrapsConsole extends Console {
       case 4:
         this.comeOutRoll();
         break;
+      case 5:
+        this.rollForPoint();
+        break;
     }
     // this.setUpGame();
     //this.playRoundsUntilAllPlayersCashOut(this.game);
@@ -36,6 +41,7 @@ export class CrapsConsole extends Console {
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function getName() {
       var name: string = Utilities.userInputEle.value;
+      Utilities.userInputEle.value = "";
       Utilities.printLine("Welcome, " + name);
       var players: CrapsPlayer[] = [];
       players.push(new CrapsPlayer(name));
@@ -56,6 +62,7 @@ export class CrapsConsole extends Console {
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function getBet() {
       var amount: number = parseInt(Utilities.userInputEle.value);
+      Utilities.userInputEle.value = "";
       console.log(amount);
       if(amount > amountAvailableToBet) {
         console.log("too much");
@@ -76,6 +83,7 @@ export class CrapsConsole extends Console {
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function pass() {
       var input: string = Utilities.userInputEle.value.toUpperCase();
+      Utilities.userInputEle.value = "";
       if(input != "PASS" && input != "DON'T PASS") {
         Utilities.printLine("Try again");
       }
@@ -109,10 +117,12 @@ export class CrapsConsole extends Console {
               case 12:
                   _this.game.setPassBetsWin(false);
                   comeOutRollEndsRound = true;
+                  break;
               case 7:
               case 11:
                   _this.game.setPassBetsWin(true);
                   comeOutRollEndsRound = true;
+                  break;
               case 4:
               case 5:
               case 6:
@@ -121,9 +131,11 @@ export class CrapsConsole extends Console {
               case 10:
                   _this.game.setPoint(rollSum);
                   comeOutRollEndsRound = false;
+                  break;
           }
       if(!comeOutRollEndsRound) {
         Utilities.printLine("Rolling for point: " + _this.game.getPoint());
+        Utilities.printLine("Click to roll dice");
         _this.i++;
         _this.start();
         this.removeEventListener("click", roll);
@@ -132,6 +144,34 @@ export class CrapsConsole extends Console {
         _this.i += 2;
         _this.start();
         this.removeEventListener("click", roll);
+      }
+    });
+  }
+
+  rollForPoint() {
+    var _this = this;
+    Utilities.buttonEle.addEventListener("click", function rollAgain() {
+      _this.game.rollDice();
+      var rollSum = _this.game.getSumOfDice();
+      Utilities.printLine("You rolled a " + rollSum + " " + _this.game.getDice().printDice());
+      if(rollSum == _this.game.getPoint() || rollSum == 7) {
+        _this.continueRolling = false;
+      }
+
+      if(!_this.continueRolling) {
+        if(rollSum === _this.game.getPoint()) {
+          _this.game.setPassBetsWin(true);
+        }
+        else {
+          _this.game.setPassBetsWin(false);
+        }
+        _this.i++;
+        _this.start();
+        this.removeEventListener("click", rollAgain);
+      }
+      else {
+        _this.start();
+        this.removeEventListener("click", rollAgain);
       }
     });
   }
