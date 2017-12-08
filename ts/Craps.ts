@@ -45,6 +45,7 @@ class Craps{
                     this.displayEle.innerHTML += "</br>"+rollOne+" You lose and your balance is :"
                     +this.player.getBalance()+ "</br>";
                     (<HTMLInputElement> document.getElementById("roll")).disabled = true;
+                    (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;
                     
                  }
                  else if(rollOne == 7 || rollOne == 11){
@@ -52,6 +53,7 @@ class Craps{
                      this.displayEle.innerHTML += "</br>"+rollOne+" You Won and your balance is :"
                         +this.player.getBalance()+ "</br>";
                     (<HTMLInputElement> document.getElementById("roll")).disabled = true;
+                    (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;
                  }
                  else{
                     this.displayEle.innerHTML += "</br>"+rollOne + "<br/>";
@@ -88,9 +90,17 @@ class Craps{
                 
             }
             callRoll():number{
-                let roll = Math.floor(Math.random()*(12-2+1)+2);
+                let die1 = Math.floor(Math.random() * 6) + 1 ;
+                let die2 = Math.floor(Math.random() * 6) + 1 ;
+                let roll = die1+die2;
+                document.getElementById("hDie1").innerHTML = this.showDice(die1);
+                document.getElementById("hDie2").innerHTML = this.showDice(die2);
                 return roll;
             }
+            showDice(x){
+                
+                    return "<img src=\"./images/logos/dice_"+x+".png\" align=\"middle\" />";
+                }
         }
 
     

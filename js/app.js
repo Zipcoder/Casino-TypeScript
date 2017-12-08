@@ -34,12 +34,14 @@ var Craps = /** @class */ (function () {
             this.displayEle.innerHTML += "</br>" + rollOne + " You lose and your balance is :"
                 + this.player.getBalance() + "</br>";
             document.getElementById("roll").disabled = true;
+            document.getElementById("rollTwo").disabled = true;
         }
         else if (rollOne == 7 || rollOne == 11) {
             this.player.setBalance(this.player.getBalance() + this.bet);
             this.displayEle.innerHTML += "</br>" + rollOne + " You Won and your balance is :"
                 + this.player.getBalance() + "</br>";
             document.getElementById("roll").disabled = true;
+            document.getElementById("rollTwo").disabled = true;
         }
         else {
             this.displayEle.innerHTML += "</br>" + rollOne + "<br/>";
@@ -73,8 +75,15 @@ var Craps = /** @class */ (function () {
         }
     };
     Craps.prototype.callRoll = function () {
-        var roll = Math.floor(Math.random() * (12 - 2 + 1) + 2);
+        var die1 = Math.floor(Math.random() * 6) + 1;
+        var die2 = Math.floor(Math.random() * 6) + 1;
+        var roll = die1 + die2;
+        document.getElementById("hDie1").innerHTML = this.showDice(die1);
+        document.getElementById("hDie2").innerHTML = this.showDice(die2);
         return roll;
+    };
+    Craps.prototype.showDice = function (x) {
+        return "<img src=\"./images/logos/dice_" + x + ".png\" align=\"middle\" />";
     };
     return Craps;
 }());
