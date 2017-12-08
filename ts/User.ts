@@ -10,11 +10,11 @@ class User {
         this.wallet.addMoney(money);
     }
 
-    public getName(): string {
+    public get Name(): string {
         return this.name;
     }
 
-    public getWallet(): MoneyContainer {
+    public get Wallet(): MoneyContainer {
         return this.wallet;
     }
 }

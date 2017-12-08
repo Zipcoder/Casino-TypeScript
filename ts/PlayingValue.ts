@@ -17,11 +17,11 @@ enum PlayingValue {
 
 let value: string = PlayingValue.valueOf().toString();
 
-function getValue() {
+function getValue(): PlayingValue {
     return this.value;
 }
 
-function toString(){
+function toString(): string{
     return this.value;
 }
 
