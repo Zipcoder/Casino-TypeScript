@@ -3,6 +3,8 @@
 /// <reference path="CardPlayer.ts" />
 /// <reference path="Deck.ts" />
 
+//commit merge
+
 class BlackJack extends CardGame{
     private dealer: BlackJackPlayer;
     
@@ -11,6 +13,9 @@ class BlackJack extends CardGame{
         this.dealer = new BlackJackPlayer();
     }
 
+    thisIsaChange(){
+        
+    }
     getDealer(): BlackJackPlayer{
         return this.dealer;
     }
