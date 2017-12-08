@@ -17,6 +17,7 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.MIN_NUMBER_OF_PLAYERS = 1;
             _this.MAX_NUMBER_OF_PLAYERS = 8;
+            _this.players = [];
             _this.dice = new Dice_1.Dice(2);
             _this.bets = {};
             _this.playersOnPass = [];
@@ -24,6 +25,9 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
             _this.passBetsWin = true;
             return _this;
         }
+        Craps.prototype.addPlayers = function (players) {
+            this.players = players;
+        };
         Craps.prototype.getPlayers = function () {
             return this.players;
         };

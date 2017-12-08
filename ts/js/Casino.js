@@ -28,9 +28,10 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             Utilities_1.Utilities.printMenuOptions(gameNames);
             // var choice = Utilities.getMenuInput(">> ", gameNames).toUpperCase();
             var _this = this;
-            Utilities_1.Utilities.buttonEle.addEventListener("click", function () {
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function getChoice() {
                 var choice = Utilities_1.Utilities.userInputEle.value.toUpperCase();
                 _this.goToGame(choice);
+                this.removeEventListener("click", getChoice);
             });
         };
         Casino.prototype.goToGame = function (gameName) {

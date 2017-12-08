@@ -3,6 +3,9 @@ export class Utilities {
   static displayEle : any = document.getElementById("display");
   static userInputEle : any = document.getElementById("user_input");
   static buttonEle : any = document.getElementById("my_button");
+  static getNameButton : any = document.getElementById("get_name_button");
+  static betAmountButton : any = document.getElementById("bet_amount_button");
+  static passOrDontPassButton : any = document.getElementById("pass_or_dont_pass_button");
 
   static printLine(input: string) {
     Utilities.displayEle.innerHTML += input + "<br/>";

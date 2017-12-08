@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Utilities", "./Console", "./Craps"], function (require, exports, Utilities_1, Console_1, Craps_1) {
+define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPlayer"], function (require, exports, Utilities_1, Console_1, Craps_1, CrapsPlayer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var CrapsConsole = (function (_super) {
@@ -17,36 +17,125 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps"], function (
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.game = new Craps_1.Craps();
             _this.currentPlayerIndex = 0;
+            _this.i = 1;
             return _this;
         }
         CrapsConsole.prototype.start = function () {
-            this.setUpGame();
+            switch (this.i) {
+                case 1:
+                    this.getPlayerName();
+                    break;
+                case 2:
+                    this.makeBet();
+                    break;
+                case 3:
+                    this.betOnPassOrDontPass();
+                    break;
+                case 4:
+                    this.comeOutRoll();
+                    break;
+            }
+            // this.setUpGame();
             //this.playRoundsUntilAllPlayersCashOut(this.game);
         };
-        CrapsConsole.prototype.setUpGame = function () {
+        CrapsConsole.prototype.getPlayerName = function () {
             Utilities_1.Utilities.printMenuName("Welcome to " + this.getNameOfGame());
-            // var numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
-            // let playerNames:string[] = this.getPlayerNames(numPlayers);
-            // let players:Array<CrapsPlayer>  = [];
-            // for(let name in playerNames) {
-            //     let player:CrapsPlayer  = new CrapsPlayer(playerNames[name]);
-            //     players.push(player);
-            // }
-            // this.game.addPlayers(players);
-            // this.getPlayerChips(this.game);
+            Utilities_1.Utilities.printLine("Enter name of Player");
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function getName() {
+                var name = Utilities_1.Utilities.userInputEle.value;
+                Utilities_1.Utilities.printLine("Welcome, " + name);
+                var players = [];
+                players.push(new CrapsPlayer_1.CrapsPlayer(name));
+                _this.game.addPlayers(players);
+                _this.game.getPlayers()[0].setMoney(1000);
+                _this.i++;
+                _this.currentPlayer = _this.game.getPlayers()[0];
+                var amountAvailableToBet = _this.currentPlayer.getMoney();
+                Utilities_1.Utilities.printLine("You have $" + amountAvailableToBet);
+                Utilities_1.Utilities.printLine("How much would you like to bet?");
+                _this.start();
+                this.removeEventListener("click", getName);
+            });
         };
-        CrapsConsole.prototype.playRound = function () {
-            this.currentPlayer = this.game.getPlayers()[this.currentPlayerIndex];
-            if (this.currentPlayer.getMoney() > 0) {
-                this.askContinueOrCashOut();
-                if (this.currentPlayer.getMoney() > 0) {
-                    var playerNumber = this.currentPlayerIndex + 1;
-                    Utilities_1.Utilities.printLine("Player " + playerNumber + " turn:");
-                    this.playerTakeTurn(this.currentPlayer);
+        CrapsConsole.prototype.makeBet = function () {
+            var amountAvailableToBet = this.currentPlayer.getMoney();
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function getBet() {
+                var amount = parseInt(Utilities_1.Utilities.userInputEle.value);
+                console.log(amount);
+                if (amount > amountAvailableToBet) {
+                    console.log("too much");
+                    Utilities_1.Utilities.printLine("Sorry you do not have that much money to bet.");
                 }
-            }
-            this.currentPlayerIndex++;
-            this.currentPlayerIndex %= this.game.getNumPlayers();
+                else {
+                    _this.game.takeBet(_this.currentPlayer, amount);
+                    _this.i++;
+                    Utilities_1.Utilities.printLine("Place bet on Pass or Don't Pass?");
+                    _this.start();
+                    this.removeEventListener("click", getBet);
+                }
+            });
+        };
+        CrapsConsole.prototype.betOnPassOrDontPass = function () {
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function pass() {
+                var input = Utilities_1.Utilities.userInputEle.value.toUpperCase();
+                if (input != "PASS" && input != "DON'T PASS") {
+                    Utilities_1.Utilities.printLine("Try again");
+                }
+                else {
+                    if (input === "PASS") {
+                        _this.game.putPlayerOnPass(_this.currentPlayer);
+                    }
+                    else {
+                        _this.game.putPlayerOnDontPass(_this.currentPlayer);
+                    }
+                    Utilities_1.Utilities.printLine("Click to roll dice");
+                    _this.i++;
+                    _this.start();
+                    this.removeEventListener("click", pass);
+                }
+            });
+        };
+        CrapsConsole.prototype.comeOutRoll = function () {
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function roll() {
+                _this.game.rollDice();
+                var rollSum = _this.game.getSumOfDice();
+                Utilities_1.Utilities.printLine("You rolled a " + rollSum + " " + _this.game.getDice().printDice());
+                var comeOutRollEndsRound;
+                switch (rollSum) {
+                    case 2:
+                    case 3:
+                    case 12:
+                        _this.game.setPassBetsWin(false);
+                        comeOutRollEndsRound = true;
+                    case 7:
+                    case 11:
+                        _this.game.setPassBetsWin(true);
+                        comeOutRollEndsRound = true;
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 8:
+                    case 9:
+                    case 10:
+                        _this.game.setPoint(rollSum);
+                        comeOutRollEndsRound = false;
+                }
+                if (!comeOutRollEndsRound) {
+                    Utilities_1.Utilities.printLine("Rolling for point: " + _this.game.getPoint());
+                    _this.i++;
+                    _this.start();
+                    this.removeEventListener("click", roll);
+                }
+                else {
+                    _this.i += 2;
+                    _this.start();
+                    this.removeEventListener("click", roll);
+                }
+            });
         };
         CrapsConsole.prototype.askContinueOrCashOut = function () {
             Utilities_1.Utilities.printLine(this.game.printPlayersMoney());
@@ -61,8 +150,6 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps"], function (
             }
         };
         CrapsConsole.prototype.playerTakeTurn = function (player) {
-        };
-        CrapsConsole.prototype.makeBet = function (player) {
         };
         CrapsConsole.prototype.getNameOfGame = function () {
             return "Craps";

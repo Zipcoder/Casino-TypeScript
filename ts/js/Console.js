@@ -4,6 +4,8 @@ define(["require", "exports", "./Utilities"], function (require, exports, Utilit
     var Console = (function () {
         function Console() {
         }
+        // abstract setUpGame(): void;
+        // abstract playRound(): void;
         Console.prototype.getNumPlayers = function (min, max) {
             if (min == max) {
                 return min;

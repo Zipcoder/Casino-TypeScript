@@ -4,10 +4,10 @@ export abstract class Console {
 
   }
 
-  abstract getNameOfGame(): string;
+  // abstract getNameOfGame(): string;
   abstract start(): void;
-  abstract setUpGame(): void;
-  abstract playRound(): void;
+  // abstract setUpGame(): void;
+  // abstract playRound(): void;
 
   getNumPlayers(min: number, max: number) : number {
     if(min == max) {

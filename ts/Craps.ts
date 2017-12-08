@@ -7,6 +7,8 @@ export class Craps extends Game<Craps> implements Gamble<Craps> {
   MIN_NUMBER_OF_PLAYERS = 1;
   MAX_NUMBER_OF_PLAYERS = 8;
 
+  private players: CrapsPlayer[] = [];
+
   private dice: Dice = new Dice(2);
   private point: number;
 
@@ -14,6 +16,10 @@ export class Craps extends Game<Craps> implements Gamble<Craps> {
   private playersOnPass: CrapsPlayer[] = [];
   private playersOnDontPass: CrapsPlayer[] = [];
   private passBetsWin = true;
+
+  addPlayers(players: CrapsPlayer[]) {
+    this.players = players;
+  }
 
   getPlayers() : CrapsPlayer[] {
     return this.players;

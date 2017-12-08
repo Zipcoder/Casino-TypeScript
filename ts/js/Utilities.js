@@ -118,6 +118,9 @@ define(["require", "exports"], function (require, exports) {
         Utilities.displayEle = document.getElementById("display");
         Utilities.userInputEle = document.getElementById("user_input");
         Utilities.buttonEle = document.getElementById("my_button");
+        Utilities.getNameButton = document.getElementById("get_name_button");
+        Utilities.betAmountButton = document.getElementById("bet_amount_button");
+        Utilities.passOrDontPassButton = document.getElementById("pass_or_dont_pass_button");
         return Utilities;
     }());
     exports.Utilities = Utilities;
