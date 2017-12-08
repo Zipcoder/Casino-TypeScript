@@ -123,6 +123,12 @@ a:hover, a:active {
     transform: translateY(-50%);
 }
 
+#diceImage {
+  width: 20px;
+  height: auto;
+}
+
+
 /* page styles */
 article {margin: 5%;}
 article p { margin-bottom: 20px;}
@@ -166,4 +172,3 @@ h1 {
 
 #menu button {
     width: 120px;
-}
