@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPlayer"], function (require, exports, Utilities_1, Console_1, Craps_1, CrapsPlayer_1) {
+define(["require", "exports", "./Utilities", "./Console", "./Craps"], function (require, exports, Utilities_1, Console_1, Craps_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var CrapsConsole = (function (_super) {
@@ -21,19 +21,19 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
         }
         CrapsConsole.prototype.start = function () {
             this.setUpGame();
-            this.playRoundsUntilAllPlayersCashOut(this.game);
+            //this.playRoundsUntilAllPlayersCashOut(this.game);
         };
         CrapsConsole.prototype.setUpGame = function () {
             Utilities_1.Utilities.printMenuName("Welcome to " + this.getNameOfGame());
-            var numPlayers = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
-            var playerNames = this.getPlayerNames(numPlayers);
-            var players = [];
-            for (var name_1 in playerNames) {
-                var player = new CrapsPlayer_1.CrapsPlayer(playerNames[name_1]);
-                players.push(player);
-            }
-            this.game.addPlayers(players);
-            this.getPlayerChips(this.game);
+            // var numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
+            // let playerNames:string[] = this.getPlayerNames(numPlayers);
+            // let players:Array<CrapsPlayer>  = [];
+            // for(let name in playerNames) {
+            //     let player:CrapsPlayer  = new CrapsPlayer(playerNames[name]);
+            //     players.push(player);
+            // }
+            // this.game.addPlayers(players);
+            // this.getPlayerChips(this.game);
         };
         CrapsConsole.prototype.playRound = function () {
             this.currentPlayer = this.game.getPlayers()[this.currentPlayerIndex];
