@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./CardPlayer", "./BlackJack"], function (require, exports, CardPlayer_1, BlackJack_1) {
+define(["require", "exports", "./CardPlayer"], function (require, exports, CardPlayer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var BlackJackPlayer = (function (_super) {
@@ -16,9 +16,6 @@ define(["require", "exports", "./CardPlayer", "./BlackJack"], function (require,
         function BlackJackPlayer(name) {
             return _super.call(this, name) || this;
         }
-        BlackJackPlayer.prototype.hasAceInHand = function () {
-            return this.hasCardsOfRank(BlackJack_1.BlackJack.ACE);
-        };
         return BlackJackPlayer;
     }(CardPlayer_1.CardPlayer));
     exports.BlackJackPlayer = BlackJackPlayer;

@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Console", "./Utilities"], function (require, exports, Console_1, Utilities_1) {
+define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Player"], function (require, exports, Console_1, Utilities_1, BlackJack_1, Player_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var BlackJackConsole = (function (_super) {
@@ -16,7 +16,7 @@ define(["require", "exports", "./Console", "./Utilities"], function (require, ex
         function BlackJackConsole() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.nameOfGame = "BlackJack";
-            _this.game = new BlackJack(1);
+            _this.game = new BlackJack_1.BlackJack(1);
             return _this;
         }
         BlackJackConsole.prototype.start = function () {
@@ -29,15 +29,16 @@ define(["require", "exports", "./Console", "./Utilities"], function (require, ex
             var playerNames = this.getPlayerNames(numPlayers);
             var players = [];
             for (var name_1 in playerNames) {
-                var player = new BlackJackPlayer(playerNames[name_1]);
+                var player = new Player_1.Player(playerNames[name_1]);
                 players.push(player);
             }
             this.game.addPlayers(players);
             this.getPlayerChips(this.game);
         };
         BlackJackConsole.prototype.playRound = function () {
-            for (var player in this.game.getPlayers()) {
-                if (this.game.getPlayers()[player].getMoney() > 0) {
+            for (var p in this.game.getPlayers()) {
+                var player = this.game.getPlayers[p];
+                if (player.getMoney() > 0) {
                     this.makeBet(player);
                 }
             }
@@ -46,7 +47,7 @@ define(["require", "exports", "./Console", "./Utilities"], function (require, ex
             this.displayDealerFaceUpCard();
             for (var currentPlayerIndex = 0; currentPlayerIndex < this.game.getNumPlayers(); currentPlayerIndex++) {
                 var currentPlayer = this.game.getPlayers()[currentPlayerIndex];
-                if (this.game.getBets().containsKey(currentPlayer)) {
+                if (this.game.getBets()[currentPlayer.id] != undefined) {
                     var playerNumber = currentPlayerIndex + 1;
                     Utilities_1.Utilities.printLine("Player " + playerNumber + ", " + currentPlayer.getName() + " turn:");
                     this.playerTakeTurn(currentPlayer);
@@ -74,7 +75,7 @@ define(["require", "exports", "./Console", "./Utilities"], function (require, ex
             var amount = 0.0;
             var isValidInput = false;
             while (!isValidInput) {
-                amount = this.getMoneyInput(player.getName() + ", how much would you like to bet?");
+                amount = Utilities_1.Utilities.getMoneyInput(player.getName() + ", how much would you like to bet?");
                 if (amount <= amountAvailableToBet) {
                     isValidInput = true;
                 }
@@ -104,15 +105,16 @@ define(["require", "exports", "./Console", "./Utilities"], function (require, ex
         };
         BlackJackConsole.prototype.dealerHitsUntilFinished = function () {
             while (this.game.calculatePlayerScore(this.game.getDealer()) <= 16 ||
-                (this.currentPlayergame.calculatePlayerScore(game.getDealer()) == 17 && this.game.getDealer().hasAceInHand())) {
+                (this.game.calculatePlayerScore(this.game.getDealer()) == 17 && this.game.getDealer().hasAceInHand())) {
                 this.game.dealCardToHand(this.game.getDealer());
             }
         };
         BlackJackConsole.prototype.displayEndOfRound = function () {
-            Utilities_1.Utilities.printLine("<br/>Dealer score: " + this.game.calculatePlayerScore(game.getDealer()) + this.game.getDealer().getHand());
-            for (var player in this.game.getPlayers()) {
-                if (this.game.getBets().containsKey(this.game.getPlayers()[player])) {
-                    Utilities_1.Utilities.printLine(this.game.getPlayers()[player].getName() + " score: " + this.game.calculatePlayerScore(this.game.getPlayers()[player]) +
+            Utilities_1.Utilities.printLine("<br/>Dealer score: " + this.game.calculatePlayerScore(this.game.getDealer()) + this.game.getDealer().getHand());
+            for (var p in this.game.getPlayers()) {
+                var player = this.game.getPlayers[p];
+                if (this.game.getBets()[player.id]) {
+                    Utilities_1.Utilities.printLine(player.getName() + " score: " + this.game.calculatePlayerScore(player) +
                         " " + player.getHand());
                 }
             }
@@ -124,11 +126,12 @@ define(["require", "exports", "./Console", "./Utilities"], function (require, ex
         };
         BlackJackConsole.prototype.askContinueOrCashOut = function () {
             Utilities_1.Utilities.printLine(this.game.printPlayersMoney());
-            for (var player in this.game.getPlayers()) {
-                if (this.game.getPlayers()[player].getMoney() > 0) {
-                    var cashOut = Utilities_1.Utilities.getYesOrNoInput(this.game.getPlayers()[player].getName() + ", Cash Out? Y or N");
+            for (var p in this.game.getPlayers()) {
+                var player = this.game.getPlayers()[p];
+                if (player.getMoney() > 0) {
+                    var cashOut = Utilities_1.Utilities.getYesOrNoInput(player.getName() + ", Cash Out? Y or N");
                     if (cashOut) {
-                        this.game.getPlayers()[player].cashOut();
+                        player.cashOut();
                     }
                 }
             }
