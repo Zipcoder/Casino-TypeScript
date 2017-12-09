@@ -10,7 +10,12 @@
     padding: 0;
 }
 
-body { font: 14px/1.4 arial, sans-serif; background-color: #F5F5F5;}
+body { 
+    font: 14px/1.4 arial, sans-serif; 
+    background-color: #F5F5F5; 
+    /* background-image: url("../images/backgrounds/casinoEntrance.jpg"); */
+    background-size: 70%, 10%;
+}
 
 article, aside, figure, footer, header, nav, section { display: block; }
 a:link, a:visited {
@@ -49,6 +54,22 @@ a:hover, a:active {
     height: 79px;
 
     background-color: #144e64;}
+
+.header {
+    background-color: #DEB887;
+    width: 100%;
+    height: 90px;
+
+}
+
+.header .title {
+    font-size: 3em;
+    font-family: cursive;
+    font-weight: bold;
+    padding-left: 35%;
+    padding-right: 35%;
+    padding-top: 1%;
+}
 
 .main-header .title {
     float: left;
@@ -107,21 +128,123 @@ a:hover, a:active {
     transform: translateY(-50%);
 }
 
+
 /* page styles */
 article {margin: 5%;}
 article p { margin-bottom: 20px;}
 section {margin:10px;}
 h1 {font-weight: bold; margin-left: 10px;}
-#main {
 
+#casinoBody {
+    background-image: url("../images/backgrounds/casinoEntrance.jpg");
+}
+
+#blackJackBody {
+    background-image: url("../images/backgrounds/blackJack.jpg");
+    background-size: 90%;
+    background-position-x: right 
+}
+
+#goFishBody {
+    background-image: url("../images/backgrounds/gofish.jpg");
+    background-size: 90%;
+    background-position-x: right
+}
+
+#crapsBody {
+    background-image: url("../images/backgrounds/streetcraps.jpg");
+    background-size: 90%;
+    background-position-x: right
+}
+
+#goFishWelcomeContainer {
+    margin-left: 380px;
+    margin-top: 150px;
+}
+
+#submitGoFish{
+    margin-top: 15px;
+}
+
+#user_inputGoFish{
+    margin-top: 15px;
+}
+
+#goFishConsole {
+    
+    height: 230px;
+    width: 450px;
+    background: white;
+    font-size: 20px;
+}
+
+#buttonsArea {
+    margin-top: 50px;
+    margin-left: 40px;
+    height: 450px;
+    width:  850px;
+    float: left;
+}
+
+#main {
+    float: right;
 }
 #display {
     border: 1px #aaa solid;
     padding:10px;
     min-height:300px;
     background:#eee;
-		margin-bottom:10px;
+	margin-bottom:10px;
 }
+#displayCasino {
+    float: right;
+    border: 1px #aaa solid;
+    padding:10px;
+    min-height:400px;
+    min-width: 350px;
+    background:#eee;
+	margin-bottom:10px;
+}
+
+/* #displayEntrance {
+    float: right;
+    border: 1px #aaa solid;
+    padding:10px;
+    min-height:500px;
+    min-width: 350px;
+    background:#eee;
+	margin-bottom:10px;
+} */
+#bjButton {
+    background-image: url("../images/random/blackjack.jpg");
+    background-size: 100%;
+    height: 400px;
+    width: 250px;
+    border: 6px solid red;
+    float: left;
+    
+}
+
+#crapsButton {
+    background-image: url("../images/random/craps.jpg") ;
+    background-size: 100%;
+    height: 400px;
+    width: 250px;
+    float: left;
+    margin-left: 30px;
+    border: 6px solid green;
+}
+
+#goFishButton {
+    background-image: url("../images/random/gofish.jpg");
+    background-size: 120%;
+    height: 400px;
+    width: 250px;
+    float: left;
+    margin-left: 30px;
+    border: 6px solid blue;
+}
+
 #menu {
     float: left;
     width: 100px;
