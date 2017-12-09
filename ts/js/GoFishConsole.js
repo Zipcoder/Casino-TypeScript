@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Console", "./GoFish"], function (require, exports, Console_1, GoFish_1) {
+define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Utilities"], function (require, exports, Console_1, GoFish_1, GoFishPlayer_1, Utilities_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var GoFishConsole = (function (_super) {
@@ -16,9 +16,116 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
         function GoFishConsole() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.game = new GoFish_1.GoFish();
+            _this.playerNames = [];
+            _this.i = 1;
+            _this.j = 1;
+            _this.numBooksPlayed = 0;
+            _this.ALL_BOOKS_PLAYED = 13;
+            _this.currentPlayerIndex = 0;
             return _this;
         }
         GoFishConsole.prototype.start = function () {
+            switch (this.i) {
+                case 1:
+                    this.inputNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
+                    break;
+                case 2:
+                    this.inputPlayerNames();
+                    break;
+                case 3:
+                    this.dealInitialCards();
+                    break;
+                case 4:
+                    this.playRoundsUntilAllBooksPlayed();
+                    break;
+            }
+        };
+        GoFishConsole.prototype.inputNumPlayers = function (min, max) {
+            Utilities_1.Utilities.printMenuName("Welcome to " + this.getNameOfGame());
+            if (min === max) {
+                Utilities_1.Utilities.printLine("This game is played with " + min + " players.");
+                this.numPlayers = min;
+            }
+            else {
+                Utilities_1.Utilities.printLine("How many players? May have " + min + " to " + max + " players.");
+                var _this = this;
+                Utilities_1.Utilities.buttonEle.addEventListener("click", function inputNumber() {
+                    var input = parseInt(Utilities_1.Utilities.userInputEle.value);
+                    Utilities_1.Utilities.userInputEle.value = "";
+                    if (input >= min && input <= max) {
+                        _this.numPlayers = input;
+                        _this.i++;
+                        this.removeEventListener("click", inputNumber);
+                        _this.start();
+                    }
+                    else {
+                        Utilities_1.Utilities.printLine("Invalid input");
+                        this.removeEventListener("click", inputNumber);
+                        _this.start();
+                    }
+                });
+            }
+        };
+        GoFishConsole.prototype.inputPlayerNames = function () {
+            var nextPlayerIndex = this.playerNames.length + 1;
+            if (nextPlayerIndex <= this.numPlayers) {
+                Utilities_1.Utilities.printLine("Enter name of Player " + nextPlayerIndex);
+                var _this = this;
+                Utilities_1.Utilities.buttonEle.addEventListener("click", function inputName() {
+                    var name = Utilities_1.Utilities.userInputEle.value;
+                    Utilities_1.Utilities.userInputEle.value = "";
+                    Utilities_1.Utilities.printLine("Welcome, " + name);
+                    _this.playerNames.push(name);
+                    this.removeEventListener("click", inputName);
+                    _this.start();
+                });
+            }
+            else {
+                var players = [];
+                for (var i = 0; i < this.playerNames.length; i++) {
+                    players.push(new GoFishPlayer_1.GoFishPlayer(this.playerNames[i]));
+                }
+                this.game.addPlayers(players);
+                this.game.setNumInitialCards();
+                this.i++;
+                this.start();
+            }
+        };
+        GoFishConsole.prototype.dealInitialCards = function () {
+            Utilities_1.Utilities.printLine("");
+            Utilities_1.Utilities.printLine("Click to deal cards");
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function dealCards() {
+                Utilities_1.Utilities.clearDisplay();
+                Utilities_1.Utilities.printLine("Dealing cards...");
+                _this.game.dealInitialCards();
+                _this.i++;
+                this.removeEventListener("click", dealCards);
+                _this.start();
+            });
+        };
+        GoFishConsole.prototype.playRoundsUntilAllBooksPlayed = function () {
+            if (this.numBooksPlayed < this.ALL_BOOKS_PLAYED) {
+                switch (this.j) {
+                    case 1:
+                        this.startPlayerTurn();
+                        break;
+                }
+            }
+            else {
+                // end game, go to next, i++
+                this.i++;
+            }
+        };
+        GoFishConsole.prototype.startPlayerTurn = function () {
+            this.currentPlayer = this.game.getPlayers()[this.currentPlayerIndex];
+            var playerNumber = this.currentPlayerIndex + 1;
+            Utilities_1.Utilities.printLine(this.currentPlayer.getName() + ", it's your turn Player " + playerNumber);
+            Utilities_1.Utilities.printLine("Click to show cards");
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function startTurn() {
+                Utilities_1.Utilities.printLine(_this.currentPlayer.getHand().toString());
+            });
         };
         GoFishConsole.prototype.getNameOfGame = function () {
             return "Go Fish";
@@ -28,43 +135,23 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
     exports.GoFishConsole = GoFishConsole;
 });
 // public class GoFishConsole extends Console {
-// 
-//     private String nameOfGame = "Go Fish";
-// 
-//     private GoFish game = new GoFish();
-//     private GoFishPlayer currentPlayer;
-// 
 //     @Override
 //     public void start() {
 //         setUpGame();
-// 
+//
 //         System.out.println("\nDealing cards...\n");
 //         game.dealInitialCards();
-// 
+//
 //         playRoundsUntilAllBooksPlayed();
 //         displayFinalCards();
 //         GoFishPlayer winner = game.determineWinner();
 //         System.out.printf("Congratulations, %s is the winner!\n", winner.getName());
 //     }
-// 
-//     @Override
-//     public void setUpGame() {
-//         printMenuName(String.format("Welcome to %s", nameOfGame));
-//         int numPlayers = getNumPlayers(game.MIN_NUMBER_OF_PLAYERS, game.MAX_NUMBER_OF_PLAYERS);
-//         ArrayList<String> playerNames = getPlayerNames(numPlayers);
-//         ArrayList<GoFishPlayer> players = new ArrayList<>();
-//         for(String name : playerNames) {
-//             GoFishPlayer player = new GoFishPlayer(name);
-//             players.add(player);
-//         }
-//         game.addPlayers(players);
-//         game.setNumInitialCards();
-//     }
-// 
+//
 //     public void playRoundsUntilAllBooksPlayed() {
 //         int numBooksPlayed = 0;
 //         final int ALL_BOOKS_PLAYED = 13;
-// 
+//
 //         int currentPlayerIndex = 0;
 //         while(numBooksPlayed < ALL_BOOKS_PLAYED) {
 //             currentPlayer = game.getPlayers().get(currentPlayerIndex);
@@ -74,12 +161,12 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
 //             currentPlayerIndex %= game.getNumPlayers();
 //         }
 //     }
-// 
+//
 //     @Override
 //     public void playRound() {
-// 
+//
 //     }
-// 
+//
 //     public Integer playerTakeTurn(GoFishPlayer player) {
 //         int totalBooksPlayed = 0;
 //         boolean continueFishing = true;
@@ -128,7 +215,7 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
 //         }
 //         return totalBooksPlayed;
 //     }
-// 
+//
 //     public void displayFinalCards() {
 //         for(int i = 0; i < game.getNumPlayers(); i++) {
 //             GoFishPlayer goFishPlayer = game.getPlayers().get(i);
@@ -139,7 +226,7 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
 //             System.out.println();
 //         }
 //     }
-// 
+//
 //     public Card.FaceValue getCardValueSelection() {
 //         Card.FaceValue value = null;
 //         boolean isValidInput = false;
@@ -154,7 +241,7 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
 //         }
 //         return value;
 //     }
-// 
+//
 //     public static Card.FaceValue getValueInput(String prompt) {
 //         System.out.println(prompt);
 //         StringJoiner stringJoiner = new StringJoiner(" ] * [ ", "[ ", " ]\n");
@@ -175,7 +262,7 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
 //         }
 //         return value;
 //     }
-// 
+//
 //     public GoFishPlayer getPlayerToAsk() {
 //         StringJoiner stringJoiner = new StringJoiner(" ] * [ ", "[ ", " ]\n");
 //         ArrayList<GoFishPlayer> players = game.getPlayers();
@@ -201,7 +288,7 @@ define(["require", "exports", "./Console", "./GoFish"], function (require, expor
 //         }
 //         return otherPlayer;
 //     }
-// 
+//
 //     @Override
 //     public String getNameOfGame() {
 //         return nameOfGame;

@@ -122,8 +122,7 @@ export class GoFishConsole extends Console {
     Utilities.printLine("Click to show cards");
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function startTurn() {
-      console.log(_this.currentPlayer.getHand().getCards().length);
-      //Utilities.printLine(_this.currentPlayer.getHand().toString());
+      Utilities.printLine(_this.currentPlayer.getHand().toString());
     });
   }
 
