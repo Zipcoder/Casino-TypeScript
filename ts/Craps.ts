@@ -28,6 +28,14 @@ export class Craps extends Game<Craps> implements Gamble<Craps> {
     return this.players;
   }
 
+  getPlayersOnPass() : CrapsPlayer[] {
+    return this.playersOnPass;
+  }
+
+  getPlayersOnDontPass() : CrapsPlayer[] {
+    return this.playersOnDontPass;
+  }
+
   getSumOfDice() : number {
     return this.getValueOfDieOne() + this.getValueOfDieTwo();
   }
@@ -65,24 +73,30 @@ export class Craps extends Game<Craps> implements Gamble<Craps> {
   }
 
   takeBet(player:Player<Craps>, amount:number) {
-    if(this.bets[player.id]==undefined)
+    if(this.bets[player.id]==undefined) {
       this.bets[player.id]= amount;
-      else this.bets[player.id]+= amount;
-      player.bet(amount);
+      console.log(this.bets[player.id]);
+    }
+    else {
+      this.bets[player.id]+= amount;
+    }
+    player.bet(amount);
   }
 
   payOutBets() {
     if(this.passBetsWin) {
-        for(let player in this.playersOnPass) {
-            let amountWon = this.bets[player] * 2;
-            this.playersOnPass[player].receiveWinnings(amountWon);
-        }
+      for(let i = 0; i < this.playersOnPass.length; i++) {
+        let playerId = this.playersOnPass[i].id;
+        let amountWon: number = this.bets[playerId] * 2;
+        this.playersOnPass[i].receiveWinnings(amountWon);
+      }
     }
     else {
-        for(let player in this.playersOnDontPass) {
-            let amountWon = this.bets[player] * 2;
-            this.playersOnDontPass[player].receiveWinnings(amountWon);
-        }
+      for(let i = 0; i < this.playersOnDontPass.length; i++) {
+        let playerId = this.playersOnDontPass[i].id;
+        let amountWon: number = this.bets[playerId] * 2;
+        this.playersOnDontPass[i].receiveWinnings(amountWon);
+      }
     }
     this.clearAllBets();
   }

@@ -14,7 +14,7 @@ export abstract class Game<T extends Game<T>> {
   //   this.players = players;
   // }
 
-  abstract printPlayersMoney() : string ;
+  //abstract printPlayersMoney() : string ;
   // {
   //   var moneyString: string[] = [];
   //   let i = 1;

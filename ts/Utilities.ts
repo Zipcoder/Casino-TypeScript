@@ -7,6 +7,9 @@ export class Utilities {
   static betAmountButton : any = document.getElementById("bet_amount_button");
   static passOrDontPassButton : any = document.getElementById("pass_or_dont_pass_button");
 
+  static clearDisplay() {
+    Utilities.displayEle.innerHTML = "";
+  }
   static printLine(input: string) {
     Utilities.displayEle.innerHTML += input + "<br/>";
   }
