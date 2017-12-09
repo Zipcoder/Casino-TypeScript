@@ -34,7 +34,7 @@ class BlackJackConsole {
 
         this.playerScore = this.game.calculatePlayerScore(this.player);
         changeDisplay("Your were dealt a hand of " +this.player.displayPlayerHand() +" worth "+  this.playerScore.toString()+ 
-                    "<br>The dealer is showing " + dealerShowing +" hit or stay?");
+                    "<br>The dealer is showing " + dealerShowing +" hit or stay?<br>");
     }
 
     public hit() {
@@ -45,7 +45,7 @@ class BlackJackConsole {
             changeDisplay("Would you like to hit or stay?");
         }
         else {
-            changeDisplay("Your current score is: " + this.playerScore + "<br />");
+            changeDisplay("Your hand of " +this.player.displayPlayerHand() +" worth " + this.playerScore + " is a bust!<br />");
             changeDisplay("You lose!");
         }
     }
@@ -54,7 +54,7 @@ class BlackJackConsole {
         // Do the dealer stuff here
         var dealerFinalHand = this.game.dealerPlays();
         changeDisplay("Dealer plays out the hand, "+ dealerFinalHand);
-        //changeDisplay("Dealer plays and finishes with "+this.game.calculatePlayerScore(this.dealer));
+        
         if(this.game.isPlayerWinner(this.player, this.dealer)){
             changeDisplay("Winner winner, chicken dinner!")
         }else{

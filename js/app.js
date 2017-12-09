@@ -191,12 +191,13 @@ class BlackJack extends CardGame {
             return 10;
         }
         else if (card.getValue() == "A") {
-            if (this.player.Score + 11 > 21) {
-                return 1;
-            }
-            else {
-                return 11;
-            }
+            return 1;
+            // if (this.player.Score + 11 > 21) {
+            //     return 1;
+            // }
+            // else {
+            //     return 11;
+            // }
         }
         else {
             return parseInt(card.getValue());
@@ -215,7 +216,19 @@ class BlackJack extends CardGame {
         for (let i = 0; i < player.getHand().length; i++) {
             score += this.getCardPointValue(player.getHand()[i]);
         }
+        if (player.hasAceInHand() && score <= 11) {
+            score += 10;
+        }
         return score;
+        //     int sum = 0;
+        //     for(Card card: hand) {
+        //         sum += card.getValue();
+        //     }
+        //     if(isAceInHand() && sum <= 11) {
+        //         sum += 10;
+        //     }
+        //     return sum;
+        // }
     }
     isPlayerWinner(player, dealer) {
         if (this.isBust(this.dealer) ||
@@ -264,7 +277,7 @@ class BlackJackConsole {
         var dealerShowing = this.dealer.getHand()[0].getValue();
         this.playerScore = this.game.calculatePlayerScore(this.player);
         changeDisplay("Your were dealt a hand of " + this.player.displayPlayerHand() + " worth " + this.playerScore.toString() +
-            "<br>The dealer is showing " + dealerShowing + " hit or stay?");
+            "<br>The dealer is showing " + dealerShowing + " hit or stay?<br>");
     }
     hit() {
         this.game.hitPlayer(this.player);
@@ -274,7 +287,7 @@ class BlackJackConsole {
             changeDisplay("Would you like to hit or stay?");
         }
         else {
-            changeDisplay("Your current score is: " + this.playerScore + "<br />");
+            changeDisplay("Your hand of " + this.player.displayPlayerHand() + " worth " + this.playerScore + " is a bust!<br />");
             changeDisplay("You lose!");
         }
     }
@@ -282,7 +295,6 @@ class BlackJackConsole {
         // Do the dealer stuff here
         var dealerFinalHand = this.game.dealerPlays();
         changeDisplay("Dealer plays out the hand, " + dealerFinalHand);
-        //changeDisplay("Dealer plays and finishes with "+this.game.calculatePlayerScore(this.dealer));
         if (this.game.isPlayerWinner(this.player, this.dealer)) {
             changeDisplay("Winner winner, chicken dinner!");
         }
