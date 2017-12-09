@@ -266,7 +266,9 @@ class BlackJack extends CardGame {
 class BlackJackConsole {
     constructor(player) {
         this.displayPlayerScore = document.getElementById("display player score");
-        this.userInputEle = document.getElementById("user_input");
+        this.hitButtonInputEle = document.getElementById("hit");
+        this.stayButtonInputEle = document.getElementById("stay");
+        this.playButtonInputEle = document.getElementById("play again");
         this.player = new BlackJackPlayer(player);
     }
     init() {
@@ -276,6 +278,9 @@ class BlackJackConsole {
         this.player.clearHand();
         this.game.dealCards(this.dealer);
         this.game.dealCards(this.player);
+        this.playButtonInputEle.disabled = true;
+        this.hitButtonInputEle.disabled = false;
+        this.stayButtonInputEle.disabled = false;
         var dealerShowing = this.dealer.getHand()[0].getValue();
         this.playerScore = this.game.calculatePlayerScore(this.player);
         changeDisplay("Your were dealt a hand of " + this.player.displayPlayerHand() + " worth " + this.playerScore.toString() +
@@ -291,12 +296,18 @@ class BlackJackConsole {
         else {
             changeDisplay("Your hand of " + this.player.displayPlayerHand() + " worth " + this.playerScore + " is a bust!<br />");
             changeDisplay("You lose!");
+            this.hitButtonInputEle.disabled = true;
+            this.stayButtonInputEle.disabled = true;
+            this.playButtonInputEle.disabled = false;
         }
     }
     stay() {
         // Do the dealer stuff here
         var dealerFinalHand = this.game.dealerPlays();
         changeDisplay("Dealer plays out the hand, " + dealerFinalHand);
+        this.hitButtonInputEle.disabled = true;
+        this.stayButtonInputEle.disabled = true;
+        this.playButtonInputEle.disabled = false;
         if (this.game.isPlayerWinner(this.player, this.dealer)) {
             changeDisplay("Winner winner, chicken dinner!");
         }
