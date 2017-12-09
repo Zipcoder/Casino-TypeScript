@@ -10,9 +10,14 @@ let casino = new Casino();
 let craps = new Craps(casino.casinoPlayer);
 // let blackjack = new BlackJack(casino.casinoPlayer);
 
+// let displayEl: any;
+// let cssCards: any = "cssCards";
+// displayEl = document.getElementById("display");
 // let deck = new Deck();
 // let displayDeck: Card[] = deck.getDeck();
 // for(let i=0; i<displayDeck.length; i++) {
+//   let imageUrl : string = displayDeck[i].getImageURL();
 //   console.log(displayDeck[i].getValue());
 //   console.log(displayDeck[i].getImageURL());
-}
+//   displayEl.innerHTML += "<img class=" + cssCards + " src=" + imageUrl + ">";
+// }

@@ -9,7 +9,7 @@ class Card {
   }
 
   public getValue(): number {
-    return this._value;
+    return this._value; 
   }
 
   public getImageURL(): string {
