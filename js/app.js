@@ -116,7 +116,7 @@ class BlackJackPlayer extends CardPlayer {
         super(player);
     }
     hasAceInHand() {
-        return this.hasCardOfValue("Ace");
+        return this.hasCardOfValue("A");
     }
 }
 class Game {
@@ -191,13 +191,13 @@ class BlackJack extends CardGame {
             return 10;
         }
         else if (card.getValue() == "A") {
-            return 1;
-            // if (this.player.Score + 11 > 21) {
-            //     return 1;
-            // }
-            // else {
-            //     return 11;
-            // }
+            //return 1;
+            if (this.player.Score + 11 > 21) {
+                return 1;
+            }
+            else {
+                return 11;
+            }
         }
         else {
             return parseInt(card.getValue());
@@ -215,9 +215,11 @@ class BlackJack extends CardGame {
         let score = 0;
         for (let i = 0; i < player.getHand().length; i++) {
             score += this.getCardPointValue(player.getHand()[i]);
+            player.Score = score;
         }
-        if (player.hasAceInHand() && score <= 11) {
-            score += 10;
+        if (player.hasAceInHand() && score > 21) {
+            score -= 10;
+            player.Score = score;
         }
         return score;
         //     int sum = 0;
