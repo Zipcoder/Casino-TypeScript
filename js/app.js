@@ -1,3 +1,19 @@
+var GoFish = /** @class */ (function () {
+    function GoFish() {
+        this.displayEle = document.getElementById("goFishConsole");
+        this.userInputEle = document.getElementById("user_inputGoFish");
+    }
+    GoFish.prototype.welcome = function () {
+        this.displayEle.innerHTML += "Welcome to Go Fish";
+    };
+    return GoFish;
+}());
+// /// <reference path="Casino.ts" />
+// let casino = new Casino();
+// casino.welcome();
+/// <reference path="GoFish.ts" />
+var goFish = new GoFish();
+goFish.welcome();
 var Casino = /** @class */ (function () {
     function Casino() {
         this.displayEle = document.getElementById("displayCasino");
@@ -36,15 +52,14 @@ var Casino = /** @class */ (function () {
             "<br/><br/><br/>What game would you like to play???<br/><br/><br/><br/><br/><br/>          <-------------------<br/>" +
             "<-------------------<br/>          <-------------------<br/>";
         this.changeButtonVisability();
+        var goFish = new GoFish();
+        goFish.init();
     };
     Casino.prototype.changeButtonVisability = function () {
         this.visibility.removeAttribute("hidden");
     };
     return Casino;
 }());
-/// <reference path="Casino.ts" />
-var casino = new Casino();
-casino.welcome();
 var Card = /** @class */ (function () {
     function Card(suit, faceValue, value) {
         this.suit = suit;

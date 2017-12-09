@@ -1,3 +1,5 @@
+
+
 class Casino{
     
         displayEle:any;
@@ -50,7 +52,10 @@ class Casino{
                                          "<br/><br/><br/>What game would you like to play???<br/><br/><br/><br/><br/><br/>          <-------------------<br/>" +
                                          "<-------------------<br/>          <-------------------<br/>";
 
-            this.changeButtonVisability();                            
+            this.changeButtonVisability(); 
+            
+            let goFish = new GoFish();
+            goFish.init();
 
         }
 
