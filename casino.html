@@ -9,16 +9,22 @@
     <link href="./css/style.css" type="text/css" rel="stylesheet">
     <title>Robs Casino | Zipcode Wilmington</title>
 </head>
-<body>
+<body id="casinoBody">
     <header class="entranceHeader">
         <div class="entranceTitle">Grahmerro Casino</div>
     </header>
+
+    <div id="buttonsArea" hidden >
+        <div><a href = "myBlackjack.html" id="bjButton"></a></div>
+        <div><a href = "craps.html" id="crapsButton"></a></div>
+        <div><a href = "goFish.html" id="goFishButton"></a></div>
+    </div>
 
     <section id="main">
     	<div id="displayCasino"></div>
 			<div id="inputCasino">
 				<input type="text" name="user_input" id="user_inputCasino">
-				<input id="submitCasino" type="submit" value="submit" onclick="casino.getName()">
+				<input id="submitCasino" type="submit" value="  submit  " onclick="casino.getName()">
 			</div>
     </section>
 

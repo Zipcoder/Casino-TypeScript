@@ -3,9 +3,10 @@ var Casino = /** @class */ (function () {
         this.displayEle = document.getElementById("displayCasino");
         this.userInputEle = document.getElementById("user_inputCasino");
         this.listener = document.getElementById("submitCasino");
+        this.visibility = document.getElementById("buttonsArea");
     }
     Casino.prototype.welcome = function () {
-        this.displayEle.innerHTML += "<br/>Welcome To Chewy's Casino!!!<br/>What is your name?";
+        this.displayEle.innerHTML += "Welcome To Grahmerro Casino!!!<br/>What is your name?";
     };
     Casino.prototype.getName = function () {
         this.name = this.userInputEle.value;
@@ -31,11 +32,13 @@ var Casino = /** @class */ (function () {
         this.player = new Player(this.name, this.money);
     };
     Casino.prototype.displayOptions = function () {
-        this.displayEle.innerHTML += "<br/>Player: " + this.player.getName() + "<br/>Money: " + this.player.getBalance() + "<br/>" +
-            "What would you like to do?";
-        this.displayEle.innerHTML += "<br/><button> <a href = \"index.html\">Play BlackJack</a> </button>" + "     " +
-            "<br/><button> <a href = \"craps.html\">Play Craps</a> </button>" + "     " +
-            "<br/><button> <a href = \"goFish.html\">Play Go Fish</a> </button>";
+        this.displayEle.innerHTML = "Player: " + this.player.getName() + "<br/>Money: " + this.player.getBalance() + "<br/>" +
+            "<br/><br/><br/>What game would you like to play???<br/><br/><br/><br/><br/><br/>          <-------------------<br/>" +
+            "<-------------------<br/>          <-------------------<br/>";
+        this.changeButtonVisability();
+    };
+    Casino.prototype.changeButtonVisability = function () {
+        this.visibility.removeAttribute("hidden");
     };
     return Casino;
 }());

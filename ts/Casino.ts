@@ -6,15 +6,17 @@ class Casino{
         name:string;
         money:number;
         player:any;
+        visibility:any;
     
         constructor(){
             this.displayEle = document.getElementById("displayCasino");
             this.userInputEle = document.getElementById("user_inputCasino");
             this.listener = document.getElementById("submitCasino");
+            this.visibility = document.getElementById("buttonsArea");
         }
     
         welcome(){
-            this.displayEle.innerHTML += "<br/>Welcome To Chewy's Casino!!!<br/>What is your name?";        
+            this.displayEle.innerHTML += "Welcome To Grahmerro Casino!!!<br/>What is your name?";        
         }
     
         getName(){
@@ -44,13 +46,16 @@ class Casino{
         }
 
         displayOptions(){
-            this.displayEle.innerHTML += "<br/>Player: " + this.player.getName() + "<br/>Money: " + this.player.getBalance() + "<br/>" +
-                                         "What would you like to do?";
+            this.displayEle.innerHTML = "Player: " + this.player.getName() + "<br/>Money: " + this.player.getBalance() + "<br/>" +
+                                         "<br/><br/><br/>What game would you like to play???<br/><br/><br/><br/><br/><br/>          <-------------------<br/>" +
+                                         "<-------------------<br/>          <-------------------<br/>";
 
-            this.displayEle.innerHTML += "<br/><button> <a href = \"index.html\">Play BlackJack</a> </button>" + "     " +
-                                         "<br/><button> <a href = \"craps.html\">Play Craps</a> </button>" + "     " +
-                                         "<br/><button> <a href = \"goFish.html\">Play Go Fish</a> </button>";
+            this.changeButtonVisability();                            
 
+        }
+
+        changeButtonVisability(){
+            this.visibility.removeAttribute("hidden");
         }
     
     }
