@@ -28,7 +28,7 @@ export class Card {
       return this.faceValue +" "+this.suit;
   }
 
-  static faceValues: {
+  static faceValues= {
     "ACE": "A",
     "TWO": "2",
     "THREE": "3",
@@ -44,7 +44,7 @@ export class Card {
     "KING": "K"
   };
 
-  static suits: {
+  static suits= {
     "SPADES": "\u2660",
     "HEARTS": "\u2665",
     "DIAMONDS": "\u2666",
