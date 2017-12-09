@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Utilities"], function (require, exports, Console_1, GoFish_1, GoFishPlayer_1, Utilities_1) {
+define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Utilities", "./Card"], function (require, exports, Console_1, GoFish_1, GoFishPlayer_1, Utilities_1, Card_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var GoFishConsole = (function (_super) {
@@ -110,6 +110,9 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
                     case 1:
                         this.startPlayerTurn();
                         break;
+                    case 2:
+                        this.getCardValueSelection();
+                        break;
                 }
             }
             else {
@@ -125,7 +128,41 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function startTurn() {
                 Utilities_1.Utilities.printLine(_this.currentPlayer.getHand().toString());
+                _this.j++;
+                this.removeEventListener("click", startTurn);
+                _this.start();
             });
+        };
+        GoFishConsole.prototype.getCardValueSelection = function () {
+            Utilities_1.Utilities.printLine("");
+            Utilities_1.Utilities.printLine("Select a card value to ask another player for:");
+            var potentialValues = [];
+            for (var key in Object.keys(Card_1.Card.faceValues)) {
+                var rank = Object.keys(Card_1.Card.faceValues)[key];
+                console.log(rank + " " + this.currentPlayer.hasCardsOfRank(rank));
+                if (this.currentPlayer.hasCardsOfRank(rank)) {
+                    potentialValues.push("[ " + rank + " ]");
+                }
+            }
+            Utilities_1.Utilities.printLine(potentialValues.toString());
+            var value;
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function valueSelection() {
+                var rank = Utilities_1.Utilities.userInputEle.value;
+                Utilities_1.Utilities.userInputEle.value = "";
+            });
+            //         Card.FaceValue value = null;
+            //         boolean isValidInput = false;
+            //         while(!isValidInput) {
+            //             System.out.println(currentPlayer.getHand());
+            //             value = getValueInput("Select a card value to ask another player for:");
+            //             if(currentPlayer.hasCardsOfRank(value)) {
+            //                 isValidInput = true;
+            //             } else {
+            //                 System.out.println("Invalid selection, you do not have a card of that rank to ask for.");
+            //             }
+            //         }
+            //         return value;
         };
         GoFishConsole.prototype.getNameOfGame = function () {
             return "Go Fish";

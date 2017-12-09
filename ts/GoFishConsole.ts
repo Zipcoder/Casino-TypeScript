@@ -2,6 +2,7 @@ import {Console} from './Console';
 import {GoFish} from './GoFish';
 import {GoFishPlayer} from './GoFishPlayer';
 import {Utilities} from './Utilities';
+import {Card} from './Card';
 
 export class GoFishConsole extends Console {
 
@@ -107,6 +108,9 @@ export class GoFishConsole extends Console {
         case 1:
           this.startPlayerTurn();
           break;
+        case 2:
+          this.getCardValueSelection();
+          break;
       }
     }
     else {
@@ -123,7 +127,42 @@ export class GoFishConsole extends Console {
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function startTurn() {
       Utilities.printLine(_this.currentPlayer.getHand().toString());
+      _this.j++;
+      this.removeEventListener("click", startTurn);
+      _this.start();
     });
+  }
+
+  getCardValueSelection() {
+    Utilities.printLine("");
+    Utilities.printLine("Select a card value to ask another player for:");
+    let potentialValues: string[] = []
+    for(let key in Object.keys(Card.faceValues)) {
+      let rank: string = Object.keys(Card.faceValues)[key];
+      console.log(rank + " " + this.currentPlayer.hasCardsOfRank(rank));
+      if(this.currentPlayer.hasCardsOfRank(rank)) {
+        potentialValues.push("[ " + rank + " ]");
+      }
+    }
+    Utilities.printLine(potentialValues.toString());
+    let value: string;
+    var _this = this;
+    Utilities.buttonEle.addEventListener("click", function valueSelection() {
+      let rank: string = Utilities.userInputEle.value;
+      Utilities.userInputEle.value = "";
+    });
+    //         Card.FaceValue value = null;
+    //         boolean isValidInput = false;
+    //         while(!isValidInput) {
+    //             System.out.println(currentPlayer.getHand());
+    //             value = getValueInput("Select a card value to ask another player for:");
+    //             if(currentPlayer.hasCardsOfRank(value)) {
+    //                 isValidInput = true;
+    //             } else {
+    //                 System.out.println("Invalid selection, you do not have a card of that rank to ask for.");
+    //             }
+    //         }
+    //         return value;
   }
 
   getNameOfGame() {
