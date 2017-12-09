@@ -199,6 +199,7 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
         };
         CrapsConsole.prototype.playAgain = function () {
             this.payOutBets();
+            this.continueRolling = true;
             if (this.currentPlayer.getMoney() <= 0) {
                 Utilities_1.Utilities.printLine("Sorry, you are out of money.");
             }

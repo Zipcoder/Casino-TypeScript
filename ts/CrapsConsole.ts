@@ -199,6 +199,7 @@ export class CrapsConsole extends Console {
 
   playAgain() {
     this.payOutBets();
+    this.continueRolling = true;
     if(this.currentPlayer.getMoney() <= 0) {
       Utilities.printLine("Sorry, you are out of money.");
     }
