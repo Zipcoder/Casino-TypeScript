@@ -139,7 +139,6 @@ export class GoFishConsole extends Console {
     let potentialValues: string[] = []
     for(let key in Object.keys(Card.faceValues)) {
       let rank: string = Object.keys(Card.faceValues)[key];
-      console.log(rank + " " + this.currentPlayer.hasCardsOfRank(rank));
       if(this.currentPlayer.hasCardsOfRank(rank)) {
         potentialValues.push("[ " + rank + " ]");
       }
@@ -148,8 +147,16 @@ export class GoFishConsole extends Console {
     let value: string;
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function valueSelection() {
-      let rank: string = Utilities.userInputEle.value;
+      let rank: string = Utilities.userInputEle.value.toUpperCase();
       Utilities.userInputEle.value = "";
+      if(!_this.currentPlayer.hasCardsOfRank(rank)) {
+        Utilities.printLine("Invalid selection, you do not have a card of that rank to ask for.");
+        this.removeEventListener("click", valueSelection);
+        _this.start();
+      }
+      else {
+
+      }
     });
     //         Card.FaceValue value = null;
     //         boolean isValidInput = false;

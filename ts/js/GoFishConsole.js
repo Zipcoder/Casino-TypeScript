@@ -139,7 +139,6 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
             var potentialValues = [];
             for (var key in Object.keys(Card_1.Card.faceValues)) {
                 var rank = Object.keys(Card_1.Card.faceValues)[key];
-                console.log(rank + " " + this.currentPlayer.hasCardsOfRank(rank));
                 if (this.currentPlayer.hasCardsOfRank(rank)) {
                     potentialValues.push("[ " + rank + " ]");
                 }
@@ -148,8 +147,15 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
             var value;
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function valueSelection() {
-                var rank = Utilities_1.Utilities.userInputEle.value;
+                var rank = Utilities_1.Utilities.userInputEle.value.toUpperCase();
                 Utilities_1.Utilities.userInputEle.value = "";
+                if (!_this.currentPlayer.hasCardsOfRank(rank)) {
+                    Utilities_1.Utilities.printLine("Invalid selection, you do not have a card of that rank to ask for.");
+                    this.removeEventListener("click", valueSelection);
+                    _this.start();
+                }
+                else {
+                }
             });
             //         Card.FaceValue value = null;
             //         boolean isValidInput = false;
