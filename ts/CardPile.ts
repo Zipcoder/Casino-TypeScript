@@ -74,7 +74,7 @@ export class CardPile {
     }
 
 
-    public  toString():String {
+    public  toString():string {
       var icons: string[] = [];
       for(let c in this.cards) {
         icons.push(this.cards[c].getIcon());
