@@ -1,3 +1,4 @@
+
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardGame.ts" />
 /// <reference path="CardPlayer.ts" />
@@ -24,6 +25,9 @@ class BlackJack extends CardGame {
 
     public takeBet(bet: number): void {
         this.pot += bet;
+    }
+    public getDealer(): BlackJackPlayer{
+        return this.dealer;
     }
 
     public dealCards(player: BlackJackPlayer): void {
@@ -72,13 +76,27 @@ class BlackJack extends CardGame {
         return score;
     }
 
-    isPlayerWinner(): boolean {
-        if(!this.isBust(this.player) && this.player.Score > this.dealer.Score){
+    isPlayerWinner(player: BlackJackPlayer, dealer:BlackJackPlayer): boolean {
+        if(this.isBust(this.dealer) ||
+            this.calculatePlayerScore(player) > this.calculatePlayerScore(this.dealer)){
             return true;
         }
         else{
             return false;
         }
+    }
+
+    dealerPlays(): String{
+        var output="";
+        while(this.calculatePlayerScore(this.getDealer()) <= 16 ||
+            (this.calculatePlayerScore(this.getDealer()) == 17 && this.getDealer().hasAceInHand())) {
+                this.hitPlayer(this.getDealer());
+        }
+        var dealerHand =  this.dealer.getHand();
+        for(var i= 0; i< dealerHand.length; i++){
+            output += dealerHand[i].getValue() + ", ";
+        }
+        return output;
     }
 
 }

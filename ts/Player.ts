@@ -4,7 +4,7 @@ class Player{
     private wallet: number;
     private score: number;
 
-    constructor(name: string, wallet: number){
+    constructor(name: string, wallet?: number){
         this.name = name
         this.wallet = wallet;
         this.score = 0;

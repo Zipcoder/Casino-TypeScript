@@ -22,9 +22,9 @@ var Value;
     Value[Value["Eight"] = 8] = "Eight";
     Value[Value["Nine"] = 9] = "Nine";
     Value[Value["Ten"] = 10] = "Ten";
-    Value[Value["Jack"] = 11] = "Jack";
-    Value[Value["Queen"] = 12] = "Queen";
-    Value[Value["King"] = 13] = "King";
+    Value[Value["Jack"] = 10] = "Jack";
+    Value[Value["Queen"] = 10] = "Queen";
+    Value[Value["King"] = 10] = "King";
 })(Value || (Value = {}));
 var Suit;
 (function (Suit) {
@@ -34,39 +34,47 @@ var Suit;
     Suit[Suit["Club"] = 4] = "Club";
 })(Suit || (Suit = {}));
 class Player {
-    constructor() {
-        this.name;
-        this.wallet;
-        this.score;
+    constructor(name, wallet) {
+        this.name = name;
+        this.wallet = wallet;
+        this.score = 0;
     }
-    getName() {
+    get Name() {
         return this.name;
     }
-    setName(name) {
-        this.name = name;
-    }
-    getWallet() {
+    get Wallet() {
         return this.wallet;
     }
-    setWallet(wallet) {
+    set Wallet(wallet) {
         this.wallet = wallet;
     }
-    getScore() {
+    get Score() {
         return this.score;
     }
-    setScore(score) {
+    set Score(score) {
         this.score = score;
     }
 }
 /// <reference path="Card.ts" />
 /// <reference path="Player.ts" />
 class CardPlayer extends Player {
-    constructor() {
-        super();
+    constructor(player) {
+        super(player.Name, player.Wallet);
         this.hand = [];
     }
     getHand() {
         return this.hand;
+    }
+    clearHand() {
+        while (this.hand.length > 0)
+            this.hand.pop();
+    }
+    displayPlayerHand() {
+        var output = " ";
+        for (var i = 0; i < this.hand.length; i++) {
+            output += this.hand[i].getValue() + ", ";
+        }
+        return output;
     }
     addCardToHand(card) {
         this.hand.push(card);
@@ -90,22 +98,22 @@ class CardPlayer extends Player {
         return undefined;
     }
 }
-var cardPlayer = new CardPlayer();
-var card = new Card("Queen", "Hearts");
-var card2 = new Card("King", "Clubs");
-var card3 = new Card("7", "Spades");
-cardPlayer.addCardToHand(card);
-cardPlayer.addCardToHand(card2);
-cardPlayer.addCardToHand(card3);
-cardPlayer.hasCardOfValue("Queen");
-console.log(cardPlayer.hasCardOfValue("Queen"));
-console.log(cardPlayer.getCardByValue("Queen"));
-console.log(cardPlayer.hasCardOfValue("Queen"));
-console.log(cardPlayer.getHand());
+// var cardPlayer = new CardPlayer();
+// var card = new Card("Queen", "Hearts");
+// var card2 = new Card("King", "Clubs");
+// var card3 = new Card("7", "Spades");
+// cardPlayer.addCardToHand(card);
+// cardPlayer.addCardToHand(card2);
+// cardPlayer.addCardToHand(card3);
+// cardPlayer.hasCardOfValue("Queen");
+// console.log(cardPlayer.hasCardOfValue("Queen"));
+// console.log(cardPlayer.getCardByValue("Queen"));
+// console.log(cardPlayer.hasCardOfValue("Queen"));
+// console.log(cardPlayer.getHand());
 /// <reference path="CardPlayer.ts" />
 class BlackJackPlayer extends CardPlayer {
-    constructor() {
-        super();
+    constructor(player) {
+        super(player);
     }
     hasAceInHand() {
         return this.hasCardOfValue("Ace");
@@ -121,37 +129,6 @@ class Game {
 }
 /// <reference path="Game.ts" />
 class CardGame {
-    constructor() {
-        this.deck = new Deck;
-        this.cardPlayers = [];
-    }
-    getCardPlayers() {
-        return this.cardPlayers;
-    }
-    addCardPlayer(cardPlayer) {
-        this.getCardPlayers().push(cardPlayer);
-    }
-    deal(numCards) {
-        deck.shuffle(47);
-        for (var i = 0; i < numCards; i++) {
-            for (var j = 0; j < this.getCardPlayers().length; j++) {
-                var nextCard = deck.getTopCard();
-                this.getCardPlayers()[j].getHand().push(nextCard);
-            }
-        }
-    }
-    showPlayerHand() {
-        for (var i = 0; i < this.getCardPlayers()[0].getHand().length; i++) {
-            console.log(this.getCardPlayers()[0].getHand()[i].getValue()
-                + ", " + this.getCardPlayers()[0].getHand()[i].getSuit());
-        }
-    }
-    showDealerHand() {
-        for (var i = 0; i < this.getCardPlayers()[1].getHand().length; i++) {
-            console.log(this.getCardPlayers()[1].getHand()[i].getValue()
-                + ", " + this.getCardPlayers()[1].getHand()[i].getSuit());
-        }
-    }
 }
 class Deck {
     constructor() {
@@ -174,24 +151,38 @@ class Deck {
 }
 Deck.SUIT = ["Heart", "Spade", "Club", "Diamond"];
 Deck.VALUE = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-var deck = new Deck();
-deck.shuffle(4);
-console.log(deck);
+// var deck = new Deck();
+// deck.shuffle(4);
+// console.log(deck);
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardGame.ts" />
 /// <reference path="CardPlayer.ts" />
 /// <reference path="Deck.ts" />
 class BlackJack extends CardGame {
-    constructor() {
+    constructor(player) {
         super();
-        this.dealer = new BlackJackPlayer();
+        this.dealer = new BlackJackPlayer(new Player("dealer", 1000000));
+        this.player = new BlackJackPlayer(player);
+        this.deck = new Deck();
+        this.pot = 0;
+        this.initialize();
+    }
+    initialize() {
+        this.deck.shuffle();
+    }
+    takeBet(bet) {
+        this.pot += bet;
     }
     getDealer() {
         return this.dealer;
     }
-    hitPlayer(blackJackPlayer) {
-        var nextCard = deck.getTopCard();
-        blackJackPlayer.getHand().push(nextCard);
+    dealCards(player) {
+        for (let i = 0; i < 2; i++) {
+            player.addCardToHand(this.deck.getTopCard());
+        }
+    }
+    hitPlayer(player) {
+        player.addCardToHand(this.deck.getTopCard());
     }
     getCardPointValue(card) {
         if (card.getValue() == "K" ||
@@ -200,43 +191,120 @@ class BlackJack extends CardGame {
             return 10;
         }
         else if (card.getValue() == "A") {
-            return 1;
+            if (this.player.Score + 11 > 21) {
+                return 1;
+            }
+            else {
+                return 11;
+            }
         }
         else {
             return parseInt(card.getValue());
         }
     }
-    calculatePlayerScore(blackJackPlayer) {
-        var score = 0;
-        for (var i = 0; i < blackJackPlayer.getHand().length; i++) {
-            score += blackJack.getCardPointValue(blackJackPlayer.getHand()[i]);
+    isBust(player) {
+        if (this.calculatePlayerScore(player) > 21) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    calculatePlayerScore(player) {
+        let score = 0;
+        for (let i = 0; i < player.getHand().length; i++) {
+            score += this.getCardPointValue(player.getHand()[i]);
         }
         return score;
     }
-    // play()     
-    pressPlay() {
-        //creates a blackJackGame
-        //creates a player and a dealer
-        //adds player/dealer to the gam
+    isPlayerWinner(player, dealer) {
+        if (this.isBust(this.dealer) ||
+            this.calculatePlayerScore(player) > this.calculatePlayerScore(this.dealer)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-    askForHitOrStay() {
-    }
-    dealerPlay() {
-    }
-    isPlayerWinner(blackJackPlayer, dealer) {
-        return false;
-    }
-    playAgain(input) {
-        return input;
+    dealerPlays() {
+        var output = "";
+        while (this.calculatePlayerScore(this.getDealer()) <= 16 ||
+            (this.calculatePlayerScore(this.getDealer()) == 17 && this.getDealer().hasAceInHand())) {
+            this.hitPlayer(this.getDealer());
+        }
+        var dealerHand = this.dealer.getHand();
+        for (var i = 0; i < dealerHand.length; i++) {
+            output += dealerHand[i].getValue() + ", ";
+        }
+        return output;
     }
 }
-var blackJack = new BlackJack();
-var blackJackPlayer = new CardPlayer();
-blackJack.addCardPlayer(blackJackPlayer);
-blackJack.deal(2);
-var score = blackJack.calculatePlayerScore(blackJackPlayer);
-console.log(score);
+// var blackJack = new BlackJack();
+// var blackJackPlayer = new CardPlayer();
+// blackJack.addCardPlayer(blackJackPlayer);
+// blackJack.deal(2);
+// var score = blackJack.calculatePlayerScore(blackJackPlayer);
+// console.log(score);
+/// <reference path="BlackJack.ts" />
+/// <reference path="BlackJackPlayer.ts" />
+/// <reference path="CardPlayer.ts" />
+class BlackJackConsole {
+    constructor(player) {
+        this.displayPlayerScore = document.getElementById("display player score");
+        this.userInputEle = document.getElementById("user_input");
+        this.player = new BlackJackPlayer(player);
+    }
+    init() {
+        this.game = new BlackJack(this.player);
+        this.dealer = this.game.getDealer();
+        this.dealer.clearHand();
+        this.player.clearHand();
+        this.game.dealCards(this.dealer);
+        this.game.dealCards(this.player);
+        var dealerShowing = this.dealer.getHand()[0].getValue();
+        this.playerScore = this.game.calculatePlayerScore(this.player);
+        changeDisplay("Your were dealt a hand of " + this.player.displayPlayerHand() + " worth " + this.playerScore.toString() +
+            "<br>The dealer is showing " + dealerShowing + " hit or stay?");
+    }
+    hit() {
+        this.game.hitPlayer(this.player);
+        this.playerScore = this.game.calculatePlayerScore(this.player);
+        if (this.playerScore <= 21) {
+            changeDisplay("You now have: " + this.player.displayPlayerHand() + " worth " + this.playerScore + "<br />");
+            changeDisplay("Would you like to hit or stay?");
+        }
+        else {
+            changeDisplay("Your current score is: " + this.playerScore + "<br />");
+            changeDisplay("You lose!");
+        }
+    }
+    stay() {
+        // Do the dealer stuff here
+        var dealerFinalHand = this.game.dealerPlays();
+        changeDisplay("Dealer plays out the hand, " + dealerFinalHand);
+        //changeDisplay("Dealer plays and finishes with "+this.game.calculatePlayerScore(this.dealer));
+        if (this.game.isPlayerWinner(this.player, this.dealer)) {
+            changeDisplay("Winner winner, chicken dinner!");
+        }
+        else {
+            changeDisplay("U, G, L, Y, you ain't got no alibi. You're a loser.");
+        }
+    }
+    reset() {
+        clearDisplay();
+        this.init();
+    }
+}
 /// <reference path="Player.ts" />
+/// <reference path="BlackJackConsole.ts" />
+var blackJackConsole = new BlackJackConsole(new Player("Player", 1000));
+blackJackConsole.init();
+function changeDisplay(input) {
+    document.getElementById("display").innerHTML += "<br />" + input;
+}
+function clearDisplay() {
+    document.getElementById("display").innerHTML = "";
+}
 // var player = new Player();
 // player.setName("Tariq");
 // console.log(player.getName());
@@ -250,97 +318,369 @@ console.log(score);
 //     play();
 // }else{
 // exit
-/// <reference path="Deck.ts" />
-/// <reference path="CardPlayer.ts" />
-class GoFishPlayer extends CardPlayer {
-    constructor() {
-        super();
-    }
-    askOpponentForCard(otherPlayer, cardRequest) {
-        if (otherPlayer.hasCardOfValue(cardRequest)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    tallyBooks() {
-        var counts = {};
-        var numBooks = 0;
-        for (var i = 0; i < this.hand.length; i++) {
-            var rank = this.hand[i].getValue();
-            counts[rank] = (counts[rank] || 0) + 1;
-            if (counts[rank] == 4) {
-                console.log("you have four " + this.hand[i].getValue() + "s. Book it!");
-                numBooks++;
-            }
-        }
-        return numBooks;
-    }
-    playerHasABook() {
-        if (this.tallyBooks() > 0) {
-            return true;
-        }
-        return false;
-    }
-    removeAllCardsByValue(cardValueToDiscard) {
-        for (var i = 0; i < this.hand.length; i++) {
-            if (cardValueToDiscard == this.hand[i].getValue()) {
-                this.hand = this.hand.filter(e => e != this.getCardByValue(cardValueToDiscard));
-            }
-        }
-    }
-}
-var goFishPlayer = new GoFishPlayer();
-var card0 = new Card("Queen", "Hearts");
-var card1 = new Card("Queen", "Hearts");
-var card2 = new Card("Queen", "Hearts");
-var card3 = new Card("Queen", "Hearts");
-var card4 = new Card("King", "Hearts");
-var card5 = new Card("King", "Hearts");
-var card6 = new Card("King", "Hearts");
-var card7 = new Card("King", "Hearts");
-goFishPlayer.addCardToHand(card0);
-goFishPlayer.addCardToHand(card1);
-goFishPlayer.addCardToHand(card2);
-goFishPlayer.addCardToHand(card3);
-goFishPlayer.addCardToHand(card4);
-goFishPlayer.addCardToHand(card5);
-goFishPlayer.addCardToHand(card6);
-goFishPlayer.addCardToHand(card7);
-console.log("books tally output: " + goFishPlayer.tallyBooks());
-goFishPlayer.removeAllCardsByValue("Queen");
-console.log("books tally after remove: " + goFishPlayer.tallyBooks());
-/// <reference path="CardGame.ts" />
-/// <reference path="CardPlayer.ts" />
-/// <reference path="Deck.ts" />
-/// <reference path="GoFIshPlayer.ts" />
-class GoFish extends CardGame {
-    constructor() {
-        super();
-    }
-    goFishStart() {
-        var goFish = new GoFish();
-        var dealer = new CardPlayer();
-        var player = new CardPlayer();
-        goFish.addCardPlayer(dealer);
-        goFish.addCardPlayer(player);
-        goFish.deal(7);
-        console.log("Let's play some GoFish!");
-        console.log("player hand");
-        goFish.showPlayerHand();
-        console.log("dealer hand");
-        goFish.showDealerHand();
-        //     boolean playing = true;
-        //     while (playing) {
-        //         playerTurn();
-        //         dealerTurn();
-        //         playing = checkForWin();
-        //     }
-        //     gameOptions();
-        // }
-    }
-}
-var goFish = new GoFish();
-goFish.goFishStart();
+//needs to extend DicePlayer and implement Game and Gamble
+//need to make a pot in Gamble
+//
+// class Craps{
+//     private point: number;
+//     private pot: number = 0.0;
+//     //DicePlayer crapsPlayer = new DicePlayer();
+//
+//     constructor(){
+//         this.point = 0;
+//         //die.rollDice();
+//     }
+//
+//     getPoint(): number{
+//         return this.point;
+//     }
+//
+//     setPoint(point: number){
+//         this.point = point;
+//     }
+//
+//     getPot(): number {
+//         return this.pot;
+//     }
+//
+//     setPot(moneyToBet: number){
+//         this.pot = moneyToBet;
+//     }
+//
+//     placeBet(moneyToBet: number): number{
+//         if (hasMoneyToMakeBet(moneyToBet)) {
+//             setPot(moneyToBet);
+//             Double tempMoney = crapsPlayer.getMoney();
+//             crapsPlayer.setMoney(tempMoney - moneyToBet);
+//             return 0;
+//         } else {
+//             System.out.println("You do not have enough money to make a bet! Your current balance is " + crapsPlayer.getMoney());
+//             return 1;
+//         }
+//     }
+//
+//     hasMoneyToMakeBet(moneyToBet: number): boolean{
+//         if (crapsPlayer.getMoney() < moneyToBet) {
+//             return false;
+//         }
+//         return true;
+//     }
+//
+//     cashInWinnings(){
+//         crapsPlayer.setMoney(crapsPlayer.getMoney() + getPot() * 2);
+//     }
+//
+//     firstRoll(): number{
+//         if (die.diceTotal() == 7 || die.diceTotal() == 11) {
+//             cashInWinnings();
+//             System.out.println("You win!" + die.diceTotal());
+//             return 0;
+//
+//         } else if (die.diceTotal() == 2 || die.diceTotal() == 3 || die.diceTotal() == 12) {
+//             setPot(0.0);
+//             System.out.println("You lose!" + die.diceTotal());
+//             return 0;
+//
+//         } else {
+//             point = die.diceTotal();
+//             System.out.println("New target roll" + die.diceTotal());
+//             return 1;
+//         }
+//     }
+//
+//     secondRoll(){
+//         do {
+//             die.rollDice();
+//             if (die.diceTotal() == getPoint()) {
+//                 cashInWinnings();
+//                 System.out.println("You win!" + die.diceTotal());
+//                 break;
+//             } else if (die.diceTotal() == 7 || die.diceTotal() == 11) {
+//                 setPot(0.0);
+//                 System.out.println("You lose!" + die.diceTotal());
+//                 break;
+//             } else {
+//                 System.out.println("Rolling again" + die.diceTotal());
+//             }
+//         } while (die.diceTotal() != getPoint());
+//     }
+//
+//     play(){
+//         String playAgain;
+//         Double bet;
+//
+//         do {
+//             Craps crapsGame = new Craps();
+//             System.out.println("================================================================\n" +
+//                     "Greetings player! Welcome to Basic AF Casino's version of Craps!\n " +
+//                     "\t\t\tLets get started!\n" +
+//                     "================================================================");
+//
+//             do {
+//                 bet = ConsoleInput.getDoubleInput("How much would you like to bet?");
+//                 crapsGame.placeBet(bet);
+//             }while (placeBet(bet) == 1);
+//
+//
+//             System.out.println("Your current bet is " + bet);
+//             System.out.println("Let's get the dice rolling!");
+//
+//             if (crapsGame.firstRoll() == 1) {
+//                 crapsGame.secondRoll();
+//             }
+//             playAgain = ConsoleInput.getStringInput("Would you like to play again? Yes or No");
+//         } while (!playAgain.equals("no"));
+//     }
+// } 
+// /// <reference path="CardGame.ts" />
+// /// <reference path="CardPlayer.ts" />
+// /// <reference path="Deck.ts" />
+// /// <reference path="GoFIshPlayer.ts" />
+//
+// class GoFish extends CardGame {
+//
+//         constructor(){
+//             super();
+//         }
+//
+//         goFishStart() {
+//             var goFish = new GoFish();
+//             var dealer = new CardPlayer();
+//             var player = new CardPlayer();
+//
+//             goFish.addCardPlayer(dealer);
+//             goFish.addCardPlayer(player);
+//             goFish.deal(7);
+//
+//             console.log("Let's play some GoFish!");
+//             console.log("player hand");
+//             goFish.showPlayerHand();
+//             console.log("dealer hand");
+//             goFish.showDealerHand();
+//         //     boolean playing = true;
+//         //     while (playing) {
+//         //         playerTurn();
+//         //         dealerTurn();
+//         //         playing = checkForWin();
+//         //     }
+//         //     gameOptions();
+//         // }
+//         }
+//
+//         // private boolean checkForWin() {
+//         //     if (deck.getAllCards().size() == 0) {
+//         //         compareBooks();
+//         //         return false;
+//
+//         //     }
+//         //     return true;
+//         // }
+//
+//         // private void playerTurn() {
+//         //     boolean playing = true;
+//         //     checkHandSize(player);
+//         //     while (playing) {
+//         //         checkForBooks(player);
+//         //         Console.print(player.getStringDisplayHand());
+//         //         String askCard;
+//         //         do {
+//         //             askCard = Console.getString("Enter card you are looking for: ");
+//         //         } while (!isCardInHand(askCard.toUpperCase(), player.getHand()));
+//
+//         //         if (isCardInHand(askCard.toUpperCase(), dealer.getHand())) {
+//         //             swapCard(dealer, player, askCard);
+//         //             Console.print("You got a match!");
+//         //         } else {
+//         //             Console.print("GO FISH!");
+//         //             giveCard(player);
+//         //             playing = false;
+//         //         }
+//         //     }
+//         // }
+//
+//
+//         // private void dealerTurn() {
+//         //     boolean playing = true;
+//         //     checkHandSize(dealer);
+//         //     while (playing) {
+//         //         checkForBooks(dealer);
+//         //         Console.print("Opponent looking for card...");
+//         //         Card dealerCard = dealerFindCard();
+//         //         Console.print("Do you have any: " + dealerCard.getGoFishValue() + "'S ?");
+//         //         if (isCardInHand(dealerCard.getGoFishValue(), player.getHand())) {
+//         //             swapCard(player, dealer, dealerCard.getGoFishValue());
+//         //         } else {
+//         //             Console.print("Guess I'll go fish...");
+//         //             giveCard(dealer);
+//         //             playing = false;
+//         //         }
+//         //     }
+//         // }
+//
+//         // private Card dealerFindCard() {
+//         //     Random r = new Random();
+//         //     int x = r.nextInt(dealer.getHand().size() - 1);
+//         //     return dealer.getHand().get(x);
+//         // }
+//
+//         // public boolean isCardInHand(String askCard, ArrayList<Card> hand) {
+//         //     for (Card card : hand) {
+//         //         if (card.getGoFishValue().equals(askCard)) {
+//         //             return true;
+//         //         }
+//         //     }
+//         //     return false;
+//         // }
+//
+//         // private void swapCard(CardPlayer fromPlayer, CardPlayer toPlayer, String cardValue) {
+//         //     ArrayList<Card> newHand = new ArrayList<>();
+//         //     for (Card card : fromPlayer.getHand()) {
+//         //         if (cardValue.equalsIgnoreCase(card.getGoFishValue())) {
+//         //             toPlayer.addCard(card);
+//         //         } else {
+//         //             newHand.add(card);
+//         //         }
+//         //     }
+//         //     fromPlayer.setHand(newHand);
+//         // }
+//
+//         // public void checkForBooks(GoFishPlayer player) {
+//         //     for (Map.Entry<String, Integer> entry : getHandMap(player).entrySet()) {
+//         //         if (entry.getValue() == 4) {
+//         //             player.addBookCounter(1);
+//         //             removeBooks(player, entry.getKey());
+//         //         }
+//         //     }
+//         // }
+//
+//         // public HashMap<String, Integer> getHandMap(GoFishPlayer player) {
+//         //     HashMap<String, Integer> handMap = new HashMap<>();
+//         //     for (Card card : player.getHand()) {
+//         //         if (!handMap.containsKey(card.getGoFishValue())) {
+//         //             handMap.put(card.getGoFishValue(), 1);
+//         //         } else {
+//         //             handMap.put(card.getGoFishValue(), handMap.get(card.getGoFishValue()) + 1);
+//         //         }
+//         //     }
+//         //     return handMap;
+//         // }
+//
+//         // public void removeBooks(GoFishPlayer player, String cardValue) {
+//         //     ArrayList<Card> newHand = new ArrayList<>();
+//         //     for (Card card : player.getHand()) {
+//         //         if (!cardValue.equals(card.getGoFishValue())) {
+//         //             newHand.add(card);
+//         //         }
+//         //     }
+//         //     player.setHand(newHand);
+//         // }
+//
+//
+//         // private void compareBooks() {
+//         //     if (player.getBookCounter() > dealer.getBookCounter()) {
+//         //         System.out.println("You win!");
+//         //     } else if (player.getBookCounter() < dealer.getBookCounter()) {
+//         //         System.out.println("You lose!");
+//         //     } else {
+//         //         System.out.println("LET US FIGHT TO THE DEATH " + player.name.toUpperCase());
+//         //     }
+//         // }
+//
+//         // private void checkHandSize(CardPlayer player) {
+//         //     if (player.getHand().size() < 1) {
+//         //         giveCard(player);
+//         //     }
+//         // }
+//
+//
+//     }
+//
+//     var goFish = new GoFish();
+//     goFish.goFishStart();
+// 
+// /// <reference path="Deck.ts" />
+// /// <reference path="CardPlayer.ts" />
+//
+// class GoFishPlayer extends CardPlayer {
+//     private books: Card[];
+//     private cardPointValues;
+//     constructor(){
+//         super();
+//
+//     }
+//
+//     askOpponentForCard(otherPlayer: CardPlayer, cardRequest: String): boolean{
+//         if(otherPlayer.hasCardOfValue(cardRequest)){
+//             return true;
+//         }else{
+//             return false;
+//         }
+//     }
+//
+//     tallyBooks(): number{
+//
+//         var counts = {};
+//         var numBooks = 0
+//
+//         for(var i = 0; i<this.hand.length;i++){
+//               var rank = this.hand[i].getValue();
+//               counts[rank] = (counts[rank] || 0) + 1;
+//
+//               if (counts[rank] == 4){
+//                 console.log("you have four " + this.hand[i].getValue()+ "s. Book it!");
+//                 numBooks++;
+//                 }
+//
+//         }
+//         return numBooks;
+//     }
+//
+//     playerHasABook(): boolean{
+//         if(this.tallyBooks() > 0){
+//             return true;
+//         }
+//         return false;
+//     }
+//
+//     removeAllCardsByValue(cardValueToDiscard: String){
+//         for(var i = 0; i < this.hand.length; i++){
+//             if(cardValueToDiscard == this.hand[i].getValue()){
+//                 this.hand = this.hand.filter(e => e != this.getCardByValue(cardValueToDiscard));
+//             }
+//         }
+//     }
+//     // removeCardFromHand(card: Card) {
+//     //     this.hand = this.hand.filter(e => e !== card);
+//     // }
+// }
+//
+// var goFishPlayer = new GoFishPlayer();
+// var card0 = new Card("Queen", "Hearts");
+// var card1 = new Card("Queen", "Hearts");
+// var card2 = new Card("Queen", "Hearts");
+// var card3 = new Card("Queen", "Hearts");
+// var card4 = new Card("King", "Hearts");
+// var card5 = new Card("King", "Hearts");
+// var card6 = new Card("King", "Hearts");
+// var card7 = new Card("King", "Hearts");
+//
+//
+//
+// goFishPlayer.addCardToHand(card0);
+// goFishPlayer.addCardToHand(card1);
+// goFishPlayer.addCardToHand(card2);
+// goFishPlayer.addCardToHand(card3);
+// goFishPlayer.addCardToHand(card4);
+// goFishPlayer.addCardToHand(card5);
+// goFishPlayer.addCardToHand(card6);
+// goFishPlayer.addCardToHand(card7);
+//
+//
+// console.log("books tally output: "+ goFishPlayer.tallyBooks());
+// goFishPlayer.removeAllCardsByValue("Queen");
+// console.log("books tally after remove: "+ goFishPlayer.tallyBooks());
+//
+//
+//
+// 
 //# sourceMappingURL=app.js.map

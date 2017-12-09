@@ -13,6 +13,21 @@ class CardPlayer extends Player{
         return this.hand;
     }
 
+    clearHand(){
+        while(this.hand.length>0)
+            this.hand.pop();
+        
+    }
+
+    displayPlayerHand(): String{
+        var output =" ";
+        
+        for(var i= 0; i< this.hand.length; i++){
+            output += this.hand[i].getValue() + ", ";
+        }
+        return output;
+    }
+
     addCardToHand(card: Card){
         this.hand.push(card);
     }

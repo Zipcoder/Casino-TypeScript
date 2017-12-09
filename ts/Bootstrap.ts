@@ -8,6 +8,11 @@ function changeDisplay(input: string) {
     document.getElementById("display").innerHTML += "<br />" + input;
 }
 
+function clearDisplay() {
+    document.getElementById("display").innerHTML = "";
+    
+}
+
 
 // var player = new Player();
 // player.setName("Tariq");
