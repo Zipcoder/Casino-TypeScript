@@ -7,6 +7,6 @@ class BlackJackPlayer extends CardPlayer{
     }
 
     hasAceInHand(): boolean{
-        return this.hasCardOfValue("Ace");
+        return this.hasCardOfValue("A");
     }
 }

@@ -1,3 +1,4 @@
+
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardGame.ts" />
 /// <reference path="CardPlayer.ts" />
@@ -25,6 +26,9 @@ class BlackJack extends CardGame {
     public takeBet(bet: number): void {
         this.pot += bet;
     }
+    public getDealer(): BlackJackPlayer{
+        return this.dealer;
+    }
 
     public dealCards(player: BlackJackPlayer): void {
         for (let i = 0; i < 2; i++) {
@@ -43,6 +47,7 @@ class BlackJack extends CardGame {
             return 10;
         }
         else if (card.getValue() == "A") {
+            //return 1;
             if (this.player.Score + 11 > 21) {
                 return 1;
             }
@@ -64,21 +69,55 @@ class BlackJack extends CardGame {
         }
     }
 
-    calculatePlayerScore(player: CardPlayer): number {
+    calculatePlayerScore(player: BlackJackPlayer): number {
         let score = 0;
         for (let i = 0; i < player.getHand().length; i++) {
             score += this.getCardPointValue(player.getHand()[i]);
+            player.Score = score;
         }
+
+        if(player.hasAceInHand()&& score>21){
+            score -= 10
+            player.Score = score;
+            
+        }
+        
         return score;
+
+
+    //     int sum = 0;
+    //     for(Card card: hand) {
+    //         sum += card.getValue();
+    //     }
+
+    //     if(isAceInHand() && sum <= 11) {
+    //         sum += 10;
+    //     }
+    //     return sum;
+    // }
     }
 
-    isPlayerWinner(): boolean {
-        if(!this.isBust(this.player) && this.player.Score > this.dealer.Score){
+    isPlayerWinner(player: BlackJackPlayer, dealer:BlackJackPlayer): boolean {
+        if(this.isBust(this.dealer) ||
+            this.calculatePlayerScore(player) > this.calculatePlayerScore(this.dealer)){
             return true;
         }
         else{
             return false;
         }
+    }
+
+    dealerPlays(): String{
+        var output="";
+        while(this.calculatePlayerScore(this.getDealer()) <= 16 ||
+            (this.calculatePlayerScore(this.getDealer()) == 17 && this.getDealer().hasAceInHand())) {
+                this.hitPlayer(this.getDealer());
+        }
+        var dealerHand =  this.dealer.getHand();
+        for(var i= 0; i< dealerHand.length; i++){
+            output += dealerHand[i].getValue() + ", ";
+        }
+        return output;
     }
 
 }

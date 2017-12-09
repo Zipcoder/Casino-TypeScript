@@ -26,21 +26,17 @@
             <div id="display player score"></div>
             -->
         </div>
-            <div class="col-md-6 image">
-                    <img data-bind="attr: { src: product.category.getImageUrl(), alt: product.category.name }"/>
-                    </div>
-                    <div class="col-md-6 productInfo">
-                        <div data-bind="text: product.name"></div>
-                        <h4 data-bind="text: stock"></h4>
-                        <h3 data-bind="text: '$ ' + product.price"></h3>
-                    </div>
             <div id="input">
 				<button type="button" class="btn-lg" id="hit" onclick="blackJackConsole.hit()">Hit</button>
                 <button type="button" class="btn-lg" id="stay" onclick="blackJackConsole.stay()">Stay</button>
-			</div>
+                <br><br>
+                <button type="button" class="btn-lg" id="play again" onclick="blackJackConsole.reset()">play again</button>    
+            </div>
     </section>
 
-    <script>window.onload(blackJackConsole.init())</script>
+    <script>
+        function load(){blackJackConsole.init();}
+    </script>
  	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
