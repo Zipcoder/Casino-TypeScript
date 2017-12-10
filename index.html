@@ -2,16 +2,12 @@
 <html lang="en">
         
 <head>
-    <meta charset="UTF-8">
-
-    <!-- Bootstrap minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
     <link href="./css/style.css" type="text/css" rel="stylesheet">
-    <title>TypeScript Casino | Zipcode Wilmington</title>
+    <title>TypeScript BlackJack | Zipcode Wilmington</title>
 </head>
-
 <body>
+
 <header class="main-header group">
     <div class="title"></div>
     <div class="lesson-link"><img src="./images/logos/js_logo.png" alt="Javascript"/></div>
@@ -59,19 +55,33 @@
             <input id = "playBlackJack" type="submit" value=" Play " onclick= "">                
         </li>
         <li>
-            <input id = "hit" type="submit" value=" Hit " onclick= "">
+             <div id="hitDealer">
+        <input type="button" name="user_input" id="dealerHit" onfocus="this.value=''">
+        <input id="submitRequestForBlackjackHandButton" type="submit" value="hit Dealer" onclick="casino.hitDealer();">
+    </div>
         </li>
         <li>
-            <input id = "stay" type="submit" value=" Stay " onclick ="">
+             <div id="hitMe">
+        <input type="button" name="user_input" id="userHit" onfocus="this.value=''">
+        <input id="makeABetButton" type="submit" value="hit Me" onclick="casino.hitMe();">
+    </div>
         </li>
+      <li>
+        <div id="accessAccount">
+        <input type="password" name="user_input" id="getAccount" onfocus="this.value=''">
+        <input id="accessAccountButton" type="submit" value="look up your account" onclick="console.log('hi')">
+        <script type="text/javascript">
+        </script>
+    </div>
+      </li>
     </ul>
 </div>
+
+
+
 
 </section>
 <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
-
-
-
 

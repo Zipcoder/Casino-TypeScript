@@ -8,7 +8,3 @@
 let dice = new Dice();
 let casino = new Casino();
 let craps = new Craps(name);
-
-
-
-

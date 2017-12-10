@@ -10,6 +10,7 @@
     padding: 0;   
 }
 
+
 body {
      font: 22px/1.4 helvetica, sans-serif;
      color: rgb(6, 2, 18); 
@@ -17,6 +18,7 @@ body {
      background-image: url("../images/logos/casinoland.jpg");
      background-position: bottom;
     }
+
 
 article, aside, figure, footer, header, nav, section { display: block; }
 a:link, a:visited {
@@ -49,7 +51,6 @@ a:hover, a:active {
     
 }
 
-
 /* ===================================== HEADER STYLE ========================================= */
 
 .main-header {
@@ -62,8 +63,10 @@ a:hover, a:active {
     float: left;
     text-transform: uppercase;
 
-    font-family: 'Droid Sans', sans-serif;
-    font-weight: 450;
+
+    font-family: 'Source Code Pro', sans-serif;
+    font-weight: 400;
+
     font-size: 1em;
 
     width: 45%;
@@ -95,8 +98,6 @@ a:hover, a:active {
 }
 
 .main-header div {
-    /* fix blurriness of children due to them
-       being placed on half pixels */
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
@@ -115,43 +116,153 @@ a:hover, a:active {
 article {margin: 5%;}
 article p { margin-bottom: 20px;}
 section {margin:10px;}
-h1 {font-weight: bold; margin-left: 15px;}
 
-/* #main {
-} */
 
-#game
-{
-    width: 720px;
-    border: solid 1px rgb(18, 52, 185);
-    margin: 0 auto;
-    padding: 30px;
+
+h1 {float: left;
+    text-transform: uppercase;
+
+    font-family: 'Source Code Pro', sans-serif;
+    font-weight: 500;
+    font-size: 2em;
+
+    width: 75%;
+
+    padding-left: 5%;
+
+    color: #3c790a;
+
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);}
+
+#main {
+    font-family: 'Source Code Pro', sans-serif;
+    width: 450px;
 }
 
 #display {
-    padding:1px;
-    min-height:500px;
-    background:#9d90de;
-    opacity: 0.20;
-    margin-bottom:0px;
-   
+
+    font-family: 'Source Code Pro', sans-serif;
+    border: 3px #aaa solid;
+    border-radius: 10px;
+    top: 72%;
+    left: 4%;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    height:200px;
+    width: 302px;
+    position: relative;
+    background:#eee;
+		margin-bottom:10px;
+    overflow: auto;
+    opacity: 0.95;
+    filter: alpha(opacity=10);
+}
+
+#hitDealer {
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 0.9em;
+    border: 3px #aaa solid;
+    border-radius: 10px;
+    top: 15%;
+    left: 400px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    height:50px;
+    background:#eee;
+    position: relative;
+    margin-bottom:10px;
+    opacity: 0.95;
+    filter: alpha(opacity=10);
+    width: 170px;
+
+}
+
+#hitMe {
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 0.9em;
+    border: 3px #aaa solid;
+    border-radius: 10px;
+    top: 10%;
+    left: 400px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    height:50px;
+    width: 160px;
+    background:#eee;
+    position: relative;
+    margin-bottom:10px;
+    opacity: 0.95;
+    filter: alpha(opacity=10);
+}
+#accessAccount {
+    font-family: 'Source Code Pro', sans-serif;
+    font-size: 0.9em;
+    border: 3px #aaa solid;
+    border-radius: 10px;
+    top: 15%;
+    left: 400px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    height:50px;
+    background:#eee;
+    position: relative;
+    margin-bottom:10px;
+    opacity: 0.95;
+    filter: alpha(opacity=10);
+    width: 320px;
+
+
 }
 
 #menu {
+    border: 3px #aaa solid;
+    border-radius: 10px;
+    padding:20px;
     float: left;
     width: 100px;
     margin: 0 0 0 10px;
-    
+
 }
+
 
 #menu ul {
     list-style-type: none;
+    margin-bottom: 20px;
+    left: 50%;
 }
 
 #menu li {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    left: 25px;
 }
 
 #menu button {
-    width: 120px;
+  
+
+    font-family: 'Source Code Pro', sans-serif;
+    width: 200px;
+
+}
+
+#makeABetButton{
+    height: 20px;
+    width: 119px;
+}
+#submitRequestForBlackjackHandButton{
+    height: 20px;
+    width: 144px;
+}
+#accessAccountButton{
+    height: 20px;
+    width: 164px;
 }
