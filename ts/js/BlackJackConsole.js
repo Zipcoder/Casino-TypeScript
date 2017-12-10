@@ -73,8 +73,6 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function getName() {
                 var name = Utilities_1.Utilities.userInputEle.value;
-                console.log("num of players" + _this.game.getNumPlayers());
-                console.log;
                 if (count < _this.game.getNumPlayers()) {
                     Utilities_1.Utilities.clearDisplay();
                     count++;
@@ -152,7 +150,6 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     Utilities_1.Utilities.printLine(_this.currentPlayer.getHand().toString());
                     if (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21 && playerIndex < _this.game.getNumPlayers()) {
                         _this.displayOverTwenty();
-                        console.log("over 21 " + (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21));
                         _this.currentPlayer = _this.game.getPlayer(playerIndex);
                         playerIndex++;
                         _this.displayAllHands();
@@ -170,7 +167,6 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     }
                     else {
                         Utilities_1.Utilities.clearDisplay();
-                        console.log('name? ' + _this.currentPlayer.getName());
                         _this.displayAllHands();
                         Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
                         // _this.start();
@@ -190,7 +186,6 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     else {
                         _this.i++;
                         _this.currentPlayer = _this.game.getPlayer(0);
-                        console.log(_this.currentPlayer.getName());
                         _this.start();
                         this.removeEventListener("click", hitOrStand);
                     }

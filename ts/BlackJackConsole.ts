@@ -33,7 +33,6 @@ export class BlackJackConsole extends Console {
       case 6:
         this.dealerHitsUntilFinished();
         this.displayEndOfRound();
-
         break;
       case 7:
         this.payOutBets();
@@ -69,8 +68,6 @@ export class BlackJackConsole extends Console {
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function getName() {
       var name: string = Utilities.userInputEle.value;
-      console.log("num of players" + _this.game.getNumPlayers())
-      console.log
       if (count < _this.game.getNumPlayers()) {
         Utilities.clearDisplay();
         count++
@@ -154,7 +151,6 @@ export class BlackJackConsole extends Console {
         Utilities.printLine(_this.currentPlayer.getHand().toString())
         if (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21&&playerIndex < _this.game.getNumPlayers()) {
             _this.displayOverTwenty();
-console.log("over 21 "+(_this.game.calculatePlayerScore(_this.currentPlayer) >= 21))
             _this.currentPlayer = _this.game.getPlayer(playerIndex);
             playerIndex++;
             _this.displayAllHands();
@@ -172,7 +168,6 @@ console.log("over 21 "+(_this.game.calculatePlayerScore(_this.currentPlayer) >= 
           }
         else {
           Utilities.clearDisplay();
-          console.log('name? '+_this.currentPlayer.getName())
           _this.displayAllHands();
           Utilities.printLine(_this.currentPlayer.getName()+", Hit or Stand?");
           // _this.start();
@@ -193,7 +188,6 @@ console.log("over 21 "+(_this.game.calculatePlayerScore(_this.currentPlayer) >= 
         else {
           _this.i++;
           _this.currentPlayer = _this.game.getPlayer(0);
-          console.log(_this.currentPlayer.getName())
           _this.start();
           this.removeEventListener("click", hitOrStand);
         }
