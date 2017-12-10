@@ -113,6 +113,9 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
                     case 2:
                         this.getCardValueSelection();
                         break;
+                    case 3:
+                        this.getPlayerToAsk();
+                        break;
                 }
             }
             else {
@@ -144,31 +147,72 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
                 }
             }
             Utilities_1.Utilities.printLine(potentialValues.toString());
-            var value;
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function valueSelection() {
-                var rank = Utilities_1.Utilities.userInputEle.value.toUpperCase();
+                _this.valueAskingFor = Utilities_1.Utilities.userInputEle.value.toUpperCase();
                 Utilities_1.Utilities.userInputEle.value = "";
-                if (!_this.currentPlayer.hasCardsOfRank(rank)) {
+                if (!_this.currentPlayer.hasCardsOfRank(_this.valueAskingFor)) {
                     Utilities_1.Utilities.printLine("Invalid selection, you do not have a card of that rank to ask for.");
                     this.removeEventListener("click", valueSelection);
                     _this.start();
                 }
                 else {
+                    _this.j++;
+                    this.removeEventListener("click", valueSelection);
+                    _this.start();
                 }
             });
-            //         Card.FaceValue value = null;
-            //         boolean isValidInput = false;
-            //         while(!isValidInput) {
-            //             System.out.println(currentPlayer.getHand());
-            //             value = getValueInput("Select a card value to ask another player for:");
-            //             if(currentPlayer.hasCardsOfRank(value)) {
-            //                 isValidInput = true;
-            //             } else {
-            //                 System.out.println("Invalid selection, you do not have a card of that rank to ask for.");
-            //             }
-            //         }
-            //         return value;
+        };
+        GoFishConsole.prototype.getPlayerToAsk = function () {
+            Utilities_1.Utilities.printLine("");
+            Utilities_1.Utilities.printLine("Select another player to fish for cards from:");
+            var potentialPlayers = [];
+            for (var index in this.game.getPlayers()) {
+                var theOtherPlayer = this.game.getPlayers()[index];
+                if (this.currentPlayer.getName() != theOtherPlayer.getName()) {
+                    potentialPlayers.push("[ " + theOtherPlayer.getName() + " (" + theOtherPlayer.getHand().numCards() + " cards in hand) ]");
+                }
+            }
+            Utilities_1.Utilities.printLine(potentialPlayers.toString());
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function playerSelection() {
+                var otherPlayerName = Utilities_1.Utilities.userInputEle.value.toUpperCase();
+                Utilities_1.Utilities.userInputEle.value = "";
+                var isValidInput = false;
+                for (var index in _this.game.getPlayers()) {
+                    var theOtherPlayer = _this.game.getPlayers()[index];
+                    if (theOtherPlayer.getName().toUpperCase() === otherPlayerName) {
+                        _this.otherPlayer = theOtherPlayer;
+                        isValidInput = true;
+                    }
+                }
+                if (!isValidInput) {
+                    Utilities_1.Utilities.printLine("Invalid input");
+                    this.removeEventListener("click", playerSelection);
+                    _this.start();
+                }
+                else {
+                    Utilities_1.Utilities.clearDisplay();
+                    _this.questionPlayer();
+                    _this.j++;
+                    this.removeEventListener("click", playerSelection);
+                    _this.start();
+                }
+            });
+        };
+        GoFishConsole.prototype.questionPlayer = function () {
+            if (this.valueAskingFor === "SIX") {
+                Utilities_1.Utilities.printLine("Asking " + this.otherPlayer.getName() + ", do you have any " + this.valueAskingFor.toLowerCase() + "es?");
+            }
+            else {
+                Utilities_1.Utilities.printLine("Asking " + this.otherPlayer.getName() + ", do you have any " + this.valueAskingFor.toLowerCase() + "s?");
+            }
+            //if (value.equals(Card.FaceValue.SIX)) {
+            //                     System.out.printf("Asking %s, do you have any %ses?\n", playerToAsk.getName(), value.name().toLowerCase());
+            //                 } else {
+            //                     System.out.printf("Asking %s, do you have any %ss?\n", playerToAsk.getName(), value.name().toLowerCase());
+            //                 }
+            //                 boolean otherPlayerHasCardsToGive = currentPlayer.fishForCards(playerToAsk, value);
         };
         GoFishConsole.prototype.getNameOfGame = function () {
             return "Go Fish";
@@ -180,11 +224,6 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
 // public class GoFishConsole extends Console {
 //     @Override
 //     public void start() {
-//         setUpGame();
-//
-//         System.out.println("\nDealing cards...\n");
-//         game.dealInitialCards();
-//
 //         playRoundsUntilAllBooksPlayed();
 //         displayFinalCards();
 //         GoFishPlayer winner = game.determineWinner();
@@ -203,11 +242,6 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
 //             currentPlayerIndex++;
 //             currentPlayerIndex %= game.getNumPlayers();
 //         }
-//     }
-//
-//     @Override
-//     public void playRound() {
-//
 //     }
 //
 //     public Integer playerTakeTurn(GoFishPlayer player) {
@@ -268,42 +302,6 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
 //             }
 //             System.out.println();
 //         }
-//     }
-//
-//     public Card.FaceValue getCardValueSelection() {
-//         Card.FaceValue value = null;
-//         boolean isValidInput = false;
-//         while(!isValidInput) {
-//             System.out.println(currentPlayer.getHand());
-//             value = getValueInput("Select a card value to ask another player for:");
-//             if(currentPlayer.hasCardsOfRank(value)) {
-//                 isValidInput = true;
-//             } else {
-//                 System.out.println("Invalid selection, you do not have a card of that rank to ask for.");
-//             }
-//         }
-//         return value;
-//     }
-//
-//     public static Card.FaceValue getValueInput(String prompt) {
-//         System.out.println(prompt);
-//         StringJoiner stringJoiner = new StringJoiner(" ] * [ ", "[ ", " ]\n");
-//         for(Card.FaceValue value : Card.FaceValue.values()) {
-//             stringJoiner.add(value.name());
-//         }
-//         System.out.println(stringJoiner.toString());
-//         boolean isValidInput = false;
-//         Card.FaceValue value = null;
-//         while(!isValidInput) {
-//             String input = getUserInput("").toUpperCase();
-//             try {
-//                 value = Card.FaceValue.valueOf(input);
-//                 isValidInput = true;
-//             } catch (IllegalArgumentException iae) {
-//                 System.out.println("Invalid input");
-//             }
-//         }
-//         return value;
 //     }
 //
 //     public GoFishPlayer getPlayerToAsk() {
