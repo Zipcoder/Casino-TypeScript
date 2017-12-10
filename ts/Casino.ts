@@ -1,7 +1,9 @@
-
+/// <reference path="Player.ts" />
+/// <reference path="BlackJack.ts" />
+/// <reference path="Craps.ts" />
 
 class Casino{
-    
+
         displayEle:any;
         userInputEle:any;
         listener:any;
@@ -9,18 +11,24 @@ class Casino{
         money:number;
         player:any;
         visibility:any;
-    
+        CasinoMain:any;
+        BlackJackScreen: any;
+        blackJack: BlackJack;
+        craps: Craps;
+
         constructor(){
             this.displayEle = document.getElementById("displayCasino");
             this.userInputEle = document.getElementById("user_inputCasino");
             this.listener = document.getElementById("submitCasino");
             this.visibility = document.getElementById("buttonsArea");
+            this.CasinoMain = document.getElementById("CasinoMain");
+            this.BlackJackScreen = document.getElementById("blackJackMain");
         }
-    
+
         welcome(){
-            this.displayEle.innerHTML += "Welcome To Grahmerro Casino!!!<br/>What is your name?";        
+            this.displayEle.innerHTML += "Welcome To Grahmerro Casino!!!<br/>What is your name?";
         }
-    
+
         getName(){
             this.name = this.userInputEle.value;
             if (this.name.length < 1){
@@ -29,14 +37,14 @@ class Casino{
             } else {
                 this.displayEle.innerHTML += "<br/>Hello, " + this.name;
                 this.listener.setAttribute("onClick", "casino.getMoney()");
-                this.howMuchMoney();  
+                this.howMuchMoney();
             }
         }
-    
+
         howMuchMoney(){
             this.displayEle.innerHTML += "<br/>How much money would you like to play with?";
         }
-    
+
         getMoney(){
             this.money = this.userInputEle.value;
             this.createPlayer();
@@ -47,20 +55,52 @@ class Casino{
             this.player = new Player(this.name, this.money);
         }
 
+        createBlackJackGame(){
+            let dealer = new Player("Dealer", 1000);
+            this.blackJack = new BlackJack(this.player, dealer);
+            this.blackJack.init();
+        }
+
+        createCrapsGame(){
+            this.craps = new Craps(this.player);
+            this.craps.init();
+        }
+
         displayOptions(){
             this.displayEle.innerHTML = "Player: " + this.player.getName() + "<br/>Money: " + this.player.getBalance() + "<br/>" +
                                          "<br/><br/><br/>What game would you like to play???<br/><br/><br/><br/><br/><br/>          <-------------------<br/>" +
                                          "<-------------------<br/>          <-------------------<br/>";
 
-            this.changeButtonVisability(); 
-            
-            let goFish = new GoFish();
-            goFish.init();
-
+            this.changeButtonVisability();
         }
 
         changeButtonVisability(){
             this.visibility.removeAttribute("hidden");
         }
-    
+
+        callPlay(){
+            this.craps.play();
+        }
+
+        callRoll(){
+            this.craps.roll();
+        }
+
+        callRollTwo(){
+            this.craps.checkRollTwo();
+        }
+
+        callPlaceBet(){
+            this.blackJack.placeBet();
+        }
+        callHit(){
+            this.blackJack.hit();
+        }
+        callStay(){
+            this.blackJack.stay();
+        }
+        callBJPlayAgain(){
+            this.blackJack.playAgain();
+        }
+
     }

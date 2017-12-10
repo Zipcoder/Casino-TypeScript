@@ -10,9 +10,9 @@
     padding: 0;
 }
 
-body { 
-    font: 14px/1.4 arial, sans-serif; 
-    background-color: #F5F5F5; 
+body {
+    font: 14px/1.4 arial, sans-serif;
+    background-color: #F5F5F5;
     /* background-image: url("../images/backgrounds/casinoEntrance.jpg"); */
     background-size: 70%, 10%;
 }
@@ -142,7 +142,7 @@ h1 {font-weight: bold; margin-left: 10px;}
 #blackJackBody {
     background-image: url("../images/backgrounds/blackJack.jpg");
     background-size: 90%;
-    background-position-x: right 
+    background-position-x: right
 }
 
 #goFishBody {
@@ -171,7 +171,7 @@ h1 {font-weight: bold; margin-left: 10px;}
 }
 
 #goFishConsole {
-    
+
     height: 230px;
     width: 450px;
     background: white;
@@ -206,6 +206,64 @@ h1 {font-weight: bold; margin-left: 10px;}
 	margin-bottom:10px;
 }
 
+#blackJackBody {
+    background-image: url("../images/backgrounds/blackJack.jpg");
+    background-size: 90%;
+    background-position-x: right
+    color: #FFFFFF;
+}
+
+#betDisplay {
+    border: 0px #aaa solid;
+    padding:10px;
+    min-height:20px;
+    background: rgba(0, 0, 0, 0);
+	margin-bottom:10px;
+    color: #FFFFFF;
+}
+#display {
+    border: 0px #aaa solid;
+    padding:10px;
+    min-height:200px;
+    background: rgba(0, 0, 0, 0);
+	margin-bottom:10px;
+    color: #FFFFFF;
+}
+#player {
+    border: 0px #aaa solid;
+    padding:10px;
+    min-height:200px;
+    background: rgba(0, 0, 0, 0);
+	margin-bottom:10px;
+    color: #FFFFFF;
+}
+#menu {
+    float: left;
+    width: 100px;
+    margin: 0 0 0 10px;
+}
+
+#betAmountBox{
+    width: 110px;
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#balanceOut{
+    background: rgba(0, 0, 0, 0);
+    border: 0px;
+}
+
+#betOut{
+    background: rgba(0, 0, 0, 0);
+    border: 0px;
+}
+
+#displayCraps{
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 /* #displayEntrance {
     float: right;
     border: 1px #aaa solid;
@@ -222,7 +280,7 @@ h1 {font-weight: bold; margin-left: 10px;}
     width: 250px;
     border: 6px solid red;
     float: left;
-    
+
 }
 
 #crapsButton {

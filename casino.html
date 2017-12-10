@@ -6,26 +6,68 @@
     <!-- Bootstrap minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <link href="./css/style.css" type="text/css" rel="stylesheet">
+    <link href="./css/CasinoStyle.css" type="text/css" rel="stylesheet">
     <title>Grahmerro Casino | Zipcode Wilmington</title>
 </head>
 <body id="casinoBody">
     <header class="header">
         <div class="title">Grahmerro Casino</div>
     </header>
-
-    <div id="buttonsArea" hidden >
-        <div><a href = "myBlackjack.html" id="bjButton"></a></div>
-        <div><a href = "myCraps.html" id="crapsButton"></a></div>
-        <div><a href = "goFish.html" id="goFishButton" onclick="gofish.init()"></a></div>
+<section id="CasinoMain" >
+    <div id="buttonsArea" hidden>
+        <div><input type = button id="bjButton" onclick = "casino.createBlackJackGame()"></a></div>
+        <div><input type = button id="crapsButton" onclick = "casino.createCrapsGame()"></a></div>
+        <div><a href = "goFish.html" id="goFishButton"></a></div>
     </div>
 
-    <section id="main">
+    <section id="main" >
     	<div id="displayCasino"></div>
 			<div id="inputCasino">
 				<input type="text" name="user_input" id="user_inputCasino">
 				<input id="submitCasino" type="submit" value="  submit  " onclick="casino.getName()">
 			</div>
+    </section>
+</section>
+
+    <section id="blackJackMain" hidden = true>
+        <div id = "betDisplay">
+            <h4>Balance:
+            <span class="currencyinput">$<input type="text" name="balanceIn" id="balanceOut" readonly ></span>
+            Bet Amount:
+            <span class="currencyinput">$<input type="text" name="betIn" id="betOut" readonly></h4></span>
+        </div>
+        <div id="display"></div>
+        <div id="player"></div>
+
+            <div id="input">
+                <input type="text"  id="betAmountBox" value = "$" hidden = false>
+                <input type="submit" value="  Place Bet  "id = "bet" onclick="casino.callPlaceBet()" hidden = false>
+                <input type="submit" id = "hit" value="   Hit   " onclick="casino.callHit()" hidden = true>
+                <input type="submit" id = "stay" value="  Stay  " onclick="casino.callStay()" hidden = true>
+                <input type="submit" id = "playagain" value="  Play Again  " onclick="casino.callBJPlayAgain()" hidden = true>
+                <input type="submit" id = "leave" value="  Leave  " onclick= "window.location.href='casino.html'" hidden = true>
+                </br>
+                </br>
+            </div>
+    </section>
+
+    <section id="mainCraps" hidden = true>
+        <div id="displayCraps">
+            <div>
+                <label for="hDie1">Die 1&nbsp;&rsaquo;&nbsp;</label><span id="hDie1">
+                    <img src="./images/logos/blank.png" align="middle" /></span>
+                    <label for="hDie2" style="margin-left:70px;">Die 2&nbsp;&rsaquo;&nbsp;</label>
+                    <span id="hDie2"><img src="./images/logos/blank.png" align="middle" /></span>
+            </div>
+        </div>
+            <div id="inputCraps">
+                        <br>
+                        <input type="text" name="betAmount" id="betAmount" placeholder="Enter your amount: $">
+                        <input type="submit" value="Play" onclick="casino.callPlay()">
+
+                <input type="submit" id="roll" value="Roll" onclick="casino.callRoll()">
+                <input type="submit" id="rollTwo" value="RollTwo" onclick="casino.callRollTwo()">
+            </div>
     </section>
 
  	<script type="text/javascript" src="js/app.js"></script>
