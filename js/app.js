@@ -150,20 +150,12 @@ var Craps = /** @class */ (function () {
             displayToWebpage("Welcome to craps " + this.player.getName() + "!");
     };
     Craps.prototype.takeBet = function () {
-        document.getElementById("nameOfLabel").innerText = "Bet Amount";
-        document.getElementById("userInputGroup").style.display = "inline";
-        this.gameSelectionButtons.style.display = "none";
-        document.getElementById("generalSubmitButton").style.display = "block";
-        this.primaryButton.innerText = "Submit";
-        this.primaryButton.style.display = "inline";
-        document.getElementById("nameOfLabel").hidden = false;
+        crapsButtonLogic.takeBetButtonLogic();
         WebPageInteraction.getInstance().displayToWebpage("You currently have $" + this.player.getMoney() + "<br>" +
             "How much money do you want to bet?");
-        this.primaryButton.setAttribute("onclick", "craps.getBetAmount()");
     };
     Craps.prototype.getBetAmount = function () {
         this.gameSelectionButtons.style.display = "none";
-        document.getElementById("user_input").hidden = false;
         var amount = parseFloat(document.getElementById("user_input").value);
         if (amount > this.player.getMoney() || amount <= 0) {
             WebPageInteraction.getInstance().displayToWebpage("Please make sure you have entered a number greater than " +
@@ -269,14 +261,37 @@ var Craps = /** @class */ (function () {
     };
     return Craps;
 }());
+var CrapsButtonLogic = /** @class */ (function () {
+    function CrapsButtonLogic() {
+        this.primaryButton = document.getElementById("primaryButton");
+        this.gameSelectionButtons = document.getElementById("gameSelectionButtons");
+        this.nameOfLabel = document.getElementById("nameOfLabel");
+        this.userInputGroup = document.getElementById("userInputGroup");
+        this.generalSubmitButton = document.getElementById("generalSubmitButton");
+        //this.playersMoney = document.getElementById("playersMoney");
+    }
+    CrapsButtonLogic.prototype.takeBetButtonLogic = function () {
+        this.nameOfLabel.innerText = "Bet Amount";
+        this.userInputGroup.style.display = "inline";
+        this.gameSelectionButtons.style.display = "none";
+        this.generalSubmitButton.style.display = "block";
+        this.primaryButton.innerText = "Submit";
+        this.primaryButton.style.display = "inline";
+        this.primaryButton.setAttribute("onclick", "craps.getBetAmount()");
+        this.userInputGroup.style.display = 'inline';
+    };
+    return CrapsButtonLogic;
+}());
 ///<reference path="Player.ts"/>
 ///<reference path="MenuCreation.ts"/>
 ///<reference path="WebPageInteraction.ts"/>
 ///<reference path="Casino.ts"/>
 ///<reference path="Craps.ts"/>
+///<reference path="CrapsButtonLogic.ts"/>
 var menuCreation = new MenuCreation();
 WebPageInteraction.getInstance().displayToWebpage(menuCreation.menuTitle());
 var casino = new Casino();
+var crapsButtonLogic = new CrapsButtonLogic();
 var craps = new Craps(casino);
 // submitButton.addEventListener("click", createPlayer);
 //

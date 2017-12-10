@@ -36,24 +36,16 @@ class Craps {
     }
 
     public takeBet(): void {
-        document.getElementById("nameOfLabel").innerText = "Bet Amount";
-        document.getElementById("userInputGroup").style.display = "inline";
-        this.gameSelectionButtons.style.display = "none";
-        document.getElementById("generalSubmitButton").style.display = "block";
-        this.primaryButton.innerText = "Submit";
-        this.primaryButton.style.display = "inline";
-
-        document.getElementById("nameOfLabel").hidden = false;
+        crapsButtonLogic.takeBetButtonLogic();
         WebPageInteraction.getInstance().displayToWebpage(
             "You currently have $" + this.player.getMoney() + "<br>" +
             "How much money do you want to bet?");
 
-        this.primaryButton.setAttribute("onclick", "craps.getBetAmount()");
+
     }
 
     public getBetAmount(): void {
         this.gameSelectionButtons.style.display = "none";
-        document.getElementById("user_input").hidden = false;
         let amount: number = parseFloat((<HTMLInputElement>document.getElementById("user_input")).value);
         if (amount > this.player.getMoney() || amount <= 0) {
             WebPageInteraction.getInstance().displayToWebpage(

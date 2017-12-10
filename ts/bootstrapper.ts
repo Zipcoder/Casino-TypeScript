@@ -3,12 +3,14 @@
 ///<reference path="WebPageInteraction.ts"/>
 ///<reference path="Casino.ts"/>
 ///<reference path="Craps.ts"/>
+///<reference path="CrapsButtonLogic.ts"/>
 
 
 
 let menuCreation = new MenuCreation();
 WebPageInteraction.getInstance().displayToWebpage(menuCreation.menuTitle());
 let casino: Casino = new Casino();
+let crapsButtonLogic = new CrapsButtonLogic();
 let craps: Craps = new Craps(casino);
 
 
