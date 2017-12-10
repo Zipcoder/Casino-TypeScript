@@ -15,7 +15,6 @@ define(["require", "exports", "./CardGame", "./BlackJackPlayer"], function (requ
         __extends(BlackJack, _super);
         function BlackJack(numStandardDecks) {
             var _this = _super.call(this, numStandardDecks) || this;
-            _this.MIN_NUMBER_OF_PLAYERS = 1;
             _this.MAX_NUMBER_OF_PLAYERS = 7;
             _this.pointValues = { TWO: 2, THREE: 3, FOUR: 4, FIVE: 5, SIX: 6, SEVEN: 7, EIGHT: 8, NINE: 9, TEN: 10, JACK: 10, QUEEN: 10, KING: 10, ACE: 1 };
             _this.dealer = new BlackJackPlayer_1.BlackJackPlayer("Dealer");
@@ -27,6 +26,9 @@ define(["require", "exports", "./CardGame", "./BlackJackPlayer"], function (requ
         }
         BlackJack.prototype.getPlayers = function () {
             return this.players;
+        };
+        BlackJack.prototype.getPlayer = function (index) {
+            return this.players[index];
         };
         BlackJack.prototype.getDealer = function () {
             return this.dealer;
@@ -121,7 +123,6 @@ define(["require", "exports", "./CardGame", "./BlackJackPlayer"], function (requ
                 this.push[p].receiveWinnings(amountWon);
             }
             this.clearAllBets();
-            console.log('finished payOutBets');
         };
         BlackJack.prototype.clearAllBets = function () {
             this.bets = {};
@@ -137,11 +138,18 @@ define(["require", "exports", "./CardGame", "./BlackJackPlayer"], function (requ
         BlackJack.prototype.getPush = function () {
             return this.push;
         };
+        BlackJack.prototype.setNumPlayers = function (length) {
+            this.players.length = length;
+        };
         BlackJack.prototype.getNumPlayers = function () {
             return this.players.length;
         };
+        BlackJack.prototype.addPlayer = function (player) {
+            this.players.shift();
+            this.players.push(player);
+        };
         BlackJack.prototype.addPlayers = function (players) {
-            this.players = players;
+            this.players = (players);
         };
         BlackJack.prototype.printPlayersMoney = function () {
             var moneyString = [];

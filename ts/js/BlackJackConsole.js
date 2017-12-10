@@ -23,74 +23,125 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
         BlackJackConsole.prototype.start = function () {
             switch (this.i) {
                 case 1:
-                    console.log("case1");
-                    this.getPlayerName();
+                    this.inputNumPlayers();
                     break;
                 case 2:
-                    this.makeBet();
+                    this.getPlayerName();
                     break;
                 case 3:
-                    this.hitOrStand();
+                    this.makeBet();
                     break;
                 case 4:
+                    this.dealCards();
+                    break;
+                case 5:
+                    this.hitOrStand();
+                    break;
+                case 6:
                     this.dealerHitsUntilFinished();
                     this.displayEndOfRound();
                     break;
-                case 5:
+                case 7:
                     this.payOutBets();
                     this.game.putCardsInDiscardPile();
                     this.askContinueOrCashOut();
                     break;
-                default: Utilities_1.Utilities.printLine("done" + this.currentPlayer.getHand().toString());
+                default: Utilities_1.Utilities.printLine("Fell out" + this.currentPlayer.getHand().toString());
             }
         };
-        BlackJackConsole.prototype.getPlayerName = function () {
+        BlackJackConsole.prototype.inputNumPlayers = function () {
             Utilities_1.Utilities.printMenuName("Welcome to " + this.getNameOfGame());
-            Utilities_1.Utilities.printLine("Enter name of Player");
+            Utilities_1.Utilities.printLine("Enter the number of Players (1 to 7)");
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function getName() {
+                var length = parseInt(Utilities_1.Utilities.userInputEle.value);
+                Utilities_1.Utilities.userInputEle.value = "";
+                if (isNaN(length) || length > _this.game.MAX_NUMBER_OF_PLAYERS)
+                    Utilities_1.Utilities.printLine("Invalid selection");
+                else {
+                    Utilities_1.Utilities.userInputEle.value = "";
+                    length > 0 ? _this.game.setNumPlayers(length) : _this.game.setNumPlayers(length + 1);
+                    _this.i++;
+                    Utilities_1.Utilities.printLine("Enter the name of Player 1");
+                    _this.start();
+                    this.removeEventListener("click", getName);
+                }
+            });
+        };
+        BlackJackConsole.prototype.getPlayerName = function () {
+            var count = 1;
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function getName() {
                 var name = Utilities_1.Utilities.userInputEle.value;
-                Utilities_1.Utilities.userInputEle.value = "";
-                Utilities_1.Utilities.printLine("Welcome, " + name);
-                _this.currentPlayer = new BlackJackPlayer_1.BlackJackPlayer(name);
-                var players = [_this.currentPlayer];
-                _this.game.addPlayers(players);
-                _this.currentPlayer.setMoney(1000);
-                _this.i++;
-                // _this.currentPlayer = _this.game.getPlayers()[0];
-                var amountAvailableToBet = _this.currentPlayer.getMoney();
-                Utilities_1.Utilities.printLine("You have $" + amountAvailableToBet);
-                Utilities_1.Utilities.printLine("How much would you like to bet?");
-                _this.start();
-                this.removeEventListener("click", getName);
+                console.log("num of players" + _this.game.getNumPlayers());
+                console.log;
+                if (count < _this.game.getNumPlayers()) {
+                    Utilities_1.Utilities.clearDisplay();
+                    count++;
+                    Utilities_1.Utilities.userInputEle.value = "";
+                    Utilities_1.Utilities.printLine("Welcome, " + name);
+                    var player = new BlackJackPlayer_1.BlackJackPlayer(name);
+                    player.setMoney(1000);
+                    _this.game.addPlayer(player);
+                    Utilities_1.Utilities.printLine("Enter name of Player " + (count));
+                }
+                else {
+                    Utilities_1.Utilities.clearDisplay();
+                    Utilities_1.Utilities.printLine("Welcome, " + name);
+                    Utilities_1.Utilities.userInputEle.value = "";
+                    var player = new BlackJackPlayer_1.BlackJackPlayer(name);
+                    player.setMoney(1000);
+                    _this.game.addPlayer(player);
+                    _this.i++;
+                    _this.currentPlayer = _this.game.getPlayers()[0];
+                    var amountAvailableToBet = _this.currentPlayer.getMoney();
+                    Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", you have $" + amountAvailableToBet);
+                    Utilities_1.Utilities.printLine("How much would you like to bet?");
+                    _this.start();
+                    this.removeEventListener("click", getName);
+                }
             });
         };
         BlackJackConsole.prototype.makeBet = function () {
-            var amountAvailableToBet = this.currentPlayer.getMoney();
+            var playerIndex = 1;
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function getBet() {
+                var amountAvailableToBet = _this.currentPlayer.getMoney();
                 var amount = parseInt(Utilities_1.Utilities.userInputEle.value);
                 Utilities_1.Utilities.userInputEle.value = "";
                 if (amount > amountAvailableToBet || isNaN(amount)) {
                     Utilities_1.Utilities.printLine("Invalid Amount, Enter a new bet");
                 }
                 else {
-                    Utilities_1.Utilities.printLine("You bet $" + amount);
+                    Utilities_1.Utilities.clearDisplay();
+                    Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + " bet $" + amount);
                     _this.game.takeBet(_this.currentPlayer, amount);
-                    _this.i++;
-                    _this.dealCards();
-                    this.removeEventListener("click", getBet);
+                    if (playerIndex < _this.game.getNumPlayers()) {
+                        _this.currentPlayer = _this.game.getPlayer(playerIndex);
+                        playerIndex++;
+                        Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", you have $" + amountAvailableToBet);
+                        Utilities_1.Utilities.printLine("How much would you like to bet?");
+                    }
+                    else {
+                        Utilities_1.Utilities.printLine("Dealing...");
+                        _this.i++;
+                        _this.start();
+                        this.removeEventListener("click", getBet);
+                    }
                 }
             });
         };
         BlackJackConsole.prototype.dealCards = function () {
             this.game.dealInitialCards();
-            Utilities_1.Utilities.printLine(this.currentPlayer.getHand().toString());
+            this.displayAllHands();
             this.displayDealerFaceUpCard();
-            Utilities_1.Utilities.printLine("Hit or Stand?");
+            this.i++;
+            this.currentPlayer = this.game.getPlayer(0);
+            Utilities_1.Utilities.printLine(this.currentPlayer.getName() + ", Hit or Stand?");
             this.start();
         };
         BlackJackConsole.prototype.hitOrStand = function () {
+            var playerIndex = 1;
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function hitOrStand() {
                 var choice = Utilities_1.Utilities.userInputEle.value.toUpperCase();
@@ -99,22 +150,50 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     Utilities_1.Utilities.printLine("Hit");
                     _this.game.dealCardToHand(_this.currentPlayer);
                     Utilities_1.Utilities.printLine(_this.currentPlayer.getHand().toString());
-                    if (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21) {
+                    if (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21 && playerIndex < _this.game.getNumPlayers()) {
+                        _this.displayOverTwenty();
+                        console.log("over 21 " + (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21));
+                        _this.currentPlayer = _this.game.getPlayer(playerIndex);
+                        playerIndex++;
+                        _this.displayAllHands();
+                        Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
+                        // _this.start();
+                        // this.removeEventListener("click", hitOrStand);
+                    }
+                    else if (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21) {
+                        _this.displayOverTwenty();
                         _this.i++;
+                        _this.currentPlayer = _this.game.getPlayer(0);
+                        Utilities_1.Utilities.clearDisplay();
                         _this.start();
                         this.removeEventListener("click", hitOrStand);
                     }
                     else {
-                        Utilities_1.Utilities.printLine("Hit or Stand?");
-                        _this.start();
-                        this.removeEventListener("click", hitOrStand);
+                        Utilities_1.Utilities.clearDisplay();
+                        console.log('name? ' + _this.currentPlayer.getName());
+                        _this.displayAllHands();
+                        Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
+                        // _this.start();
+                        // this.removeEventListener("click", hitOrStand);
                     }
                 }
                 else if (choice == "STAND") {
                     Utilities_1.Utilities.printLine("Stand");
-                    _this.i++;
-                    _this.start();
-                    this.removeEventListener("click", hitOrStand);
+                    if (playerIndex < _this.game.getNumPlayers()) {
+                        _this.currentPlayer = _this.game.getPlayer(playerIndex);
+                        Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
+                        playerIndex++;
+                        Utilities_1.Utilities.clearDisplay();
+                        _this.displayAllHands();
+                        Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
+                    }
+                    else {
+                        _this.i++;
+                        _this.currentPlayer = _this.game.getPlayer(0);
+                        console.log(_this.currentPlayer.getName());
+                        _this.start();
+                        this.removeEventListener("click", hitOrStand);
+                    }
                 }
                 else {
                     Utilities_1.Utilities.printLine("Invalid Entry, Hit or Stand?");
@@ -122,11 +201,21 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
             });
         };
         BlackJackConsole.prototype.dealerHitsUntilFinished = function () {
+            Utilities_1.Utilities.clearDisplay();
+            this.displayAllHands();
             this.displayDealerCards();
             while (this.game.calculatePlayerScore(this.game.getDealer()) <= 16 ||
                 (this.game.calculatePlayerScore(this.game.getDealer()) == 17 && this.game.getDealer().hasAceInHand())) {
-                this.displayDealerCards();
+                Utilities_1.Utilities.printLine("Dealer Hits");
                 this.game.dealCardToHand(this.game.getDealer());
+                this.displayDealerCards();
+            }
+        };
+        BlackJackConsole.prototype.displayOverTwenty = function () {
+            if (this.game.calculatePlayerScore(this.currentPlayer) == 21)
+                Utilities_1.Utilities.printLine("21!!");
+            else {
+                Utilities_1.Utilities.printLine(this.currentPlayer.getName() + " busted");
             }
         };
         BlackJackConsole.prototype.displayDealerFaceUpCard = function () {
@@ -134,6 +223,12 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
         };
         BlackJackConsole.prototype.displayDealerCards = function () {
             Utilities_1.Utilities.printLine("Dealer showing " + this.game.getDealer().getHand().toString());
+        };
+        BlackJackConsole.prototype.displayAllHands = function () {
+            for (var ind = 0; ind < this.game.getNumPlayers(); ind++) {
+                var player = this.game.getPlayer(ind);
+                Utilities_1.Utilities.printLine(player.getName() + ": " + player.getHand().toString());
+            }
         };
         BlackJackConsole.prototype.displayEndOfRound = function () {
             Utilities_1.Utilities.printLine("<br/>Dealer score: " + this.game.calculatePlayerScore(this.game.getDealer()) + " " + this.game.getDealer().getHand());
@@ -162,15 +257,16 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                 if (cashOut.toUpperCase() == "Y" || _this.currentPlayer.getMoney() == 0) {
                     Utilities_1.Utilities.printLine("Returning to the Lobby;");
                     _this.currentPlayer.cashOut();
-                    Utilities_1.Utilities.clearDisplay();
                     var casino = new Casino_1.Casino();
+                    Utilities_1.Utilities.clearDisplay();
                     casino.startCasino();
                     this.removeEventListener("click", cashOrContinue);
                 }
                 else if (cashOut.toUpperCase() == "N") {
                     Utilities_1.Utilities.clearDisplay();
-                    Utilities_1.Utilities.printLine("How much would you like to bet?");
-                    _this.i = 2;
+                    //_this.currentPlayer = _this.game.getPlayer(0);
+                    Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", how much would you like to bet?");
+                    _this.i = 3;
                     _this.start();
                     this.removeEventListener("click", cashOrContinue);
                 }

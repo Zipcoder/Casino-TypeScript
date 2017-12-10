@@ -5,7 +5,6 @@ import {BlackJackPlayer} from './BlackJackPlayer';
 
 export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
 
-  public readonly MIN_NUMBER_OF_PLAYERS = 1;
   public readonly MAX_NUMBER_OF_PLAYERS = 7;
   private readonly pointValues= {TWO: 2,THREE:3,FOUR:4,FIVE:5,SIX:6,SEVEN:7,EIGHT:8,NINE:9,TEN:10,JACK:10,QUEEN:10,KING:10,ACE:1};
   private  dealer:BlackJackPlayer = new BlackJackPlayer("Dealer");
@@ -21,6 +20,10 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
   public  getPlayers(){
 
       return  this.players;
+  }
+
+  public getPlayer(index:number){
+    return this.players[index];
   }
 
   public  getDealer():BlackJackPlayer {
@@ -123,7 +126,6 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
           this.push[p].receiveWinnings(amountWon);
       }
       this.clearAllBets();
-      console.log('finished payOutBets')
   }
 
   public clearAllBets() {
@@ -147,13 +149,19 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
   players: BlackJackPlayer[] = [];
 
 
+  setNumPlayers(length:number){
+    this.players.length=length;
+  }
 
   getNumPlayers() : number {
     return this.players.length;
   }
-
+  addPlayer(player: BlackJackPlayer) {
+    this.players.shift();
+    this.players.push(player);
+  }
   addPlayers(players: BlackJackPlayer[]) {
-    this.players = players;
+    this.players=(players);
   }
 
   printPlayersMoney() : string {
