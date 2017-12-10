@@ -19,8 +19,15 @@ a:link, a:visited {
     color: inherit;
 }
 
+button[disabled]:hover {
+    background: red;
+}
+button:hover {
+    background: lime;
+}
+
 a:hover, a:active {
-    text-decoration: none;
+    text-decoration: bold;
 
     color: inherit;
 }
