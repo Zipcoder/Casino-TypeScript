@@ -8,7 +8,7 @@ class BlackJack extends CardGame implements Gamble{
     private dealer: BlackJackPlayer;
     private player: BlackJackPlayer;
     deck: Deck;
-    pot: number;
+    private pot: number;
 
     constructor(player: Player) {
         super();
@@ -25,6 +25,10 @@ class BlackJack extends CardGame implements Gamble{
 
     public takeBet(bet: number): void {
         this.pot += bet;
+    }
+
+    get Pot(): number{
+        return this.pot;
     }
 
     public getDealer(): BlackJackPlayer{
@@ -84,18 +88,6 @@ class BlackJack extends CardGame implements Gamble{
         }
         
         return score;
-
-
-    //     int sum = 0;
-    //     for(Card card: hand) {
-    //         sum += card.getValue();
-    //     }
-
-    //     if(isAceInHand() && sum <= 11) {
-    //         sum += 10;
-    //     }
-    //     return sum;
-    // }
     }
 
     isPlayerWinner(player: BlackJackPlayer, dealer:BlackJackPlayer): boolean {

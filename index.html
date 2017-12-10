@@ -22,16 +22,20 @@
 
     <section id="main" >
         
-        <div class="col-sm-4">
+        <div class="col-sm-8">
             <div id="display"></div>
             <div id="input">
                     <button type="button" class="btn-lg" id="hit" onclick="blackJackConsole.hit()">Hit</button>
                     <button type="button" class="btn-lg" id="stay" onclick="blackJackConsole.stay()">Stay</button>
                     <button type="button" class="btn-lg" id="play again" onclick="blackJackConsole.reset()">play again</button>    
+                    <input type="submit" class="btn-lg" value="Bet" id="betButton" onclick="blackJackConsole.checkValidBet()"></button>    
+                    <input type="text" name="betInput" id="betInput"></input>
+                    
+                    <p style="color:bisque" id= "errorMessage"></p>
             </div>
 
         </div>
-    	<div class="col-sm-8" id="cards">
+    	<div class="col-sm-4" id="cards">
             <div style="color:bisque">Player Hand</div>
             <div class="cards" id="player-cards"></div>
             <div style="color:bisque">Dealer Hand</div>

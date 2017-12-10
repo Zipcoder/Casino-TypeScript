@@ -13,18 +13,18 @@ function clearHTMLTag(elementID: string) {
     
 }
 
-function displayCard(value:string, suit:string, id:string){
+function displayCard(value:string, suit:string, elementId:string){
     var cardDiv = "<img src=\"./images/cards/"+ suit +"/"+value+".jpg\" alt=\""+value+suit+"\"/>"
-    document.getElementById(id).innerHTML +=  cardDiv;
+    document.getElementById(elementId).innerHTML +=  cardDiv;
 }
 
 function displayWinnerImage(){
-    var cardDiv = "<img src=\"./images/200w_d.gif\" alt=\"sloth-gif\"/>"
+    var cardDiv = "<br><img src=\"./images/200w_d.gif\" alt=\"sloth-gif\"/>"
     document.getElementById("display").innerHTML +=  cardDiv;
 }
 
 function displayLoserImage(){
-    var cardDiv = "<img src=\"./images/loser.gif\" alt=\"sloth-gif\"/>"
+    var cardDiv = "<br><img src=\"./images/loser.gif\" alt=\"loser-gif\"/>"
     document.getElementById("display").innerHTML +=  cardDiv;
 }
 

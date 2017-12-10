@@ -26,6 +26,13 @@ button:hover {
     background: lime;
 }
 
+input[disabled]:hover {
+    background: red;
+}
+input:hover {
+    background: lime;
+}
+
 a:hover, a:active {
     text-decoration: bold;
 
