@@ -21,11 +21,12 @@ export abstract class CardPlayer<T extends CardGame<T>> extends Player<T> {
 
     public hasCardsOfRank(rank: string):boolean {
         let hand:CardPile = this.getHand();
-        for(let suit in Object.keys(Card.suits)) {
-             let cardToCheck:Card = new Card(rank, suit);
-            if(hand.contains(cardToCheck)) {
-                return true;
-            }
+        for(let key in Object.keys(Card.suits)) {
+          let suit = Object.keys(Card.suits)[key];
+          let cardToCheck: Card = new Card(rank, suit);
+          if(hand.contains(cardToCheck)) {
+              return true;
+          }
         }
         return false;
     }

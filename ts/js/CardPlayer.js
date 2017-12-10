@@ -26,7 +26,8 @@ define(["require", "exports", "./Player", "./CardPile", "./Card"], function (req
         };
         CardPlayer.prototype.hasCardsOfRank = function (rank) {
             var hand = this.getHand();
-            for (var suit in Object.keys(Card_1.Card.suits)) {
+            for (var key in Object.keys(Card_1.Card.suits)) {
+                var suit = Object.keys(Card_1.Card.suits)[key];
                 var cardToCheck = new Card_1.Card(rank, suit);
                 if (hand.contains(cardToCheck)) {
                     return true;
