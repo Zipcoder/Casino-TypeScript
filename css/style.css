@@ -10,7 +10,7 @@
     padding: 0;
 }
 
-body { font: 14px/1.4 arial, sans-serif; background-color: #F5F5F5;}
+body { font: 14px/1.4 arial, sans-serif; background-color:rgb(13, 82, 47)}
 
 article, aside, figure, footer, header, nav, section { display: block; }
 a:link, a:visited {
@@ -37,6 +37,10 @@ a:hover, a:active {
     zoom:1; /* For IE 6/7 (trigger hasLayout) */
 }
 
+.cards img {
+    width: 20%;
+  }
+
 #main:focus {
     outline: none;
 }
@@ -48,7 +52,7 @@ a:hover, a:active {
     width: 100%;
     height: 79px;
 
-    background-color: #144e64;}
+    background-color: #f52d13;}
 
 .main-header .title {
     float: left;
@@ -84,7 +88,7 @@ a:hover, a:active {
     width: 16%;
     height: 100%;
 
-    background-color: #3c790a;
+    background-color: #9fa896;
 }
 
 .main-header div {

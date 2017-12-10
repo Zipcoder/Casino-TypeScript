@@ -28,6 +28,18 @@ class CardPlayer extends Player{
         return output;
     }
 
+    displayPlayerHandImages(id:string) {
+        
+        for(var i= 0; i< this.hand.length; i++){
+            displayCard(this.hand[i].getValue(),this.hand[i].getSuit(),id)
+        }
+       
+    }
+
+    displayPlayerHandImageByIndex(index:number,id:string){
+        displayCard(this.hand[index].getValue(),this.hand[index].getSuit(),id)
+    }
+
     addCardToHand(card: Card){
         this.hand.push(card);
     }
