@@ -11,27 +11,39 @@
 </head>
 <body>
     <header class="main-header group">
+        
         <div class="title"></div>
         <div class="lesson-link"><img src="./images/logos/js_logo.png" alt="Javascript"/></div>
         <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
+        
     </header>
 
-    <h1>TypeScript Casino</h1>
+    <h1 style="color:bisque">BlackJack</h1>
 
-    <section id="main">
+    <section id="main" >
         
-    	<div id="display">
-            <!--
-            <h2>this is my display. display cards here.</h2>
-            <div id="display player score"></div>
-            -->
-        </div>
+        <div class="col-sm-4">
+            <div id="display"></div>
             <div id="input">
-				<button type="button" class="btn-lg" id="hit" onclick="blackJackConsole.hit()">Hit</button>
-                <button type="button" class="btn-lg" id="stay" onclick="blackJackConsole.stay()">Stay</button>
-                <br><br>
-                <button type="button" class="btn-lg" id="play again" onclick="blackJackConsole.reset()">play again</button>
+                    <button type="button" class="btn-lg" id="hit" onclick="blackJackConsole.hit()">Hit</button>
+                    <button type="button" class="btn-lg" id="stay" onclick="blackJackConsole.stay()">Stay</button>
+                    <button type="button" class="btn-lg" id="play again" onclick="blackJackConsole.reset()">play again</button>    
             </div>
+
+        </div>
+    	<div class="col-sm-8" id="cards">
+            <div style="color:bisque">Player Hand</div>
+            <div class="cards" id="player-cards"></div>
+            <div style="color:bisque">Dealer Hand</div>
+            <div class="cards" id="dealer-cards"></div>
+        </div>
+            
+        
+        
+            
+            
+            
+            
     </section>
 
     <script>
