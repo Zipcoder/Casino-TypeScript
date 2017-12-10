@@ -110,15 +110,18 @@ define(["require", "exports", "./CardGame", "./BlackJackPlayer"], function (requ
             player.bet(amount);
         };
         BlackJack.prototype.payOutBets = function () {
-            for (var player in this.winners) {
-                var amountWon = this.bets[this.winners[player].id] * 2;
-                this.winners[player].receiveWinnings(amountWon);
+            for (var p in this.winners) {
+                var player = this.winners[p];
+                var amountWon = this.bets[player.id] * 2;
+                this.winners[p].receiveWinnings(amountWon);
             }
-            for (var player in this.push) {
-                var amountWon = this.bets[this.push[player].id];
-                this.push[player].receiveWinnings(amountWon);
+            for (var p in this.push) {
+                var player = this.push[p];
+                var amountWon = this.bets[player.id];
+                this.push[p].receiveWinnings(amountWon);
             }
             this.clearAllBets();
+            console.log('finished payOutBets');
         };
         BlackJack.prototype.clearAllBets = function () {
             this.bets = {};
