@@ -33,7 +33,7 @@ class BlackJack {
     public takeBet(amountToBet: number): void {
         this.pot += amountToBet;
     }
-    
+
     public playBlackJack(): void {
         this.player = casino.aPlayer;
         this.player.clearHand();
@@ -73,12 +73,13 @@ class BlackJack {
             this.dealCard(this.dealer);
         }
 
-        WebPageInteraction.getInstance().displayToWebpage("<br>This is your hand: <br>"+this.player.getHand().toString());
+        WebPageInteraction.getInstance().displayToWebpage("<br>This is your hand: <br>"+this.player.getHand().toString() + " ("+this.player.calculateScore()+")");
         WebPageInteraction.getInstance().displayToWebpage("<br>This is the dealers top card: <br>"+this.dealer.getHand()[0].toString());
         WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to hit or stay?<br>");
         blackJackConsole.hitOrStayButtonLogic();
 
-        this.checkFor21();
+        //not sure of this is needed;
+        //this.checkFor21();
 
         document.getElementById("hitButton").setAttribute("onclick", "blackJack.hitLogic()");
         document.getElementById("stayButton").setAttribute("onclick", "blackJack.stayLogic()");
@@ -92,27 +93,29 @@ class BlackJack {
 
     public hitLogic() {
         this.dealCard(this.player);
-        WebPageInteraction.getInstance().displayToWebpage("Your hand is now: "+this.player.getHand().toString());
+        WebPageInteraction.getInstance().displayToWebpage("Your hand is now: "+this.player.getHand().toString()+ " ("+this.player.calculateScore()+")");
         this.checkFor21();
 
         if (!this.checkFor21()) {
-            WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to hit or stay?<br>");
-            console.log(this.player.getHand().toString())
-
             if (this.player.getScore() > 21) {
                 WebPageInteraction.getInstance().displayToWebpage("It's a bust, you lose!");
 
-                this.playAgainLogic()
+                this.playAgainLogic();
+                return;
 
                 //Would you like to play again logic
             }
+            WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to hit or stay?<br>");
+            console.log(this.player.getHand().toString())
+
+
         }
     }
 
     public stayLogic() {
         // show dealers hand
         WebPageInteraction.getInstance().displayToWebpage(
-            "You stayed, the dealers hand is: "+this.dealer.getHand().toString());
+            "You stayed, the dealers hand is: "+this.dealer.getHand().toString()+ " ("+this.dealer.calculateScore()+")");
 
 
         if (!this.checkFor21()) {
@@ -127,7 +130,7 @@ class BlackJack {
         if (this.dealer.calculateScore() <= 17) {
             this.dealCard(this.dealer);
             WebPageInteraction.getInstance().displayToWebpage(
-                "The dealer hit, the dealers hand is now: " + this.dealer.getHand().toString());
+                "The dealer hit, the dealers hand is now: " + this.dealer.getHand().toString()+ " ("+this.dealer.calculateScore()+")");
             console.log(this.dealer.calculateScore());
         }
         else if (this.dealer.calculateScore() > 17) {
