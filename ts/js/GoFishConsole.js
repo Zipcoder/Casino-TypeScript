@@ -116,6 +116,12 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
                     case 3:
                         this.getPlayerToAsk();
                         break;
+                    case 4:
+                        this.questionPlayer();
+                        break;
+                    case 5:
+                        this.goFish();
+                        break;
                 }
             }
             else {
@@ -137,31 +143,38 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
             });
         };
         GoFishConsole.prototype.getCardValueSelection = function () {
-            Utilities_1.Utilities.printLine("");
-            Utilities_1.Utilities.printLine("Select a card value to ask another player for:");
-            var potentialValues = [];
-            for (var key in Object.keys(Card_1.Card.faceValues)) {
-                var rank = Object.keys(Card_1.Card.faceValues)[key];
-                if (this.currentPlayer.hasCardsOfRank(rank)) {
-                    potentialValues.push("[ " + rank + " ]");
+            if (this.currentPlayer.getHand().numCards() > 0) {
+                Utilities_1.Utilities.printLine("");
+                Utilities_1.Utilities.printLine("Select a card value to ask another player for:");
+                var potentialValues = [];
+                for (var key in Object.keys(Card_1.Card.faceValues)) {
+                    var rank = Object.keys(Card_1.Card.faceValues)[key];
+                    if (this.currentPlayer.hasCardsOfRank(rank)) {
+                        potentialValues.push("[ " + rank + " ]");
+                    }
                 }
+                Utilities_1.Utilities.printLine(potentialValues.toString());
+                var _this = this;
+                Utilities_1.Utilities.buttonEle.addEventListener("click", function valueSelection() {
+                    _this.valueAskingFor = Utilities_1.Utilities.userInputEle.value.toUpperCase();
+                    Utilities_1.Utilities.userInputEle.value = "";
+                    if (!_this.currentPlayer.hasCardsOfRank(_this.valueAskingFor)) {
+                        Utilities_1.Utilities.printLine("Invalid selection, you do not have a card of that rank to ask for.");
+                        this.removeEventListener("click", valueSelection);
+                        _this.start();
+                    }
+                    else {
+                        _this.j++;
+                        this.removeEventListener("click", valueSelection);
+                        _this.start();
+                    }
+                });
             }
-            Utilities_1.Utilities.printLine(potentialValues.toString());
-            var _this = this;
-            Utilities_1.Utilities.buttonEle.addEventListener("click", function valueSelection() {
-                _this.valueAskingFor = Utilities_1.Utilities.userInputEle.value.toUpperCase();
-                Utilities_1.Utilities.userInputEle.value = "";
-                if (!_this.currentPlayer.hasCardsOfRank(_this.valueAskingFor)) {
-                    Utilities_1.Utilities.printLine("Invalid selection, you do not have a card of that rank to ask for.");
-                    this.removeEventListener("click", valueSelection);
-                    _this.start();
-                }
-                else {
-                    _this.j++;
-                    this.removeEventListener("click", valueSelection);
-                    _this.start();
-                }
-            });
+            else {
+                Utilities_1.Utilities.printLine("You have no cards, go fish");
+                this.j = 5;
+                this.start();
+            }
         };
         GoFishConsole.prototype.getPlayerToAsk = function () {
             Utilities_1.Utilities.printLine("");
@@ -193,7 +206,6 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
                 }
                 else {
                     Utilities_1.Utilities.clearDisplay();
-                    _this.questionPlayer();
                     _this.j++;
                     this.removeEventListener("click", playerSelection);
                     _this.start();
@@ -207,12 +219,32 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
             else {
                 Utilities_1.Utilities.printLine("Asking " + this.otherPlayer.getName() + ", do you have any " + this.valueAskingFor.toLowerCase() + "s?");
             }
-            //if (value.equals(Card.FaceValue.SIX)) {
-            //                     System.out.printf("Asking %s, do you have any %ses?\n", playerToAsk.getName(), value.name().toLowerCase());
-            //                 } else {
-            //                     System.out.printf("Asking %s, do you have any %ss?\n", playerToAsk.getName(), value.name().toLowerCase());
-            //                 }
-            //                 boolean otherPlayerHasCardsToGive = currentPlayer.fishForCards(playerToAsk, value);
+            var otherPlayerHasCardsToGive = this.currentPlayer.fishForCards(this.otherPlayer, this.valueAskingFor);
+            if (otherPlayerHasCardsToGive) {
+                var fished = this.otherPlayer.handOverAllCardsRequested(this.valueAskingFor);
+                this.currentPlayer.addCardsToHand(fished);
+                Utilities_1.Utilities.printLine("Received " + fished.numCards() + " cards from " + this.otherPlayer.getName());
+                Utilities_1.Utilities.printLine("You may continue asking for cards!");
+                this.j = 2;
+                this.start();
+            }
+            else {
+                Utilities_1.Utilities.printLine("Sorry, " + this.otherPlayer.getName() + " does not have any to give, go fish!");
+                this.j++;
+                this.start();
+            }
+        };
+        GoFishConsole.prototype.goFish = function () {
+            Utilities_1.Utilities.printLine("Click to draw a card");
+            var _this = this;
+            Utilities_1.Utilities.buttonEle.addEventListener("click", function drawCard() {
+                if (_this.game.getStockPile().numCards() > 0) {
+                    _this.game.playerGoFish(_this.currentPlayer);
+                }
+                else {
+                    Utilities_1.Utilities.printLine("No more cards to draw");
+                }
+            });
         };
         GoFishConsole.prototype.getNameOfGame = function () {
             return "Go Fish";
