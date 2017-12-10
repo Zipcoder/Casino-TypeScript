@@ -33,19 +33,21 @@ var Craps = /** @class */ (function () {
             this.player.setBalance(this.player.getBalance() - this.bet);
             this.displayEle.innerHTML += "</br>" + rollOne + " You lose and your balance is :"
                 + this.player.getBalance() + "</br>";
+            // this.clearBox("displayCraps");
             document.getElementById("roll").disabled = true;
             document.getElementById("rollTwo").disabled = true;
         }
         else if (rollOne == 7 || rollOne == 11) {
             this.player.setBalance(this.player.getBalance() + this.bet);
-            this.displayEle.innerHTML += "</br>" + rollOne + " You Won and your balance is :"
+            this.displayEle.innerHTML += "</br>" + rollOne + " You Won !!!and your balance is :"
                 + this.player.getBalance() + "</br>";
+            // this.clearBox("displayCraps");
             document.getElementById("roll").disabled = true;
             document.getElementById("rollTwo").disabled = true;
         }
         else {
             this.displayEle.innerHTML += "</br>" + rollOne + "<br/>";
-            this.displayEle.innerHTML += "</br>" + "You need a " + rollOne + " to win the game .Press RollTwo <br/>";
+            this.displayEle.innerHTML += "</br>" + "You need a " + rollOne + " to win the game .Press Roll Again <br/>";
             this.point = rollOne;
             document.getElementById("roll").disabled = true;
         }
@@ -62,16 +64,18 @@ var Craps = /** @class */ (function () {
             console.log("next roll point is Seven" + rollTwo);
             this.displayEle.innerHTML += "</br>" + "You got " + rollTwo + " You lose the game and your balance is " +
                 this.player.getBalance() + "<br/>";
+            // this.clearBox("displayCraps");
             document.getElementById("rollTwo").disabled = true;
         }
         else if (rollTwo == this.point) {
             this.player.setBalance(this.player.getBalance() + this.bet);
-            this.displayEle.innerHTML += "</br>" + "You got " + rollTwo + " You Won and your balance is " +
+            this.displayEle.innerHTML += "</br>" + "You got " + rollTwo + " You Won!!! and your balance is " +
                 this.player.getBalance() + "<br/>";
+            // this.clearBox("displayCraps");
             document.getElementById("rollTwo").disabled = true;
         }
         else {
-            this.displayEle.innerHTML += "</br>You got  " + rollTwo + ". You need " + this.point + " to win</br>";
+            this.displayEle.innerHTML += "</br>You got  " + rollTwo + ". You need " + this.point + " to win. Press Roll Again</br>";
         }
     };
     Craps.prototype.callRoll = function () {
@@ -83,7 +87,10 @@ var Craps = /** @class */ (function () {
         return roll;
     };
     Craps.prototype.showDice = function (x) {
-        return "<img src=\"./images/logos/dice_" + x + ".png\" align=\"middle\" />";
+        return "<img src=\"./images/dice/dice_" + x + ".png\" align=\"middle\" />";
+    };
+    Craps.prototype.clearBox = function (elementID) {
+        document.getElementById(elementID).innerHTML = "";
     };
     return Craps;
 }());

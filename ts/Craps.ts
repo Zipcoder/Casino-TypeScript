@@ -35,7 +35,7 @@ class Craps{
                 else{
                     this.displayEle.innerHTML +="</br> You don't have enough balance </br>";
                 }
-                    
+    
             }
 
             roll(){
@@ -44,20 +44,24 @@ class Craps{
                     this.player.setBalance(this.player.getBalance()-this.bet);
                     this.displayEle.innerHTML += "</br>"+rollOne+" You lose and your balance is :"
                     +this.player.getBalance()+ "</br>";
+                    // this.clearBox("displayCraps");
+                    
                     (<HTMLInputElement> document.getElementById("roll")).disabled = true;
                     (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;
                     
                  }
                  else if(rollOne == 7 || rollOne == 11){
                     this.player.setBalance(this.player.getBalance()+this.bet);
-                     this.displayEle.innerHTML += "</br>"+rollOne+" You Won and your balance is :"
+                     this.displayEle.innerHTML += "</br>"+rollOne+" You Won !!!and your balance is :"
                         +this.player.getBalance()+ "</br>";
+                    // this.clearBox("displayCraps");
+                    
                     (<HTMLInputElement> document.getElementById("roll")).disabled = true;
                     (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;
                  }
                  else{
                     this.displayEle.innerHTML += "</br>"+rollOne + "<br/>";
-                    this.displayEle.innerHTML += "</br>"+"You need a " +rollOne +" to win the game .Press RollTwo <br/>";
+                    this.displayEle.innerHTML += "</br>"+"You need a " +rollOne +" to win the game .Press Roll Again <br/>";
                     this.point = rollOne;
                     (<HTMLInputElement> document.getElementById("roll")).disabled = true;
                  }
@@ -76,16 +80,20 @@ class Craps{
                     console.log("next roll point is Seven"+rollTwo);
                     this.displayEle.innerHTML += "</br>"+"You got "+rollTwo + " You lose the game and your balance is "+
                     this.player.getBalance()+"<br/>";
+                    // this.clearBox("displayCraps");
+                    
                     (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;
                 }
                 else if(rollTwo == this.point){
                     this.player.setBalance(this.player.getBalance()+this.bet);
-                    this.displayEle.innerHTML += "</br>"+"You got "+ rollTwo+" You Won and your balance is "+
+                    this.displayEle.innerHTML += "</br>"+"You got "+ rollTwo+" You Won!!! and your balance is "+
                     this.player.getBalance()+"<br/>";
+                    // this.clearBox("displayCraps");
+                    
                     (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;
                 }
                 else{
-                    this.displayEle.innerHTML += "</br>You got  "+rollTwo+". You need "+this.point+" to win</br>"
+                    this.displayEle.innerHTML += "</br>You got  "+rollTwo+". You need "+this.point+" to win. Press Roll Again</br>"
                 }
                 
             }
@@ -99,8 +107,11 @@ class Craps{
             }
             showDice(x){
                 
-                    return "<img src=\"./images/logos/dice_"+x+".png\" align=\"middle\" />";
-                }
+                    return "<img src=\"./images/dice/dice_"+x+".png\" align=\"middle\" />";
+            }
+            clearBox(elementID){
+                    document.getElementById(elementID).innerHTML = "";
+            }
         }
 
     

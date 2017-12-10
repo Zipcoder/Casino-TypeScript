@@ -19,21 +19,25 @@
     <h1>WELCOME TO CRAPS GAME</h1>
 
     <section id="mainCraps">
-        <div id="displayCraps">
-            <div>
-                <label for="hDie1">Die 1&nbsp;&rsaquo;&nbsp;</label><span id="hDie1">
-                    <img src="./images/logos/blank.png" align="middle" /></span>
-                    <label for="hDie2" style="margin-left:70px;">Die 2&nbsp;&rsaquo;&nbsp;</label>
-                    <span id="hDie2"><img src="./images/logos/blank.png" align="middle" /></span>
+        
+            <div id="displayDiv">
+                <label for="hDie1">Dice 1&nbsp;&rsaquo;&nbsp;</label><span id="hDie1">
+                    <img src="./images/dice/blank.png" align="middle" /></span>
+                    <label for="hDie2" style="margin-left:70px;">Dice 2&nbsp;&rsaquo;&nbsp;</label>
+                    <span id="hDie2"><img src="./images/dice/blank.png" align="middle" /></span>
             </div>
+        <div id="displayCraps">
         </div>
 			<div id="inputCraps">
                         Enter your amount:<br>
                         <input type="text" name="betAmount" id="betAmount" placeholder="$">
-                        <input type="submit" value="Play" onclick="craps.play()">
+                        <!-- <input type="submit" value="Play" onclick="craps.play()"> -->
+                        <button id="playnowbutton" class="big-button" type="button" onClick="craps.play()">Play Now!</button>
                 
-                <input type="submit" id="roll" value="Roll" onclick="craps.roll()">
-                <input type="submit" id="rollTwo" value="RollTwo" onclick="craps.checkRollTwo()">
+                <!-- <input type="submit" id="roll" value="Roll" onclick="craps.roll()"> -->
+                <button id="roll" class="big-button" type="button" onClick="craps.roll()">1st Roll</button>
+                <button id="rollTwo" class="big-button" type="button" onClick="craps.checkRollTwo()">Roll Again</button>
+                <!-- <input type="submit" id="rollTwo" value="RollTwo" onclick="craps.checkRollTwo()"> -->
 			</div>
     </section>
 
