@@ -249,7 +249,7 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
             Utilities_1.Utilities.buttonEle.addEventListener("click", function cashOrContinue() {
                 var cashOut = Utilities_1.Utilities.userInputEle.value;
                 Utilities_1.Utilities.userInputEle.value = "";
-                if (cashOut.toUpperCase() == "Y" || _this.currentPlayer.getMoney() == 0) {
+                if (cashOut.toUpperCase() == "Y") {
                     Utilities_1.Utilities.printLine("Returning to the Lobby;");
                     _this.currentPlayer.cashOut();
                     var casino = new Casino_1.Casino();
@@ -259,11 +259,20 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                 }
                 else if (cashOut.toUpperCase() == "N") {
                     Utilities_1.Utilities.clearDisplay();
-                    //_this.currentPlayer = _this.game.getPlayer(0);
-                    Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", how much would you like to bet?");
-                    _this.i = 3;
-                    _this.start();
-                    this.removeEventListener("click", cashOrContinue);
+                    if (_this.currentPlayer.getMoney() == 0) {
+                        Utilities_1.Utilities.clearDisplay();
+                        var casino = new Casino_1.Casino();
+                        Utilities_1.Utilities.printLine("You have no more money, returning to lobby...");
+                        casino.startCasino();
+                        this.removeEventListener("click", cashOrContinue);
+                        //_this.currentPlayer = _this.game.getPlayer(0);
+                    }
+                    else {
+                        Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", how much would you like to bet?");
+                        _this.i = 3;
+                        _this.start();
+                        this.removeEventListener("click", cashOrContinue);
+                    }
                 }
                 else {
                     Utilities_1.Utilities.printLine("Invalid choice. Cash Out? Y or N");
