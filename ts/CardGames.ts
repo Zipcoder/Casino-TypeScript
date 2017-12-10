@@ -1,6 +1,3 @@
-class Card {
-}
-
 abstract class CardGames {
     protected player: Player;
     protected deck: Deck;

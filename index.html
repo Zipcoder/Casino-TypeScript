@@ -39,12 +39,15 @@
                         <br>
                     </form>
                 </div>
+                <div style = "display: inline" id="buttonLogic">
+
+                </div>
                 <div style = "display: inline" id="generalSubmitButton">
                     <button id="primaryButton" onclick="casino.createPlayer()" type="submit" value="submit" class = "btn btn-primary"> Submit </button>
                 </div>
 
                 <div style = "display: none" id="gameSelectionButtons">
-                    <button id="blackJack" type="submit" value="Play BlackJack!" class = "btn btn-danger"> Play BlackJack! </button>
+                    <button id="blackJack" onclick="blackJack.playBlackJack()" class = "btn btn-danger"> Play BlackJack! </button>
                     <button id="crapsGame" onclick="craps.play()" type="submit" value="Play Craps!" class = "btn btn-success"> Play Craps! </button>
                     <button id="goFish" type="submit" value="Play Go Fish!" class = "btn btn-primary"> Play Go Fish! </button>
                 </div>

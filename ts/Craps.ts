@@ -46,6 +46,7 @@ class Craps {
 
     public getBetAmount(): void {
         this.gameSelectionButtons.style.display = "none";
+        document.getElementById("user_input").hidden = false;
         let amount: number = parseFloat((<HTMLInputElement>document.getElementById("user_input")).value);
         if (amount > this.player.getMoney() || amount <= 0) {
             WebPageInteraction.getInstance().displayToWebpage(
