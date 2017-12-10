@@ -32,9 +32,9 @@ export class BlackJackConsole extends Console {
 
         break;
       case 5:
-      this.payOutBets();
-      this.game.putCardsInDiscardPile();
-      this.askContinueOrCashOut();
+        this.payOutBets();
+        this.game.putCardsInDiscardPile();
+        this.askContinueOrCashOut();
         break;
       default: Utilities.printLine("done" + this.currentPlayer.getHand().toString())
     }
@@ -70,8 +70,9 @@ export class BlackJackConsole extends Console {
     Utilities.buttonEle.addEventListener("click", function getBet() {
       var amount: number = parseInt(Utilities.userInputEle.value);
       Utilities.userInputEle.value = "";
-      if (amount > amountAvailableToBet || amount == NaN) {
-        Utilities.printLine("Invalid Amount");
+
+      if (amount > amountAvailableToBet || isNaN(amount)) {
+        Utilities.printLine("Invalid Amount, Enter a new bet");
       }
       else {
         Utilities.printLine("You bet $" + amount);
@@ -89,7 +90,6 @@ export class BlackJackConsole extends Console {
     this.displayDealerFaceUpCard();
     Utilities.printLine("Hit or Stand?");
     this.start()
-    // this.hitOrStand();
   }
 
   public hitOrStand() {
@@ -119,6 +119,9 @@ export class BlackJackConsole extends Console {
         _this.start();
         this.removeEventListener("click", hitOrStand);
       }
+      else {
+        Utilities.printLine("Invalid Entry, Hit or Stand?");
+      }
     });
   }
 
@@ -140,100 +143,8 @@ export class BlackJackConsole extends Console {
     Utilities.printLine("Dealer showing " + this.game.getDealer().getHand().toString());
   }
 
-  /////
-  public determineWinners() {
-
-  }
-
-  public setUpGame() {
-    // Utilities.printMenuName("Welcome to " + this.getNameOfGame());
-    // let numPlayers:number = this.getNumPlayers(this.game.MIN_NUMBER_OF_PLAYERS, this.game.MAX_NUMBER_OF_PLAYERS);
-    // let playerNames:string[] = this.getPlayerNames(numPlayers);
-    // let players:Array<BlackJackPlayer>  = [];
-    // for(let name in playerNames) {
-    //     let player:BlackJackPlayer  = new BlackJackPlayer(playerNames[name]);
-    //     players.push(player);
-    // }
-    // this.game.addPlayers(players);
-    // this.getPlayerChips(this.game);
-  }
-
-  public playRound() {
-    // for(let p in this.game.getPlayers()) {
-    //   let player =this.game.getPlayers[p];
-    //     if(player.getMoney() > 0) {
-    //         this.makeBet(player);
-    //     }
-    // }
-    //
-    // Utilities.printLine("<br/> Dealing cards...<br/>");
-    this.game.dealInitialCards();
-    //
-    this.displayDealerFaceUpCard();
-    //
-    // for(let currentPlayerIndex = 0; currentPlayerIndex < this.game.getNumPlayers(); currentPlayerIndex++) {
-    //     let currentPlayer = this.game.getPlayers()[currentPlayerIndex];
-    //     if(this.game.getBets()[currentPlayer.id]!=undefined) {
-    //       let playerNumber = currentPlayerIndex + 1;
-    //       Utilities.printLine("Player " + playerNumber + ", " + currentPlayer.getName() + " turn:");
-    //       this.playerTakeTurn(currentPlayer);
-    //     }
-    // }
-    this.dealerHitsUntilFinished();
-    this.displayEndOfRound();
-    this.payOutBets();
-    this.game.putCardsInDiscardPile();
-    this.askContinueOrCashOut();
-  }
-
-
-
-  public playerTakeTurn(player: BlackJackPlayer) {
-    // let finishedTurn = false;
-    // while(!finishedTurn) {
-    //     Utilities.printLine("Your cards: " + player.getHand());
-    //     finishedTurn = this.hitOrStay();
-    // }
-    // Utilities.printLine("");
-  }
-
-  public makeBetDepreciated(player: BlackJackPlayer) {
-    // let amountAvailableToBet = player.getMoney();
-    // let amount = 0.0;
-    // let isValidInput = false;
-    // while(!isValidInput) {
-    //     amount = Utilities.getMoneyInput(player.getName() + ", how much would you like to bet?");
-    //     if(amount <= amountAvailableToBet) {
-    //         isValidInput = true;
-    //     } else {
-    //         Utilities.printLine("Sorry you do not have that much money to bet.");
-    //     }
-    // }
-    // this.game.takeBet(player, amount);
-  }
-
-  public hitOrStay(): boolean {
-    // if(this.game.calculatePlayerScore(this.currentPlayer) == 21) {
-    //     Utilities.printLine("21!!");
-    //     return true;
-    // }
-    // let toHit = Utilities.getYesOrNoInput("Do you want to hit? Y or N");
-    // if(toHit) {
-    //     this.game.dealCardToHand(this.currentPlayer);
-    // } else {
-    //     return true;
-    // }
-    // if(this.game.playerHasBust(this.currentPlayer)) {
-    //     Utilities.printLine("Bust! " + this.currentPlayer.getHand());
-    //     return true;
-    // }
-    return false;
-  }
-
-
-
   public displayEndOfRound() {
-    Utilities.printLine("<br/>Dealer score: " + this.game.calculatePlayerScore(this.game.getDealer()) + this.game.getDealer().getHand());
+    Utilities.printLine("<br/>Dealer score: " + this.game.calculatePlayerScore(this.game.getDealer()) +" "+ this.game.getDealer().getHand());
     for (let p in this.game.getPlayers()) {
       let player: BlackJackPlayer = this.game.getPlayers()[p];
       if (this.game.getBets()[player.id]) {
@@ -256,38 +167,31 @@ export class BlackJackConsole extends Console {
     Utilities.printLine(this.currentPlayer.getName() + ", Cash Out? Y or N");
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function cashOrContinue() {
-      // Utilities.printLine(this.game.printPlayersMoney());
-      // Utilities.printLine(_this.currentPlayer.getName() + ", Cash Out? Y or N");
       let cashOut: string = Utilities.userInputEle.value;
       Utilities.userInputEle.value = "";
-      if (_this.currentPlayer.getMoney() > 0) {
-        if (cashOut.toUpperCase() == "Y") {
-          _this.currentPlayer.cashOut();
-          let casino = new Casino();
-          casino.startCasino();
-          this.removeEventListener("click", cashOrContinue);
-        }
-        else {
-          Utilities.printLine("How much would you like to bet?");
-          _this.i = 2;
-          _this.start();
-          this.removeEventListener("click", cashOrContinue);
-        }
+
+
+      if (cashOut.toUpperCase() == "Y" || _this.currentPlayer.getMoney() == 0) {
+        Utilities.printLine("Returning to the Lobby;");
+        _this.currentPlayer.cashOut();
+        Utilities.clearDisplay();
+        let casino = new Casino();
+        casino.startCasino();
+        this.removeEventListener("click", cashOrContinue);
       }
+      else if (cashOut.toUpperCase() == "N") {
+        Utilities.clearDisplay();
+        Utilities.printLine("How much would you like to bet?");
+        _this.i = 2;
+        _this.start();
+        this.removeEventListener("click", cashOrContinue);
+      }
+      else {
+        Utilities.printLine("Invalid choice. Cash Out? Y or N");
+      }
+
     });
-
-    // for(let p in this.game.getPlayers()) {
-    //   let player = this.game.getPlayers()[p];
-    //     if(player.getMoney() > 0) {
-    //         let cashOut = Utilities.getYesOrNoInput(player.getName() + ", Cash Out? Y or N");
-    //         if(cashOut) {
-    //             player.cashOut();
-    //         }
-    //         else()
-    //     }
-    // }
   }
-
 
   public getNameOfGame(): string {
     return this.nameOfGame;
