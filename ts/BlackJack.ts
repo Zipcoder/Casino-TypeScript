@@ -112,15 +112,18 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
   }
 
   public payOutBets() {
-      for(let player in this.winners) {
-          let amountWon = this.bets[this.winners[player].id] * 2;
-          this.winners[player].receiveWinnings(amountWon);
+      for(let p in this.winners) {
+        let player=this.winners[p];
+          let amountWon = this.bets[player.id] * 2;
+          this.winners[p].receiveWinnings(amountWon);
       }
-      for(let player in this.push) {
-          let amountWon = this.bets[this.push[player].id];
-          this.push[player].receiveWinnings(amountWon);
+      for(let p in this.push) {
+        let player =this.push[p];
+          let amountWon = this.bets[player.id];
+          this.push[p].receiveWinnings(amountWon);
       }
       this.clearAllBets();
+      console.log('finished payOutBets')
   }
 
   public clearAllBets() {
