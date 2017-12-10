@@ -361,131 +361,6 @@ var BlackJackConsole = (function () {
     };
     return BlackJackConsole;
 }());
-var PlayingSuit;
-(function (PlayingSuit) {
-    PlayingSuit["HEART"] = "\u2661";
-    PlayingSuit["DIAMOND"] = "\u2662";
-    PlayingSuit["CLUB"] = "\u2667";
-    PlayingSuit["SPADE"] = "\u2664";
-})(PlayingSuit || (PlayingSuit = {}));
-var symbol = PlayingSuit.valueOf().toString();
-function toString() {
-    return this.symbol;
-}
-var PlayingValue;
-(function (PlayingValue) {
-    PlayingValue["TWO"] = "2";
-    PlayingValue["THREE"] = "3";
-    PlayingValue["FOUR"] = "4";
-    PlayingValue["FIVE"] = "5";
-    PlayingValue["SIX"] = "6";
-    PlayingValue["SEVEN"] = "7";
-    PlayingValue["EIGHT"] = "8";
-    PlayingValue["NINE"] = "9";
-    PlayingValue["TEN"] = "10";
-    PlayingValue["JACK"] = "J";
-    PlayingValue["QUEEN"] = "Q";
-    PlayingValue["KING"] = "K";
-    PlayingValue["ACE"] = "A";
-})(PlayingValue || (PlayingValue = {}));
-var value = PlayingValue.valueOf().toString();
-function getValue() {
-    return this.value;
-}
-function toString() {
-    return this.value;
-}
-///<reference path="PlayingSuit.ts" />
-///<reference path="PlayingValue.ts" />
-// import { PlayingSuit } from "./PlayingSuit";
-// import { PlayingValue } from "./PlayingValue";
-var PlayingCard = (function () {
-    function PlayingCard(suit, value) {
-        this.suit = suit;
-        this.value = value;
-    }
-    PlayingCard.prototype.toString = function () {
-        return "" + this.value + this.suit;
-    };
-    PlayingCard.prototype.getSuit = function () {
-        return this.suit;
-    };
-    PlayingCard.prototype.getValue = function () {
-        return this.value;
-    };
-    return PlayingCard;
-}());
-///<reference path="PlayingCard.ts"/>
-///<reference path="enumValues.d.ts"/>
-///<reference path="PlayingValue.ts"/>
-///<reference path="PlayingSuit.ts"/>
-System.register("PlayingDeck", ["./enumValues"], function (exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
-    var enumValues_1, PlayingDeck;
-    return {
-        setters: [
-            function (enumValues_1_1) {
-                enumValues_1 = enumValues_1_1;
-            }
-        ],
-        execute: function () {///<reference path="PlayingCard.ts"/>
-            ///<reference path="enumValues.d.ts"/>
-            ///<reference path="PlayingValue.ts"/>
-            ///<reference path="PlayingSuit.ts"/>
-            PlayingDeck = (function () {
-                function PlayingDeck() {
-                    this.populate();
-                }
-                PlayingDeck.prototype.getRandom = function (floor, ceiling) {
-                    return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
-                };
-                PlayingDeck.prototype.shuffle = function () {
-                    if (this.cards.length <= 1) {
-                        return this.cards;
-                    }
-                    for (var i = 0; i < this.cards.length; i++) {
-                        var randomChoiceIndex = this.getRandom(i, this.cards.length - 1);
-                        _a = [this.cards[randomChoiceIndex], this.cards[i]], this.cards[i] = _a[0], this.cards[randomChoiceIndex] = _a[1];
-                    }
-                    return this.cards;
-                    var _a;
-                };
-                PlayingDeck.prototype.getAllCards = function () {
-                    return this.cards;
-                };
-                PlayingDeck.prototype.countLeft = function () {
-                    return this.cards.length;
-                };
-                PlayingDeck.prototype.getAndRemoveCard = function () {
-                    if (this.cards.length == 0) {
-                        this.populate();
-                        this.shuffle();
-                    }
-                    return this.cards.shift();
-                };
-                PlayingDeck.prototype.populate = function () {
-                    this.cards = new Array();
-                    var suits = enumValues_1.EnumValues.getValues(PlayingSuit);
-                    var values = enumValues_1.EnumValues.getValues(PlayingValue);
-                    for (var i = 0; i < suits.length; i++) {
-                        for (var j = 0; j < values.length; i++) {
-                            this.cards.push(new PlayingCard(suits[i].valueOf(), values[j].valueOf()));
-                        }
-                    }
-                };
-                return PlayingDeck;
-            }());
-        }
-    };
-});
-///<reference path="PlayingDeck.ts"/>
-// import {PlayingDeck} from "./PlayingDeck";
-var CardGame = (function () {
-    function CardGame() {
-    }
-    return CardGame;
-}());
 var Dice = (function () {
     function Dice(sides) {
         this.sides = sides;
@@ -964,6 +839,187 @@ var CrapsConsole = (function () {
     };
     return CrapsConsole;
 }());
+/// <reference path="User.ts"/>
+/// <reference path="Craps.ts"/>
+/// <reference path="CrapsConsole.ts"/>
+var Casino = (function () {
+    function Casino() {
+        this.havePlayer = false;
+    }
+    Casino.prototype.initialize = function () {
+        this.displayElement = document.getElementById("display");
+        updateDisplay("Create a player using the fields below");
+        this.inputElement = document.getElementById("input");
+        this.inputElement.innerHTML = '<label>Name:</label><input type="text" name="name_input" id="name_input"></br>' +
+            '<label>Cash:</label><input type="number" name="wallet_input" id="wallet_input"></br>' +
+            '<input type="submit" value="Create Player" id="submit" onclick="casino.createPlayer()">';
+    };
+    Casino.prototype.finalize = function () {
+        this.inputElement.innerHTML = '<input type="text" name="user_input" id="user_input"> ' +
+            '<input type="submit" value="Submit" onclick="craps.run()">';
+        this.displayElement.innerText = '';
+    };
+    ////////
+    Casino.prototype.run = function () {
+        if (this.havePlayer) {
+            this.displayElement.innerHTML = '';
+            updateDisplay("Hello, " + user.name + ". Welcome to the casino. You have $" + user.Wallet.getMoney().toFixed(2) + ". Choose a game below.");
+            this.inputElement.innerHTML = '<input type="button" value="Craps" id="craps_button" onclick="casino.craps.run()"></br>' +
+                '<input type="button" value="BlackJack" id="blackjack_button" onclick="casino.notImplemented()"></br>' +
+                '<input type="button" value="GoFish" id="gofish_button" onclick="casino.notImplemented()"></br>';
+        }
+        else {
+            this.initialize();
+        }
+    };
+    Casino.prototype.createPlayer = function () {
+        var nameAlias = document.getElementById("name_input");
+        var cashAlias = document.getElementById("wallet_input");
+        this.displayElement.innerText = '';
+        this.nameInput = nameAlias.value;
+        this.cashInput = +(cashAlias.value);
+        user = new User(this.nameInput, this.cashInput);
+        this.havePlayer = true;
+        this.craps = new CrapsConsole(user);
+        this.run();
+    };
+    Casino.prototype.notImplemented = function () {
+        updateDisplay("Sorry, that feature is not yet implemented");
+    };
+    return Casino;
+}());
+///<reference path="User.ts"/>
+///<reference path="Casino.ts"/>
+var casino = new Casino;
+var user;
+function updateDisplay(stringToDisplay) {
+    document.getElementById("display").innerHTML += "</br>" + stringToDisplay;
+}
+var PlayingSuit;
+(function (PlayingSuit) {
+    PlayingSuit["HEART"] = "\u2661";
+    PlayingSuit["DIAMOND"] = "\u2662";
+    PlayingSuit["CLUB"] = "\u2667";
+    PlayingSuit["SPADE"] = "\u2664";
+})(PlayingSuit || (PlayingSuit = {}));
+var symbol = PlayingSuit.valueOf().toString();
+function toString() {
+    return this.symbol;
+}
+var PlayingValue;
+(function (PlayingValue) {
+    PlayingValue["TWO"] = "2";
+    PlayingValue["THREE"] = "3";
+    PlayingValue["FOUR"] = "4";
+    PlayingValue["FIVE"] = "5";
+    PlayingValue["SIX"] = "6";
+    PlayingValue["SEVEN"] = "7";
+    PlayingValue["EIGHT"] = "8";
+    PlayingValue["NINE"] = "9";
+    PlayingValue["TEN"] = "10";
+    PlayingValue["JACK"] = "J";
+    PlayingValue["QUEEN"] = "Q";
+    PlayingValue["KING"] = "K";
+    PlayingValue["ACE"] = "A";
+})(PlayingValue || (PlayingValue = {}));
+var value = PlayingValue.valueOf().toString();
+function getValue() {
+    return this.value;
+}
+function toString() {
+    return this.value;
+}
+///<reference path="PlayingSuit.ts" />
+///<reference path="PlayingValue.ts" />
+// import { PlayingSuit } from "./PlayingSuit";
+// import { PlayingValue } from "./PlayingValue";
+var PlayingCard = (function () {
+    function PlayingCard(suit, value) {
+        this.suit = suit;
+        this.value = value;
+    }
+    PlayingCard.prototype.toString = function () {
+        return "" + this.value + this.suit;
+    };
+    PlayingCard.prototype.getSuit = function () {
+        return this.suit;
+    };
+    PlayingCard.prototype.getValue = function () {
+        return this.value;
+    };
+    return PlayingCard;
+}());
+///<reference path="PlayingCard.ts"/>
+///<reference path="enumValues.d.ts"/>
+///<reference path="PlayingValue.ts"/>
+///<reference path="PlayingSuit.ts"/>
+System.register("PlayingDeck", ["./enumValues"], function (exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
+    var enumValues_1, PlayingDeck;
+    return {
+        setters: [
+            function (enumValues_1_1) {
+                enumValues_1 = enumValues_1_1;
+            }
+        ],
+        execute: function () {///<reference path="PlayingCard.ts"/>
+            ///<reference path="enumValues.d.ts"/>
+            ///<reference path="PlayingValue.ts"/>
+            ///<reference path="PlayingSuit.ts"/>
+            PlayingDeck = (function () {
+                function PlayingDeck() {
+                    this.populate();
+                }
+                PlayingDeck.prototype.getRandom = function (floor, ceiling) {
+                    return Math.floor(Math.random() * (ceiling - floor + 1)) + floor;
+                };
+                PlayingDeck.prototype.shuffle = function () {
+                    if (this.cards.length <= 1) {
+                        return this.cards;
+                    }
+                    for (var i = 0; i < this.cards.length; i++) {
+                        var randomChoiceIndex = this.getRandom(i, this.cards.length - 1);
+                        _a = [this.cards[randomChoiceIndex], this.cards[i]], this.cards[i] = _a[0], this.cards[randomChoiceIndex] = _a[1];
+                    }
+                    return this.cards;
+                    var _a;
+                };
+                PlayingDeck.prototype.getAllCards = function () {
+                    return this.cards;
+                };
+                PlayingDeck.prototype.countLeft = function () {
+                    return this.cards.length;
+                };
+                PlayingDeck.prototype.getAndRemoveCard = function () {
+                    if (this.cards.length == 0) {
+                        this.populate();
+                        this.shuffle();
+                    }
+                    return this.cards.shift();
+                };
+                PlayingDeck.prototype.populate = function () {
+                    this.cards = new Array();
+                    var suits = enumValues_1.EnumValues.getValues(PlayingSuit);
+                    var values = enumValues_1.EnumValues.getValues(PlayingValue);
+                    for (var i = 0; i < suits.length; i++) {
+                        for (var j = 0; j < values.length; i++) {
+                            this.cards.push(new PlayingCard(suits[i].valueOf(), values[j].valueOf()));
+                        }
+                    }
+                };
+                return PlayingDeck;
+            }());
+        }
+    };
+});
+///<reference path="PlayingDeck.ts"/>
+// import {PlayingDeck} from "./PlayingDeck";
+var CardGame = (function () {
+    function CardGame() {
+    }
+    return CardGame;
+}());
 ///<reference path="PlayingDeck.ts"/>
 ///<reference path="User.ts"/>
 ///<reference path="PlayingValue.ts"/>
@@ -1021,59 +1077,4 @@ var Hand = (function () {
     };
     return Hand;
 }());
-/// <reference path="User.ts"/>
-/// <reference path="Craps.ts"/>
-var Casino = (function () {
-    function Casino() {
-        this.havePlayer = false;
-    }
-    Casino.prototype.initialize = function () {
-        this.displayElement = document.getElementById("display");
-        updateDisplay("Create a player using the fields below");
-        this.inputElement = document.getElementById("input");
-        this.inputElement.innerHTML = '<label>Name:</label><input type="text" name="name_input" id="name_input"></br>' +
-            '<label>Cash:</label><input type="number" name="wallet_input" id="wallet_input"></br>' +
-            '<input type="submit" value="Create Player" id="submit" onclick="casino.createPlayer()">';
-    };
-    Casino.prototype.finalize = function () {
-        this.inputElement.innerHTML = '<input type="text" name="user_input" id="user_input"> ' +
-            '<input type="submit" value="Submit" onclick="craps.run()">';
-        this.displayElement.innerText = '';
-    };
-    ////////
-    Casino.prototype.run = function () {
-        if (this.havePlayer) {
-            this.displayElement.innerHTML = '';
-            updateDisplay("Hello, " + user.name + ". Welcome to the casino. You have $" + user.Wallet.getMoney().toFixed(2) + ". Choose a game below.");
-            this.inputElement.innerHTML = '<input type="button" value="Craps" id="craps_button" onclick="casino.craps.run()"></br>' +
-                '<input type="button" value="BlackJack" id="blackjack_button" onclick="casino.notImplemented()"></br>' +
-                '<input type="button" value="GoFish" id="gofish_button" onclick="casino.notImplemented()"></br>';
-        }
-        else {
-            this.initialize();
-        }
-    };
-    Casino.prototype.createPlayer = function () {
-        var nameAlias = document.getElementById("name_input");
-        var cashAlias = document.getElementById("wallet_input");
-        this.displayElement.innerText = '';
-        this.nameInput = nameAlias.value;
-        this.cashInput = +(cashAlias.value);
-        user = new User(this.nameInput, this.cashInput);
-        this.havePlayer = true;
-        this.craps = new CrapsConsole(user);
-        this.run();
-    };
-    Casino.prototype.notImplemented = function () {
-        updateDisplay("Sorry, that feature is not yet implemented");
-    };
-    return Casino;
-}());
-///<reference path="Casino.ts"/>
-///<reference path="User.ts"/>
-var casino = new Casino();
-var user;
-function updateDisplay(stringToDisplay) {
-    document.getElementById("display").innerHTML += "</br>" + stringToDisplay;
-}
 //# sourceMappingURL=app.js.map

@@ -1,5 +1,6 @@
 /// <reference path="User.ts"/>
 /// <reference path="Craps.ts"/>
+/// <reference path="CrapsConsole.ts"/>
 
 class Casino{
 
