@@ -21,8 +21,41 @@
     <section id="main">
     	<div id="display"></div>
 			<div id="input">
-				<input type="text" name="user_input" id="user_input">
-				<input type="submit" value="submit">
+                <div style = "display: none" id = "userInputGroup">
+                    <label id="nameOfLabel">User Input:</label>
+                    <br/>
+                    <input id="user_input">
+                </div>
+
+                <div style = "display: inline" id="newUserForm">
+                    <form>
+                        <label>Enter your name: </label>
+                        <br>
+                        <input id = "playerName"/>
+                        <br>
+                        <label>Enter an amount of money: </label>
+                        <br>
+                        <input id = "playerMoney"/>
+                        <br>
+                    </form>
+                </div>
+                <div style = "display: inline" id="generalSubmitButton">
+                    <button id="primaryButton" onclick="casino.createPlayer()" type="submit" value="submit" class = "btn btn-primary"> Submit </button>
+                </div>
+
+                <div style = "display: none" id="gameSelectionButtons">
+                    <button id="blackJack" type="submit" value="Play BlackJack!" class = "btn btn-danger"> Play BlackJack! </button>
+                    <button id="crapsGame" onclick="craps.play()" type="submit" value="Play Craps!" class = "btn btn-success"> Play Craps! </button>
+                    <button id="goFish" type="submit" value="Play Go Fish!" class = "btn btn-primary"> Play Go Fish! </button>
+                </div>
+
+                <div id="currentUserInfo">
+                    <ul>
+                        <li id="playersName"></li>
+                        <li id="playersMoney"></li>
+                    </ul>
+                </div>
+
 			</div>
     </section>
 
