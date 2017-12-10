@@ -1,11 +1,13 @@
 ///<reference path="PlayingCard.ts"/>
 ///<reference path="enumValues.d.ts"/>
+///<reference path="PlayingValue.ts"/>
+///<reference path="PlayingSuit.ts"/>
 
 // import { PlayingSuit } from "./PlayingSuit";
 // import { PlayingValue } from "./PlayingValue";
 // import { PlayingCard } from "./PlayingCard";
 
-import {EnumValues} from "./enumValues";
+ import {EnumValues} from "./enumValues";
 
 class PlayingDeck {
 
