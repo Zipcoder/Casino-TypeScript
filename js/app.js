@@ -48,6 +48,9 @@ class Player {
     set Wallet(wallet) {
         this.wallet = wallet;
     }
+    addToWallet(amount) {
+        this.wallet += amount;
+    }
     get Score() {
         return this.score;
     }
@@ -271,6 +274,7 @@ class BlackJack extends CardGame {
 /// <reference path="BlackJack.ts" />
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardPlayer.ts" />
+/// <reference path="Player.ts" />
 class BlackJackConsole {
     constructor(player) {
         // this.displayPlayerScore = document.getElementById("display player score");
@@ -278,6 +282,7 @@ class BlackJackConsole {
         this.stayButtonInputEle = document.getElementById("stay");
         this.playButtonInputEle = document.getElementById("play again");
         this.player = new BlackJackPlayer(player);
+        this.wallet = 1000;
     }
     init() {
         this.game = new BlackJack(this.player);
@@ -297,6 +302,12 @@ class BlackJackConsole {
             "<br>The dealer is showing " + dealerShowing + " hit or stay?<br>");
         this.player.displayPlayerHandImages("player-cards");
         this.dealer.displayPlayerHandImageByIndex(0, "dealer-cards");
+    }
+    bet() {
+        changeDisplay("Your current balance is " + this.player.Wallet);
+        //need to ask how much they want to bet
+        //need to call takeBet here
+        //need to update wallet (subtract if player loses bet and add amount to wallet if player wins) 
     }
     hit() {
         this.game.hitPlayer(this.player);
@@ -489,6 +500,7 @@ function displayLoserImage() {
 //         } while (!playAgain.equals("no"));
 //     }
 // } 
+/// <reference path="Player.ts" />
 // /// <reference path="CardGame.ts" />
 // /// <reference path="CardPlayer.ts" />
 // /// <reference path="Deck.ts" />

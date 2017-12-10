@@ -22,6 +22,10 @@ class Player{
         this.wallet = wallet;
     }
 
+    addToWallet(amount: number): void {
+        this.wallet += amount;
+    }
+
     get Score(): number{
         return this.score;
     }
