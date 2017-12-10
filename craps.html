@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Bootstrap minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link href="./css/style.css" type="text/css" rel="stylesheet">
+    <title>TypeScript Casino | Zipcode Wilmington</title>
+</head>
+<body>
+    <header class="main-header group">
+        <div class="title"></div>
+        <div class="lesson-link"><img src="./images/logos/js_logo.png" alt="Javascript"/></div>
+        <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
+    </header>
+
+    <h1>WELCOME TO CRAPS GAME</h1>
+
+    <section id="mainCraps">
+        
+            <div id="displayDiv">
+                <label for="hDie1">Dice 1&nbsp;&rsaquo;&nbsp;</label><span id="hDie1">
+                    <img src="./images/dice/blank.png" align="middle" /></span>
+                    <label for="hDie2" style="margin-left:70px;">Dice 2&nbsp;&rsaquo;&nbsp;</label>
+                    <span id="hDie2"><img src="./images/dice/blank.png" align="middle" /></span>
+            </div>
+        <div id="displayCraps">
+        </div>
+			<div id="inputCraps">
+                        Enter your amount:<br>
+                        <input type="text" name="betAmount" id="betAmount" placeholder="$">
+                        <!-- <input type="submit" value="Play" onclick="craps.play()"> -->
+                        <button id="playnowbutton" class="big-button" type="button" onClick="craps.play()">Play Now!</button>
+                
+                <!-- <input type="submit" id="roll" value="Roll" onclick="craps.roll()"> -->
+                <button id="roll" class="big-button" type="button" onClick="craps.roll()">1st Roll</button>
+                <button id="rollTwo" class="big-button" type="button" onClick="craps.checkRollTwo()">Roll Again</button>
+                <!-- <input type="submit" id="rollTwo" value="RollTwo" onclick="craps.checkRollTwo()"> -->
+			</div>
+    </section>
+
+ 	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
