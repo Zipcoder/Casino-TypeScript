@@ -4,11 +4,11 @@
 /// <reference path="CardPlayer.ts" />
 /// <reference path="Deck.ts" />
 
-class BlackJack extends CardGame {
+class BlackJack extends CardGame implements Gamble{
     private dealer: BlackJackPlayer;
     private player: BlackJackPlayer;
     deck: Deck;
-    private pot: number;
+    pot: number;
 
     constructor(player: Player) {
         super();
@@ -26,6 +26,7 @@ class BlackJack extends CardGame {
     public takeBet(bet: number): void {
         this.pot += bet;
     }
+
     public getDealer(): BlackJackPlayer{
         return this.dealer;
     }
@@ -119,7 +120,6 @@ class BlackJack extends CardGame {
         }
         return output;
     }
-
 }
 
 

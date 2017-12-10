@@ -1,6 +1,7 @@
 /// <reference path="BlackJack.ts" />
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardPlayer.ts" />
+/// <reference path="Player.ts" />
 
 
 class BlackJackConsole {
@@ -14,6 +15,7 @@ class BlackJackConsole {
     player: BlackJackPlayer;
     dealer: BlackJackPlayer;
     playerScore: number;
+    wallet: number;
 
     constructor(player: Player) {
         this.displayPlayerScore = document.getElementById("display player score");
@@ -22,6 +24,7 @@ class BlackJackConsole {
         this.playButtonInputEle = document.getElementById("play again");
 
         this.player = new BlackJackPlayer(player);
+        this.wallet = 1000;
 
     }
 
@@ -45,6 +48,13 @@ class BlackJackConsole {
         this.playerScore = this.game.calculatePlayerScore(this.player);
         changeDisplay("Your were dealt a hand of " +this.player.displayPlayerHand() +" worth "+  this.playerScore.toString()+ 
                     "<br>The dealer is showing " + dealerShowing +" hit or stay?<br>");
+    }
+
+    public bet() {
+        changeDisplay("Your current balance is " + this.player.Wallet);
+        //need to ask how much they want to bet
+        //need to call takeBet here
+        //need to update wallet (subtract if player loses bet and add amount to wallet if player wins) 
     }
 
     public hit() {
