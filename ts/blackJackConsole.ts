@@ -6,6 +6,7 @@ let blackJackGame = new BlackJack();
 class BlackJackConsole{
 
     printPlay() {
+        Display.clearInnerHTMLDisplay();
         Display.print("Your are now at the Black Jack Table." +
             "<br/>What is your name?")
         document.getElementById("button").setAttribute("onclick", "blackJack.getUserName()");
@@ -49,8 +50,39 @@ class BlackJackConsole{
         Display.hideHitStayButtons();
         if(blackJackGame.playerWins() === true){
             Display.print(blackJackGame.blackJackPlayer.getName() + " you win. You now have " + blackJackGame.blackJackPlayer.getMoney() + " dollars.")
+            Display.print("Would you like to play again?")
         } else{
-            Display.print("House wins.")
+            Display.print("House wins. You now have " + blackJackGame.blackJackPlayer.getMoney() + " dollars.")
+            Display.print("Would you like to play again?")            
         }
+        Display.showPlayAgainBJ();
+    }
+
+    stayOrLeave(){
+        Display.clearInnerHTMLDisplay();        
+        switch(UserInput.leaveBJ.value){
+            case"1":
+                Display.print("What would you like to do now?<br/>Please choose from below.")
+                Display.showCardGameMenu();
+                Display.hidePlayAgainBJ();
+                break;
+            case"2":
+                Display.print(blackJackGame.blackJackPlayer.getName() + " you have " + blackJackGame.blackJackPlayer.getMoney() + " dollars.")
+                Display.print("How much would you like to bet?")
+                Display.showUserInputButtonAndTextBox();
+                document.getElementById("button").setAttribute("onclick", "blackJack.getUserBet()")
+                Display.hidePlayAgainBJ();
+                this.resetGame();                
+                break;
+        }
+        UserInput.clearLeaveBJ();
+    }
+
+    resetGame(){
+        blackJackGame.blackJackDeck.removeAllCards();
+        blackJackGame.blackJackDeck.populate();
+        blackJackGame.blackJackDeck.shuffle();
+        blackJackGame.blackJackPlayer.removeAllCards();
+        blackJackGame.dealer.removeAllCards();
     }
 }

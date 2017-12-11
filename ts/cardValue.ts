@@ -51,4 +51,8 @@ class CardValue {
     public static getAllValues(): CardValue[] {
         return CardValue.values;
     }
+
+    public static changeAceValue(){
+        this.ACE.value = 1;
+    }
 }

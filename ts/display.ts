@@ -9,6 +9,8 @@ class Display {
     }
 
 
+
+
     static setCurrentStep(step: String) {
         this.currentStep = step;
     }
@@ -116,6 +118,16 @@ class Display {
         document.getElementById("hit").style.display = "none";
         document.getElementById("stay").style.display = "none";
     }
+
+
+    static showPlayAgainBJ(){
+        document.getElementById("leaveBJ").style.display = "";
+    }
+
+    static hidePlayAgainBJ(){
+        document.getElementById("leaveBJ").style.display = "none";
+    }
+
 
     static clearInnerHTMLDisplay(){
             document.getElementById("display").innerHTML = "";

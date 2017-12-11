@@ -8,6 +8,11 @@ class UserInput{
     static chooseDrink: any = document.getElementById("drinks");
     static hitOrStay: any = document.getElementById("hit");
     static stay: any = document.getElementById("stay");
+    static leaveBJ: any = document.getElementById("leaveBJ");
+
+    static clearLeaveBJ(){
+        this.leaveBJ.value = "";
+    }
 
     static clearStay(){
         this.stay.value = "";
