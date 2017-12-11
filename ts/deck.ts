@@ -14,7 +14,7 @@ class Deck {
         console.log(this.getDeckSize() + " " + this.cards.pop().toString());
     }
 
-    private populate() {
+    public populate() {
         for (let suit of Suit.getAllSymbols()) {
             for(let card of CardValue.getAllValues()) {
                 this.cards.push(new Card(suit, card));

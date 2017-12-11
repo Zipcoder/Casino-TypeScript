@@ -17,12 +17,12 @@
     </header>
 
     <h1 style="color: deeppink; font-size: medium">
-        <!--these dont work properly-->
+            <!--these dont work properly-->
         <div id="money" onclick="">Money: </div>
-            <script></script>
-        <div id="rollCount">Target Roll: </div>
-    </h1>
-        <!--these dont work properly-->
+        <script></script>
+    <div id="rollCount">Target Roll: </div>
+</h1>
+    <!--these dont work properly-->
 
     <section id="main">
         <div id="display">
@@ -76,7 +76,12 @@
                 </select>
                 <button id="rollButton" onclick="" style="display:none" class="btn btn-primary"> Roll </button>
                 <button id="hit" onclick="blackJack.hitOrStay()" value="yes" style="display:none" class="btn btn-primary">Hit</button>
-                <button id="stay" onclick="blackJack.checkScores()" value="yes" style="display:none" class="btn btn-primary">Stay</button>                
+                <button id="stay" onclick="blackJack.checkScores()" value="yes" style="display:none" class="btn btn-primary">Stay</button>
+                <select id="leaveBJ" onchange="blackJack.stayOrLeave()" style="display:none">
+                    <option value="0">Choose from below</option>
+                    <option value="1">Leave BlackJack Table</option>
+                    <option value="2">Play Again</option>
+                </select>
 			</div>
     </section>
 

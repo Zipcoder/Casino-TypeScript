@@ -61,6 +61,9 @@ class BlackJack implements Gamble{
     }
 
     hit(){
+        if(this.blackJackPlayer.getHandTotal() > 21 && CardValue.ACE.getValue() in this.blackJackPlayer.getHand){
+            CardValue.changeAceValue();
+        }
         this.blackJackPlayer.hand.push(this.blackJackDeck.cards.pop());
     }
 

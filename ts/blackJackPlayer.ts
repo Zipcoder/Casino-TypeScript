@@ -11,6 +11,10 @@ class BlackJackPlayer extends Player{
         this.setName("BlackJack PLayer");
     }
 
+    public removeAllCards(){
+        this.hand.length = 0;
+    }
+
     public hitStay(answer: String){
         if(answer.toLowerCase() == "yes"){
             return true;
