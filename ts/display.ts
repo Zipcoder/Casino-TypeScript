@@ -28,4 +28,8 @@ class Display{
     static showRollButton(){
         document.getElementById("rollButton").style.display = "";
     }
+
+    static clearInnerHTMLDisplay(){
+        document.getElementById("display").innerHTML = "";
+    }
 }
