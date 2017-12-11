@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPlayer"], function (require, exports, Utilities_1, Console_1, Craps_1, CrapsPlayer_1) {
+define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPlayer", "./Casino"], function (require, exports, Utilities_1, Console_1, Craps_1, CrapsPlayer_1, Casino_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var CrapsConsole = (function (_super) {
@@ -41,6 +41,9 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
                 case 6:
                     this.playAgain();
                     break;
+                default:
+                    var casino = new Casino_1.Casino();
+                    casino.startCasino();
             }
         };
         CrapsConsole.prototype.getPlayerName = function () {
@@ -50,6 +53,7 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
             Utilities_1.Utilities.buttonEle.addEventListener("click", function getName() {
                 var name = Utilities_1.Utilities.userInputEle.value;
                 Utilities_1.Utilities.userInputEle.value = "";
+                Utilities_1.Utilities.clearDisplay();
                 Utilities_1.Utilities.printLine("Welcome, " + name);
                 var players = [];
                 players.push(new CrapsPlayer_1.CrapsPlayer(name));
@@ -71,11 +75,11 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
                 var amount = parseInt(Utilities_1.Utilities.userInputEle.value);
                 Utilities_1.Utilities.userInputEle.value = "";
                 console.log(amount);
-                if (amount > amountAvailableToBet) {
-                    console.log("too much");
-                    Utilities_1.Utilities.printLine("Sorry you do not have that much money to bet.");
+                if (amount > amountAvailableToBet || isNaN(amount)) {
+                    Utilities_1.Utilities.printLine("Invalid amount. How much would you like to bet?");
                 }
                 else {
+                    Utilities_1.Utilities.clearDisplay();
                     Utilities_1.Utilities.printLine("You bet $" + amount);
                     _this.game.takeBet(_this.currentPlayer, amount);
                     _this.i++;
@@ -94,7 +98,7 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
                     Utilities_1.Utilities.printLine("Try again");
                 }
                 else {
-                    if (input === "PASS") {
+                    if (input.match(/^(Pass\b|P\b)/gi) != null) {
                         Utilities_1.Utilities.printLine("You bet on Pass");
                         _this.game.putPlayerOnPass(_this.currentPlayer);
                     }
@@ -201,19 +205,21 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
             this.payOutBets();
             this.continueRolling = true;
             if (this.currentPlayer.getMoney() <= 0) {
-                Utilities_1.Utilities.printLine("Sorry, you are out of money.");
+                Utilities_1.Utilities.printLine("Sorry, you are out of money, returning to the lobby...");
+                var casino = new Casino_1.Casino();
+                casino.startCasino();
             }
             else {
                 Utilities_1.Utilities.printLine("Play again? Y or N");
                 var _this = this;
                 Utilities_1.Utilities.buttonEle.addEventListener("click", function playAgain() {
-                    var input = Utilities_1.Utilities.userInputEle.value.toUpperCase();
+                    var input = Utilities_1.Utilities.userInputEle.value;
                     Utilities_1.Utilities.userInputEle.value = "";
-                    if (input != "Y" && input != "N") {
-                        Utilities_1.Utilities.printLine("Try again");
+                    if (input.match(/^(Yes\b|Y\b|N\b|No\b)/gi) == null) {
+                        Utilities_1.Utilities.printLine("Invalid Selction");
                     }
                     else {
-                        if (input === "Y") {
+                        if (input.match(/^(Yes\b|Y\b)/gi) != null) {
                             Utilities_1.Utilities.clearDisplay();
                             var amountAvailableToBet = _this.currentPlayer.getMoney();
                             Utilities_1.Utilities.printLine("You have $" + amountAvailableToBet);
@@ -223,7 +229,11 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
                             _this.start();
                         }
                         else {
+                            Utilities_1.Utilities.clearDisplay();
+                            Utilities_1.Utilities.printLine("Returning to lobby...");
+                            var casino = new Casino_1.Casino();
                             this.removeEventListener("click", playAgain);
+                            casino.startCasino();
                         }
                     }
                 });

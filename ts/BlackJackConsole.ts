@@ -39,16 +39,19 @@ export class BlackJackConsole extends Console {
         this.game.putCardsInDiscardPile();
         this.askContinueOrCashOut();
         break;
-      default: Utilities.printLine("Fell out" + this.currentPlayer.getHand().toString())
+      default: Utilities.printLine("Error, returning to lobby.");
+        let casino = new Casino();
+        casino.startCasino();
+
     }
   }
 
   public inputNumPlayers() {
     Utilities.printMenuName("Welcome to " + this.getNameOfGame());
     Utilities.printLine("Enter the number of Players (1 to 7)");
-    var _this = this;
+    let _this = this;
     Utilities.buttonEle.addEventListener("click", function getName() {
-      var length: number = parseInt(Utilities.userInputEle.value);
+      let length: number = parseInt(Utilities.userInputEle.value);
       Utilities.userInputEle.value = "";
       if (isNaN(length) || length > _this.game.MAX_NUMBER_OF_PLAYERS)
         Utilities.printLine("Invalid selection")
@@ -57,17 +60,17 @@ export class BlackJackConsole extends Console {
         length > 0 ? _this.game.setNumPlayers(length) : _this.game.setNumPlayers(length + 1);
         _this.i++;
         Utilities.printLine("Enter the name of Player 1");
-        _this.start();
         this.removeEventListener("click", getName);
+        _this.start();
       }
     });
   }
 
   public getPlayerName() {
     let count = 1;
-    var _this = this;
+    let _this = this;
     Utilities.buttonEle.addEventListener("click", function getName() {
-      var name: string = Utilities.userInputEle.value;
+      let name: string = Utilities.userInputEle.value;
       if (count < _this.game.getNumPlayers()) {
         Utilities.clearDisplay();
         count++
@@ -89,11 +92,11 @@ export class BlackJackConsole extends Console {
 
         _this.i++;
         _this.currentPlayer = _this.game.getPlayers()[0];
-        var amountAvailableToBet = _this.currentPlayer.getMoney();
+        let amountAvailableToBet = _this.currentPlayer.getMoney();
         Utilities.printLine(_this.currentPlayer.getName() + ", you have $" + amountAvailableToBet);
         Utilities.printLine("How much would you like to bet?");
-        _this.start();
         this.removeEventListener("click", getName);
+        _this.start();
       }
     });
   }
@@ -102,8 +105,8 @@ export class BlackJackConsole extends Console {
     let playerIndex = 1;
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function getBet() {
-      var amountAvailableToBet = _this.currentPlayer.getMoney();
-      var amount: number = parseInt(Utilities.userInputEle.value);
+      let amountAvailableToBet = _this.currentPlayer.getMoney();
+      let amount: number = parseInt(Utilities.userInputEle.value);
       Utilities.userInputEle.value = "";
       if (amount > amountAvailableToBet || isNaN(amount)) {
         Utilities.printLine("Invalid Amount, Enter a new bet");
@@ -121,8 +124,8 @@ export class BlackJackConsole extends Console {
         else {
           Utilities.printLine("Dealing...");
           _this.i++;
-          _this.start();
           this.removeEventListener("click", getBet);
+          _this.start();
         }
       }
     });
@@ -140,12 +143,12 @@ export class BlackJackConsole extends Console {
 
   public hitOrStand() {
     let playerIndex = 1;
-    var _this = this;
+    let _this = this;
     Utilities.buttonEle.addEventListener("click", function hitOrStand() {
 
-      var choice = Utilities.userInputEle.value.toUpperCase();
+      var choice = Utilities.userInputEle.value;
       Utilities.userInputEle.value = "";
-      if (choice == "HIT") {
+      if (choice.match(/^(Hit\b|H\b)/gi)!=null) {
         Utilities.printLine("Hit");
         _this.game.dealCardToHand(_this.currentPlayer);
         Utilities.printLine(_this.currentPlayer.getHand().toString())
@@ -155,26 +158,22 @@ export class BlackJackConsole extends Console {
           playerIndex++;
           _this.displayAllHands();
           Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
-          // _this.start();
-          // this.removeEventListener("click", hitOrStand);
         }
         else if (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21) {
           _this.displayOverTwenty();
           _this.i++;
           _this.currentPlayer = _this.game.getPlayer(0);
           Utilities.clearDisplay();
-          _this.start();
           this.removeEventListener("click", hitOrStand);
+          _this.start();
         }
         else {
           Utilities.clearDisplay();
           _this.displayAllHands();
           Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
-          // _this.start();
-          // this.removeEventListener("click", hitOrStand);
         }
       }
-      else if (choice == "STAND") {
+      else if (choice.match(/^(Stand\b|s\b|Stay\b)/gi)!=null) {
         Utilities.printLine("Stand");
 
         if (playerIndex < _this.game.getNumPlayers()) {
@@ -188,8 +187,8 @@ export class BlackJackConsole extends Console {
         else {
           _this.i++;
           _this.currentPlayer = _this.game.getPlayer(0);
-          _this.start();
           this.removeEventListener("click", hitOrStand);
+          _this.start();
         }
       }
       else {
@@ -254,36 +253,33 @@ export class BlackJackConsole extends Console {
   public askContinueOrCashOut() {
     Utilities.printLine(this.game.printPlayersMoney());
     Utilities.printLine(this.currentPlayer.getName() + ", Cash Out? Y or N");
-    var _this = this;
+    let _this = this;
     Utilities.buttonEle.addEventListener("click", function cashOrContinue() {
       let cashOut: string = Utilities.userInputEle.value;
       Utilities.userInputEle.value = "";
-
-
-      if (cashOut.toUpperCase() == "Y") {
+      if (cashOut.match(/^(Yes\b|Y\b)/gi)!=null) {
         Utilities.printLine("Returning to the Lobby;");
         _this.currentPlayer.cashOut();
 
         let casino = new Casino();
         Utilities.clearDisplay();
-        casino.startCasino();
         this.removeEventListener("click", cashOrContinue);
+        casino.startCasino();
       }
-      else if (cashOut.toUpperCase() == "N") {
+      else if (cashOut.match(/^(No\b|N\b)/gi)!=null) {
         Utilities.clearDisplay();
         if (_this.currentPlayer.getMoney() == 0) {
           Utilities.clearDisplay();
           let casino = new Casino();
           Utilities.printLine("You have no more money, returning to lobby...");
-          casino.startCasino();
           this.removeEventListener("click", cashOrContinue);
-          //_this.currentPlayer = _this.game.getPlayer(0);
+          casino.startCasino();
         }
         else {
           Utilities.printLine(_this.currentPlayer.getName() + ", how much would you like to bet?");
           _this.i = 3;
-          _this.start();
           this.removeEventListener("click", cashOrContinue);
+          _this.start();
         }
       }
       else {
