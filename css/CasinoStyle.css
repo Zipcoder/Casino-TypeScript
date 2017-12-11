@@ -1,0 +1,397 @@
+/* ZipcodeWilmington 2015 */
+
+/* ===================================== FONTS ========================================= */
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans:400,700);
+
+
+/* ===================================== GLOBAL STYLE ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 14px/1.4 arial, sans-serif;
+    background-color: #F5F5F5;
+    /* background-image: url("../images/backgrounds/casinoEntrance.jpg"); */
+    background-size: 70%, 10%;
+}
+
+article, aside, figure, footer, header, nav, section { display: block; }
+a:link, a:visited {
+    text-decoration: none;
+
+    color: inherit;
+}
+
+a:hover, a:active {
+    text-decoration: none;
+
+    color: inherit;
+}
+
+.group:before,
+.group:after {
+    content:"";
+    display:table;
+}
+.group:after {
+    clear:both;
+}
+.group {
+    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+}
+
+#main:focus {
+    outline: none;
+}
+
+
+/* ===================================== HEADER STYLE ========================================= */
+
+.main-header {
+    width: 100%;
+    height: 79px;
+
+    background-color: #144e64;}
+
+.header {
+    background-color: #DEB887;
+    width: 100%;
+    height: 90px;
+
+}
+
+.header .title {
+    font-size: 3em;
+    font-family: cursive;
+    font-weight: bold;
+    padding-left: 35%;
+    padding-right: 35%;
+    padding-top: 1%;
+}
+
+.main-header .title {
+    float: left;
+    text-transform: uppercase;
+
+    font-family: 'Droid Sans', sans-serif;
+    font-weight: 400;
+    font-size: 1em;
+
+    width: 55%;
+
+    padding-left: 5%;
+
+    color: #fff;
+
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.main-header .zip-link {
+    float: right;
+
+    width: 16%;
+    height: 100%;
+
+    background-color: white;
+}
+
+.main-header .lesson-link {
+    float: right;
+
+    width: 16%;
+    height: 100%;
+
+    background-color: #3c790a;
+}
+
+.main-header div {
+    /* fix blurriness of children due to them
+       being placed on half pixels */
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.main-header div img {
+    display: block;
+
+    margin: auto;
+
+    width: 55%;
+
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* page styles */
+article {margin: 5%;}
+article p { margin-bottom: 20px;}
+section {margin:10px;}
+h1 {font-weight: bold; margin-left: 10px;}
+
+#casinoBody {
+    background-image: url("../images/backgrounds/casinoEntrance.jpg");
+}
+
+#blackJackBody {
+    background-image: url("../images/backgrounds/blackJack.jpg");
+    background-size: 90%;
+    background-position-x: right
+}
+
+#goFishBody {
+    background-image: url("../images/backgrounds/gofish.jpg");
+    background-size: 90%;
+    background-position-x: right
+}
+
+#crapsBody {
+    background-image: url("../images/backgrounds/streetcraps.jpg");
+    background-size: 90%;
+    background-position-x: right
+}
+
+#goFishWelcomeContainer {
+    margin-left: 380px;
+    margin-top: 150px;
+}
+
+#submitGoFish{
+    margin-top: 15px;
+}
+
+#user_inputGoFish{
+    margin-top: 15px;
+}
+
+#goFishConsole {
+
+    height: 230px;
+    width: 450px;
+    background: white;
+    font-size: 20px;
+}
+
+#buttonsArea {
+    margin-top: 50px;
+    margin-left: 40px;
+    height: 450px;
+    width:  850px;
+    float: left;
+}
+
+#main {
+    float: right;
+}
+#display {
+    border: 1px #aaa solid;
+    padding:10px;
+    min-height:300px;
+    background:#eee;
+	margin-bottom:10px;
+}
+#displayCasino {
+    float: right;
+    border: 1px #aaa solid;
+    padding:10px;
+    min-height:400px;
+    min-width: 350px;
+    background:#eee;
+	margin-bottom:10px;
+}
+
+#blackJackBody {
+    background-image: url("../images/backgrounds/blackJack.jpg");
+    background-size: 90%;
+    background-position-x: right
+    color: #FFFFFF;
+}
+
+#betDisplay {
+    border: 0px #aaa solid;
+    padding:10px;
+    min-height:20px;
+    background: rgba(0, 0, 0, 0);
+	margin-bottom:10px;
+    color: #FFFFFF;
+}
+#display {
+    border: 0px #aaa solid;
+    padding:10px;
+    min-height:200px;
+    background: rgba(0, 0, 0, 0);
+	margin-bottom:10px;
+    color: #FFFFFF;
+}
+#player {
+    border: 0px #aaa solid;
+    padding:10px;
+    min-height:200px;
+    background: rgba(0, 0, 0, 0);
+	margin-bottom:10px;
+    color: #FFFFFF;
+}
+#menu {
+    float: left;
+    width: 100px;
+    margin: 0 0 0 10px;
+}
+
+#betAmountBox{
+    width: 110px;
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#balanceOut{
+    background: rgba(0, 0, 0, 0);
+    border: 0px;
+}
+
+#betOut{
+    background: rgba(0, 0, 0, 0);
+    border: 0px;
+}
+
+#displayCraps{
+    color: #FFFFFF;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* #displayEntrance {
+    float: right;
+    border: 1px #aaa solid;
+    padding:10px;
+    min-height:500px;
+    min-width: 350px;
+    background:#eee;
+	margin-bottom:10px;
+} */
+#bjButton {
+    background-image: url("../images/random/blackjack.jpg");
+    background-size: 100%;
+    height: 400px;
+    width: 250px;
+    border: 6px solid red;
+    float: left;
+
+}
+
+#crapsButton {
+    background-image: url("../images/random/craps.jpg") ;
+    background-size: 100%;
+    height: 400px;
+    width: 250px;
+    float: left;
+    margin-left: 30px;
+    border: 6px solid green;
+}
+
+#goFishButton {
+    background-image: url("../images/random/gofish.jpg");
+    background-size: 120%;
+    height: 400px;
+    width: 250px;
+    float: left;
+    margin-left: 30px;
+    border: 6px solid blue;
+}
+
+#menu {
+    float: left;
+    width: 100px;
+    margin: 0 0 0 10px;
+}
+
+#menu ul {
+    list-style-type: none;
+}
+
+#menu li {
+    margin-bottom: 10px;
+}
+
+#menu button {
+    width: 120px;
+}
+
+/* Button */
+button, input {
+   font-family: inherit;
+   font-size: inherit;
+}
+
+button {
+   background: -webkit-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+    background: -moz-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+    background: -ms-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+      background: -o-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+    background: linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+
+   border: 1px solid #aaa;
+   min-width: 72px;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-user-select: none;
+}
+
+button:hover {
+   background: #ebebeb -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+    background: #ebebeb -moz-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+    background: #ebebeb -ms-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+      background: #ebebeb -o-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+    background: #ebebeb linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+
+   border-color: #999;
+   color: #222;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+#displayDiv{
+    border: 1px rgb(138, 163, 45) solid;
+    padding:10px;
+    min-height:50px;
+    background:rgb(166, 180, 82);
+        margin-bottom:0px;
+}
+
+
+button:active, .toggle-button-active, .toggle-button-active:hover {
+
+   background: #ebebeb -webkit-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
+    background: #ebebeb -moz-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
+    background: #ebebeb -ms-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
+      background: #ebebeb -o-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
+    background: #ebebeb linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
+
+   color: #333;
+   -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+button[disabled], .button[disabled]:hover {
+
+   background: -webkit-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+    background: -moz-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+    background: -ms-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+      background: -o-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+    background: linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+
+   border-color: #aaa;
+   color: #888;
+   -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+}
