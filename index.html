@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+        
 <head>
-    <meta charset="UTF-8">
-
-    <!-- Bootstrap minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
     <link href="./css/style.css" type="text/css" rel="stylesheet">
-    <title>TypeScript Casino | Zipcode Wilmington</title>
+    <title>TypeScript BlackJack | Zipcode Wilmington</title>
 </head>
 <body>
-    <header class="main-header group">
-        <div class="title"></div>
-        <div class="lesson-link"><img src="./images/logos/js_logo.png" alt="Javascript"/></div>
-        <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
-    </header>
 
-    <h1>TypeScript Casino</h1>
+<header class="main-header group">
+    <div class="title"></div>
+    <div class="lesson-link"><img src="./images/logos/js_logo.png" alt="Javascript"/></div>
+    <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zip Code Wilmington"/></div>
+</header>
 
-    <section id="main">
-    	<div id="display"></div>
-			<div id="input">
-				<input type="text" name="user_input" id="user_input">
-				<input type="submit" value="submit">
-			</div>
-    </section>
 
- 	<script type="text/javascript" src="js/app.js"></script>
+<h1 style= "color:#9d90de;">~ Welcome to L&V Casino! A TypeScript Casino! ~</h1>
+
+<section id="main">
+    
+        <div id="input">
+        <div id="display"><p>Please Submit your Name and Amount of Money.<p></div>
+        
+        <input type="text" name="user_input" id="user_input"  onfocus="this.value=''" >
+        <input type="submit" value= " Submit Name " onclick="casino.askForName()">
+        <br> <input type="text" name="money_input" id="money_input" >
+        <input type="submit" value=" Submit Money " onclick= "casino.askForMoney()"></div></br>
+
+        <b><h3 style= "color:#9d90de;">Play Street Craps</h3></b>
+        <input id = "playStreetCraps" type="button" value=" Play " onclick= "craps.play()">   
+        <input id = "newStreetCrapsGame" type="submit" value=" New Game " onclick= "craps.showOpeningMsgCrapsHTML()" hidden>           
+        <input id="firstThrow" type="submit" value=" First Throw " onclick= "craps.firstThrowHTML()" hidden="true">        
+        <input id="secondThrow" type="submit" value=" Second Throw " onclick ="craps.secondThrowHTML()" hidden>
+   
+
+        <b><h3 style= "color:#9d90de;">Play BlackJack</h3></b>  
+        <input id = "submitRequestForBlackjackHandButton" type="submit" value=" Play " onclick= "blackjack.showOpeningMsgBlackJackHTML()">
+        <input id="submitRequestForBlackjackHandButton" type="submit" value=" Hit Dealer " onclick="casino.hitDealer();">
+        <input id="makeABetButton" type="submit" value=" Hit Me " onclick="casino.hitMe();">
+    </div>
+
+</section>
+<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
+
