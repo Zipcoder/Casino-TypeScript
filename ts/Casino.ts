@@ -78,7 +78,7 @@ class Casino {
                 this.appendToDisplay("How much money do you have?", true);
                 this.setOnClickAttributeOfSubmitButton("getUserMoney()");
             }
-        }
+        } 
     }
 
     private validateAge(inputString: string): boolean {
