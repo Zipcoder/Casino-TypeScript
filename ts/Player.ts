@@ -4,6 +4,7 @@ class Player {
     private _name: string;
     private _balance: number;
     private _age: number;
+    public playerHand: Card[] = new Array<Card>(); 
 
     public constructor(name?: string, balance?: number, age?: number) {
         this._name = name;

@@ -7,7 +7,7 @@ class Deck {
   }
 
   private createCardsBasedOnSuit(suitType: string) {
-    let directory: string = "images/cards/";
+    let directory: string = "images/cards/"; 
       for (let i=2; i<= 10; i++) {
         let card = new Card(i, directory + i +"_of_" + suitType + ".png");
         this._deck.push(card);

@@ -7,7 +7,7 @@ class CardGame {
 
   public deal(player: CardPlayer, dealer: CardPlayer, amount: number): void {
     this.clearHands(player, dealer);
-    this.deck.populateDeck();
+    this.deck.populateDeck(); 
     this.deck.shuffleDeck();
     for(var i=0; i<amount; i++) {
       dealer.addToHand(this.deck.getCard());

@@ -2,9 +2,9 @@
 
 class BlackJackDealer extends BlackJackPlayer {
 
-  constructor(dealer: Player) {
-    super();
-  }
+  constructor(person: Player) {
+    super(person);
+  } 
 
   //hitDealer() method
 

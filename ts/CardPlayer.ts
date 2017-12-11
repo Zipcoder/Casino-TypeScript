@@ -6,8 +6,8 @@ class CardPlayer extends Player {
 _hand: Card[];
 
 constructor() {
-  super(); 
-  this._hand = new Array<Card>();
+  super("cardplayer", undefined, undefined);
+  this._hand = new Array<Card>(); 
 }
 
 public getHand(): Card[] {
