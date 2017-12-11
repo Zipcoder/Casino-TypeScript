@@ -4,7 +4,7 @@
 
 
 class Casino {
-    private _casinoPlayer: Player = new Player(); 
+    private _casinoPlayer: Player = new Player();
     private _displayHTMLElement: any;
     private _userInputHTMLElement: any;
     private _greetingElement: any;
@@ -195,7 +195,7 @@ class Casino {
 
     }
 
-    get casinoPlayer(): Player {
+    get casinoPlayer(): Player { 
         return this._casinoPlayer;
     }
 

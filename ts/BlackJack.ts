@@ -16,11 +16,11 @@ class BlackJack extends CardGame implements Gamble, Game {
   stayButtonHTMLElement: any;
   greetingElement: any;
 
-  constructor(player: Player, dealer:Player) {
+  constructor(player: Player, dealer: Player) {
     super();
     this.player = new BlackJackPlayer(player);
     this.dealer = new BlackJackDealer(dealer);
-    this.displayElement = document.getElementById("display");
+    this.displayElement = document.getElementById("display"); 
     this.userInputElement = document.getElementById("user_input");
     this.submitButtonHTMLElement = document.getElementById("submit");
     this.greetingElement = document.getElementById("greeting");
@@ -31,7 +31,7 @@ class BlackJack extends CardGame implements Gamble, Game {
     this.displayElement.innerHTML += "Submit your bet: <br />";
     this.submitButtonHTMLElement.setAttribute("onClick", "blackjack.takeBet()");
     this.userInputElement.setAttribute("type", "number");
-    this.deal(this.player, this.dealer, 2); 
+    this.deal(this.player, this.dealer, 2);
   }
 
   public takeBet(): void {
