@@ -98,9 +98,6 @@ var Player = (function () {
     Player.prototype.getBalance = function () {
         return this.balance;
     };
-    Player.prototype.getHand = function () {
-        return this.hand;
-    };
     Player.prototype.setBalance = function (amount) {
         this.balance = amount;
     };

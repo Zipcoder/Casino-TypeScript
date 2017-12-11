@@ -1,7 +1,7 @@
 class Player{
     name: String;
     balance: number;
-    hand: Card[];
+
 
     constructor(name:String, balance:number){
         this.name = name;
@@ -14,10 +14,6 @@ class Player{
 
     getBalance(): number{
         return this.balance;
-    }
-
-    getHand(): Card[]{
-        return this.hand;
     }
 
     setBalance(amount: number){
