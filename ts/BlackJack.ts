@@ -28,6 +28,8 @@ class BlackJack extends CardGame implements Gamble, Game {
     this.greetingElement = document.getElementById("greeting");
     this.resetButtonHTMLElement = document.getElementById("resetButton");
     this.mainMenuButton = document.getElementById("mainMenu");
+    this.hitButtonHTMLElement = document.getElementById("hitButton");
+    this.stayButtonHTMLElement = document.getElementById("stayButton");
   }
 
   /*
@@ -42,14 +44,6 @@ class BlackJack extends CardGame implements Gamble, Game {
 }
   */
 
-  /*
-  to display player and dealer hands
-  this.deal(this.player, this.dealer, 2);
-  this.displayDealerHand();
-  this.displayElement.innerHTML += "<br />";
-  this.displayPlayerHand();
-  */
-
   public play(): void {
     this.displayElement.innerHTML = "Welcome to Blackjack! <br />";
     this.displayElement.innerHTML += "Submit your bet: <br />";
@@ -59,7 +53,7 @@ class BlackJack extends CardGame implements Gamble, Game {
     this.showSubmitButton();
     this.showUserInputBar();
     this.showMainMenuButton();
-  } 
+  }
 
   public takeBet(): void {
     let bet: number = this.userInputElement.value;
@@ -74,7 +68,7 @@ class BlackJack extends CardGame implements Gamble, Game {
       console.log("Bet accepted " + bet);
       this.bet = this.userInputElement.value;
       this.displayElement.innerHTML = "Bet Accepted";
-      this.greetingElement.innerHTML += " <b>Current Bet: </b>$" + this.bet;
+      this.greetingElement.innerHTML += " <b>Current Bet: </b>$" + this.bet + "<br />";
       this.deal(this.player, this.dealer, 2);
       this.displayDealerHand();
       this.displayElement.innerHTML += "<br />";
@@ -82,10 +76,12 @@ class BlackJack extends CardGame implements Gamble, Game {
       this.hideSubmitButton();
       this.hideUserInputBar();
       this.hideMainMenuButton();
+      this.showHitButton();
+      this.showStayButton(); 
     }
   }
 
-  public displayDealerHand() {
+  public displayDealerHand() { //we would only want to display one card...
     console.log(this.dealer._hand.length);
     this.displayElement.innerHTML += "Dealer is showing: ";
     for (var i=0; i<this.dealer._hand.length; i++) {
@@ -102,8 +98,24 @@ class BlackJack extends CardGame implements Gamble, Game {
       let cssCards: any = "cssCards";
       let imageURL = this.player._hand[i].getImageURL();
       this.displayElement.innerHTML += "<img class=" + cssCards + " src=" + imageURL + ">"
-      }
+    }
+  }
 
+  public hit(): void {
+    this.player.addToHand(this.deck.getCard());
+    //display the dealt card
+    //check if went over 21
+  }
+
+  public stay(): void {
+    // calculate score
+    //dealer play
+    //check for Win
+    //update Balance
+    //check balance amount
+  }
+
+  //split this into two methods
   public askForHitOrStay(): void {
     this.displayElement.innerHTML += "Dealer is showing\n"+this.dealer.getHand().pop();
     // let hitOrStay: string;
@@ -118,26 +130,7 @@ class BlackJack extends CardGame implements Gamble, Game {
     } while(true);
   }
 
-  /*
-  public void askForHitOrStay(){
-       Console.print("Dealer is showing\n"+dealer.getHand().get(0).toString());
-       String hitOrStay;
-       do{
-           printHand(player);
-           Console.print("Score of "+player.getScore() + "\n");
-           if(player.getScore()>=21){
-               return;
-           }
-           hitOrStay = Console.getValidString("Would you like to hit or stay?","hit","stay");
-           if("hit".equalsIgnoreCase(hitOrStay)){
-               player.addCard(deck.getCard());
-           }else {
-               return;
-           }
-       }while(true);
-   }
-  */
-
+  //reset button
   private hideResetButton() {
     this.resetButtonHTMLElement.style.display = "none";
   }
@@ -145,6 +138,7 @@ class BlackJack extends CardGame implements Gamble, Game {
     this.resetButtonHTMLElement.style.display = "";
   }
 
+  //submit button
   private hideSubmitButton() {
     this.submitButtonHTMLElement.style.display = "none";
   }
@@ -152,6 +146,7 @@ class BlackJack extends CardGame implements Gamble, Game {
     this.submitButtonHTMLElement.style.display = "";
   }
 
+  //main menu button
   private showMainMenuButton() {
     this.mainMenuButton.style.display = "";
   }
@@ -159,11 +154,28 @@ class BlackJack extends CardGame implements Gamble, Game {
     this.mainMenuButton.style.display = "none";
   }
 
+  //user input button
   private hideUserInputBar() {
     this.userInputElement.style.display = "none";
   }
   private showUserInputBar() {
     this.userInputElement.style.display = "";
+  }
+
+  //hit button
+  private hideHitButton() {
+    this.hitButtonHTMLElement.style.display = "none";
+  }
+  private showHitButton() {
+    this.hitButtonHTMLElement.style.display = "";
+  }
+
+  //stay
+  private hideStayButton() {
+    this.stayButtonHTMLElement.style.display = "none";
+  }
+  private showStayButton() {
+    this.stayButtonHTMLElement.style.display = "";
   }
 
 }

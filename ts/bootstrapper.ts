@@ -14,6 +14,8 @@ casino.startCasino();
 let craps = new Craps(casino.casinoPlayer);
 let blackjack = new BlackJack(casino.casinoPlayer, casino.casinoPlayer);
 
+//need to change the rest button to reset the current game (currently resetting to craps) 
+
 // let displayEl: any;
 // let cssCards: any = "cssCards";
 // displayEl = document.getElementById("display");
