@@ -17,7 +17,7 @@
     <div id="buttonsArea" hidden>
         <div><input type = button id="bjButton" onclick = "casino.createBlackJackGame()"></a></div>
         <div><input type = button id="crapsButton" onclick = "casino.createCrapsGame()"></a></div>
-        <div><a href = "goFish.html" id="goFishButton"></a></div>
+        <div><input type = button id="goFishButton"></div>
     </div>
 
     <section id="main" >
@@ -41,11 +41,11 @@
 
             <div id="input">
                 <input type="text"  id="betAmountBox" value = "$" hidden = false>
-                <input type="submit" value="  Place Bet  "id = "bet" onclick="casino.callPlaceBet()" hidden = false>
-                <input type="submit" id = "hit" value="   Hit   " onclick="casino.callHit()" hidden = true>
-                <input type="submit" id = "stay" value="  Stay  " onclick="casino.callStay()" hidden = true>
-                <input type="submit" id = "playagain" value="  Play Again  " onclick="casino.callBJPlayAgain()" hidden = true>
-                <input type="submit" id = "leave" value="  Leave  " onclick= "window.location.href='casino.html'" hidden = true>
+                <input type="button" value="  Place Bet  "id = "bet" onclick="casino.callPlaceBet()" hidden = false>
+                <input type="button" id = "hit" value="   Hit   " onclick="casino.callHit()" hidden = true>
+                <input type="button" id = "stay" value="  Stay  " onclick="casino.callStay()" hidden = true>
+                <input type="button" id = "playagain" value="  Play Again  " onclick="casino.callBJPlayAgain()" hidden = true>
+                <input type="button" id = "leave" value="  Leave  " onclick= "casino.displayOptions()" hidden = true>
                 </br>
                 </br>
             </div>
@@ -67,6 +67,7 @@
 
                 <input type="submit" id="roll" value="Roll" onclick="casino.callRoll()">
                 <input type="submit" id="rollTwo" value="RollTwo" onclick="casino.callRollTwo()">
+                <input type="submit" id = "leave" value="  Leave  " onclick= "casino.displayOptions()">
             </div>
     </section>
 

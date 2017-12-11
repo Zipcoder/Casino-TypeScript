@@ -605,6 +605,7 @@ var Casino = (function () {
         this.visibility = document.getElementById("buttonsArea");
         this.CasinoMain = document.getElementById("CasinoMain");
         this.BlackJackScreen = document.getElementById("blackJackMain");
+        this.CrapsScreen = document.getElementById("mainCraps");
     }
     Casino.prototype.welcome = function () {
         this.displayEle.innerHTML += "Welcome To Grahmerro Casino!!!<br/>What is your name?";
@@ -649,6 +650,9 @@ var Casino = (function () {
     };
     Casino.prototype.changeButtonVisability = function () {
         this.visibility.removeAttribute("hidden");
+        this.CrapsScreen.hidden = true;
+        this.BlackJackScreen.hidden = true;
+        this.CasinoMain.hidden = false;
     };
     Casino.prototype.callPlay = function () {
         this.craps.play();

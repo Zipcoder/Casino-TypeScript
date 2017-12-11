@@ -13,6 +13,7 @@ class Casino{
         visibility:any;
         CasinoMain:any;
         BlackJackScreen: any;
+        CrapsScreen: any;
         blackJack: BlackJack;
         craps: Craps;
 
@@ -23,6 +24,7 @@ class Casino{
             this.visibility = document.getElementById("buttonsArea");
             this.CasinoMain = document.getElementById("CasinoMain");
             this.BlackJackScreen = document.getElementById("blackJackMain");
+            this.CrapsScreen = document.getElementById("mainCraps");
         }
 
         welcome(){
@@ -76,6 +78,9 @@ class Casino{
 
         changeButtonVisability(){
             this.visibility.removeAttribute("hidden");
+            this.CrapsScreen.hidden = true;
+            this.BlackJackScreen.hidden = true;
+            this.CasinoMain.hidden = false;
         }
 
         callPlay(){
