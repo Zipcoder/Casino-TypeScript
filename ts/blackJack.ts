@@ -60,6 +60,10 @@ class BlackJack implements Gamble{
         }
     }
 
+    hit(){
+        this.blackJackPlayer.hand.push(this.blackJackDeck.cards.pop());
+    }
+
     dealerHitorStay(){
         while(this.dealer.getHandTotal() < 17){
             this.dealer.hand.push(this.blackJackDeck.cards.pop());
@@ -77,5 +81,33 @@ class BlackJack implements Gamble{
             return true;
         }
         return false;
+    }
+
+    printForHitOrStay(){
+        Display.print("Do you want to or stay?")
+    }
+
+    printWhatyouWantToBet(){
+        Display.print("How much do you want to bet?")
+    }
+
+    printHelloStatement(){
+        Display.print("Hello welcome to the Black Jack table.")
+    }
+
+    printPlayersHand(){
+        Display.print(this.blackJackPlayer.getHand());
+    }
+
+    printDealerHand(){
+        Display.print(this.dealer.getHand());
+    }
+
+    printPlayerScore(){
+        Display.print(this.blackJackPlayer.getHandTotal().toString());
+    }
+
+    printDealerScore(){
+        Display.print(this.dealer.getHandTotal().toString())
     }
 }

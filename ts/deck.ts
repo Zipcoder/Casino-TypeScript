@@ -20,24 +20,6 @@ class Deck {
                 this.cards.push(new Card(suit, card));
             }
         }
-        // for (let suit of Suit) {
-        //     // console.log(Suit[suit]);
-        //     let cardValues = CardValue.getValues() as CardValue[];
-        //
-        //     for (let value of cardValues) {
-        //
-        //         console.log("TypeOf = " + typeof value);
-        //         console.log("Value = " + value);
-        //         // console.log("TypeOf Object = " + typeof object);
-        //         // console.log("Object = " + object);
-        //         console.log("Object Value = " + value.getValue());
-        //
-        //         // let cardVal = value as CardValue;
-        //
-        //         // console.log(value);
-        //         // this.cards.push(new Card(suit, value.getValue()));
-        //     }
-        // }
     }
 
     public shuffle() {
@@ -52,6 +34,9 @@ class Deck {
         }
     }
 
+    public removeAllCards(){
+        this.cards.length = 0;
+    }
 
     public getDeckSize(): number {
         return this.cards.length;

@@ -24,7 +24,11 @@ class BlackJackPlayer extends Player{
     }
 
     public getHand(){
-        return this.hand.toString();
+        let theHand = new Array<Card>();
+        for(let card of this.hand){
+            theHand.push(card)
+        }
+        return theHand.toString();
     }
 
     public getHandTotal(){

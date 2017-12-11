@@ -25,7 +25,7 @@ class CrapsConsole {
 
         document.getElementById("button").setAttribute("onclick", "crapsGame.getUserBet()");
 
-        document.getElementById("rollButton").setAttribute("onclick", "crapsGame.rollTheDice()");
+        this.crapsGame.setRollButtonToFirstRoll();
 
 
 

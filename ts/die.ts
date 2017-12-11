@@ -7,9 +7,9 @@ class Die{
   }
 
   rollDie() : number {
-    this.die1 = Math.random()*6 + 1;
-    this.die2 = Math.random()*6 + 1;
-    return Math.round(this.diceTotal());
+    this.die1 = Math.floor(Math.random()*6 + 1);
+    this.die2 = Math.floor(Math.random()*6 + 1);
+    return this.diceTotal();
   }
 
   diceTotal() :number{
@@ -17,7 +17,7 @@ class Die{
     // console.log("die1 = " + this.die1);
     // console.log("die2 = " + this.die2);
     //   console.log("I am now leaving the diceTotal() function");
-    return Math.round(this.die1 + this.die2);
+    return this.die1 + this.die2;
 
   }
 
