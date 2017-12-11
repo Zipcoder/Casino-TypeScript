@@ -17,6 +17,7 @@ class Craps{
                 this.CasinoMain = document.getElementById("CasinoMain");
                 this.CrapsMain = document.getElementById("mainCraps");
                 this.player = player;
+               // this.bet = parseInt(this.betInput);
             }
 
             init(){
@@ -29,13 +30,13 @@ class Craps{
             welcomePlayer(){
                 this.displayEle.innerHTML +="<br/>Hello "+this.player.getName()+" you have $" + this.player.getBalance() +" in your account." ;
             }
-            
+
             play(){
                 (<HTMLInputElement> document.getElementById("roll")).disabled = false;
                 (<HTMLInputElement> document.getElementById("rollTwo")).disabled = false;
                 this.bet = parseInt(this.betInput.value);
-                if(this.bet < this.player.getBalance() || this.betInput.value.length == 0){
-                    if(this.betInput.value.length == 0){
+                if(this.bet <= this.player.getBalance() || this.bet == 0){
+                    if(this.bet == 0){
                         this.displayEle.innerHTML +="</br> Please enter your bet amount </br>"
                     }
                     else{
