@@ -95,7 +95,7 @@ class UI {
         }
     }
 
-    displayDealtCard(player: Player) {
+    displayDealtCard(player: CardPlayer) {
         this.printToPlayer(this.displayCard(player.hand[player.hand.length - 1]));
     }
 

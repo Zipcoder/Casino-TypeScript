@@ -402,11 +402,11 @@ var BlackJack = (function (_super) {
     BlackJack.prototype.init = function () {
         this.CasinoMain.hidden = true;
         this.BlackJackScreen.hidden = false;
-        this.ui.clearBetAmountBox();
         this.ui.initDisplay(this.player);
         this.play();
     };
     BlackJack.prototype.play = function () {
+        console.log(this.player.balance);
         this.deal(this.player, this.dealer, 2);
         this.ui.displayInitialHands(this.player, this.dealer);
     };
@@ -441,7 +441,7 @@ var BlackJack = (function (_super) {
         this.ui.endOfHandButtonsDisplay();
         if (this.didPlayerWin()) {
             this.ui.printToPlayer("</br> YOU WIN!!!</br>");
-            this.player.balance += parseInt(this.betAmount);
+            this.player.balance = parseInt(this.player.balance + this.betAmount);
         }
         else {
             this.ui.printToPlayer("<br> YOU LOSE!!!</br>");
@@ -470,13 +470,14 @@ var BlackJack = (function (_super) {
         this.ui.displayHand(this.dealer);
     };
     BlackJack.prototype.playAgain = function () {
+        this.ui.clearBetAmountBox();
         this.deck = new Deck();
         this.ui.clearScreen();
         this.init();
     };
     BlackJack.prototype.placeBet = function () {
-        if (this.checkBetInput(this.ui.userBet.value)) {
-            this.betAmount = this.ui.userBet.value;
+        this.betAmount = parseInt(this.ui.userBet.value);
+        if (this.checkBetInput(this.betAmount)) {
             this.ui.displayBet.value = this.betAmount;
             this.ui.resetPlayButtons();
             this.ui.displayHand(this.player);
@@ -504,7 +505,6 @@ var Craps = (function () {
         this.CasinoMain = document.getElementById("CasinoMain");
         this.CrapsMain = document.getElementById("mainCraps");
         this.player = player;
-        // this.bet = parseInt(this.betInput);
     }
     Craps.prototype.init = function () {
         this.CasinoButtons.hidden = true;
@@ -534,14 +534,14 @@ var Craps = (function () {
     Craps.prototype.roll = function () {
         var rollOne = this.callRoll();
         if (rollOne == 2 || rollOne == 3 || rollOne == 12) {
-            this.player.setBalance(this.player.getBalance() - this.bet);
+            this.player.balance -= this.bet;
             this.displayEle.innerHTML += "</br>" + rollOne + " You lose and your balance is :"
                 + this.player.getBalance() + "</br>";
             document.getElementById("roll").disabled = true;
             document.getElementById("rollTwo").disabled = true;
         }
         else if (rollOne == 7 || rollOne == 11) {
-            this.player.setBalance(this.player.getBalance() + this.bet);
+            this.player.balance += this.bet;
             this.displayEle.innerHTML += "</br>" + rollOne + " You Won and your balance is :"
                 + this.player.getBalance() + "</br>";
             document.getElementById("roll").disabled = true;
@@ -562,14 +562,14 @@ var Craps = (function () {
         var rollTwo = this.callRoll();
         console.log("next roll point " + rollTwo);
         if (rollTwo == 7) {
-            this.player.setBalance(this.player.getBalance() - this.bet);
+            this.player.balance -= this.bet;
             console.log("next roll point is Seven" + rollTwo);
             this.displayEle.innerHTML += "</br>" + "You got " + rollTwo + " You lose the game and your balance is " +
                 this.player.getBalance() + "<br/>";
             document.getElementById("rollTwo").disabled = true;
         }
         else if (rollTwo == this.point) {
-            this.player.setBalance(this.player.getBalance() + this.bet);
+            this.player.balance += this.bet;
             this.displayEle.innerHTML += "</br>" + "You got " + rollTwo + " You Won and your balance is " +
                 this.player.getBalance() + "<br/>";
             document.getElementById("rollTwo").disabled = true;

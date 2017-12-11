@@ -17,7 +17,6 @@ class Craps{
                 this.CasinoMain = document.getElementById("CasinoMain");
                 this.CrapsMain = document.getElementById("mainCraps");
                 this.player = player;
-               // this.bet = parseInt(this.betInput);
             }
 
             init(){
@@ -52,7 +51,7 @@ class Craps{
             roll(){
                 let rollOne = this.callRoll();
                 if(rollOne == 2 || rollOne == 3 || rollOne == 12){
-                    this.player.setBalance(this.player.getBalance()-this.bet);
+                    this.player.balance -= this.bet;
                     this.displayEle.innerHTML += "</br>"+rollOne+" You lose and your balance is :"
                     +this.player.getBalance()+ "</br>";
                     (<HTMLInputElement> document.getElementById("roll")).disabled = true;
@@ -60,7 +59,7 @@ class Craps{
 
                  }
                  else if(rollOne == 7 || rollOne == 11){
-                    this.player.setBalance(this.player.getBalance()+this.bet);
+                    this.player.balance += this.bet;
                      this.displayEle.innerHTML += "</br>"+rollOne+" You Won and your balance is :"
                         +this.player.getBalance()+ "</br>";
                     (<HTMLInputElement> document.getElementById("roll")).disabled = true;
@@ -83,14 +82,14 @@ class Craps{
 
                 console.log("next roll point "+rollTwo);
                 if(rollTwo == 7){
-                    this.player.setBalance(this.player.getBalance()-this.bet);
+                    this.player.balance -= this.bet;
                     console.log("next roll point is Seven"+rollTwo);
                     this.displayEle.innerHTML += "</br>"+"You got "+rollTwo + " You lose the game and your balance is "+
                     this.player.getBalance()+"<br/>";
                     (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;
                 }
                 else if(rollTwo == this.point){
-                    this.player.setBalance(this.player.getBalance()+this.bet);
+                    this.player.balance += this.bet;
                     this.displayEle.innerHTML += "</br>"+"You got "+ rollTwo+" You Won and your balance is "+
                     this.player.getBalance()+"<br/>";
                     (<HTMLInputElement> document.getElementById("rollTwo")).disabled = true;

@@ -9,7 +9,7 @@ class BlackJack extends CardGame {
 
     player: BlackJackPlayer;
     dealer: BlackJackDealer;
-    betAmount: any;
+    betAmount: number;
     ui: UI = new UI();
     CasinoButtons: any;
     CasinoMain:any;
@@ -35,12 +35,12 @@ class BlackJack extends CardGame {
     init() {
         this.CasinoMain.hidden = true;
         this.BlackJackScreen.hidden = false;
-        this.ui.clearBetAmountBox();
         this.ui.initDisplay(this.player);
         this.play();
     }
 
     play() {
+        console.log(this.player.balance);
         this.deal(this.player, this.dealer, 2);
         this.ui.displayInitialHands(this.player, this.dealer);
     }
@@ -80,7 +80,7 @@ class BlackJack extends CardGame {
         this.ui.endOfHandButtonsDisplay();
         if (this.didPlayerWin()) {
             this.ui.printToPlayer("</br> YOU WIN!!!</br>");
-            this.player.balance += parseInt(this.betAmount);
+            this.player.balance = parseInt(this.player.balance + this.betAmount);
         } else {
             this.ui.printToPlayer("<br> YOU LOSE!!!</br>");
             this.player.balance -= this.betAmount;
@@ -110,14 +110,15 @@ class BlackJack extends CardGame {
     }
 
     playAgain() {
+        this.ui.clearBetAmountBox();
         this.deck = new Deck();
         this.ui.clearScreen();
         this.init();
     }
 
     placeBet() {
-        if (this.checkBetInput(this.ui.userBet.value)) {
-            this.betAmount = this.ui.userBet.value;
+        this.betAmount = parseInt(this.ui.userBet.value);
+        if (this.checkBetInput(this.betAmount)) {
             this.ui.displayBet.value = this.betAmount;
             this.ui.resetPlayButtons();
             this.ui.displayHand(this.player);
