@@ -7,7 +7,7 @@ _hand: Card[];
 
 constructor() {
   super("cardplayer", undefined, undefined);
-  this._hand = new Array<Card>(); 
+  this._hand = new Array<Card>();
 }
 
 public getHand(): Card[] {
@@ -26,6 +26,6 @@ public clearHand(): void {
   this._hand = [];
 }
 
-//getFullHand()
+//getFullHand() 
 
 }

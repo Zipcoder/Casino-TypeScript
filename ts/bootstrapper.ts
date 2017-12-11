@@ -1,4 +1,4 @@
-///<reference path="Casino.ts"/>
+/// <reference path="Casino.ts"/>
 /// <reference path="craps.ts"/>
 /// <reference path="Player.ts"/>
 /// <reference path="Deck.ts"/>
@@ -12,7 +12,7 @@ let casino = new Casino();
 casino.startCasino();
 
 let craps = new Craps(casino.casinoPlayer);
-let blackjack = new BlackJack(casino.casinoPlayer, casino.casinoPlayer); //might have to change one to casinoDealer
+let blackjack = new BlackJack(casino.casinoPlayer, casino.casinoPlayer);
 
 // let displayEl: any;
 // let cssCards: any = "cssCards";
