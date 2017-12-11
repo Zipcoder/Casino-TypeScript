@@ -9,7 +9,7 @@ class BlackJack extends CardGame {
 
     player: BlackJackPlayer;
     dealer: BlackJackDealer;
-    betAmount: any;
+    betAmount: number;
     ui: UI = new UI();
     CasinoButtons: any;
     CasinoMain:any;
@@ -80,7 +80,7 @@ class BlackJack extends CardGame {
         this.ui.endOfHandButtonsDisplay();
         if (this.didPlayerWin()) {
             this.ui.printToPlayer("</br> YOU WIN!!!</br>");
-            this.player.balance += parseInt(this.betAmount);
+            this.player.balance += this.betAmount;
         } else {
             this.ui.printToPlayer("<br> YOU LOSE!!!</br>");
             this.player.balance -= this.betAmount;
@@ -117,7 +117,7 @@ class BlackJack extends CardGame {
 
     placeBet() {
         if (this.checkBetInput(this.ui.userBet.value)) {
-            this.betAmount = this.ui.userBet.value;
+            this.betAmount = parseInt(this.ui.userBet.value);
             this.ui.displayBet.value = this.betAmount;
             this.ui.resetPlayButtons();
             this.ui.displayHand(this.player);
