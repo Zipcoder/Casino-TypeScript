@@ -4,9 +4,11 @@ class BlackJackDealer extends BlackJackPlayer {
 
   constructor(person: Player) {
     super(person);
-  } 
-
-  //hitDealer() method
+  }
+  
+  public hitDealer(): boolean {
+    return this.getScore() <17;
+  }
 
   //getinitialdealerhand method
 

@@ -5,7 +5,7 @@ class BlackJackPlayer extends CardPlayer {
 private _score: number;
 
 constructor(player: Player) {
-  super(); 
+  super();
   this._score = 0;
 }
 
@@ -28,12 +28,13 @@ public calculateTotalScore() {
 }
 
 private isAceInHand(): boolean {
-for(var i=0; i<this._hand.length; i++) {
-  if(this._hand[i].getValue() == 1) {
-    return true;
-  }
-  else {
-    return false;
+  for(var i=0; i<this._hand.length; i++) {
+    if(this._hand[i].getValue() == 1) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
 
