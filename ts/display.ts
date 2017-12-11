@@ -8,9 +8,6 @@ class Display{
         this.displayEle.innerHTML += input + "<br/><br/>";
     }
 
-    // static clearDisplay(){
-    //     this.displayEle = "";
-    // }
 
     static setCurrentStep(step : String){
         this.currentStep = step;
@@ -117,5 +114,9 @@ class Display{
     static hideHitStayButtons(){
         document.getElementById("hit").style.display = "none";
         document.getElementById("stay").style.display = "none";
+      
+    static clearInnerHTMLDisplay(){
+        document.getElementById("display").innerHTML = "";
+      
     }
 }

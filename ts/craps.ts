@@ -43,6 +43,7 @@ class Craps implements Gamble{
             return false;
         }
         return true;
+        //useless method now, at least for craps it is
 
     }
     cashInWinnings(){
@@ -51,29 +52,31 @@ class Craps implements Gamble{
     }
 
   getUserBet() {
+      Display.clearInnerHTMLDisplay();
       let moneyToBet: number;
-      moneyToBet = parseInt(UserInput.userInput.value);
+      moneyToBet = UserInput.userInput.value;
       console.log(moneyToBet);
-      if (moneyToBet > this.crapsPlayer.getMoney() || this.crapsPlayer.getMoney() <= 0 || moneyToBet === undefined || moneyToBet.toString() === "") {
+      if (moneyToBet > this.crapsPlayer.getMoney() || this.crapsPlayer.getMoney() <= 0 || moneyToBet.toString() == "" || isNaN(moneyToBet)) {
           console.log("Error not enough money. Please enter a valid amount.");
           Display.print("Oops. You have to enter a valid bet, you have " + this.crapsPlayer.getMoney());
           UserInput.clearTextBox();
+          //document.getElementById("display").scrollIntoView(false);
       }
       else {
-          this.placeBet(moneyToBet);
-          Display.print("Your current bet is " + moneyToBet);
+          this.placeBet(Math.round(moneyToBet));
+          Display.print("Your current bet is " + Math.round(moneyToBet));
           Display.hideUserInputButtonAndTextBox();
           Display.showRollButton();
           UserInput.clearTextBox();
+          //document.getElementById("display").scrollIntoView(false);
       }
-
-
 
 
   }
 
    rollTheDice(){
       this.die.rollDie();
+       //document.getElementById("rollButton").scrollIntoView(true);
       if(this.die.diceTotal() > 0){
           if(this.die.diceTotal() == 7 || this.die.diceTotal() == 11){
               this.cashInWinnings();
@@ -90,34 +93,17 @@ class Craps implements Gamble{
 
           }else {
               this.point = this.die.diceTotal();
-              Display.print("New target roll " + this.die.diceTotal());
+              Display.print("You rolled a " + this.die.diceTotal() + ", which is now your new target roll");
               this.setRollButtonToSubsequentRolls();
-              //document.getElementById("rollButton").setAttribute("onclick", "");
               return 1;
           }
       }
 
   }
 
-  firstRollLogic():number{
-    if(this.die.diceTotal() == 7 || this.die.diceTotal() == 11){
-      this.cashInWinnings();
-      Display.print("You win! With a roll of " + this.die.diceTotal() + ". Total money is now " + this.crapsPlayer.getMoney());
-      return 0;
-
-    }else if (this.die.diceTotal() == 2 || this.die.diceTotal() == 3 || this.die.diceTotal() == 12){
-      this.setPot(0);
-      Display.print("You lose! With a roll of " + this.die.diceTotal() + ". Total money is now " + this.crapsPlayer.getMoney());
-
-    }else {
-      this.point = this.die.diceTotal();
-      Display.print("New target roll " + this.die.diceTotal());
-      return 1;
-    }
-  }
-
   subsequentRollLogic(){
         this.die.rollDie();
+        //document.getElementById("rollButton").scrollIntoView(true);
         console.log(this.getPoint() + "This is the target roll");
         if(this.die.diceTotal() == this.getPoint()){
           this.cashInWinnings();
