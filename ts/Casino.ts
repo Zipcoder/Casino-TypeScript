@@ -1,5 +1,7 @@
 ///<reference path="Player.ts"/>
+/// <reference path="BlackJack.ts"/>
 /// <reference path="craps.ts" />
+
 
 
 class Casino {
@@ -135,7 +137,7 @@ class Casino {
             craps.play();
         }
         else if (gameChosenNumber == 2) {
-
+            blackjack.play();
         }
         else if (gameChosenNumber == 3) {
 

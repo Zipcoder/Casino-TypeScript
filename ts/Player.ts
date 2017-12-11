@@ -1,9 +1,10 @@
+
 class Player {
+
     private _name: string;
     private _balance: number;
     private _age: number;
-
-    //private playerHand : new Array<>();
+    public playerHand: Card[] = new Array<Card>(); 
 
     public constructor(name?: string, balance?: number, age?: number) {
         this._name = name;
@@ -34,5 +35,4 @@ class Player {
     set age(value: number) {
         this._age = value;
     }
-
 }

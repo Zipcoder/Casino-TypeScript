@@ -172,3 +172,9 @@ h1 {
 
 #menu button {
     width: 120px;
+  }
+
+.cssCards {
+  height: 45px;
+  width: 45px;
+}

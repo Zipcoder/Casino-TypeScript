@@ -23,7 +23,7 @@ class Craps implements Game,Gamble{
     this.player = player;
     this.playerBalance = player.balance;
     this.displayElement = document.getElementById("display");
-    this.userInputElement = document.getElementById("user_input")
+    this.userInputElement = document.getElementById("user_input");
     this.submitButtonHTMLElement = document.getElementById("submit");
     this.rollButtonHTMLElement = document.getElementById("rollButton");
     this.resetButtonHTMLElement = document.getElementById("resetButton");
