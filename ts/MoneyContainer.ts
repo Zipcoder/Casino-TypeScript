@@ -1,6 +1,6 @@
 class MoneyContainer {
+    private money: number = 0;
 
-    money:number = 0;
 
     getMoney() {
         return this.money;

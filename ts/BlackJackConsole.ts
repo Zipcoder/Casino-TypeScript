@@ -1,9 +1,6 @@
 ///<reference path="BlackJack.ts"/>
 ///<reference path="User.ts"/>
 
-// import {BlackJack} from "./BlackJack";
-// import {User} from "./User";
-
 class BlackJackConsole {
 
     inputElement: any;
@@ -21,8 +18,20 @@ class BlackJackConsole {
         this.player = user;
     }
 
-    updateDisplay(stringToDisplay: string): void {
-        this.displayElement.innerHTML += "</br>" + stringToDisplay;
+    public run() : void{
+        this.initialize();
+        this.welcomePlayer();
+        this.playerHitOrStayCycle();
+        //     do {
+        //         game = new BlackJack();
+        //         playerBets();
+        //         System.out.println(game.toString());
+        //         playerHitOrStayCycle();
+        //         game.dealerHitUntilFinished();
+        //         System.out.println(game.toString());
+        //         determineWinOrLoss();
+        //     }while(game.play(getStringInput("Continue playing? [Y/N] ")));
+        //
     }
 
     initialize(): void {
@@ -30,13 +39,18 @@ class BlackJackConsole {
         this.inputElement = document.getElementById("input");
         this.inputElement.innerHTML = '<input type="number" name="bet_input" id="bet_input">' +
             '<input type="submit" value="Bet" id="bet_submit" onclick="blackjack.getInput()"/>    ' +
-            '<input type="button" value="Hit" id="hit" onclick="blackjack.determineFirstRoller()"/>    ' +
+            '<input type="button" value="Hit" id="hit" onclick="game.playerHit()"/>    ' +
             '<input type="button" value="Continue" id="continue" onclick="blackjack.welcomePlayer()"/>' +
             '<input type="button" value="Quit" id="quit" onclick="blackjack.finalize()"/>';
         this.submitBetButton = document.getElementById("bet_submit");
         this.hitButton = document.getElementById("hit");
         this.continueButton = document.getElementById("continue");
         this.quitButton = document.getElementById("quit");
+    }
+
+    private welcomePlayer(): void {
+        updateDisplay("Hello, " + this.player.Name + ". Welcome to the BlackJack table.");
+        updateDisplay("How tough are ye'?");
     }
 
     finalize(): void {
@@ -53,14 +67,14 @@ class BlackJackConsole {
 
     initialBet(): void {
 
-        this.updateDisplay(this.game.toString());
+        updateDisplay(this.game.toString());
 
 
         // if (this.game.getPlayerTurn()) {
         //     this.opponentInitialBets(this.generateBotBet());
         // }
         // else {
-            this.updateDisplay("Enter your bet in the field below and click 'Bet'");
+            updateDisplay("Enter your bet in the field below and click 'Bet'");
             this.submitBetButton.onclick(this.playerInitialBets());
         // }
 
@@ -87,26 +101,25 @@ class BlackJackConsole {
     }
 
     displayOpponentBetting(passedOpponentBet: number): void {//Called _AFTER_ the money transfers have already taken place
-
-        this.updateDisplay("Opponent bets $" + passedOpponentBet);
-        this.updateDisplay("You match $" + passedOpponentBet);
-        this.updateDisplay("You have $" + this.player.Wallet.getMoney() + " in your wallet");
+        updateDisplay("Opponent bets $" + passedOpponentBet);
+        updateDisplay("You match $" + passedOpponentBet);
+        updateDisplay("You have $" + this.player.Wallet.getMoney() + " in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
 
     displayPlayerBetting(passedPlayerBet: number): void {//Called _AFTER_ the money transfers have already taken place
         //_AND_ after the player enters their bet amount
-        this.updateDisplay("You bet $" + passedPlayerBet);
-        this.updateDisplay("Opponent matches $" + passedPlayerBet);
-        this.updateDisplay("You have $" + this.player.Wallet.getMoney() + " in your wallet");
+        updateDisplay("You bet $" + passedPlayerBet);
+        updateDisplay("Opponent matches $" + passedPlayerBet);
+        updateDisplay("You have $" + this.player.Wallet.getMoney() + " in your wallet");
         this.printPots();
         this.enterAnyKeyToContinue();
     }
 
     printPots(): void {
-        this.updateDisplay("$" + this.game.showPot() + " now in Main Pot");
-        this.updateDisplay("$" + this.game.showPot() + " now in Side Pot</br>");
+        updateDisplay("$" + this.game.showPot() + " now in Main Pot");
+        updateDisplay("$" + this.game.showPot() + " now in Side Pot</br>");
     }
 
     enterAnyKeyToContinue(): void {
@@ -119,53 +132,45 @@ class BlackJackConsole {
 
     changeTurns(): void {
         this.resetFlags();
-        this.game.changePlayerTurn();
+        // this.game.changePlayerTurn();
 
     }
 
     resetFlags(): void {
         this.potBet = 0;
 
-        this.game.resetTurn();
+        // this.game.resetTurn();
     }
 
-    public run() : void{
-        this.initialize();
-        this.welcomePlayer();
-    //     do {
-    //         game = new BlackJack();
-    //         playerBets();
-    //         System.out.println(game.toString());
-    //         playerHitOrStayCycle();
-    //         game.dealerHitUntilFinished();
-    //         System.out.println(game.toString());
-    //         determineWinOrLoss();
-    //     }while(game.play(getStringInput("Continue playing? [Y/N] ")));
-    //
+    private playerHitOrStayCycle(): void{
+        while (this.game.getPlayerScore()<21){
+            this.game.playerHit();
+            updateDisplay(this.game.toString());
+        }
     }
 
     private determineWinOrLoss(): void {
         if (this.game.playerWins()) {
-            this.updateDisplay("You win! ");
-            this.updateDisplay(this.game.finalTableDisplay())
+            updateDisplay("You win! ");
+            updateDisplay(this.game.finalTableDisplay())
             this.settlePlayerWon();
         }
         else {
-            this.updateDisplay("You lose. ");
-            this.updateDisplay(this.game.finalTableDisplay());
+            updateDisplay("You lose. ");
+            updateDisplay(this.game.finalTableDisplay());
             this.settlePlayerLost();
         }
     }
 
     private settlePlayerLost(): void {
         this.potBet = this.game.emptyPot();
-        this.updateDisplay("You have " + this.player.Wallet.getMoney() + " " +
+        updateDisplay("You have " + this.player.Wallet.getMoney() + " " +
             "in your wallet.");
     }
 
     private settlePlayerWon(): void {
         this.player.Wallet.addMoney(this.game.emptyPot());
-        this.updateDisplay("You have " + this.player.Wallet.getMoney() + " " +
+        updateDisplay("You have " + this.player.Wallet.getMoney() + " " +
             "in your wallet.");
     }
 
@@ -178,16 +183,11 @@ class BlackJackConsole {
     // }
 
     private playerBets(): void {
-        this.updateDisplay("You have " + this.player.Wallet.getMoney() + ". <br />" +
+        updateDisplay("You have " + this.player.Wallet.getMoney() + ". <br />" +
             " How much do you wish to bet? ");
 
         this.game.takeBet(this.player.Wallet.takeOutMoney(this.potBet));
-        this.updateDisplay("Your opponent matches your bet of " + this.potBet + ". ")
+        updateDisplay("Your opponent matches your bet of " + this.potBet + ". ")
         this.game.takeBet(this.potBet);
-    }
-
-    private welcomePlayer(): void {
-        this.updateDisplay("Hello, " + this.player.Name + ". Welcome to the BlackJack table.");
-        this.updateDisplay("How tough are ye'?");
     }
 }

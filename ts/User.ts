@@ -1,7 +1,5 @@
 /// <reference path="MoneyContainer.ts"/>
 
-// import {MoneyContainer} from "./MoneyContainer";
-
 class User {
 
     name: string;
@@ -12,11 +10,11 @@ class User {
         this.wallet.addMoney(money);
     }
 
-    get Name(): string {
+    public get Name(): string {
         return this.name;
     }
 
-    get Wallet(): MoneyContainer {
+    public get Wallet(): MoneyContainer {
         return this.wallet;
     }
 }
