@@ -8,14 +8,9 @@ import {Utilities} from './Utilities';
 export class Casino {
 
   gameConsoles: Console[];
-  // displayEle: any;
-  // userInputEle: any;
-  //static buttonEle = document.getElementById("my_button");
 
   constructor() {
     this.gameConsoles = [];
-    // this.displayEle = document.getElementById("display");
-    // this.userInputEle = document.getElementById("user_input");
   }
 
   startCasino() {
@@ -36,7 +31,6 @@ export class Casino {
     }
     Utilities.printMenuName("Select a game to play");
     Utilities.printMenuOptions(gameNames);
-    // var choice = Utilities.getMenuInput(">> ", gameNames).toUpperCase();
     var _this = this;
     Utilities.buttonEle.addEventListener("click", function getChoice() {
       var choice: string = Utilities.userInputEle.value.toUpperCase();
