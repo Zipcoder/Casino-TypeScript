@@ -75,7 +75,6 @@ export class Craps extends Game<Craps> implements Gamble<Craps> {
   takeBet(player:Player<Craps>, amount:number) {
     if(this.bets[player.id]==undefined) {
       this.bets[player.id]= amount;
-      console.log(this.bets[player.id]);
     }
     else {
       this.bets[player.id]+= amount;

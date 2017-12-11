@@ -46,7 +46,10 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     this.game.putCardsInDiscardPile();
                     this.askContinueOrCashOut();
                     break;
-                default: Utilities_1.Utilities.printLine("Fell out" + this.currentPlayer.getHand().toString());
+                default:
+                    Utilities_1.Utilities.printLine("Error, returning to lobby.");
+                    var casino = new Casino_1.Casino();
+                    casino.startCasino();
             }
         };
         BlackJackConsole.prototype.inputNumPlayers = function () {
@@ -63,8 +66,8 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     length > 0 ? _this.game.setNumPlayers(length) : _this.game.setNumPlayers(length + 1);
                     _this.i++;
                     Utilities_1.Utilities.printLine("Enter the name of Player 1");
-                    _this.start();
                     this.removeEventListener("click", getName);
+                    _this.start();
                 }
             });
         };
@@ -95,8 +98,8 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     var amountAvailableToBet = _this.currentPlayer.getMoney();
                     Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", you have $" + amountAvailableToBet);
                     Utilities_1.Utilities.printLine("How much would you like to bet?");
-                    _this.start();
                     this.removeEventListener("click", getName);
+                    _this.start();
                 }
             });
         };
@@ -123,8 +126,8 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     else {
                         Utilities_1.Utilities.printLine("Dealing...");
                         _this.i++;
-                        _this.start();
                         this.removeEventListener("click", getBet);
+                        _this.start();
                     }
                 }
             });
@@ -142,9 +145,9 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
             var playerIndex = 1;
             var _this = this;
             Utilities_1.Utilities.buttonEle.addEventListener("click", function hitOrStand() {
-                var choice = Utilities_1.Utilities.userInputEle.value.toUpperCase();
+                var choice = Utilities_1.Utilities.userInputEle.value;
                 Utilities_1.Utilities.userInputEle.value = "";
-                if (choice == "HIT") {
+                if (choice.match(/^(Hit\b|H\b)/gi) != null) {
                     Utilities_1.Utilities.printLine("Hit");
                     _this.game.dealCardToHand(_this.currentPlayer);
                     Utilities_1.Utilities.printLine(_this.currentPlayer.getHand().toString());
@@ -154,26 +157,22 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                         playerIndex++;
                         _this.displayAllHands();
                         Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
-                        // _this.start();
-                        // this.removeEventListener("click", hitOrStand);
                     }
                     else if (_this.game.calculatePlayerScore(_this.currentPlayer) >= 21) {
                         _this.displayOverTwenty();
                         _this.i++;
                         _this.currentPlayer = _this.game.getPlayer(0);
                         Utilities_1.Utilities.clearDisplay();
-                        _this.start();
                         this.removeEventListener("click", hitOrStand);
+                        _this.start();
                     }
                     else {
                         Utilities_1.Utilities.clearDisplay();
                         _this.displayAllHands();
                         Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", Hit or Stand?");
-                        // _this.start();
-                        // this.removeEventListener("click", hitOrStand);
                     }
                 }
-                else if (choice == "STAND") {
+                else if (choice.match(/^(Stand\b|s\b|Stay\b)/gi) != null) {
                     Utilities_1.Utilities.printLine("Stand");
                     if (playerIndex < _this.game.getNumPlayers()) {
                         _this.currentPlayer = _this.game.getPlayer(playerIndex);
@@ -186,8 +185,8 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
                     else {
                         _this.i++;
                         _this.currentPlayer = _this.game.getPlayer(0);
-                        _this.start();
                         this.removeEventListener("click", hitOrStand);
+                        _this.start();
                     }
                 }
                 else {
@@ -249,29 +248,28 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
             Utilities_1.Utilities.buttonEle.addEventListener("click", function cashOrContinue() {
                 var cashOut = Utilities_1.Utilities.userInputEle.value;
                 Utilities_1.Utilities.userInputEle.value = "";
-                if (cashOut.toUpperCase() == "Y") {
+                if (cashOut.match(/^(Yes\b|Y\b)/gi) != null) {
                     Utilities_1.Utilities.printLine("Returning to the Lobby;");
                     _this.currentPlayer.cashOut();
                     var casino = new Casino_1.Casino();
                     Utilities_1.Utilities.clearDisplay();
-                    casino.startCasino();
                     this.removeEventListener("click", cashOrContinue);
+                    casino.startCasino();
                 }
-                else if (cashOut.toUpperCase() == "N") {
+                else if (cashOut.match(/^(No\b|N\b)/gi) != null) {
                     Utilities_1.Utilities.clearDisplay();
                     if (_this.currentPlayer.getMoney() == 0) {
                         Utilities_1.Utilities.clearDisplay();
                         var casino = new Casino_1.Casino();
                         Utilities_1.Utilities.printLine("You have no more money, returning to lobby...");
-                        casino.startCasino();
                         this.removeEventListener("click", cashOrContinue);
-                        //_this.currentPlayer = _this.game.getPlayer(0);
+                        casino.startCasino();
                     }
                     else {
                         Utilities_1.Utilities.printLine(_this.currentPlayer.getName() + ", how much would you like to bet?");
                         _this.i = 3;
-                        _this.start();
                         this.removeEventListener("click", cashOrContinue);
+                        _this.start();
                     }
                 }
                 else {
