@@ -10,7 +10,23 @@
     padding: 0;
 }
 
-body { font: 14px/1.4 arial, sans-serif; background-color: #F5F5F5;}
+#greeting {
+    text-align: center;
+    color: white;
+    background-color: black;
+    font-size: 26px;
+}
+
+#mainMenu {
+    margin-left: 2%;
+}
+
+body {
+    font: 14px/1.4 arial, sans-serif;
+    background-image: url("../Images/Casino.jpg");
+    background-position: center;
+
+}
 
 article, aside, figure, footer, header, nav, section { display: block; }
 a:link, a:visited {
@@ -107,11 +123,26 @@ a:hover, a:active {
     transform: translateY(-50%);
 }
 
+#diceImage {
+  width: 18px;
+  height: auto;
+}
+
+
 /* page styles */
 article {margin: 5%;}
 article p { margin-bottom: 20px;}
 section {margin:10px;}
-h1 {font-weight: bold; margin-left: 10px;}
+h1 {
+    font-weight: bold;
+    margin-left: 10px;
+    text-align: center;
+    color: deeppink;
+}
+
+#greetingdiv {
+    background: white;
+}
 #main {
 
 }
@@ -120,7 +151,10 @@ h1 {font-weight: bold; margin-left: 10px;}
     padding:10px;
     min-height:300px;
     background:#eee;
-		margin-bottom:10px;
+    margin-bottom:10px;
+    height: 300px;
+    width: 300px;
+    overflow: auto;
 }
 #menu {
     float: left;
@@ -138,4 +172,9 @@ h1 {font-weight: bold; margin-left: 10px;}
 
 #menu button {
     width: 120px;
+  }
+
+.cssCards {
+  height: 45px;
+  width: 45px;
 }

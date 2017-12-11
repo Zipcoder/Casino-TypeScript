@@ -9,20 +9,30 @@
     <link href="./css/style.css" type="text/css" rel="stylesheet">
     <title>TypeScript Casino | Zipcode Wilmington</title>
 </head>
-<body>
+<body id ="body">
     <header class="main-header group">
-        <div class="title"></div>
-        <div class="lesson-link"><img src="./images/logos/js_logo.png" alt="Javascript"/></div>
-        <div class="zip-link"><img src="./images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
+        <div class="title"> <h1>TypeScript Casino</h1></div>
+        <div class="lesson-link"><img src="Images/logos/js_logo.png" alt="Javascript"/></div>
+        <div class="zip-link"><img src="Images/logos/zip_logo.jpg" alt="Zipcode Wilmington"/></div>
     </header>
-
-    <h1>TypeScript Casino</h1>
+    <div id = greetingdiv>
+        <p id = "greeting" ></p>
+    </div>
+    <button id = "mainMenu" class="btn btn-warning" onclick="casino.goToMainMenu()">Main Menu</button>
 
     <section id="main">
     	<div id="display"></div>
 			<div id="input">
 				<input type="text" name="user_input" id="user_input">
-				<input type="submit" value="submit">
+				<input id = "submit" type="submit" placeholder="submit" onclick="casino.getUserName()" value="Submit" class ="btn btn-primary">
+        <button style = "display:none" id = "rollButton" type="button" onclick="craps.roll()" class ="btn btn-success"> <img id="diceImage" src="Images/dice.png" /> </button>
+        <button style = "display:none" id = "resetButton" type="button" onclick="craps.play()" class ="btn btn-danger"> Reset </button>
+        <button style= "display: none" id = "hitButton" type = "button" onClick="blackjack.hit()" class ="btn btn-success"> Hit </button>
+        <buttion style= "display: none" id = "stayButton" type = "button" onClick="blackjack.stay()" class="btn btn-success"> Stay </button>
+
+        <button style = "display:none" id = "crapsButton" type = "button" onclick = "craps.play()" value = "Craps" class = "btn btn-primary">Craps</button>
+        <button style = "display:none" id = "blackJackButton" type = "button" onclick = "blackJack.play()" value = "BlackJack" class = "btn btn-primary">BlackJack</button>
+
 			</div>
     </section>
 
