@@ -74,7 +74,6 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
             Utilities_1.Utilities.buttonEle.addEventListener("click", function getBet() {
                 var amount = parseInt(Utilities_1.Utilities.userInputEle.value);
                 Utilities_1.Utilities.userInputEle.value = "";
-                console.log(amount);
                 if (amount > amountAvailableToBet || isNaN(amount)) {
                     Utilities_1.Utilities.printLine("Invalid amount. How much would you like to bet?");
                 }
@@ -94,7 +93,7 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
             Utilities_1.Utilities.buttonEle.addEventListener("click", function pass() {
                 var input = Utilities_1.Utilities.userInputEle.value.toUpperCase();
                 Utilities_1.Utilities.userInputEle.value = "";
-                if (input != "PASS" && input != "DON'T PASS") {
+                if (input.match(/^(pass\b|don\\'t pass\b|dont pass)/gi) == null) {
                     Utilities_1.Utilities.printLine("Try again");
                 }
                 else {

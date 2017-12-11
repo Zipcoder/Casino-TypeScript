@@ -68,7 +68,6 @@ export class CrapsConsole extends Console {
     Utilities.buttonEle.addEventListener("click", function getBet() {
       var amount: number = parseInt(Utilities.userInputEle.value);
       Utilities.userInputEle.value = "";
-      console.log(amount);
       if (amount > amountAvailableToBet|| isNaN(amount)) {
         Utilities.printLine("Invalid amount. How much would you like to bet?");
       }

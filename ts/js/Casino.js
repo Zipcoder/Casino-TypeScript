@@ -36,14 +36,11 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             });
         };
         Casino.prototype.goToGame = function (gameName) {
-            console.log("got here");
-            console.log(gameName);
             switch (gameName) {
                 case "BLACKJACK":
                     this.startBlackJack();
                     break;
                 case "CRAPS":
-                    console.log("started craps");
                     this.startCraps();
                     break;
                 case "GO FISH":
@@ -58,7 +55,6 @@ define(["require", "exports", "./BlackJackConsole", "./CrapsConsole", "./GoFishC
             this.gameConsoles[0].start();
         };
         Casino.prototype.startCraps = function () {
-            console.log("actually starts");
             this.gameConsoles[1].start();
         };
         Casino.prototype.startGoFish = function () {

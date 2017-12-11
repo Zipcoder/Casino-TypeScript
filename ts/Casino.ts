@@ -47,14 +47,11 @@ export class Casino {
   }
 
   goToGame(gameName: string) {
-    console.log("got here");
-    console.log(gameName);
     switch (gameName) {
         case "BLACKJACK":
             this.startBlackJack();
             break;
         case "CRAPS":
-        console.log("started craps");
             this.startCraps();
             break;
         case "GO FISH":
@@ -71,7 +68,6 @@ export class Casino {
   }
 
   startCraps() {
-    console.log("actually starts");
       this.gameConsoles[1].start();
   }
 

@@ -70,7 +70,6 @@ define(["require", "exports", "./Game", "./Dice"], function (require, exports, G
         Craps.prototype.takeBet = function (player, amount) {
             if (this.bets[player.id] == undefined) {
                 this.bets[player.id] = amount;
-                console.log(this.bets[player.id]);
             }
             else {
                 this.bets[player.id] += amount;
