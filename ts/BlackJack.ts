@@ -100,7 +100,7 @@ export class BlackJack extends CardGame<BlackJack> implements Gamble<BlackJack>{
                   if (!this.playerHasBust(player) && this.calculatePlayerScore(player) > this.calculatePlayerScore(this.dealer)) {
                       this.winners.push(player);
                   } else if (this.calculatePlayerScore(player)==(this.calculatePlayerScore(this.dealer))) {
-                      this.winners.push(player);
+                      this.push.push(player);
                   }
               }
           }
