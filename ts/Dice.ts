@@ -1,11 +1,9 @@
 class Dice{
 
 displayElement:any
-userInputElement:any
 
 constructor(){
     this.displayElement = document.getElementById("display")
-    this.userInputElement=document.getElementById("user_input");
 }
 
 rollDice(diceNumber: number){

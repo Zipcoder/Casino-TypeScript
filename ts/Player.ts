@@ -1,4 +1,6 @@
 class Player{
+    private account;
+    public _name;
     name: String;
     gamblingMoney: number;
 
@@ -22,4 +24,5 @@ class Player{
     addGamblingMoney(amount: number){
         this.gamblingMoney += amount;
     }
+
 }
