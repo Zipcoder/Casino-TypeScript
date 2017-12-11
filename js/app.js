@@ -441,7 +441,7 @@ var BlackJack = (function (_super) {
         this.ui.endOfHandButtonsDisplay();
         if (this.didPlayerWin()) {
             this.ui.printToPlayer("</br> YOU WIN!!!</br>");
-            this.player.balance += this.betAmount;
+            this.player.balance += parseInt(this.betAmount);
         }
         else {
             this.ui.printToPlayer("<br> YOU LOSE!!!</br>");
@@ -476,7 +476,7 @@ var BlackJack = (function (_super) {
     };
     BlackJack.prototype.placeBet = function () {
         if (this.checkBetInput(this.ui.userBet.value)) {
-            this.betAmount = parseInt(this.ui.userBet.value);
+            this.betAmount = this.ui.userBet.value;
             this.ui.displayBet.value = this.betAmount;
             this.ui.resetPlayButtons();
             this.ui.displayHand(this.player);
