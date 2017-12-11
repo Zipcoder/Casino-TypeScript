@@ -88,7 +88,7 @@ export class CrapsConsole extends Console {
     Utilities.buttonEle.addEventListener("click", function pass() {
       var input: string = Utilities.userInputEle.value.toUpperCase();
       Utilities.userInputEle.value = "";
-      if (input.match(/^(pass\b|don\\'t pass\b|dont pass)/gi)==null) {
+      if (input.match(/^(pass\b|p\b|don't pass\b|dont pass|dp\b)/gi)==null) {
         Utilities.printLine("Try again");
       }
       else {

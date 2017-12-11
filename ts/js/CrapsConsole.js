@@ -93,7 +93,7 @@ define(["require", "exports", "./Utilities", "./Console", "./Craps", "./CrapsPla
             Utilities_1.Utilities.buttonEle.addEventListener("click", function pass() {
                 var input = Utilities_1.Utilities.userInputEle.value.toUpperCase();
                 Utilities_1.Utilities.userInputEle.value = "";
-                if (input.match(/^(pass\b|don\\'t pass\b|dont pass)/gi) == null) {
+                if (input.match(/^(pass\b|p\b|don\\'t pass\b|dont pass|dp\b)/gi) == null) {
                     Utilities_1.Utilities.printLine("Try again");
                 }
                 else {
