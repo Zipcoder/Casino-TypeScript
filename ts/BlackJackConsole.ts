@@ -5,7 +5,6 @@
 
 
 class BlackJackConsole {
-
     displayPlayerScore: any;
     hitButtonInputEle: any;
     stayButtonInputEle: any;
@@ -30,7 +29,6 @@ class BlackJackConsole {
 
         this.player = new BlackJackPlayer(player);
         this.wallet = 1000;
-
     }
 
     public init(){
@@ -47,11 +45,9 @@ class BlackJackConsole {
         this.hitButtonInputEle.disabled = true;
         this.stayButtonInputEle.disabled = true;
         changeDisplay("Your current balance is $" + this.player.Wallet+ " enter your wager below and hit \"Bet\" to play! ");
-
     }
 
     public startGame() {
-        
          this.playButtonInputEle.disabled = true;
          this.hitButtonInputEle.disabled = false;
          this.stayButtonInputEle.disabled = false;
@@ -74,6 +70,7 @@ class BlackJackConsole {
     public checkValidBet(){
         var errorMessage = document.getElementById("errorMessage");
         var input = parseInt(this.betInputEle.value);
+
         try{
             if(isNaN(input)) throw "Not a number";
             if(input< 0) throw "We don't accept negative wagers";
@@ -83,20 +80,15 @@ class BlackJackConsole {
         }catch(error){
             document.getElementById("errorMessage").innerHTML = error;
         }
-        
-        
     }
 
     public bet() {
-        //need to ask how much they want to bet 
-       
         var bet = parseInt(this.betInputEle.value);
 
         this.game.takeBet(bet);
         changeDisplay("You have wagered $"+ this.game.Pot)
         this.startGame();
     }
-
 
     public hit() {
         this.game.hitPlayer(this.player);
@@ -112,18 +104,15 @@ class BlackJackConsole {
             changeDisplay("Your hand of " +this.player.displayPlayerHand() +" worth " + this.playerScore + " is a bust!<br />You lose! Your new balance is $" + this.player.Wallet);
             clearHTMLTag("player-cards");
             this.player.displayPlayerHandImages("player-cards");
-            
 
             displayLoserImage();
             this.hitButtonInputEle.disabled = true;
             this.stayButtonInputEle.disabled = true;
             this.playButtonInputEle.disabled = false;
-            
         }
     }
 
     public stay() {
-        // Do the dealer stuff here
         var dealerFinalHand = this.game.dealerPlays();
         changeDisplay("Dealer plays out the hand, " + dealerFinalHand );
         clearHTMLTag("dealer-cards");

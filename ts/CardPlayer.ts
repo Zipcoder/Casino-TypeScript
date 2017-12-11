@@ -1,7 +1,6 @@
 /// <reference path="Card.ts" />
 /// <reference path="Player.ts" />
 class CardPlayer extends Player{
-
     hand: Card[];
 
     constructor(player: Player){
@@ -16,7 +15,6 @@ class CardPlayer extends Player{
     clearHand(){
         while(this.hand.length>0)
             this.hand.pop();
-        
     }
 
     displayPlayerHand(): String{
@@ -29,7 +27,6 @@ class CardPlayer extends Player{
     }
 
     displayPlayerHandImages(id:string) {
-        
         for(var i= 0; i< this.hand.length; i++){
             displayCard(this.hand[i].getValue(),this.hand[i].getSuit(),id)
         }
@@ -63,7 +60,6 @@ class CardPlayer extends Player{
         }
         return undefined;
     }
-
 }
 
 // var cardPlayer = new CardPlayer();

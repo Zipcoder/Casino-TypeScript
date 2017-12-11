@@ -327,7 +327,6 @@ class BlackJackConsole {
         }
     }
     bet() {
-        //need to ask how much they want to bet 
         var bet = parseInt(this.betInputEle.value);
         this.game.takeBet(bet);
         changeDisplay("You have wagered $" + this.game.Pot);
@@ -354,7 +353,6 @@ class BlackJackConsole {
         }
     }
     stay() {
-        // Do the dealer stuff here
         var dealerFinalHand = this.game.dealerPlays();
         changeDisplay("Dealer plays out the hand, " + dealerFinalHand);
         clearHTMLTag("dealer-cards");
@@ -413,10 +411,7 @@ function displayLoserImage() {
 //     play();
 // }else{
 // exit
-//needs to extend DicePlayer and implement Game and Gamble
-//need to make a pot in Gamble
-//
-// class Craps{
+// class Craps extends DicePlayer and implements Game, Gamble{
 //     private point: number;
 //     private pot: number = 0.0;
 //     //DicePlayer crapsPlayer = new DicePlayer();
@@ -445,7 +440,7 @@ function displayLoserImage() {
 //     placeBet(moneyToBet: number): number{
 //         if (hasMoneyToMakeBet(moneyToBet)) {
 //             setPot(moneyToBet);
-//             Double tempMoney = crapsPlayer.getMoney();
+//             tempMoney: number = crapsPlayer.getMoney();
 //             crapsPlayer.setMoney(tempMoney - moneyToBet);
 //             return 0;
 //         } else {
@@ -461,7 +456,7 @@ function displayLoserImage() {
 //         return true;
 //     }
 //
-//     cashInWinnings(){
+//     cashInWinnings(): number{
 //         crapsPlayer.setMoney(crapsPlayer.getMoney() + getPot() * 2);
 //     }
 //
@@ -483,7 +478,7 @@ function displayLoserImage() {
 //         }
 //     }
 //
-//     secondRoll(){
+//     secondRoll(): number{
 //         do {
 //             die.rollDice();
 //             if (die.diceTotal() == getPoint()) {
@@ -500,9 +495,9 @@ function displayLoserImage() {
 //         } while (die.diceTotal() != getPoint());
 //     }
 //
-//     play(){
-//         String playAgain;
-//         Double bet;
+//     play(): void {
+//         playAgain: String;
+//         bet: number;
 //
 //         do {
 //             Craps crapsGame = new Craps();
@@ -510,7 +505,6 @@ function displayLoserImage() {
 //                     "Greetings player! Welcome to Basic AF Casino's version of Craps!\n " +
 //                     "\t\t\tLets get started!\n" +
 //                     "================================================================");
-//
 //             do {
 //                 bet = ConsoleInput.getDoubleInput("How much would you like to bet?");
 //                 crapsGame.placeBet(bet);

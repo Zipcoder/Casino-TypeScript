@@ -1,4 +1,3 @@
-
 /// <reference path="BlackJackPlayer.ts" />
 /// <reference path="CardGame.ts" />
 /// <reference path="CardPlayer.ts" />
@@ -84,7 +83,6 @@ class BlackJack extends CardGame implements Gamble{
         if(player.hasAceInHand()&& score>21){
             score -= 10
             player.Score = score;
-            
         }
         
         return score;
