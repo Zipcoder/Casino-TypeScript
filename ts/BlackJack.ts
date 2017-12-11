@@ -32,18 +32,6 @@ class BlackJack extends CardGame implements Gamble, Game {
     this.stayButtonHTMLElement = document.getElementById("stayButton");
   }
 
-  /*
-  askForHitOrStay();
-  dealerPlay();
-  checkWin();
-  if(playAgain()){
-      play();
-  }else{
-      gameOptions();
-  }
-}
-  */
-
   public play(): void {
     this.displayElement.innerHTML = "Welcome to Blackjack! <br />";
     this.displayElement.innerHTML += "Submit your bet: <br />";
@@ -77,7 +65,7 @@ class BlackJack extends CardGame implements Gamble, Game {
       this.hideUserInputBar();
       this.hideMainMenuButton();
       this.showHitButton();
-      this.showStayButton(); 
+      this.showStayButton();
     }
   }
 
@@ -95,16 +83,16 @@ class BlackJack extends CardGame implements Gamble, Game {
     console.log(this.player._hand.length);
     this.displayElement.innerHTML += "Player is showing: ";
     for (var i=0; i<this.player._hand.length; i++) {
-      let cssCards: any = "cssCards";
       let imageURL = this.player._hand[i].getImageURL();
-      this.displayElement.innerHTML += "<img class=" + cssCards + " src=" + imageURL + ">"
+      this.displayElement.innerHTML += "<img class=" + "cssCards" + " src=" + imageURL + ">"
     }
   }
 
   public hit(): void {
     this.player.addToHand(this.deck.getCard());
-    //display the dealt card
-    //check if went over 21
+    let imageURL = this.player._hand.pop().getImageURL();
+    this.displayElement.innerHTML += "<img class=" + "cssCards" + " src=" + imageURL + ">"
+    this.checkIfScoreOver21();
   }
 
   public stay(): void {
@@ -115,19 +103,61 @@ class BlackJack extends CardGame implements Gamble, Game {
     //check balance amount
   }
 
-  //split this into two methods
-  public askForHitOrStay(): void {
-    this.displayElement.innerHTML += "Dealer is showing\n"+this.dealer.getHand().pop();
-    // let hitOrStay: string;
-    do {
-      this.player.getHand();
-      //print the players current score?
-      if(this.player.getScore() >= 21) {
-      return;
+  public checkIfScoreOver21() {
+    this.player.calculateTotalScore();
+    if(this.player.getScore() > 21) {
+      this.checkForWinAndUpdateBalance();
+      //display dealer hand to HTML
+      //calculate dealers score
+      //display the dealers score to HTML
     }
-    this.displayElement.innerHTML += "Would you like to hit or stay?"
+  }
 
-    } while(true);
+  /*
+  this.player.calculateScore();
+       if (this.player.getScore() > 21) {
+           this.checkForWin();
+           this.ui.displayHand(this.dealer);
+           this.dealer.calculateScore();
+           this.ui.displayScore(this.dealer);
+       }
+  */
+
+  public checkForWinAndUpdateBalance() {
+    if(this.didPlayerWin()) {
+      this.displayElement.innerHTML += "PLAYER WINS!";
+      this.player.addToBalance(); //need to work on this. 
+    }
+    else {
+      this.displayElement.innerHTML += "DEALER WINS!";
+      let dealerFinalScore = this.dealer.getScore();
+      this.displayElement.innerHTML += dealerFinalScore;
+    }
+  }
+
+  /*
+  public void checkWin(){
+      if(playerWins()){
+          Console.print("Player wins\n");
+          casinoplayer.addToBalance(pot);
+      }else{
+          Console.print("Dealer wins\n");
+      }
+      Console.print("Dealer had\n"+dealer.getStringDisplayHand());
+      Console.print("Score of "+dealer.getScore());
+  }
+  */
+
+
+  public didPlayerWin(): boolean {
+    let playerScore = this.player.getScore();
+    let dealerScore = this.dealer.getScore();
+    if ((playerScore === 21 && dealerScore != 21) ||
+    (playerScore < 21 && dealerScore < playerScore) ||
+    (playerScore < 21 && dealerScore > 21)) {
+      return true;
+    }
+    return false;
   }
 
   //reset button

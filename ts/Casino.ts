@@ -195,7 +195,7 @@ class Casino {
 
     }
 
-    get casinoPlayer(): Player { 
+    get casinoPlayer(): Player {
         return this._casinoPlayer;
     }
 
