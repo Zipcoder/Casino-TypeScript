@@ -1,4 +1,6 @@
-enum PlayingSuit {
+///<reference path="enumValues.d.ts"/>
+
+enum PlayingSuit{
 
     HEART = "♡",
     DIAMOND = "♢",
@@ -9,6 +11,10 @@ enum PlayingSuit {
 
 let symbol:string = PlayingSuit.valueOf().toString();
 
-function toString() {
-    return this.symbol;
-}
+// function toString() {
+//     return this.symbol;
+// }
+//
+// function valueOf() {
+//     return this.EnumValues.getValues();
+// }

@@ -1,10 +1,6 @@
 ///<reference path="PlayingSuit.ts" />
 ///<reference path="PlayingValue.ts" />
 
-// import { PlayingSuit } from "./PlayingSuit";
-// import { PlayingValue } from "./PlayingValue";
-
-
 class PlayingCard {
 
     private suit: PlayingSuit;

@@ -15,13 +15,7 @@ enum PlayingValue {
     ACE = "A"
 }
 
-let value: string = PlayingValue.valueOf().toString();
-
-function getValue(): PlayingValue {
-    return this.value;
-}
-
-function toString(): string{
-    return this.value;
-}
+// function toString(): string{
+//     return this.value;
+// }
 

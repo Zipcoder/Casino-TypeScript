@@ -1,4 +1,6 @@
 /// <reference path="CrapsConsole.ts" />
+///<reference path="BlackJackConsole.ts"/>
+
 /// <reference path="User.ts" />
 /// <reference path="Casino.ts"/>
 
