@@ -55,10 +55,11 @@ class BlackJack extends CardGame implements Gamble, Game {
     else {
       console.log("Bet accepted " + bet);
       this.bet = this.userInputElement.value;
-      this.displayElement.innerHTML = "Bet Accepted";
-      this.greetingElement.innerHTML += " <b>Current Bet: </b>$" + this.bet + "<br />";
+      this.displayElement.innerHTML = "Bet Accepted! Let's Play!" + "<br />";
+      this.greetingElement.innerHTML += " <b>Current Bet: </b>$" + this.bet;
       this.deal(this.player, this.dealer, 2);
       this.displayDealerHand();
+      this.displayElement.innerHTML += "<br />";
       this.displayElement.innerHTML += "<br />";
       this.displayPlayerHand();
       this.hideSubmitButton();
@@ -69,34 +70,38 @@ class BlackJack extends CardGame implements Gamble, Game {
     }
   }
 
-  public displayDealerHand() { //we would only want to display one card...
-    console.log(this.dealer._hand.length);
+  public displayDealerHand() { //only display one card...
     this.displayElement.innerHTML += "Dealer is showing: ";
     for (var i=0; i<this.dealer._hand.length; i++) {
       let cssCards: any = "cssCards";
       let imageURL = this.dealer._hand[i].getImageURL();
       this.displayElement.innerHTML += "<img class=" + cssCards + " src=" + imageURL + ">"
       }
+      this.dealer.calculateTotalScore();
+      console.log(this.dealer.getScore()); //shows score
   }
 
   public displayPlayerHand() {
-    console.log(this.player._hand.length);
     this.displayElement.innerHTML += "Player is showing: ";
     for (var i=0; i<this.player._hand.length; i++) {
       let imageURL = this.player._hand[i].getImageURL();
       this.displayElement.innerHTML += "<img class=" + "cssCards" + " src=" + imageURL + ">"
     }
+    this.player.calculateTotalScore();
+    console.log(this.player.getScore()); //shows score
   }
 
-  public hit(): void {
+  public hit(): void { //not adding up score...
     this.player.addToHand(this.deck.getCard());
     let imageURL = this.player._hand.pop().getImageURL();
     this.displayElement.innerHTML += "<img class=" + "cssCards" + " src=" + imageURL + ">"
-    this.checkIfScoreOver21();
+    // this.checkIfScoreOver21();
+    this.player.calculateTotalScore();
+    console.log(this.player.getScore());
   }
 
   public stay(): void {
-    // calculate score
+    this.player.calculateTotalScore();
     //dealer play
     //check for Win
     //update Balance
@@ -104,7 +109,9 @@ class BlackJack extends CardGame implements Gamble, Game {
   }
 
   public checkIfScoreOver21() {
+    console.log("checkifscoreover21 method");
     this.player.calculateTotalScore();
+    console.log(this.player.getScore());
     if(this.player.getScore() > 21) {
       this.checkForWinAndUpdateBalance();
       //display dealer hand to HTML
@@ -113,41 +120,24 @@ class BlackJack extends CardGame implements Gamble, Game {
     }
   }
 
-  /*
-  this.player.calculateScore();
-       if (this.player.getScore() > 21) {
-           this.checkForWin();
-           this.ui.displayHand(this.dealer);
-           this.dealer.calculateScore();
-           this.ui.displayScore(this.dealer);
-       }
-  */
-
   public checkForWinAndUpdateBalance() {
     if(this.didPlayerWin()) {
       this.displayElement.innerHTML += "PLAYER WINS!";
-      this.player.addToBalance(); //need to work on this. 
+      this.player.balance = this.player.balance + (this.bet * 1);
     }
     else {
       this.displayElement.innerHTML += "DEALER WINS!";
       let dealerFinalScore = this.dealer.getScore();
       this.displayElement.innerHTML += dealerFinalScore;
+      this.player.balance = this.player.balance - (this.bet * 1);
     }
   }
 
-  /*
-  public void checkWin(){
-      if(playerWins()){
-          Console.print("Player wins\n");
-          casinoplayer.addToBalance(pot);
-      }else{
-          Console.print("Dealer wins\n");
-      }
-      Console.print("Dealer had\n"+dealer.getStringDisplayHand());
-      Console.print("Score of "+dealer.getScore());
+  public dealerPlay(): void {
+    while(this.dealer.hitDealer()) {
+      this.dealer.addToHand(this.deck.getCard());
+    }
   }
-  */
-
 
   public didPlayerWin(): boolean {
     let playerScore = this.player.getScore();

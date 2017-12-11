@@ -32,7 +32,7 @@ class Craps implements Game,Gamble{
     this.displayElement.innerHTML += "Submit your bet: <br />";
     this.submitButtonHTMLElement.setAttribute("onClick", "craps.takeBet()");
     this.userInputElement.setAttribute("type", "number");
-    this.greetingElement = document.getElementById("greeting"); 
+    this.greetingElement = document.getElementById("greeting");
     this.showResetButton();
     this.showSubmitButton();
     this.showUserInputBar();

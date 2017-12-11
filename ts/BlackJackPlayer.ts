@@ -17,7 +17,7 @@ public setScore(newScore: number): void {
   this._score = newScore;
 }
 
-public calculateTotalScore() {
+public calculateTotalScore(): void {
   this._score = 0;
   for(var i=0; i<this._hand.length; i++) {
     this._score += this._hand[i].getValue();  //for(let card of this.hand) { }
@@ -37,7 +37,5 @@ private isAceInHand(): boolean {
     }
   }
 }
-
-//getInitialPlayerHand() { }
 
 }
