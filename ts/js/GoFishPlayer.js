@@ -60,7 +60,7 @@ define(["require", "exports", "./CardPlayer", "./CardPile"], function (require, 
             for (var value in fourOfAKindValues) {
                 var book = new CardPile_1.CardPile();
                 for (var card in hand) {
-                    if (hand[card].getFaceValue() === value) {
+                    if (hand[card].getFaceValue() === fourOfAKindValues[value]) {
                         book.addCardToPile(hand[card]);
                     }
                 }

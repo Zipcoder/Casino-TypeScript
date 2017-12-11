@@ -58,7 +58,7 @@ export class GoFishPlayer extends CardPlayer<GoFish> {
     for(let value in fourOfAKindValues) {
       let book = new CardPile();
       for(let card in hand) {
-        if(hand[card].getFaceValue() === value) {
+        if(hand[card].getFaceValue() === fourOfAKindValues[value]) {
           book.addCardToPile(hand[card]);
         }
       }
