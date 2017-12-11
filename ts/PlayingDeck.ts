@@ -2,11 +2,9 @@
 ///<reference path="PlayingSuit.ts"/>
 ///<reference path="PlayingValue.ts"/>
 
-
 class PlayingDeck {
 
     private cards : Array<PlayingCard>;
-
     public constructor() {
         this.populate();
     }
@@ -43,6 +41,7 @@ class PlayingDeck {
         }
         return this.cards.shift();
     }
+
 
     public populate(): void {
         this.cards = new Array<PlayingCard>();

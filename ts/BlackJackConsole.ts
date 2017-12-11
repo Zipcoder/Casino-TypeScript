@@ -101,7 +101,6 @@ class BlackJackConsole {
     }
 
     displayOpponentBetting(passedOpponentBet: number): void {//Called _AFTER_ the money transfers have already taken place
-
         updateDisplay("Opponent bets $" + passedOpponentBet);
         updateDisplay("You match $" + passedOpponentBet);
         updateDisplay("You have $" + this.player.Wallet.getMoney() + " in your wallet");

@@ -1,5 +1,4 @@
 class MoneyContainer {
-
     private money: number = 0;
 
 
