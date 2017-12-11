@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Utilities", "./Card"], function (require, exports, Console_1, GoFish_1, GoFishPlayer_1, Utilities_1, Card_1) {
+define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Utilities", "./Card", "./Casino"], function (require, exports, Console_1, GoFish_1, GoFishPlayer_1, Utilities_1, Card_1, Casino_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var GoFishConsole = (function (_super) {
@@ -134,6 +134,31 @@ define(["require", "exports", "./Console", "./GoFish", "./GoFishPlayer", "./Util
                 this.displayFinalCards();
                 var winner = this.game.determineWinner();
                 Utilities_1.Utilities.printLine("Congratulations, " + winner.getName() + " is the winner!");
+                Utilities_1.Utilities.printLine("");
+                Utilities_1.Utilities.printLine("Play again? Y or N");
+                var _this = this;
+                Utilities_1.Utilities.buttonEle.addEventListener("click", function playAgain() {
+                    var input = Utilities_1.Utilities.userInputEle.value;
+                    Utilities_1.Utilities.userInputEle.value = "";
+                    if (input.match(/^(Yes\b|Y\b|N\b|No\b)/gi) == null) {
+                        Utilities_1.Utilities.printLine("Invalid Selction");
+                    }
+                    else {
+                        if (input.match(/^(Yes\b|Y\b)/gi) != null) {
+                            Utilities_1.Utilities.clearDisplay();
+                            this.removeEventListener("click", playAgain);
+                            var newGame = new GoFishConsole();
+                            newGame.start();
+                        }
+                        else {
+                            Utilities_1.Utilities.clearDisplay();
+                            Utilities_1.Utilities.printLine("Returning to lobby...");
+                            var casino = new Casino_1.Casino();
+                            this.removeEventListener("click", playAgain);
+                            casino.startCasino();
+                        }
+                    }
+                });
             }
         };
         GoFishConsole.prototype.startPlayerTurn = function () {

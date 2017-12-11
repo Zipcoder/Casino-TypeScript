@@ -4,6 +4,7 @@ import {GoFishPlayer} from './GoFishPlayer';
 import {Utilities} from './Utilities';
 import {Card} from './Card';
 import {CardPile} from './CardPile';
+import {Casino} from './Casino';
 
 export class GoFishConsole extends Console {
 
@@ -133,6 +134,32 @@ export class GoFishConsole extends Console {
       this.displayFinalCards();
       let winner = this.game.determineWinner();
       Utilities.printLine("Congratulations, " + winner.getName() + " is the winner!");
+      Utilities.printLine("");
+      Utilities.printLine("Play again? Y or N");
+      var _this = this;
+      Utilities.buttonEle.addEventListener("click", function playAgain() {
+        var input: string = Utilities.userInputEle.value;
+        Utilities.userInputEle.value = "";
+        if (input.match(/^(Yes\b|Y\b|N\b|No\b)/gi)==null) {
+          Utilities.printLine("Invalid Selction");
+        }
+        else {
+          if (input.match(/^(Yes\b|Y\b)/gi)!=null) {
+            Utilities.clearDisplay();
+            this.removeEventListener("click", playAgain);
+            let newGame = new GoFishConsole();
+            newGame.start();
+          }
+          else {
+            Utilities.clearDisplay();
+            Utilities.printLine("Returning to lobby...");
+            let casino = new Casino();
+            this.removeEventListener("click", playAgain);
+            casino.startCasino();
+          }
+
+        }
+      });
     }
   }
 
