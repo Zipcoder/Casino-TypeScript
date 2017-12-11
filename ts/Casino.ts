@@ -38,8 +38,8 @@ class Casino{
             updateDisplay("Hello, "+user.name+". Welcome to the casino. You have $"+user.Wallet.getMoney().toFixed(2)+". Choose a game below.");
             this.inputElement.innerHTML='<input type="button" value="Craps" id="craps_button" onclick="casino.craps.run()"></br>'+
                                         '<input type="button" value="BlackJack" id="blackjack_button" onclick="casino.notImplemented()"></br>'+
-                                        '<input type="button" value="GoFish" id="gofish_button" onclick="casino.notImplemented()"></br>';
-                                        // '<input type="button" value="GoFish" id="gofish_button" onclick="casino.goFish.run()"></br>';
+                                        //'<input type="button" value="GoFish" id="gofish_button" onclick="casino.notImplemented()"></br>';
+                                         '<input type="button" value="GoFish" id="gofish_button" onclick="casino.goFish.run()"></br>';
         }else{
             this.initialize();
         }
@@ -57,7 +57,7 @@ class Casino{
         user=new User(this.nameInput, this.cashInput);
         this.havePlayer=true;
         this.craps=new CrapsConsole(user);
-  //      this.goFish=new GoFishConsole(user);
+        this.goFish=new GoFishConsole(user);
         this.run();
     }
 

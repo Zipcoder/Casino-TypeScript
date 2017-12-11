@@ -1,5 +1,5 @@
-export declare type EnumValueType = string | number;
-export declare class EnumValues {
+declare type EnumValueType = string | number;
+declare class EnumValues {
     static getNamesAndValues<T extends EnumValueType>(e: any): {
         name: string;
         value: T;

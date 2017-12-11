@@ -1,9 +1,7 @@
 ///<reference path="PlayingCard.ts"/>
-///<reference path="timEnumValues.ts"/>
+///<reference path="enumValues.d.ts"/>
 ///<reference path="PlayingValue.ts"/>
 ///<reference path="PlayingSuit.ts"/>
-
-
 
 class PlayingDeck {
 

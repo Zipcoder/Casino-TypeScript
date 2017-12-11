@@ -34,7 +34,7 @@ class GoFishPlayer{
     }
 }
 
-class GoFish implements Game{
+class GoFish implements CardGame{
 
     deck:PlayingDeck = new PlayingDeck();
     player:GoFishPlayer;
