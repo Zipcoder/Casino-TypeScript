@@ -1,122 +1,124 @@
-class Display{
+class Display {
 
     static displayEle: any = document.getElementById("display");
 
     static currentStep: String = "enterCasino";
 
-    static print(input: String){
+    static print(input: String) {
         this.displayEle.innerHTML += input + "<br/><br/>";
     }
 
 
-    static setCurrentStep(step : String){
+    static setCurrentStep(step: String) {
         this.currentStep = step;
     }
 
-    static hideUserInputButtonAndTextBox(){
+    static hideUserInputButtonAndTextBox() {
         document.getElementById("button").style.display = "none";
         document.getElementById("user_input").style.display = "none";
     }
 
-    static showUserInputButtonAndTextBox(){
+    static showUserInputButtonAndTextBox() {
         document.getElementById("button").style.display = "";
         document.getElementById("user_input").style.display = "";
     }
 
-    static hideRollButton(){
+    static hideRollButton() {
         document.getElementById("rollButton").style.display = "none";
     }
-    static showRollButton(){
+
+    static showRollButton() {
         document.getElementById("rollButton").style.display = "";
     }
 
-    static showCasinoMenu(){
+    static showCasinoMenu() {
         document.getElementById("leave_stay").style.display = "";
     }
 
-    static hideCasinoMenu(){
+    static hideCasinoMenu() {
         document.getElementById("leave_stay").style.display = "none";
     }
 
-    static showGameChoiceMenu(){
+    static showGameChoiceMenu() {
         document.getElementById("gametype").style.display = "";
     }
 
-    static hideGameChoiceMenu(){
+    static hideGameChoiceMenu() {
         document.getElementById("gametype").style.display = "none";
     }
 
-    static hideDiceGameMenu(){
+    static hideDiceGameMenu() {
         document.getElementById("diceGame").style.display = "none";
     }
 
-    static shoeDiceGameMenu(){
+    static shoeDiceGameMenu() {
         document.getElementById("diceGame").style.display = "";
     }
 
-    static hideCardGameMenu(){
+    static hideCardGameMenu() {
         document.getElementById("cardGame").style.display = "none";
     }
 
-    static showCardGameMenu(){
+    static showCardGameMenu() {
         document.getElementById("cardGame").style.display = "";
     }
 
-    static showDrinks(){
+    static showDrinks() {
         document.getElementById("drinks").style.display = "";
     }
 
-    static hideDrinks(){
+    static hideDrinks() {
         document.getElementById("drinks").style.display = "none";
     }
 
-    static showBud(){
+    static showBud() {
         document.getElementById("bud").style.display = "";
     }
 
-    static showCorona(){
+    static showCorona() {
         document.getElementById("corona").style.display = "";
     }
 
-    static showCran(){
+    static showCran() {
         document.getElementById("cran").style.display = "";
     }
 
-    static showHien(){
+    static showHien() {
         document.getElementById("hien").style.display = "";
     }
 
-    static showLong(){
+    static showLong() {
         document.getElementById("long").style.display = "";
     }
 
-    static showMargarita(){
+    static showMargarita() {
         document.getElementById("marg").style.display = "";
     }
 
-    static showOldFasion(){
+    static showOldFasion() {
         document.getElementById("old").style.display = "";
     }
 
-    static showRedWine(){
+    static showRedWine() {
         document.getElementById("red").style.display = "";
     }
 
-    static showWhiteWine(){
+    static showWhiteWine() {
         document.getElementById("white").style.display = "";
     }
 
-    static showHitStayButtons(){
+    static showHitStayButtons() {
         document.getElementById("hit").style.display = "";
         document.getElementById("stay").style.display = "";
     }
 
-    static hideHitStayButtons(){
+    static hideHitStayButtons() {
         document.getElementById("hit").style.display = "none";
         document.getElementById("stay").style.display = "none";
-      
-    static clearInnerHTMLDisplay(){
-        document.getElementById("display").innerHTML = "";
-      
     }
-}
+
+    static clearInnerHTMLDisplay(){
+            document.getElementById("display").innerHTML = "";
+
+        }
+    }
