@@ -1,6 +1,7 @@
 ///<reference path="Player.ts"/>
-/// <reference path="Craps.ts" />
 /// <reference path="BlackJack.ts"/>
+/// <reference path="craps.ts" />
+
 
 
 class Casino {
@@ -74,11 +75,11 @@ class Casino {
         let ageString: string = this.userInputHTMLElement.value;
         if (ageString != null) {
             if (this.validateAge(ageString)) {
-                this.setPlayerAge(parseFloat(ageString));
+                this.setPlayerAge(parseInt(ageString));
                 this.appendToDisplay("How much money do you have?", true);
                 this.setOnClickAttributeOfSubmitButton("getUserMoney()");
             }
-        } 
+        }
     }
 
     private validateAge(inputString: string): boolean {
