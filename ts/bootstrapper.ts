@@ -6,7 +6,7 @@
 ///<reference path="CrapsButtonLogic.ts"/>
 ///<reference path="Deck.ts"/>
 ///<reference path="BlackJack.ts"/>
-///<reference path="BlackJackConsole.ts"/>
+///<reference path="BlackJackButtonLogic.ts"/>
 
 
 
@@ -15,7 +15,7 @@ WebPageInteraction.getInstance().displayToWebpage(menuCreation.menuTitle());
 let casino: Casino = new Casino();
 let crapsButtonLogic = new CrapsButtonLogic();
 let craps: Craps = new Craps(casino);
-let blackJackConsole: BlackJackConsole = new BlackJackConsole();
+let blackJackConsole: BlackJackButtonLogic = new BlackJackButtonLogic();
 let blackJack: BlackJack = new BlackJack(casino);
 
 
@@ -38,7 +38,7 @@ let blackJack: BlackJack = new BlackJack(casino);
 //
 //     //newCrapsGame.printWelcomeMessage();
 //     //newCrapsGame.takeBet();
-//     newCrapsGame.play();
+//     newCrapsGame.playCraps();
 //
 //
 //

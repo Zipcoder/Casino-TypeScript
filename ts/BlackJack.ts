@@ -146,9 +146,6 @@ class BlackJack {
 
     }
 
-
-
-
     public checkFor21(): boolean {
         this.player.calculateScore();
         this.dealer.calculateScore();

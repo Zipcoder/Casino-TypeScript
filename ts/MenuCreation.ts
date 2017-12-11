@@ -9,7 +9,7 @@ class MenuCreation{
 
     casinoTitle(): string {
         let outputString =
-            "Please select a casino game to play!<br>"+
+            "Please select a casino game to playCraps!<br>"+
             "===============================================<br>";
         return outputString;
     }

@@ -1,6 +1,7 @@
 ///<reference path="CardGames.ts"/>
 ///<reference path="bootstrapper.ts"/>
 ///<reference path="Dice.ts"/>
+///<reference path="HtmlObjectCreation.ts"/>
 
 
 class Craps {
@@ -10,7 +11,7 @@ class Craps {
     private dice2: Dice = new Dice(1, 6);
     private diceTwoValue: number;
     private player: Player;
-    private static betAmount: number;
+    private betAmount: number;
     private sumOfRolls: number;
     private target: number;
 
@@ -23,10 +24,11 @@ class Craps {
         this.gameSelectionButtons = document.getElementById("gameSelectionButtons");
     }
 
-    public play(): void {
+    public playCraps(): void {
         this.player = this.casino.aPlayer;
         this.printWelcomeMessage();
-        this.takeBet();
+        crapsButtonLogic.takeBetButtonLogic();
+        document.getElementById("newButton").setAttribute("onclick", "craps.takeBetAmount()");
     }
 
     public printWelcomeMessage(): void {
@@ -35,53 +37,89 @@ class Craps {
         displayToWebpage("Welcome to craps " + this.player.getName() + "!");
     }
 
-    public takeBet(): void {
-        crapsButtonLogic.takeBetButtonLogic();
-        WebPageInteraction.getInstance().displayToWebpage(
-            "You currently have $" + this.player.getMoney() + "<br>" +
-            "How much money do you want to bet?");
+    public takeBetAmount(): void {
+        let betAmountHTML = <HTMLInputElement>document.getElementById("newButtonInput");
+        let betAmountString: string = betAmountHTML.value;
+        console.log(betAmountString);
+        let betAmountFloat = parseFloat(betAmountString);
+        console.log(betAmountFloat);
+        if (betAmountString.match("^[0-9]*$") && betAmountFloat>0 && betAmountFloat <= this.player.getMoney()) {
+            this.betAmount = betAmountFloat;
+            console.log(this.betAmount);
+            this.player.setMoney(this.player.getMoney() - betAmountFloat);
+            document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
+            WebPageInteraction.getInstance().displayToWebpage("<br>You bet $" + betAmountString);
 
 
-    }
 
-    public getBetAmount(): void {
-        this.gameSelectionButtons.style.display = "none";
-        document.getElementById("user_input").hidden = false;
-        let amount: number = parseFloat((<HTMLInputElement>document.getElementById("user_input")).value);
-        if (amount > this.player.getMoney() || amount <= 0) {
-            WebPageInteraction.getInstance().displayToWebpage(
-                "Please make sure you have entered a number greater than " +
-                "zero and less than or equal to $" + this.player.getMoney()) + ".";
+
+            crapsButtonLogic.rollDiceButtonLogic();
+            document.getElementById("newButton").setAttribute("onclick", "craps.rollDice()");
+            //button change goes here
+            //doc goes here
         }
         else {
-            Craps.betAmount = amount;
-            WebPageInteraction.getInstance().displayToWebpage("<br>You bet: $" + Craps.betAmount+"<br>");
-            this.player.setMoney(this.player.getMoney() - amount);
-            document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
-
-            document.getElementById("userInputGroup").style.display = "none";
-            this.primaryButton.innerHTML = "Press To Roll";
-            this.primaryButton.setAttribute("onclick", "craps.pressEnterToRoll()");
-
+            WebPageInteraction.getInstance().displayToWebpage("<br>Please enter a valid amount to bet.");
         }
     }
 
-    public pressEnterToRoll(): void {
+    public rollDice() {
         this.diceOneValue = this.dice1.roll();
         this.diceTwoValue = this.dice2.roll();
+        console.log(this.diceOneValue);
+        console.log(this.diceTwoValue);
+
         this.sumOfRolls = this.diceOneValue + this.diceTwoValue;
+        console.log(this.sumOfRolls);
         this.printDiceRoll(this.sumOfRolls);
-        if (this.sevenOrEleven(this.sumOfRolls)) {
-            this.printWinMessage();
-        } else if (this.twoThreeOrTwelve(this.sumOfRolls)) {
-            this.printLoseMessage();
+        if (this.sumOfRolls === 7 || this.sumOfRolls === 11) {
+            this.winGameOfCraps();
+        } else if (this.sumOfRolls === 2 || this.sumOfRolls === 3 || this.sumOfRolls === 12) {
+            this.loseGameOfCraps();
         } else {
             this.target = this.sumOfRolls;
             WebPageInteraction.getInstance().displayToWebpage("<br>The new target is: " + this.target);
+            document.getElementById("newButton").setAttribute("onclick", "craps.keepRollingDice()");
         }
-
-        this.primaryButton.setAttribute("onclick", "craps.keepRollingDice()");
     }
+
+    public printDiceRoll(diceRollValue: number): void {
+        let diceOneImage = "<img src=images/dice/dice"+this.diceOneValue+".png >";
+        let diceTwoImage = "<img src=images/dice/dice"+this.diceTwoValue+".png >";
+
+        WebPageInteraction.getInstance().displayToWebpage("You rolled: " + diceOneImage + diceTwoImage + " ("+diceRollValue+")");
+
+    }
+
+    public winGameOfCraps(): void {
+        WebPageInteraction.getInstance().displayToWebpage("<br>Congratulations you won!");
+        let newMoneyAmount: number = this.player.getMoney() + this.betAmount*2;
+        this.player.setMoney(newMoneyAmount);
+        WebPageInteraction.getInstance().displayToWebpage("You now have $" + this.player.getMoney() + " dollars!");
+        document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
+        this.playAgainLogic();
+
+    }
+
+    public loseGameOfCraps(): void {
+        WebPageInteraction.getInstance().displayToWebpage("Sorry you lost!<br>You now have $"+this.player.getMoney());
+        this.playAgainLogic();
+    }
+
+    public playAgainLogic(): void {
+        WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to play again?");
+        crapsButtonLogic.playAgainButtonLogic();
+        document.getElementById("yesButton").setAttribute("onclick", "craps.playCraps()");
+        document.getElementById("noButton").setAttribute("onclick", "craps.backToMainMenu()");
+
+    }
+
+    public backToMainMenu() {
+        console.log("Going back to Main Menu");
+        crapsButtonLogic.backToMainMenuButtonLogic();
+        document.getElementById("display").innerHTML = menuCreation.casinoTitle();
+    }
+
 
     public keepRollingDice(): void {
         this.diceOneValue = this.dice1.roll();
@@ -92,94 +130,35 @@ class Craps {
             this.printDiceRoll(this.sumOfRolls);
         }
         else {
-
-            this.primaryButton.setAttribute("onclick", "craps.playAgainYes()");
-            this.primaryButton.innerText = "Yes";
-            console.log("when does this happen");
-
-            let p = document.getElementById("generalSubmitButton");
-            let newNoButton = document.createElement("button");
-            newNoButton.innerText = "No";
-            newNoButton.setAttribute('class', "btn btn-danger");
-            newNoButton.setAttribute('id', "noButton");
-            newNoButton.setAttribute('onclick', "craps.playAgainNo()");
-            p.appendChild(newNoButton);
-
-
-
+            this.printDiceRoll(this.sumOfRolls);
             if (this.sumOfRolls === 7) {
-                this.printLoseMessage();
+                this.loseGameOfCraps();
+
 
             } else if (this.sumOfRolls === this.target) {
-                this.printWinMessage();
+                this.winGameOfCraps();
 
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public bootPlayer(): void {
         WebPageInteraction.getInstance().displayToWebpage("Time for you to go to the ATM. Kicking you from the casino.");
         //System.exit(0);
         // Go to main Menu
     }
-
-
-
-
-    public printDiceRoll(diceRollValue: number): void {
-        let diceOneImage = "<img src=images/dice/dice"+this.diceOneValue+".png >";
-        let diceTwoImage = "<img src=images/dice/dice"+this.diceTwoValue+".png >";
-
-        WebPageInteraction.getInstance().displayToWebpage("You rolled: " + diceOneImage + diceTwoImage);
-
-    }
-
-    public sevenOrEleven(diceRollValue: number): boolean {
-        return diceRollValue === 7 || diceRollValue === 11;
-
-    }
-
-    public twoThreeOrTwelve(diceRollValue: number): boolean {
-        return (diceRollValue === 2 || diceRollValue === 3 || diceRollValue === 12);
-    }
-
-    public printWinMessage(): void {
-        WebPageInteraction.getInstance().displayToWebpage("Congratulations you won!");
-        this.printWinnings(Craps.betAmount);
-    }
-
-    public printWinnings(amount: number): void {
-        let newMoneyAmount: number = this.player.getMoney() + amount*2;
-        this.player.setMoney(newMoneyAmount);
-        WebPageInteraction.getInstance().displayToWebpage("You now have $" + this.player.getMoney() + " dollars!");
-        document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
-        WebPageInteraction.getInstance().displayToWebpage("<br>Do you want to play another round?<br>");
-    }
-
-    public printLoseMessage(): void {
-        WebPageInteraction.getInstance().displayToWebpage("Sorry you lost!<br>You now have $"+this.player.getMoney());
-        WebPageInteraction.getInstance().displayToWebpage("<br>Do you want to play another round?<br>");
-    }
-
-    public playAgainNo() {
-        document.getElementById("noButton").remove();
-        console.log("not playing again");
-
-        this.primaryButton.style.display = "none";
-        document.getElementById("gameSelectionButtons").style.display = "inline";
-    }
-
-    public playAgainYes() {
-        console.log("playing again.");
-        document.getElementById("noButton").remove();
-        document.getElementById("generalSubmitButton").style.display = "none";
-        this.primaryButton.setAttribute('onclick', "craps.takeBet()");
-        this.primaryButton.click();
-
-        //document.getElementById("primaryButton").innerText = "none";
-
-    }
-
 
 
 }
