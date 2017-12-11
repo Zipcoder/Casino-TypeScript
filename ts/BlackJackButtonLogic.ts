@@ -39,22 +39,4 @@ class BlackJackButtonLogic {
         HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button",
             "Press to Continue", "continueButton", "blackJack.dealerHitUntilFinished()");
     }
-
-    public playAgainButtonLogic() {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button",
-            "Yes", "yesButton", "blackJack.playAgainLogic()");
-        document.getElementById("yesButton").style.display = "inline";
-
-
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button",
-            "No", "noButton", "blackJack.playAgainLogic()");
-        document.getElementById("noButton").style.display = "inline";
-        document.getElementById("noButton").setAttribute('class', "btn btn-danger");
-    }
-
-    public backToMainMenuButtonLogic() {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        document.getElementById("gameSelectionButtons").style.display = 'inline';
-    }
 }

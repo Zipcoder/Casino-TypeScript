@@ -1,53 +1,33 @@
-var Player = /** @class */ (function () {
-    function Player(name, money) {
-        this.hand = [];
-        this.name = name;
-        this.money = money;
+var HtmlObjectCreation = /** @class */ (function () {
+    function HtmlObjectCreation() {
     }
-    Player.prototype.getName = function () {
-        return this.name;
+    HtmlObjectCreation.createHTMLButtonObject = function (parentDiv, objectType, label, idName, method) {
+        var parentHTMLDiv = document.getElementById(parentDiv);
+        var newButton = document.createElement(objectType);
+        newButton.innerText = label;
+        newButton.setAttribute('class', "btn btn-primary");
+        newButton.setAttribute('id', idName);
+        newButton.setAttribute('onclick', method);
+        newButton.setAttribute('style', "display: block");
+        parentHTMLDiv.appendChild(newButton);
     };
-    Player.prototype.setMoney = function (money) {
-        this.money = money;
+    HtmlObjectCreation.createHTMLInputObject = function (parentDiv, labelText, inputId) {
+        var parentHTMLDiv = document.getElementById(parentDiv);
+        var newLabel = document.createElement("label");
+        var newInput = document.createElement("input");
+        newLabel.innerText = labelText;
+        newInput.setAttribute('id', inputId);
+        newInput.setAttribute('type', 'text');
+        newInput.setAttribute('style', "display: block");
+        parentHTMLDiv.appendChild(newLabel);
+        parentHTMLDiv.appendChild(newInput);
     };
-    Player.prototype.getMoney = function () {
-        return this.money;
+    HtmlObjectCreation.clearHTMLDiv = function (divToClear) {
+        document.getElementById(divToClear).innerHTML = "";
     };
-    Player.prototype.addToHand = function (card) {
-        this.hand.push(card);
-    };
-    Player.prototype.clearHand = function () {
-        this.hand = [];
-    };
-    Player.prototype.getHand = function () {
-        return this.hand;
-    };
-    Player.prototype.getScore = function () {
-        return this.score;
-    };
-    Player.prototype.calculateScore = function () {
-        var sum = 0;
-        for (var _i = 0, _a = this.hand; _i < _a.length; _i++) {
-            var card = _a[_i];
-            sum += card.getValue();
-        }
-        if (this.isAceInHand() && sum <= 11) {
-            sum += 10;
-        }
-        this.score = sum;
-        return sum;
-    };
-    Player.prototype.isAceInHand = function () {
-        for (var _i = 0, _a = this.hand; _i < _a.length; _i++) {
-            var card = _a[_i];
-            if (card.getValue() == 1) {
-                return true;
-            }
-        }
-        return false;
-    };
-    return Player;
+    return HtmlObjectCreation;
 }());
+///<reference path="HtmlObjectCreation.ts"/>
 var MenuCreation = /** @class */ (function () {
     function MenuCreation() {
     }
@@ -61,6 +41,23 @@ var MenuCreation = /** @class */ (function () {
         var outputString = "Please select a casino game to playCraps!<br>" +
             "===============================================<br>";
         return outputString;
+    };
+    MenuCreation.prototype.playAgainButtonLogic = function (method) {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Yes", "yesButton", "method");
+        document.getElementById("yesButton").style.display = "inline";
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "No", "noButton", "blackJack.playAgainLogic()");
+        document.getElementById("noButton").style.display = "inline";
+        document.getElementById("noButton").setAttribute('class', "btn btn-danger");
+    };
+    MenuCreation.prototype.backToMainMenuButtonLogic = function () {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        document.getElementById("gameSelectionButtons").style.display = 'inline';
+    };
+    MenuCreation.prototype.backToMainMenu = function () {
+        console.log("Going back to Main Menu");
+        this.backToMainMenuButtonLogic();
+        document.getElementById("display").innerHTML = menuCreation.casinoTitle();
     };
     return MenuCreation;
 }());
@@ -120,186 +117,6 @@ var Casino = /** @class */ (function () {
     ;
     return Casino;
 }());
-var CardGames = /** @class */ (function () {
-    function CardGames() {
-    }
-    CardGames.prototype.CardGames = function (aPlayer) {
-        this.deck = new Deck();
-        this.deck.shuffle();
-    };
-    CardGames.prototype.getPlayer = function () {
-        return this.player;
-    };
-    CardGames.prototype.setPlayer = function (player) {
-        this.player = player;
-    };
-    CardGames.prototype.getDeck = function () {
-        return this.deck;
-    };
-    CardGames.prototype.setDeck = function (deck) {
-        this.deck = deck;
-    };
-    CardGames.prototype.dealCard = function (playerToReceiveCard) {
-        var card = this.getDeck().getCard();
-        playerToReceiveCard.addToHand(card);
-    };
-    return CardGames;
-}());
-var Dice = /** @class */ (function () {
-    function Dice(min, max) {
-        this.min = min;
-        this.max = max;
-    }
-    Dice.prototype.roll = function () {
-        return Math.floor(Math.random() * this.max) + this.min;
-    };
-    return Dice;
-}());
-var HtmlObjectCreation = /** @class */ (function () {
-    function HtmlObjectCreation() {
-    }
-    HtmlObjectCreation.createHTMLButtonObject = function (parentDiv, objectType, label, idName, method) {
-        var parentHTMLDiv = document.getElementById(parentDiv);
-        var newButton = document.createElement(objectType);
-        newButton.innerText = label;
-        newButton.setAttribute('class', "btn btn-primary");
-        newButton.setAttribute('id', idName);
-        newButton.setAttribute('onclick', method);
-        newButton.setAttribute('style', "display: block");
-        parentHTMLDiv.appendChild(newButton);
-    };
-    HtmlObjectCreation.createHTMLInputObject = function (parentDiv, labelText, inputId) {
-        var parentHTMLDiv = document.getElementById(parentDiv);
-        var newLabel = document.createElement("label");
-        var newInput = document.createElement("input");
-        newLabel.innerText = labelText;
-        newInput.setAttribute('id', inputId);
-        newInput.setAttribute('type', 'text');
-        newInput.setAttribute('style', "display: block");
-        parentHTMLDiv.appendChild(newLabel);
-        parentHTMLDiv.appendChild(newInput);
-    };
-    HtmlObjectCreation.clearHTMLDiv = function (divToClear) {
-        document.getElementById(divToClear).innerHTML = "";
-    };
-    return HtmlObjectCreation;
-}());
-///<reference path="CardGames.ts"/>
-///<reference path="bootstrapper.ts"/>
-///<reference path="Dice.ts"/>
-///<reference path="HtmlObjectCreation.ts"/>
-var Craps = /** @class */ (function () {
-    function Craps(casino) {
-        this.dice1 = new Dice(1, 6);
-        this.dice2 = new Dice(1, 6);
-        this.casino = casino;
-        this.primaryButton = document.getElementById("primaryButton");
-        this.gameSelectionButtons = document.getElementById("gameSelectionButtons");
-    }
-    Craps.prototype.playCraps = function () {
-        this.player = this.casino.aPlayer;
-        this.printWelcomeMessage();
-        crapsButtonLogic.takeBetButtonLogic();
-        document.getElementById("newButton").setAttribute("onclick", "craps.takeBetAmount()");
-    };
-    Craps.prototype.printWelcomeMessage = function () {
-        this.gameSelectionButtons.style.display = "none";
-        WebPageInteraction.getInstance().
-            displayToWebpage("Welcome to craps " + this.player.getName() + "!");
-    };
-    Craps.prototype.takeBetAmount = function () {
-        var betAmountHTML = document.getElementById("newButtonInput");
-        var betAmountString = betAmountHTML.value;
-        console.log(betAmountString);
-        var betAmountFloat = parseFloat(betAmountString);
-        console.log(betAmountFloat);
-        if (betAmountString.match("^[0-9]*$") && betAmountFloat > 0 && betAmountFloat <= this.player.getMoney()) {
-            this.betAmount = betAmountFloat;
-            console.log(this.betAmount);
-            this.player.setMoney(this.player.getMoney() - betAmountFloat);
-            document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
-            WebPageInteraction.getInstance().displayToWebpage("<br>You bet $" + betAmountString);
-            crapsButtonLogic.rollDiceButtonLogic();
-            document.getElementById("newButton").setAttribute("onclick", "craps.rollDice()");
-            //button change goes here
-            //doc goes here
-        }
-        else {
-            WebPageInteraction.getInstance().displayToWebpage("<br>Please enter a valid amount to bet.");
-        }
-    };
-    Craps.prototype.rollDice = function () {
-        this.diceOneValue = this.dice1.roll();
-        this.diceTwoValue = this.dice2.roll();
-        console.log(this.diceOneValue);
-        console.log(this.diceTwoValue);
-        this.sumOfRolls = this.diceOneValue + this.diceTwoValue;
-        console.log(this.sumOfRolls);
-        this.printDiceRoll(this.sumOfRolls);
-        if (this.sumOfRolls === 7 || this.sumOfRolls === 11) {
-            this.winGameOfCraps();
-        }
-        else if (this.sumOfRolls === 2 || this.sumOfRolls === 3 || this.sumOfRolls === 12) {
-            this.loseGameOfCraps();
-        }
-        else {
-            this.target = this.sumOfRolls;
-            WebPageInteraction.getInstance().displayToWebpage("<br>The new target is: " + this.target);
-            document.getElementById("newButton").setAttribute("onclick", "craps.keepRollingDice()");
-        }
-    };
-    Craps.prototype.printDiceRoll = function (diceRollValue) {
-        var diceOneImage = "<img src=images/dice/dice" + this.diceOneValue + ".png >";
-        var diceTwoImage = "<img src=images/dice/dice" + this.diceTwoValue + ".png >";
-        WebPageInteraction.getInstance().displayToWebpage("You rolled: " + diceOneImage + diceTwoImage + " (" + diceRollValue + ")");
-    };
-    Craps.prototype.winGameOfCraps = function () {
-        WebPageInteraction.getInstance().displayToWebpage("<br>Congratulations you won!");
-        var newMoneyAmount = this.player.getMoney() + this.betAmount * 2;
-        this.player.setMoney(newMoneyAmount);
-        WebPageInteraction.getInstance().displayToWebpage("You now have $" + this.player.getMoney() + " dollars!");
-        document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
-        this.playAgainLogic();
-    };
-    Craps.prototype.loseGameOfCraps = function () {
-        WebPageInteraction.getInstance().displayToWebpage("Sorry you lost!<br>You now have $" + this.player.getMoney());
-        this.playAgainLogic();
-    };
-    Craps.prototype.playAgainLogic = function () {
-        WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to play again?");
-        crapsButtonLogic.playAgainButtonLogic();
-        document.getElementById("yesButton").setAttribute("onclick", "craps.playCraps()");
-        document.getElementById("noButton").setAttribute("onclick", "craps.backToMainMenu()");
-    };
-    Craps.prototype.backToMainMenu = function () {
-        console.log("Going back to Main Menu");
-        crapsButtonLogic.backToMainMenuButtonLogic();
-        document.getElementById("display").innerHTML = menuCreation.casinoTitle();
-    };
-    Craps.prototype.keepRollingDice = function () {
-        this.diceOneValue = this.dice1.roll();
-        this.diceTwoValue = this.dice2.roll();
-        this.sumOfRolls = this.diceOneValue + this.diceTwoValue;
-        if (!(this.sumOfRolls === 7) && !(this.sumOfRolls === this.target)) {
-            this.printDiceRoll(this.sumOfRolls);
-        }
-        else {
-            this.printDiceRoll(this.sumOfRolls);
-            if (this.sumOfRolls === 7) {
-                this.loseGameOfCraps();
-            }
-            else if (this.sumOfRolls === this.target) {
-                this.winGameOfCraps();
-            }
-        }
-    };
-    Craps.prototype.bootPlayer = function () {
-        WebPageInteraction.getInstance().displayToWebpage("Time for you to go to the ATM. Kicking you from the casino.");
-        //System.exit(0);
-        // Go to main Menu
-    };
-    return Craps;
-}());
 var CrapsButtonLogic = /** @class */ (function () {
     function CrapsButtonLogic() {
         this.primaryButton = document.getElementById("primaryButton");
@@ -338,6 +155,179 @@ var CrapsButtonLogic = /** @class */ (function () {
         document.getElementById("gameSelectionButtons").style.display = 'inline';
     };
     return CrapsButtonLogic;
+}());
+var CardGames = /** @class */ (function () {
+    function CardGames() {
+    }
+    CardGames.prototype.CardGames = function (aPlayer) {
+        this.deck = new Deck();
+        this.deck.shuffle();
+    };
+    CardGames.prototype.getPlayer = function () {
+        return this.player;
+    };
+    CardGames.prototype.setPlayer = function (player) {
+        this.player = player;
+    };
+    CardGames.prototype.getDeck = function () {
+        return this.deck;
+    };
+    CardGames.prototype.setDeck = function (deck) {
+        this.deck = deck;
+    };
+    CardGames.prototype.dealCard = function (playerToReceiveCard) {
+        var card = this.getDeck().getCard();
+        playerToReceiveCard.addToHand(card);
+    };
+    return CardGames;
+}());
+var Dice = /** @class */ (function () {
+    function Dice(min, max) {
+        this.min = min;
+        this.max = max;
+    }
+    Dice.prototype.roll = function () {
+        return Math.floor(Math.random() * this.max) + this.min;
+    };
+    return Dice;
+}());
+///<reference path="CardGames.ts"/>
+///<reference path="bootstrapper.ts"/>
+///<reference path="Dice.ts"/>
+///<reference path="HtmlObjectCreation.ts"/>
+var Craps = /** @class */ (function () {
+    function Craps(casino) {
+        this.dice1 = new Dice(1, 6);
+        this.dice2 = new Dice(1, 6);
+        this.casino = casino;
+        this.primaryButton = document.getElementById("primaryButton");
+        this.gameSelectionButtons = document.getElementById("gameSelectionButtons");
+    }
+    Craps.prototype.playCraps = function () {
+        this.player = this.casino.aPlayer;
+        this.printWelcomeMessage();
+        crapsButtonLogic.takeBetButtonLogic();
+        document.getElementById("newButton").setAttribute("onclick", "craps.takeBetAmount()");
+    };
+    Craps.prototype.printWelcomeMessage = function () {
+        this.gameSelectionButtons.style.display = "none";
+        WebPageInteraction.getInstance().
+            displayToWebpage("Welcome to craps " + this.player.getName() + "!");
+    };
+    Craps.prototype.takeBetAmount = function () {
+        var betAmountHTML = document.getElementById("newButtonInput");
+        var betAmountString = betAmountHTML.value;
+        console.log(betAmountString);
+        var betAmountFloat = parseFloat(betAmountString);
+        console.log(betAmountFloat);
+        if (betAmountString.match("^[0-9]*$") && betAmountFloat > 0 && betAmountFloat <= this.player.getMoney()) {
+            this.betAmount = betAmountFloat;
+            console.log(this.betAmount);
+            this.player.setMoney(this.player.getMoney() - betAmountFloat);
+            document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
+            WebPageInteraction.getInstance().displayToWebpage("<br>You bet $" + betAmountString);
+            crapsButtonLogic.rollDiceButtonLogic();
+            document.getElementById("newButton").setAttribute("onclick", "craps.rollDice()");
+        }
+        else {
+            WebPageInteraction.getInstance().displayToWebpage("<br>Please enter a valid amount to bet.");
+        }
+    };
+    Craps.prototype.rollDice = function () {
+        this.diceOneValue = this.dice1.roll();
+        this.diceTwoValue = this.dice2.roll();
+        console.log(this.diceOneValue);
+        console.log(this.diceTwoValue);
+        this.sumOfRolls = this.diceOneValue + this.diceTwoValue;
+        console.log(this.sumOfRolls);
+        this.printDiceRoll(this.sumOfRolls);
+        if (this.sumOfRolls === 7 || this.sumOfRolls === 11) {
+            this.winGameOfCraps();
+        }
+        else if (this.sumOfRolls === 2 || this.sumOfRolls === 3 || this.sumOfRolls === 12) {
+            this.loseGameOfCraps();
+        }
+        else {
+            this.target = this.sumOfRolls;
+            WebPageInteraction.getInstance().displayToWebpage("<br>The new target is: " + this.target);
+            document.getElementById("newButton").setAttribute("onclick", "craps.keepRollingDice()");
+        }
+    };
+    Craps.prototype.keepRollingDice = function () {
+        this.diceOneValue = this.dice1.roll();
+        this.diceTwoValue = this.dice2.roll();
+        this.sumOfRolls = this.diceOneValue + this.diceTwoValue;
+        if (!(this.sumOfRolls === 7) && !(this.sumOfRolls === this.target)) {
+            this.printDiceRoll(this.sumOfRolls);
+        }
+        else {
+            this.printDiceRoll(this.sumOfRolls);
+            if (this.sumOfRolls === 7) {
+                this.loseGameOfCraps();
+            }
+            else if (this.sumOfRolls === this.target) {
+                this.winGameOfCraps();
+            }
+        }
+    };
+    Craps.prototype.printDiceRoll = function (diceRollValue) {
+        var diceOneImage = "<img src=images/dice/dice" + this.diceOneValue + ".png >";
+        var diceTwoImage = "<img src=images/dice/dice" + this.diceTwoValue + ".png >";
+        WebPageInteraction.getInstance().displayToWebpage("You rolled: " + diceOneImage + diceTwoImage + " (" + diceRollValue + ")");
+    };
+    Craps.prototype.winGameOfCraps = function () {
+        WebPageInteraction.getInstance().displayToWebpage("<br>Congratulations you won!");
+        var newMoneyAmount = this.player.getMoney() + this.betAmount * 2;
+        this.player.setMoney(newMoneyAmount);
+        WebPageInteraction.getInstance().displayToWebpage("You now have $" + this.player.getMoney() + " dollars!");
+        document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
+        this.playAgainLogic();
+    };
+    Craps.prototype.loseGameOfCraps = function () {
+        WebPageInteraction.getInstance().displayToWebpage("Sorry you lost!<br>You now have $" + this.player.getMoney());
+        this.playAgainLogic();
+    };
+    Craps.prototype.playAgainLogic = function () {
+        WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to play again?");
+        menuCreation.playAgainButtonLogic("craps.playAgainLogic()");
+        document.getElementById("yesButton").setAttribute("onclick", "craps.playCraps()");
+        document.getElementById("noButton").setAttribute("onclick", "menuCreation.backToMainMenu()");
+        return;
+    };
+    return Craps;
+}());
+///<reference path="HtmlObjectCreation.ts"/>
+var BlackJackButtonLogic = /** @class */ (function () {
+    function BlackJackButtonLogic() {
+    }
+    BlackJackButtonLogic.prototype.blackJackIntro = function () {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        document.getElementById("display").innerHTML = "<br>Welcome to the BlackJack table!<br>" +
+            "You have $" + casino.aPlayer.getMoney().toString();
+        console.log(casino.aPlayer.getMoney().toString());
+    };
+    BlackJackButtonLogic.prototype.takeBetButtonLogic = function () {
+        document.getElementById("gameSelectionButtons").style.display = "none";
+        HtmlObjectCreation.createHTMLInputObject("buttonLogic", "Bet Amount", "newButtonInput");
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Place Bet", "newButton", "blackJack.playerWins()");
+    };
+    BlackJackButtonLogic.prototype.dealCardsButtonLogic = function () {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Deal Cards", "newButton", "blackJack.dealCards()");
+    };
+    BlackJackButtonLogic.prototype.hitOrStayButtonLogic = function () {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Hit", "hitButton", "blackJack.hitLogic()");
+        document.getElementById("hitButton").style.display = "inline";
+        document.getElementById("hitButton").setAttribute('class', "btn btn-danger");
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Stay", "stayButton", "blackJack.stayLogic()");
+        document.getElementById("stayButton").style.display = "inline";
+    };
+    BlackJackButtonLogic.prototype.pressEnterToContinueButtonLogic = function () {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Press to Continue", "continueButton", "blackJack.dealerHitUntilFinished()");
+    };
+    return BlackJackButtonLogic;
 }());
 var Suit;
 (function (Suit) {
@@ -416,6 +406,56 @@ var Deck = /** @class */ (function () {
     };
     return Deck;
 }());
+var Player = /** @class */ (function () {
+    function Player(name, money) {
+        this.hand = [];
+        this.name = name;
+        this.money = money;
+    }
+    Player.prototype.getName = function () {
+        return this.name;
+    };
+    Player.prototype.setMoney = function (money) {
+        this.money = money;
+    };
+    Player.prototype.getMoney = function () {
+        return this.money;
+    };
+    Player.prototype.addToHand = function (card) {
+        this.hand.push(card);
+    };
+    Player.prototype.clearHand = function () {
+        this.hand = [];
+    };
+    Player.prototype.getHand = function () {
+        return this.hand;
+    };
+    Player.prototype.getScore = function () {
+        return this.score;
+    };
+    Player.prototype.calculateScore = function () {
+        var sum = 0;
+        for (var _i = 0, _a = this.hand; _i < _a.length; _i++) {
+            var card = _a[_i];
+            sum += card.getValue();
+        }
+        if (this.isAceInHand() && sum <= 11) {
+            sum += 10;
+        }
+        this.score = sum;
+        return sum;
+    };
+    Player.prototype.isAceInHand = function () {
+        for (var _i = 0, _a = this.hand; _i < _a.length; _i++) {
+            var card = _a[_i];
+            if (card.getValue() == 1) {
+                return true;
+            }
+        }
+        return false;
+    };
+    return Player;
+}());
 ///<reference path="Deck.ts"/>
 ///<reference path="Player.ts"/>
 var BlackJack = /** @class */ (function () {
@@ -460,8 +500,6 @@ var BlackJack = /** @class */ (function () {
             WebPageInteraction.getInstance().displayToWebpage("<br>You bet $" + betAmountString);
             blackJackConsole.dealCardsButtonLogic();
             document.getElementById("newButton").setAttribute("onclick", "blackJack.dealCards()");
-            //button change goes here
-            //doc goes here
         }
         else {
             WebPageInteraction.getInstance().displayToWebpage("<br>Please enter a valid amount to bet.");
@@ -491,21 +529,19 @@ var BlackJack = /** @class */ (function () {
     BlackJack.prototype.hitLogic = function () {
         this.dealCard(this.player);
         WebPageInteraction.getInstance().displayToWebpage("Your hand is now: " + this.player.getHand().toString() + " (" + this.player.calculateScore() + ")");
-        //this.checkFor21();
         if (!this.checkFor21()) {
             if (this.player.getScore() > 21) {
                 WebPageInteraction.getInstance().displayToWebpage("It's a bust, you lose!");
                 this.playAgainLogic();
                 return;
-                //Would you like to play again logic
             }
             WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to hit or stay?<br>");
             console.log(this.player.getHand().toString());
         }
     };
     BlackJack.prototype.stayLogic = function () {
-        // show dealers hand
-        WebPageInteraction.getInstance().displayToWebpage("You stayed, the dealers hand is: " + this.dealer.getHand().toString() + " (" + this.dealer.calculateScore() + ")");
+        WebPageInteraction.getInstance().displayToWebpage("You stayed, the dealers hand is: " + this.dealer.getHand().toString() +
+            " (" + this.dealer.calculateScore() + ")");
         if (!this.checkFor21()) {
             //press enter to continue
             blackJackConsole.pressEnterToContinueButtonLogic();
@@ -553,18 +589,12 @@ var BlackJack = /** @class */ (function () {
             WebPageInteraction.getInstance().displayToWebpage("The dealer got 21, you lose!");
             this.playAgainLogic();
             return true;
-            //do lose logic
         }
     };
     BlackJack.prototype.determineWinner = function () {
-        if ((this.player.getScore() === 21 && !(this.dealer.getScore() === 21)) ||
+        return (this.player.getScore() === 21 && !(this.dealer.getScore() === 21)) ||
             (this.player.getScore() < 21 && this.dealer.getScore() < this.player.getScore()) ||
-            (this.player.getScore() < 21 && this.dealer.getScore() > 21)) {
-            //Player wins
-            return true;
-        }
-        //Dealer wins
-        return false;
+            (this.player.getScore() < 21 && this.dealer.getScore() > 21);
     };
     BlackJack.prototype.playerWins = function () {
         var amountWon = this.pot * 2;
@@ -573,74 +603,22 @@ var BlackJack = /** @class */ (function () {
         document.getElementById("playersMoney").innerHTML = "Player's Money: $" + this.player.getMoney();
         this.playAgainLogic();
     };
-    BlackJack.prototype.backToMainMenu = function () {
-        console.log("Going back to Main Menu");
-        blackJackConsole.backToMainMenuButtonLogic();
-        document.getElementById("display").innerHTML = menuCreation.casinoTitle();
-    };
     BlackJack.prototype.playAgainLogic = function () {
         WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to play again?");
-        blackJackConsole.playAgainButtonLogic();
+        menuCreation.playAgainButtonLogic("blackJack.playAgainLogic()");
         document.getElementById("yesButton").setAttribute("onclick", "blackJack.playBlackJack()");
-        document.getElementById("noButton").setAttribute("onclick", "blackJack.backToMainMenu()");
+        document.getElementById("noButton").setAttribute("onclick", "menuCreation.backToMainMenu()");
         return;
     };
     return BlackJack;
 }());
-///<reference path="HtmlObjectCreation.ts"/>
-var BlackJackButtonLogic = /** @class */ (function () {
-    function BlackJackButtonLogic() {
-    }
-    BlackJackButtonLogic.prototype.blackJackIntro = function () {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        document.getElementById("display").innerHTML = "<br>Welcome to the BlackJack table!<br>" +
-            "You have $" + casino.aPlayer.getMoney().toString();
-        console.log(casino.aPlayer.getMoney().toString());
-    };
-    BlackJackButtonLogic.prototype.takeBetButtonLogic = function () {
-        document.getElementById("gameSelectionButtons").style.display = "none";
-        HtmlObjectCreation.createHTMLInputObject("buttonLogic", "Bet Amount", "newButtonInput");
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Place Bet", "newButton", "blackJack.playerWins()");
-    };
-    BlackJackButtonLogic.prototype.dealCardsButtonLogic = function () {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Deal Cards", "newButton", "blackJack.dealCards()");
-    };
-    BlackJackButtonLogic.prototype.hitOrStayButtonLogic = function () {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Hit", "hitButton", "blackJack.hitLogic()");
-        document.getElementById("hitButton").style.display = "inline";
-        document.getElementById("hitButton").setAttribute('class', "btn btn-danger");
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Stay", "stayButton", "blackJack.stayLogic()");
-        document.getElementById("stayButton").style.display = "inline";
-    };
-    BlackJackButtonLogic.prototype.pressEnterToContinueButtonLogic = function () {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Press to Continue", "continueButton", "blackJack.dealerHitUntilFinished()");
-    };
-    BlackJackButtonLogic.prototype.playAgainButtonLogic = function () {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "Yes", "yesButton", "blackJack.playAgainLogic()");
-        document.getElementById("yesButton").style.display = "inline";
-        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button", "No", "noButton", "blackJack.playAgainLogic()");
-        document.getElementById("noButton").style.display = "inline";
-        document.getElementById("noButton").setAttribute('class', "btn btn-danger");
-    };
-    BlackJackButtonLogic.prototype.backToMainMenuButtonLogic = function () {
-        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
-        document.getElementById("gameSelectionButtons").style.display = 'inline';
-    };
-    return BlackJackButtonLogic;
-}());
-///<reference path="Player.ts"/>
 ///<reference path="MenuCreation.ts"/>
 ///<reference path="WebPageInteraction.ts"/>
 ///<reference path="Casino.ts"/>
-///<reference path="Craps.ts"/>
 ///<reference path="CrapsButtonLogic.ts"/>
-///<reference path="Deck.ts"/>
-///<reference path="BlackJack.ts"/>
+///<reference path="Craps.ts"/>
 ///<reference path="BlackJackButtonLogic.ts"/>
+///<reference path="BlackJack.ts"/>
 var menuCreation = new MenuCreation();
 WebPageInteraction.getInstance().displayToWebpage(menuCreation.menuTitle());
 var casino = new Casino();
@@ -648,30 +626,4 @@ var crapsButtonLogic = new CrapsButtonLogic();
 var craps = new Craps(casino);
 var blackJackConsole = new BlackJackButtonLogic();
 var blackJack = new BlackJack(casino);
-// submitButton.addEventListener("click", createPlayer);
-//
-//
-//
-//
-//
-//
-// let crapsGame = document.getElementById("crapsGame");
-//
-// crapsGame.addEventListener("click", () => {
-//     let newCrapsGame:Craps = new Craps(aPlayer);
-//
-//     submitButton.hidden = false;
-//     gameSelectionButtons.hidden = true;
-//
-//     //newCrapsGame.printWelcomeMessage();
-//     //newCrapsGame.takeBet();
-//     newCrapsGame.playCraps();
-//
-//
-//
-//
-//
-//
-//
-// });
 //# sourceMappingURL=app.js.map

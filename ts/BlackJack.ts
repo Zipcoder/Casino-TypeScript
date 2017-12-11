@@ -1,7 +1,6 @@
 ///<reference path="Deck.ts"/>
 ///<reference path="Player.ts"/>
 
-
 class BlackJack {
     private casino: Casino;
     private player: Player;
@@ -43,7 +42,6 @@ class BlackJack {
         this.pot = 0.0;
 
         blackJackConsole.blackJackIntro();
-
         blackJackConsole.takeBetButtonLogic();
         document.getElementById("newButton").setAttribute("onclick", "blackJack.takeBetAmount()");
     }
@@ -59,8 +57,6 @@ class BlackJack {
             WebPageInteraction.getInstance().displayToWebpage("<br>You bet $" + betAmountString);
             blackJackConsole.dealCardsButtonLogic();
             document.getElementById("newButton").setAttribute("onclick", "blackJack.dealCards()");
-            //button change goes here
-            //doc goes here
         }
         else {
             WebPageInteraction.getInstance().displayToWebpage("<br>Please enter a valid amount to bet.");
@@ -96,17 +92,14 @@ class BlackJack {
 
     public hitLogic() {
         this.dealCard(this.player);
-        WebPageInteraction.getInstance().displayToWebpage("Your hand is now: "+this.player.getHand().toString()+ " ("+this.player.calculateScore()+")");
-        //this.checkFor21();
+        WebPageInteraction.getInstance().displayToWebpage(
+            "Your hand is now: "+this.player.getHand().toString()+ " ("+this.player.calculateScore()+")");
 
         if (!this.checkFor21()) {
             if (this.player.getScore() > 21) {
                 WebPageInteraction.getInstance().displayToWebpage("It's a bust, you lose!");
-
                 this.playAgainLogic();
                 return;
-
-                //Would you like to play again logic
             }
             WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to hit or stay?<br>");
             console.log(this.player.getHand().toString())
@@ -116,10 +109,9 @@ class BlackJack {
     }
 
     public stayLogic() {
-        // show dealers hand
         WebPageInteraction.getInstance().displayToWebpage(
-            "You stayed, the dealers hand is: "+this.dealer.getHand().toString()+ " ("+this.dealer.calculateScore()+")");
-
+            "You stayed, the dealers hand is: "+this.dealer.getHand().toString()+
+            " ("+this.dealer.calculateScore()+")");
 
         if (!this.checkFor21()) {
             //press enter to continue
@@ -145,8 +137,6 @@ class BlackJack {
                 this.playAgainLogic();
             }
         }
-
-
     }
 
     public checkFor21(): boolean {
@@ -175,20 +165,14 @@ class BlackJack {
             WebPageInteraction.getInstance().displayToWebpage("The dealer got 21, you lose!");
             this.playAgainLogic();
             return true;
-            //do lose logic
         }
     }
 
-
     public  determineWinner(): boolean {
-        if((this.player.getScore() === 21 && !(this.dealer.getScore() === 21)) ||
-            (this.player.getScore()<21 && this.dealer.getScore() < this.player.getScore()) ||
-            (this.player.getScore() < 21 && this.dealer.getScore() > 21)) {
-            //Player wins
-            return true;
-        }
-        //Dealer wins
-        return false;
+        return (this.player.getScore() === 21 && !(this.dealer.getScore() === 21)) ||
+            (this.player.getScore() < 21 && this.dealer.getScore() < this.player.getScore()) ||
+            (this.player.getScore() < 21 && this.dealer.getScore() > 21);
+
     }
 
     public playerWins() {
@@ -199,18 +183,11 @@ class BlackJack {
         this.playAgainLogic();
     }
 
-    public backToMainMenu() {
-        console.log("Going back to Main Menu");
-        blackJackConsole.backToMainMenuButtonLogic();
-        document.getElementById("display").innerHTML = menuCreation.casinoTitle();
-
-    }
-
     public playAgainLogic() {
         WebPageInteraction.getInstance().displayToWebpage("<br>Would you like to play again?");
-        blackJackConsole.playAgainButtonLogic();
+        menuCreation.playAgainButtonLogic("blackJack.playAgainLogic()");
         document.getElementById("yesButton").setAttribute("onclick", "blackJack.playBlackJack()");
-        document.getElementById("noButton").setAttribute("onclick", "blackJack.backToMainMenu()");
+        document.getElementById("noButton").setAttribute("onclick", "menuCreation.backToMainMenu()");
         return;
     }
 }

@@ -59,6 +59,4 @@ class Player {
         }
         return false;
     }
-
-
 }

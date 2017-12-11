@@ -1,3 +1,6 @@
+///<reference path="HtmlObjectCreation.ts"/>
+
+
 class MenuCreation{
     menuTitle(): string {
         let welcomeString =
@@ -14,20 +17,27 @@ class MenuCreation{
         return outputString;
     }
 
+    public playAgainButtonLogic(method: string) {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button",
+            "Yes", "yesButton", "method");
+        document.getElementById("yesButton").style.display = "inline";
 
 
-    // createNewPlayer(): void {
-    //     let playerName: string = prompt("Please enter a username.");
-    //     let amountOfMoney: number = parseInt(prompt("Please enter the amount of money you have."));
-    //
-    //     let aPlayer: Player = new Player(playerName, amountOfMoney);
-    //
-    //     console.log(aPlayer);
-    //
-    //     Casino.setAPlayer(aPlayer);
-    //
-    //
-    //     console.log("Your account has been created.");
-    //     //CasinoMenu.INSTANCE.display();
-    // }
+        HtmlObjectCreation.createHTMLButtonObject("buttonLogic", "button",
+            "No", "noButton", "blackJack.playAgainLogic()");
+        document.getElementById("noButton").style.display = "inline";
+        document.getElementById("noButton").setAttribute('class', "btn btn-danger");
+    }
+
+    public backToMainMenuButtonLogic() {
+        HtmlObjectCreation.clearHTMLDiv("buttonLogic");
+        document.getElementById("gameSelectionButtons").style.display = 'inline';
+    }
+
+    public backToMainMenu() {
+        console.log("Going back to Main Menu");
+        this.backToMainMenuButtonLogic();
+        document.getElementById("display").innerHTML = menuCreation.casinoTitle();
+    }
 }
