@@ -1,11 +1,8 @@
 class Deck {
-  private _deck: Card[] = new Array<Card>();
+  private _deck: Card[] = []; //new Array<Card>();
 
   constructor() {
-    this.createCardsBasedOnSuit("clubs");
-    this.createCardsBasedOnSuit("diamonds");
-    this.createCardsBasedOnSuit("hearts");
-    this.createCardsBasedOnSuit("spades");
+    this.populateDeck();
     this.shuffleDeck();
   }
 
@@ -57,5 +54,4 @@ class Deck {
     var card: Card = this._deck.pop();
     return card;
   }
-
 }

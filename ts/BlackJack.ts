@@ -2,21 +2,53 @@
 
 class BlackJack extends CardGame implements Gamble, Game {
 
-  player: Player;
-  dealer: Player;
-  playerBalance: number; //to hold their current balance -> wait for help on this
-  bet: number;  //to hold their bet -> wait for help on this
-  score: number; //to hold the score of the cards
+  player: BlackJackPlayer;
+  dealer: BlackJackDealer;
+  hand: Card[];
+  playerBalance: number;
+  bet: number;
+  score: number;
 
   displayElement: any;
   userInputElement: any;
+  submitButtonHTMLElement: any;
   hitButtonHTMLElement: any;
   stayButtonHTMLElement: any;
+  greetingElement: any;
 
-  constructor(player: Player, dealer: Player) {
-    super(); //yelled at me if I didn't have this...
-    this.player = player;
-    this.dealer = dealer;
+  constructor(player: Player, dealer:Player) {
+    super();
+    this.player = new BlackJackPlayer();
+    this.dealer = new BlackJackDealer();
+    this.displayElement = document.getElementById("display");
+    this.userInputElement = document.getElementById("user_input");
+    this.submitButtonHTMLElement = document.getElementById("submit");
+    this.greetingElement = document.getElementById("greeting"); 
+  }
+
+  public play(): void {
+    this.displayElement.innerHTML = "Welcome to Blackjack! <br />";
+    this.displayElement.innerHTML += "Submit your bet: <br />";
+    this.submitButtonHTMLElement.setAttribute("onClick", "blackjack.takeBet()");
+    this.userInputElement.setAttribute("type", "number");
+    this.deal(this.player, this.dealer, 2); //deals two cards to my player and dealer hands
+  }
+
+  public takeBet(): void {
+    let bet: number = this.userInputElement.value;
+    if (bet > this.player.balance) {
+      console.log("bet denied");
+      this.displayElement.innerHTML = "Not Enough Money";
+    } else if (bet == null || bet == 0) {
+      console.log("bet = 0");
+      this.displayElement.innerHTML = "Invalid Input";
+    }
+    else {
+      console.log("Bet accepted " + bet);
+      this.bet = this.userInputElement.value;
+      this.displayElement.innerHTML = "Bet Accepted";
+      this.greetingElement.innerHTML += " <b>Current Bet: </b>$" + this.bet;
+    }
   }
 
   public askForHitOrStay(): void {
@@ -52,13 +84,5 @@ class BlackJack extends CardGame implements Gamble, Game {
        }while(true);
    }
   */
-
-  public play(): void {
-
-  }
-
-  public takeBet(): void {
-
-  }
 
 }

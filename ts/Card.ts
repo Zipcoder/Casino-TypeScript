@@ -1,7 +1,7 @@
 class Card {
 
-  private _value: number;
-  private _imageURL: string;
+  _value: number;
+  _imageURL: string;
 
   constructor(value: number, imageURL: string) {
     this._value = value;
@@ -9,7 +9,7 @@ class Card {
   }
 
   public getValue(): number {
-    return this._value; 
+    return this._value;
   }
 
   public getImageURL(): string {

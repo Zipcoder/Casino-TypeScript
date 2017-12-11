@@ -3,12 +3,13 @@
 /// <reference path="Player.ts"/>
 /// <reference path="Deck.ts"/>
 /// <reference path="Card.ts"/>
+/// <reference path="BlackJack.ts"/>
 
 let casino = new Casino();
-//casino.startCasino();
+casino.startCasino();
 
 let craps = new Craps(casino.casinoPlayer);
-// let blackjack = new BlackJack(casino.casinoPlayer);
+let blackjack = new BlackJack(casino.casinoPlayer); 
 
 // let displayEl: any;
 // let cssCards: any = "cssCards";

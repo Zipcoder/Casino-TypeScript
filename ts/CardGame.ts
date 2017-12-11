@@ -1,15 +1,13 @@
-/// <reference path="Player.ts"/>
 /// <reference path="Deck.ts"/>
+/// <reference path="CardPlayer.ts"/>
+/// <reference path="Player.ts"/>
 
-class CardGame extends Player {
+class CardGame {
   deck: Deck = new Deck();
 
-  constructor() { //yelling at me to put one in...
-    super();
-  }
-
-  public deal(player: Player, dealer: Player, amount: number): void {
+  public deal(player: CardPlayer, dealer: CardPlayer, amount: number): void {
     this.clearHands(player, dealer);
+    this.deck.populateDeck();
     this.deck.shuffleDeck();
     for(var i=0; i<amount; i++) {
       dealer.addToHand(this.deck.getCard());
@@ -17,4 +15,12 @@ class CardGame extends Player {
     }
   }
 
+  //giveCard()
+
+  public clearHands(player: CardPlayer, dealer: CardPlayer): void {
+    player.clearHand();
+    dealer.clearHand();
+  }
+
+  //printHand()
 }

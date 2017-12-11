@@ -1,9 +1,10 @@
 ///<reference path="Player.ts"/>
 /// <reference path="Craps.ts" />
+/// <reference path="BlackJack.ts"/>
 
 
 class Casino {
-    private _casinoPlayer: Player = new Player();
+    private _casinoPlayer: Player = new Player(); 
     private _displayHTMLElement: any;
     private _userInputHTMLElement: any;
     private _greetingElement: any;
@@ -135,7 +136,7 @@ class Casino {
             craps.play();
         }
         else if (gameChosenNumber == 2) {
-
+            blackjack.play();
         }
         else if (gameChosenNumber == 3) {
 
