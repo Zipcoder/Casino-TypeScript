@@ -1,12 +1,10 @@
-/// <reference path="CrapsConsole.ts" />
-///<reference path="BlackJackConsole.ts"/>
+///<reference path="User.ts"/>
+///<reference path="Casino.ts"/>
 
-/// <reference path="User.ts" />
-/// <reference path="Casino.ts"/>
+
+let casino: Casino = new Casino();
+let user:User;
 
 function updateDisplay(stringToDisplay:string):void{
     document.getElementById("display").innerHTML+="</br>"+stringToDisplay;
 }
-
-var casino:Casino = new Casino();
-var user: User;

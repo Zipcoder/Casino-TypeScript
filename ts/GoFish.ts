@@ -1,319 +1,364 @@
-///<reference path="PlayingDeck.ts"/>
 ///<reference path="User.ts"/>
 ///<reference path="PlayingValue.ts"/>
+///<reference path="PlayingCard.ts"/>
+///<reference path="Hand.ts"/>
+///<reference path="PlayingDeck.ts"/>
 
+class GoFishPlayer{
+    name:string;
+    hand:Hand;
+    completedBooks:number;
 
-class GoFish extends CardGame {
+    constructor(user:User){
+        this.name=user.Name;
+        this.completedBooks=0;
+        this.hand=new Hand();
+    }
 
-    private humanPlayer: GoFishPlayer;
+    getHandValues():PlayingValue[]{
+        let valuesInHand:PlayingValue[] = [];
 
-    private compPlayer: GoFishPlayer;
+        for (let i=0; i<this.hand.getAllCards().length; i++){
+            let contain:boolean = false;
 
-    private deck: PlayingDeck;
-    private winner: GoFishPlayer = null;
+            for (let j=0; j<valuesInHand.length; j++){
+                if (valuesInHand[j]==this.hand.getAllCards()[i].getValue()){
+                    contain=true;
+                }
+            }
+            if (!contain){
+                valuesInHand.push(this.hand.getAllCards()[i].getValue());
+            }
+        }
+        return valuesInHand;
+    }
+}
 
-    public constructor(user: User) {
-        super();
-        this.humanPlayer = new GoFishPlayer(user);
-        this.compPlayer = this.createCompPlayer();
-        this.deck = new PlayingDeck();
+class GoFish implements CardGame{
+
+    deck:PlayingDeck = new PlayingDeck();
+    player:GoFishPlayer;
+    dealer:GoFishPlayer;
+
+    constructor(user:User){
+        this.player=new GoFishPlayer(user);
+        this.dealer=new GoFishPlayer(new User("Dealer",0));
         this.deck.shuffle();
     }
 
+    initialDeal():void{
+        for (let i=0; i<5; i++) {
+            this.player.hand.addCard(this.deck.getAndRemoveCard());
+            this.dealer.hand.addCard(this.deck.getAndRemoveCard());
+        }
+    }
 
-    public play(userInput: string): boolean {
+    playerGoFish(askedForValue:PlayingValue):boolean{
+        let drawnCard:PlayingCard = this.deck.getAndRemoveCard()
+        this.player.hand.addCard(drawnCard);
+        return (askedForValue==drawnCard.getValue());
+    }
+
+    dealerGoFish(askedForValue:PlayingValue):boolean{
+        let drawnCard:PlayingCard = this.deck.getAndRemoveCard()
+        this.player.hand.addCard(this.deck.getAndRemoveCard());
+        return (askedForValue==drawnCard.getValue());
+    }
+
+    playerAskForCard(requestedValue:PlayingValue):boolean{
+        let dealerHand = this.dealer.hand.getAllCards();
+
+        for (let i=0; i<dealerHand.length; i++){
+            if (dealerHand[i].getValue()==requestedValue){
+                for (let j=0; j<dealerHand.length; j++){
+                    if (dealerHand[j].getValue()==requestedValue){
+                        this.player.hand.addCard(dealerHand[j]);
+                        this.dealer.hand.removeCard(dealerHand[j]);
+                    }
+                }
+                return true;
+            }
+        }
         return false;
     }
 
-    private createCompPlayer(): GoFishPlayer {
-        return new GoFishPlayer(new User("Dealer", 1000000));
-    }
+    dealerAskForCard(requestedValue:PlayingValue):boolean{
+        let playerHand = this.player.hand.getAllCards();
 
-    private lastPlayerHandEmpty(player: GoFishPlayer): boolean {
-        return player.getHand().isHandEmpty();
-    }
-
-    public getHumanPlayer(): GoFishPlayer {
-        return this.humanPlayer;
-    }
-
-    public getCompPlayer(): GoFishPlayer {
-        return this.compPlayer;
-    }
-
-    public getDeck(): PlayingDeck {
-        return this.deck;
-    }
-
-    public run(): void {
-        this.humanPlayer.getHand().clear();
-        this.compPlayer.getHand().clear();
-        this.dealInitialHands(7); //change to 6, 5 for 3, 4 players
-        do {
-            this.playHumanTurn(this.humanPlayer);
-            this.playComputerTurn(this.compPlayer);
-        } while (this.winner == null);
-        this.endGame();
-    }
-
-    private playHumanTurn(player: GoFishPlayer): void {
-        this.displayHand(player);
-        this.tryAskingForValue();
-    }
-
-    private playComputerTurn(compPlayer: GoFishPlayer): void {
-        updateDisplay(compPlayer.getUser().getName() + " has " + compPlayer.getHand().getAllCards().length + " cards.");
-        this.compAskingForValue();
-    }
-
-    private compAskingForValue(): void {
-        let value: PlayingValue = null;
-        let randomValue: PlayingValue = null;
-        do {
-            do {
-                randomValue = this.getRandomPlayingValue(this.compPlayer);
-            } while (randomValue == value);
-            value = randomValue;
-            updateDisplay(this.compPlayer.getUser().getName() + " asks for " + value + "!");
-            if (this.compPlayer.askForValue(this.humanPlayer, value) > 0) {
-                this.compPlayer.takeCardsFromOther(this.humanPlayer, value);
-                updateDisplay("Since you had " + value + ", " + this.compPlayer.getUser().getName() + " takes it/them!");
-                if (this.compPlayer.getHand().isHandEmpty()) {
-                    this.winner = this.compPlayer;
-                    updateDisplay(this.compPlayer.getUser().getName() + "'s hand is empty!");
-                    break;
-                }
-                updateDisplay(this.compPlayer.getUser().getName() + " has " + this.compPlayer.getHand().getAllCards().length + " cards.");
-            } else {
-                updateDisplay("You didn't have any of those, " + this.compPlayer.getUser().getName() + " has to Go Fish!");
-                let drawnCard: PlayingCard = this.compPlayer.drawCard();
-                if (drawnCard.getValue() == value) {
-                    updateDisplay(this.compPlayer.getUser().getName() + " drew a card.");
-                    if (this.compPlayer.getHand().isHandEmpty()) {
-                        this.winner = this.compPlayer;
-                        updateDisplay(this.compPlayer.getUser().getName() + "'s hand is empty!");
-                        break;
+        for (let i=0; i<playerHand.length; i++){
+            if (playerHand[i].getValue()==requestedValue){
+                for (let j=0; j<playerHand.length; j++){
+                    if (playerHand[j].getValue()==requestedValue){
+                        this.dealer.hand.addCard(playerHand[j]);
+                        this.player.hand.removeCard(playerHand[j]);
                     }
-                    updateDisplay(this.compPlayer.getUser().getName() + " asked for " + value + " and drew a card of that rank! It can ask for another card!");
-                    continue;
-                } else {
-                    updateDisplay(compPlayer.getUser().getName() + " has " + compPlayer.hand.getAllCards().size() + " cards.");
-                    updateDisplay("This ends " + compPlayer.getUser().getName() + "'s turn.\n\n");
-                    compPlayer.nullAskedValue();
-                    break;
                 }
+                return true;
             }
-        } while (true);
+        }
+        return false;
     }
 
-    private getRandomPlayingValue(compPlayer: GoFishPlayer): PlayingValue {
-        Random
-        random = new Random();
-        TreeSet < PlayingValue > values = compPlayer.getValuesInHand();
-        ArrayList < PlayingValue > list = new ArrayList<>(values);
-        return list.get(random.nextInt(list.size()));
+    private removeBook(valueToRemove:PlayingValue):void{
+        for (let i=0; i<this.player.hand.getAllCards().length; i++){
+            if (this.player.hand.getAllCards()[i].getValue()==valueToRemove){
+                this.player.hand.removeCard(this.player.hand.getAllCards()[i]);
+            }
+        }
+        this.player.completedBooks++;
+
+        for (let i=0; i<this.dealer.hand.getAllCards().length; i++){
+            if (this.dealer.hand.getAllCards()[i].getValue()==valueToRemove){
+                this.dealer.hand.removeCard(this.dealer.hand.getAllCards()[i]);
+            }
+        }
+        this.dealer.completedBooks++;
     }
 
-    private tryAskingForValue(): void {
-        do {
-            let value: PlayingValue = null;
-            value = this.getPlayingValue(this.humanPlayer);
-            if (this.humanPlayer.askForValue(this.compPlayer, value) > 0) {
-                this.humanPlayer.takeCardsFromOther(this.compPlayer, value);
-                if (this.humanPlayer.getHand().isHandEmpty()) {
-                    this.winner = this.humanPlayer;
-                    break;
-                }
-                this.displayHand(this.humanPlayer);
-            } else {
-                updateDisplay("They didn't have any of those, Go Fish!");
-                let drawnCard: PlayingCard = this.humanPlayer.drawCard();
-                updateDisplay("You draw a " + drawnCard.toString());
-                if (drawnCard.getValue() == value) {
-                    updateDisplay("You asked for " + value + " and drew a card of that rank! You can ask for another card!");
-                    if (this.humanPlayer.getHand().isHandEmpty()) {
-                        this.winner = this.humanPlayer;
-                        break;
+    checkForCompleteBooks():void{//calls removeBook inside
+        let valueCounter:number[] = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+        let hand:PlayingCard[] = this.player.hand.getAllCards();
+        for (let i=0; i<hand.length; i++){
+            switch(hand[i].getValue()){
+                case "2":
+                {
+                    valueCounter[0]++;
+                    if (valueCounter[0]==4){
+                        this.removeBook(hand[i].getValue());
                     }
-                    this.displayHand(this.humanPlayer);
-                    continue;
-                } else {
-                    updateDisplay("This ends your turn.\n\n");
-                    this.humanPlayer.nullAskedValue();
+                    break;
+                }
+                case "3":
+                {
+                    valueCounter[1]++;
+                    if (valueCounter[1]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "4":
+                {
+                    valueCounter[2]++;
+                    if (valueCounter[2]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "5":
+                {
+                    valueCounter[3]++;
+                    if (valueCounter[3]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "6":
+                {
+                    valueCounter[4]++;
+                    if (valueCounter[4]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "7":
+                {
+                    valueCounter[5]++;
+                    if (valueCounter[5]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "8":
+                {
+                    valueCounter[6]++;
+                    if (valueCounter[6]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "9":
+                {
+                    valueCounter[7]++;
+                    if (valueCounter[7]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "10":
+                {
+                    valueCounter[8]++;
+                    if (valueCounter[8]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "J":
+                {
+                    valueCounter[9]++;
+                    if (valueCounter[9]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "Q":
+                {
+                    valueCounter[10]++;
+                    if (valueCounter[10]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "K":
+                {
+                    valueCounter[11]++;
+                    if (valueCounter[11]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "A":
+                {
+                    valueCounter[12]++;
+                    if (valueCounter[12]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
                     break;
                 }
             }
-        } while (true);
-    }
-
-    private getPlayingValue(player: GoFishPlayer): PlayingValue {
-        let value: PlayingValue;
-        do {
-            value = Input.getPlayingValue("");
-            if (player.checkIfHandHasValue(value) > 0) {
-                break;
-            } else {
-                updateDisplay("Your hand doesn't have that value! Try another.");
-                value = null;
-            }
-        } while (true);
-        return value;
-    }
-
-    /* private GoFishPlayer switchPlayer() {
-         if(nextPlayer == humanPlayer){
-             return compPlayer;
-         } else {
-             return humanPlayer;
-         }
-     }*/
-
-    endGame(): void {
-        if (this.winner, this.humanPlayer) {
-            updateDisplay("Congratulations, you won!");
-        }
-        else {
-            updateDisplay("Awww, you loooooost.");
-        }
-    }
-
-    private displayHand(player: GoFishPlayer): void {
-        updateDisplay(this.compPlayer.getUser().getName() + " has " + this.compPlayer.getHand().getAllCards().length + " cards.");
-        updateDisplay("Cards in your hand:");
-        updateDisplay(player.getHand().toString());
-        updateDisplay("\n\n What rank do you want to ask for?");
-        let values: string = "";
-        let valuesInHand: PlayingValue[] = player.getValuesInHand();
-        for (let i = 0; i < valuesInHand.length; i++) {
-            values += " [" + valuesInHand[i] + "] ";
         }
 
-        updateDisplay(values);
-    }
-
-    public dealInitialHands(numberOfCards: number): void {
-        for (let i = 0; i < numberOfCards; i++) {
-            this.humanPlayer.addCard(this.deck.getAndRemoveCard());
-            this.compPlayer.addCard(this.deck.getAndRemoveCard());
-        }
-    }
-
-
-    class GoFishPlayer {
-
-    private user: User;
-    private hand: Hand;
-    private askedValue: PlayingValue = null;
-
-    constructor(user: User) {
-        this.user = user;
-        this.hand = new Hand();
-    }
-
-    getUser(): User {
-        return this.user;
-    }
-
-    public getHand(): Hand {
-        return this.hand;
-    }
-
-    private getAskedValue(): PlayingValue {
-        return this.askedValue;
-    }
-
-    addCard(card: PlayingCard): void {
-        this.hand.addCard(card);
-        let four: PlayingValue = this.fourOfKindValue();
-        if (four != null) {
-            this.discardFourOfKind(four);
-            updateDisplay("Completed a set of " + four + "!");
-        }
-    }
-
-    askForValue(other: GoFishPlayer, value): number {
-        this.askedValue = value;
-        return other.checkIfHandHasValue(value);
-    }
-
-    checkIfHandHasValue(value: PlayingValue): number {
-        return this.getAllOfValue(value).length;
-    }
-
-    private getAllOfValue(value: PlayingValue): PlayingCard[] {
-
-        let cards: PlayingCard[] = this.getHand().getAllCards();
-        let outCards: PlayingCard[] = new Array<PlayingCard>();
-
-        for (let i = 0; i < cards.length; i++) {
-            if (cards[i].getValue() === value) {
-                outCards.push(cards[i]);
-            }
-        }
-
-        return outCards;
-    }
-
-    takeCardsFromOther(other: GoFishPlayer, value: PlayingValue): void {
-        let movingCards: Array<PlayingCard> = other.getAllOfValue(value);
-        updateDisplay(other.getUser().getName() + " had " + movingCards.length + " of " + value + "!");
-        other.getHand().removeAllOf(movingCards);
-        for (let i = 0; i < movingCards.length; i++) {
-            this.addCard(movingCards[i]);
-        }
-    }
-
-    nullAskedValue(): void {
-        this.askedValue = null;
-    }
-
-    drawCard(): PlayingCard {
-        let drawnCard: PlayingCard = PlayingDeck.getAndRemoveCard();
-        this.addCard(drawnCard);
-        return drawnCard;
-    }
-
-    fourOfKindValue(): PlayingValue {
-
-        // Map<PlayingValue, Integer> count = new HashMap<>();
-        let map: Map.prototype.constructor;
-        let hasFour: PlayingValue = null;
-        let cards: PlayingCard[] = this.getHand().getAllCards();
-        for (let i = 0; i < cards.length; i++) {
-            if (count.containsKey(card.getValue())) {
-                count.put(card.getValue(), (count.get(card.getValue()) + 1));
-                if (count.get(card.getValue()) == 4) {
-                    hasFour = card.getValue();
+        valueCounter = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+        hand = this.dealer.hand.getAllCards();
+        for (let i=0; i<hand.length; i++){
+            switch(hand[i].getValue()){
+                case "2":
+                {
+                    valueCounter[0]++;
+                    if (valueCounter[0]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
                 }
-            } else {
-                count.put(card.getValue(), 1);
+                case "3":
+                {
+                    valueCounter[1]++;
+                    if (valueCounter[1]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "4":
+                {
+                    valueCounter[2]++;
+                    if (valueCounter[2]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "5":
+                {
+                    valueCounter[3]++;
+                    if (valueCounter[3]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "6":
+                {
+                    valueCounter[4]++;
+                    if (valueCounter[4]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "7":
+                {
+                    valueCounter[5]++;
+                    if (valueCounter[5]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "8":
+                {
+                    valueCounter[6]++;
+                    if (valueCounter[6]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "9":
+                {
+                    valueCounter[7]++;
+                    if (valueCounter[7]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "10":
+                {
+                    valueCounter[8]++;
+                    if (valueCounter[8]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "J":
+                {
+                    valueCounter[9]++;
+                    if (valueCounter[9]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "Q":
+                {
+                    valueCounter[10]++;
+                    if (valueCounter[10]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "K":
+                {
+                    valueCounter[11]++;
+                    if (valueCounter[11]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
+                case "A":
+                {
+                    valueCounter[12]++;
+                    if (valueCounter[12]==4){
+                        this.removeBook(hand[i].getValue());
+                    }
+                    break;
+                }
             }
         }
-        return hasFour;
+
     }
 
-    discardFourOfKind(value: PlayingValue): void {
-        let cards: PlayingCard[] = this.getHand().getAllCards();
-        let movingCards: PlayingCard[] = new Array<PlayingCard>();
-        for (let i = 0; i < cards.length; i++) {
-            if (cards[i].getValue() === value) {
-                movingCards.push(cards[i]);
-            }
+    tableString():string{
+        return(this.player.hand.toString()+"<br/>Completed Books: "+this.player.completedBooks+
+                                           "<br/><br/>"+this.dealer.hand.toString()+"<br/>Completed Books:"+this.dealer.completedBooks);
+    }
+
+    isGameOver():boolean{
+        return (this.player.completedBooks+this.dealer.completedBooks==13);
+    }
+
+    getWinnerName():string{
+        if (this.player.completedBooks>this.dealer.completedBooks){
+            return (this.player.name);
+        } else{
+            return (this.dealer.name);
         }
-        this.getHand().removeAllOf(movingCards);
-        // this.getHand().getAllCards().removeIf(card -> card.getValue() == value);
     }
 
-    getValuesInHand(): PlayingValue[] {
-        let cards: PlayingCard[] = this.hand.getAllCards();
-        let values: PlayingValue[] = new Array<PlayingValue>();
-
-        for (let i = 0; i < cards.length; i++) {
-            values.push(cards[i].getValue());
-        }
-        return values;
-        // return new TreeSet<>(this.hand.getAllCards().stream().map(PlayingCard::getValue).collect(Collectors.toList()));
+    play(userInput:string):boolean {
+        return ("Y"==userInput.toUpperCase());
     }
 
-}
 }

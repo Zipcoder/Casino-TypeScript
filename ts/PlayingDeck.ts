@@ -1,16 +1,10 @@
 ///<reference path="PlayingCard.ts"/>
-///<reference path="enumValues.d.ts"/>
-
-// import { PlayingSuit } from "./PlayingSuit";
-// import { PlayingValue } from "./PlayingValue";
-// import { PlayingCard } from "./PlayingCard";
-
-import {EnumValues} from "./enumValues";
+///<reference path="PlayingSuit.ts"/>
+///<reference path="PlayingValue.ts"/>
 
 class PlayingDeck {
 
     private cards : Array<PlayingCard>;
-
     public constructor() {
         this.populate();
     }
@@ -48,16 +42,25 @@ class PlayingDeck {
         return this.cards.shift();
     }
 
+
     public populate(): void {
         this.cards = new Array<PlayingCard>();
 
-        let suits = EnumValues.getValues(PlayingSuit);
-        let values = EnumValues.getValues(PlayingValue);
+        let suits: PlayingSuit[] = new Array<PlayingSuit>();// = EnumValues.getValues(PlayingSuit);
+        let values: PlayingValue[] = new Array<PlayingValue>();// = EnumValues.getValues(PlayingValue);
+
+        for (let suit in PlayingSuit) {
+            suits.push(<PlayingSuit>suit);
+        }
+
+        for (let value in PlayingValue) {
+            values.push(<PlayingValue>value);
+        }
 
         for (let i = 0; i < suits.length; i++){
 
-            for (let j = 0; j < values.length; i++) {
-                this.cards.push(new PlayingCard(<PlayingSuit>suits[i].valueOf(), <PlayingValue>values[j].valueOf()));
+            for (let j = 0; j < values.length; j++) {
+                this.cards.push(new PlayingCard(suits[i], values[j]));
             }
 
         }
