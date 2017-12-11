@@ -274,7 +274,7 @@ export class BlackJackConsole extends Console {
           casino.startCasino();
         }
         else {
-          Utilities.printLine(_this.currentPlayer.getName() + ", you have $" + _this.currentPlayer.getMoney);
+          Utilities.printLine(_this.currentPlayer.getName() + ", you have $" + _this.currentPlayer.getMoney());
           Utilities.printLine(_this.currentPlayer.getName() + ", how much would you like to bet?");
           _this.i = 3;
           this.removeEventListener("click", cashOrContinue);
