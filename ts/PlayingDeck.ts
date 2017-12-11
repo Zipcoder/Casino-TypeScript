@@ -1,18 +1,13 @@
 ///<reference path="PlayingCard.ts"/>
-///<reference path="enumValues.d.ts"/>
+///<reference path="timEnumValues.ts"/>
 ///<reference path="PlayingValue.ts"/>
 ///<reference path="PlayingSuit.ts"/>
 
-// import { PlayingSuit } from "./PlayingSuit";
-// import { PlayingValue } from "./PlayingValue";
-// import { PlayingCard } from "./PlayingCard";
 
- import {EnumValues} from "./enumValues";
 
 class PlayingDeck {
 
     private cards : Array<PlayingCard>;
-
     public constructor() {
         this.populate();
     }
@@ -49,6 +44,7 @@ class PlayingDeck {
         }
         return this.cards.shift();
     }
+
 
     public populate(): void {
         this.cards = new Array<PlayingCard>();

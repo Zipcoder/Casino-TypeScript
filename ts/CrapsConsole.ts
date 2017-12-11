@@ -36,8 +36,6 @@ class CrapsConsole {
         this.quitButton=document.getElementById("quit");
     }
     finalize():void {
-        // this.inputElement.innerHTML= '<input type="text" name="user_input" id="user_input"> ' +
-        //                                     '<input type="submit" value="Submit" onclick="casino.run()">';
         this.displayElement.innerText = '';
         this.resetFlags();
         casino.run();

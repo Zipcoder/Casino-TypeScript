@@ -1,8 +1,8 @@
-/// reference<path="PlayingDeck.ts"/>
-/// reference<path="MoneyContainer.ts"/>
-/// reference<path="Hand.ts"/>
-/// reference<path="PlayingCard.ts"/>
-/// reference<path="CardGame.ts"/>
+/// <reference path="PlayingDeck.ts"/>
+/// <reference path="MoneyContainer.ts"/>
+/// <reference path="Hand.ts"/>
+/// <reference path="PlayingCard.ts"/>
+/// <reference path="CardGame.ts"/>
 
 // import {PlayingDeck} from "./PlayingDeck";
 // import {MoneyContainer} from "./MoneyContainer";
