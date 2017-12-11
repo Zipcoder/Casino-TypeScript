@@ -16,7 +16,7 @@ define(["require", "exports", "./Console", "./Utilities", "./BlackJack", "./Blac
         function BlackJackConsole() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.nameOfGame = "BlackJack";
-            _this.game = new BlackJack_1.BlackJack(1);
+            _this.game = new BlackJack_1.BlackJack(8);
             _this.i = 1;
             return _this;
         }

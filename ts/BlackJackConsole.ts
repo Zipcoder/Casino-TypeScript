@@ -9,7 +9,7 @@ export class BlackJackConsole extends Console {
 
   private nameOfGame: string = "BlackJack";
 
-  private game: BlackJack = new BlackJack(1);
+  private game: BlackJack = new BlackJack(8);
   private currentPlayer: BlackJackPlayer;
   i = 1;
 

@@ -22,7 +22,7 @@ export class Casino {
     this.gameConsoles.push(new BlackJackConsole());
     this.gameConsoles.push(new CrapsConsole());
     this.gameConsoles.push(new GoFishConsole());
-    this.gameConsoles.push(new SlotsConsole());
+    // this.gameConsoles.push(new SlotsConsole());
 
     // while(true) {
         this.selectGameToPlay();
@@ -58,7 +58,7 @@ export class Casino {
             this.startGoFish();
             break;
         case "SLOTS":
-            this.startSlots();
+            Utilities.printLine("Coming Soon!");
             break;
     }
   }
