@@ -9,29 +9,34 @@ let goFish = new GoFishConsole();
 class CardGame{
 
     printChooseCardGame() {
-        Display.print("What type of card game would you like tp play?" +
-            "<br/>Please enter goFish or blackJack");
+        Display.print("What type of card game would you like tp play?");
     }
 
 
     chooseCardGame() {
 
 
-        switch (UserInput.userInput.value){
-            case "goFish":
+        switch (UserInput.chooseCardGame.value){
+            case "1":
                 goFish.printPlay();
-                document.getElementById("button").setAttribute("onclick","goFish.play()");
+                Display.hideCardGameMenu();
+                // document.getElementById("button").setAttribute("onclick","goFish.play()");
                 break;
-            case "blackJacK":
+            case "2":
                 blackJack.printPlay();
-                document.getElementById("button").setAttribute("onclick","blackJack.play()");
+                Display.hideCardGameMenu();
+                // document.getElementById("button").setAttribute("onclick","blackJack.play()");
                 break;
+            case "3":
+                Display.hideCardGameMenu();            
+                Display.showCasinoMenu();
+                game.ChooseGame();
             default:
-                Display.print("Invalid choice.")
+                Display.print("Invalid choice please try again.")
                 this.chooseCardGame();
                 break;
         }
-        UserInput.clearTextBox();
+        UserInput.clearChooseCardGame();
 
     }
 

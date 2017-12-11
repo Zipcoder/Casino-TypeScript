@@ -4,6 +4,7 @@
 ///<reference path="userInput.ts"/>
 ///<reference path="crapsConsole.ts"/>
 
+
 class Craps implements Gamble{
   point: number;
   pot: number = 0;

@@ -25,16 +25,58 @@
         <!--these dont work properly-->
 
     <section id="main">
-    	<div id="display"></div>
+        <div id="display">
+            <img id="bud" style="display:none" src="./images/drinks/budlight.jpeg">
+            <img id="corona" style="display:none" src="./images/drinks/cornoa.jpeg">                
+            <img id="cran" style="display:none" src="./images/drinks/cranberyy.jpeg">                
+            <img id="hien" style="display:none" src="./images/drinks/hien.jpeg">               
+            <img id="long" style="display:none" src="./images/drinks/longIsland.jpeg">                
+            <img id="marg" style="display:none" src="./images/drinks/margarita.jpeg">                
+            <img id="old" style="display:none" src="./images/drinks/oldfasion.jpeg">                
+            <img id="red" style="display:none" src="./images/drinks/redwine.jpeg">                
+            <img id="white" style="display:none" src="./images/drinks/whitewine.jpeg">
+        </div> 
 			<div id="input">
-                <input type="text" name="user_input" id="user_input">
-                <input type="submit" value="submit" id="button" onclick="casinoStart.chooseWhatToDo()">
-                    <!--<input value="Roll" id="rollButton" onclick="" disabled="disabled"/>-->
+                <input type="text" name="user_input" id="user_input" style="display:none">
+                <input type="submit" value="submit" id="button" style="display:none" onclick="casinoStart.chooseWhatToDo()">
+                <select id="leave_stay" name="leave_stay" onchange="casinoStart.chooseWhatToDo()">
+                    <option value="0">Choose from below</option>
+                    <option value="1">Play a game</option>
+                    <option value="2">Get a drink</option>
+                    <option value="3">Leave the Casino</option>
+                </select>
+                <select id="gametype" name="gametype" style="display:none" onchange="game.pickGame()">
+                    <option value="0">Choose from below</option>                        
+                    <option value="1">Play card game</option>
+                    <option value="2">Play dice game</option>
+                    <option value="3">Return to the Casino Menu</option>                    
+                </select>
+                <select id="cardGame" name="cardGame" style="display:none" onchange="cardGame.chooseCardGame()">
+                    <option value="0">Choose from below</option>
+                    <option value="1">Play GoFish</option>
+                    <option value="2">Play BlackJack</option>
+                    <option value="3">Return to the Game Menu</option>                    
+                </select>
+                <select id="diceGame" name="diceGame" style="display:none" onchange="diceGame.chooseDiceGame()">
+                        <option value="0">Choose from below</option>
+                        <option value="1">Play Craps</option>
+                        <option value="2">Return to the Game Menu</option>
+                </select>
+                <select id="drinks" name="drinks" style="display:none" onchange="casinoStart.drinks()">
+                        <option value="0">Choose from below</option>
+                        <option value="1">Bud Light</option>
+                        <option value="2">Corona</option>
+                        <option value="3">Cranberry and Vodka</option>
+                        <option value="4">Heineken</option>
+                        <option value="5">Margarita</option>
+                        <option value="6">Old Fasion</option>
+                        <option value="7">Red Wine</option>
+                        <option value="8">White Wine</option>
+                        <option value="9">Long Island</option>
+                </select>
                 <button id="rollButton" onclick="" style="display:none" class="btn btn-primary"> Roll </button>
-				<!--<select id="user_input" name="user_input" onchange="casinoStart.chooseWhatToDo()">-->
-                    <!--<option value="1">Play a game</option>-->
-                    <!--<option value="2">Get a drink</option>-->
-                <!--</select>-->
+                <button id="hit" onclick="blackJack.hitOrStay()" value="yes" style="display:none" class="btn btn-primary">Hit</button>
+                <button id="stay" onclick="blackJack.checkScores()" value="yes" style="display:none" class="btn btn-primary">Stay</button>                
 			</div>
     </section>
 

@@ -1,6 +1,6 @@
 /// <reference path="display.ts"/>
 ///<reference path="craps.ts"/>
-///<reference path="userInput.ts"/>
+
 
 class CrapsConsole {
 
@@ -8,6 +8,7 @@ class CrapsConsole {
     instanceOfCraps = new Craps();
 
     constructor() {
+
 
     }
 
@@ -28,5 +29,6 @@ class CrapsConsole {
 
 
     }
+
 
 }

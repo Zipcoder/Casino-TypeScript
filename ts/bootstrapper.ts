@@ -1,5 +1,7 @@
 /// <reference path="casino.ts"/>
+///<reference path="deck.ts"/>
 ///<reference path="craps.ts"/>
+
 
 
 
