@@ -6,6 +6,7 @@
         "watch": true,
         "outDir": "js"
     },
+    "compileOnSave": true,
     "files": [
         "app.ts"
     ]
