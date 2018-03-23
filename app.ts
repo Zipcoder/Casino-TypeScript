@@ -1,8 +1,7 @@
 class Startup {
-    public static main(): number {
+    public static main(): void {
         var webElement = document.getElementById("display");
         webElement.innerText += "Hello World";
-        return 1;
     }
 }
 

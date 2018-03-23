@@ -4,7 +4,6 @@ var Startup = /** @class */ (function () {
     Startup.main = function () {
         var webElement = document.getElementById("display");
         webElement.innerText += "Hello World";
-        return 1;
     };
     return Startup;
 }());
