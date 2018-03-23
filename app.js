@@ -1,12 +1,10 @@
-var Casino = /** @class */ (function () {
-    function Casino(message) {
-        this.greeting = message;
+var Startup = /** @class */ (function () {
+    function Startup() {
     }
-    Casino.prototype.greet = function () {
-        return "Hello, " + this.greeting;
+    Startup.main = function () {
+        console.log('Hello World');
+        return 0;
     };
-    Casino.prototype.showGreeting = function () {
-        return "Greeting: " + this.greeting;
-    };
-    return Casino;
+    return Startup;
 }());
+Startup.main();

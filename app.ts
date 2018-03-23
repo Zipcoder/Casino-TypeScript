@@ -1,6 +1,7 @@
 class Startup {
     public static main(): number {
-        console.log('Hello World');
+        var webElement = document.getElementById("display");
+        webElement.innerText += "Hello World";
         return 0;
     }
 }
