@@ -31,4 +31,9 @@ var SlotMachine = /** @class */ (function () {
     }
     return SlotMachine;
 }());
+var SlotMachineReel = /** @class */ (function () {
+    function SlotMachineReel() {
+    }
+    return SlotMachineReel;
+}());
 //# sourceMappingURL=app.js.map
