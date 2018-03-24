@@ -7,6 +7,7 @@ var Startup = /** @class */ (function () {
         var window = document.getElementById('display');
         var button = document.getElementById('submit');
         button.addEventListener("click", function (e) { window.innerText += input.value + '\n'; });
+        button.addEventListener("click", function (e) { input.value = ''; });
     };
     return Startup;
 }());

@@ -5,13 +5,9 @@ class Startup {
         var window = <HTMLDivElement>document.getElementById('display');
         var button = <HTMLDivElement>document.getElementById('submit');
         
-        
         button.addEventListener("click",(e:Event)=>{window.innerText += input.value + '\n'});
-        
-
-        
-        
-        
+        button.addEventListener("click",(e:Event)=>{input.value = ''});
+ 
     }
 }
 
