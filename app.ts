@@ -1,14 +1,11 @@
 class Startup {
-
     public static main(): void {
-
-        
-
         var webElement = document.getElementById("display");
-        var userInput = <HTMLInputElement>document.getElementById("user_input")
+        var userInput = <HTMLInputElement>document.getElementById("user_input");
         var button = document.getElementById("submitButton");
 
-        button.addEventListener("click", (e: Event) => addToDisplayText(userInput.value))
+        webElement.innerText += "Welcome to the worst casino you've ever seen!";
+        button.addEventListener("click", (e: Event) => addToDisplayText(userInput.value));
 
         function addToDisplayText(text: string) {
             webElement.innerText += '\n';
@@ -18,3 +15,17 @@ class Startup {
 }
 
 Startup.main();
+
+class Profile {
+    id: number = 1;
+    name: string;
+    balance: number;
+    constructor(name: string, balance: number) {
+        this.name = name;
+        this.balance = balance;
+    }
+    public getBalance(){
+        return this.balance;
+    }
+}
+
