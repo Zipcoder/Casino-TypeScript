@@ -29,3 +29,15 @@ class Profile {
     }
 }
 
+interface GameInterface {
+    start();
+    end();
+}
+
+interface GamblingInterface {
+    bet();
+}
+
+class SlotMachine {
+    
+}

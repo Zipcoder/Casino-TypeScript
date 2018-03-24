@@ -26,4 +26,9 @@ var Profile = /** @class */ (function () {
     };
     return Profile;
 }());
+var SlotMachine = /** @class */ (function () {
+    function SlotMachine() {
+    }
+    return SlotMachine;
+}());
 //# sourceMappingURL=app.js.map
