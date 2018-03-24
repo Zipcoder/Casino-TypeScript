@@ -4,10 +4,10 @@ class Profile{
     private userName: string;
     private balance: number;
     
-    constructor(userId: number, userName:string,balance:number){
-        this.userId = userId;
+    constructor(userName:string){
+        this.userId = Math.random() * 1000;
         this.userName = userName;
-        this.balance = balance;
+        this.balance = 500;
     }
 
     public getUserId(): number{

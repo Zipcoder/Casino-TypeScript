@@ -2,8 +2,8 @@ class Player implements PlayerInterface {
     
     private playerProfile: Profile;
     
-    constructorI(name: string){
-        this.playerProfile = new Profile(Math.random() *1000, name, 500);
+    constructorI(playerProfile: Profile){
+        this.playerProfile = playerProfile;
     }
 
     getProfile(): Profile {
