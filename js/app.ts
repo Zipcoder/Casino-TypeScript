@@ -117,6 +117,9 @@ abstract class CardPlayer extends Player {
 class BlackJackPlayer extends CardPlayer implements Gamble {
     
     escrow:Escrow;
+    private _busted:boolean;
+    private _stand:boolean;
+    private _score:number;
     
     constructor(profile:Profile){
         super(profile);
@@ -134,6 +137,30 @@ class BlackJackPlayer extends CardPlayer implements Gamble {
     }
     lose(): void {
         this.escrow.escrowBalance=0;
+    }
+
+    public get busted():boolean{
+        return this.busted;
+    }
+
+    public set busted(state:boolean){
+        this._busted=state;
+    }
+
+    public get stand():boolean{
+        return this._stand;
+    }
+
+    public set stand(state:boolean){
+        this._stand=state;
+    }
+
+    public get score():number{
+        return this._score;
+    }
+
+    public set score(amount:number){
+        this._score=amount;
     }
 }
 

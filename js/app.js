@@ -126,6 +126,36 @@ var BlackJackPlayer = /** @class */ (function (_super) {
     BlackJackPlayer.prototype.lose = function () {
         this.escrow.escrowBalance = 0;
     };
+    Object.defineProperty(BlackJackPlayer.prototype, "busted", {
+        get: function () {
+            return this.busted;
+        },
+        set: function (state) {
+            this._busted = state;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BlackJackPlayer.prototype, "stand", {
+        get: function () {
+            return this._stand;
+        },
+        set: function (state) {
+            this._stand = state;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BlackJackPlayer.prototype, "score", {
+        get: function () {
+            return this._score;
+        },
+        set: function (amount) {
+            this._score = amount;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return BlackJackPlayer;
 }(CardPlayer));
 var Escrow = /** @class */ (function () {
