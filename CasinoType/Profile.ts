@@ -4,34 +4,40 @@ private id: number;
 private name: string;
 private balance: number;
 
+public casinoProfiles:Profile[];
+
 constructor(id: number, name: string, balance: number) {
     this.id = id;
     this.name =name;
     this.balance = balance;
 }
 
-public setId(id: number) {
+set setId(id: number) {
     this.id = id;
 }
 
-public setName(name: string) {
+set setName(name: string) {
     this.name = name;
 }
 
-public setBalance(balance: number) {
+set setBalance(balance: number) {
     this.balance = balance;
 }
 
-public getName() {
+get getName() {
     return this.name;
 }
 
-public getId() {
+get getId() {
     return this.id;
 }
 
-public get() {
+get getBalance() {
     return this.balance;
+}
+
+addPlayer(aplayer:Profile) : void {
+    this.casinoProfiles.push(aplayer);
 }
 
 }

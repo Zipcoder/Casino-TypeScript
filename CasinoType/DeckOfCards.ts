@@ -1,7 +1,7 @@
 class DeckOfCards {
 
 private newDeck: Card[] = [];
-private inPlayDeck: Card[] = [];
+//private inPlayDeck: Card[] = [];
 
 suits:CardSuit[] = [CardSuit.Spades, CardSuit.Clubs, CardSuit.Diamonds, CardSuit.Hearts];
 ranks:CardValue[] = [CardValue.Ace, CardValue.Two, CardValue.Three, CardValue.Four, CardValue.Five, 
@@ -15,9 +15,6 @@ ranks:CardValue[] = [CardValue.Ace, CardValue.Two, CardValue.Three, CardValue.Fo
 			 this.ranks.forEach((rank) =>
 				 this.deck.push(new Card(rank, suit))));
 
-		this.deck.push(new Card(null,null));
-		this.deck.push(new Card(null,null));
-
  	}
 
 	shuffle(): void {
@@ -27,7 +24,9 @@ ranks:CardValue[] = [CardValue.Ace, CardValue.Two, CardValue.Three, CardValue.Fo
 		    this.deck[i] = this.deck[j];
 		    this.deck[j] = swap;
 		}
- 	}
+
+	}	
+
 
 	toString(): string {
 		return this.deck.join("\n")

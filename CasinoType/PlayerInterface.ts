@@ -1,8 +1,8 @@
 interface PlayerInterface {
 
-    getProfile();
-    getName(name: String);
-    getId(id: number);
+    getProfile() : Profile;
+    getName() :string;
+    getId() : number;
 
 
 }

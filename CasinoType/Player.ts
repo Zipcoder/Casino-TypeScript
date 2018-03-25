@@ -1,21 +1,23 @@
 class Player implements PlayerInterface {
    
-    private chips;
-        
+    
+    private playerProfile: Profile;
+    private hand: Card[];
+    
+    constructor(aProfile: Profile) {
+        this.playerProfile = aProfile;
+    }
 
 
    
-   
-   
-   
-    getProfile() {
-        throw new Error("Method not implemented.");
+    getProfile() : Profile {
+        return this.playerProfile;
     }
-    getName(name: String) {
-        throw new Error("Method not implemented.");
+    getName() : string {
+        return this.playerProfile.getName;
     }
-    getId(id: number) {
-        throw new Error("Method not implemented.");
+    getId() : number {
+        return this.playerProfile.getId;
     }
     
 }

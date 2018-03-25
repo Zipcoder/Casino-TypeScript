@@ -1,13 +1,14 @@
-var Card = /** @class */ (function () {
-    function Card(rank, suit) {
+class Blackjack {
+}
+class Card {
+    constructor(rank, suit) {
         this.rank = rank;
         this.suit = suit;
     }
-    Card.prototype.toString = function () {
+    toString() {
         return CardValue[this.rank] + " of " + CardSuit[this.suit];
-    };
-    return Card;
-}());
+    }
+}
 var CardSuit;
 (function (CardSuit) {
     CardSuit[CardSuit["Clubs"] = 0] = "Clubs";
@@ -31,75 +32,119 @@ var CardValue;
     CardValue[CardValue["King"] = 10] = "King";
     CardValue[CardValue["Ace"] = 11] = "Ace";
 })(CardValue || (CardValue = {}));
-var DeckOfCards = /** @class */ (function () {
-    function DeckOfCards() {
-        var _this = this;
+class Casino {
+    constructor() {
+        this.chooseGame = this.chooseGame.bind(this);
+    }
+    start() {
+        UI.display("Thank you for coming to my Blackjack Casino");
+        UI.display("What game would you like to play? Blackjack, Blackjack, Blackjack or Blackjack");
+        UI.button.addEventListener("click", this.chooseGame);
+    }
+    chooseGame() {
+        UI.button.removeEventListener("click", this.chooseGame);
+        if (UI.lastInput === "Blackjack") {
+            // Blackjack.start();
+        }
+        else {
+            UI.button.addEventListener("click", this.chooseGame);
+        }
+    }
+}
+class Dealer {
+}
+class DeckOfCards {
+    constructor() {
         this.newDeck = [];
-        this.inPlayDeck = [];
+        //private inPlayDeck: Card[] = [];
         this.suits = [CardSuit.Spades, CardSuit.Clubs, CardSuit.Diamonds, CardSuit.Hearts];
         this.ranks = [CardValue.Ace, CardValue.Two, CardValue.Three, CardValue.Four, CardValue.Five,
             CardValue.Six, CardValue.Seven, CardValue.Eight, CardValue.Nine, CardValue.Ten,
             CardValue.Jack, CardValue.Queen, CardValue.King];
         this.deck = [];
-        this.suits.forEach(function (suit) {
-            return _this.ranks.forEach(function (rank) {
-                return _this.deck.push(new Card(rank, suit));
-            });
-        });
-        this.deck.push(new Card(null, null));
-        this.deck.push(new Card(null, null));
+        this.suits.forEach((suit) => this.ranks.forEach((rank) => this.deck.push(new Card(rank, suit))));
     }
-    DeckOfCards.prototype.shuffle = function () {
-        for (var i = this.deck.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var swap = this.deck[i];
+    shuffle() {
+        for (let i = this.deck.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let swap = this.deck[i];
             this.deck[i] = this.deck[j];
             this.deck[j] = swap;
         }
-    };
-    DeckOfCards.prototype.toString = function () {
+    }
+    toString() {
         return this.deck.join("\n");
-    };
-    return DeckOfCards;
-}());
-var Player = /** @class */ (function () {
-    function Player() {
     }
-    Player.prototype.getProfile = function () {
-        throw new Error("Method not implemented.");
-    };
-    Player.prototype.getName = function (name) {
-        throw new Error("Method not implemented.");
-    };
-    Player.prototype.getId = function (id) {
-        throw new Error("Method not implemented.");
-    };
-    return Player;
-}());
-var Profile = /** @class */ (function () {
-    function Profile(id, name, balance) {
+}
+class GambleEngine {
+}
+class MainApp {
+    MainApp() {
+    }
+}
+class PitBoss {
+}
+class Player {
+    constructor(aProfile) {
+        this.playerProfile = aProfile;
+    }
+    getProfile() {
+        return this.playerProfile;
+    }
+    getName() {
+        return this.playerProfile.getName;
+    }
+    getId() {
+        return this.playerProfile.getId;
+    }
+}
+class Profile {
+    constructor(id, name, balance) {
         this.id = id;
         this.name = name;
         this.balance = balance;
     }
-    Profile.prototype.setId = function (id) {
+    set setId(id) {
         this.id = id;
-    };
-    Profile.prototype.setName = function (name) {
+    }
+    set setName(name) {
         this.name = name;
-    };
-    Profile.prototype.setBalance = function (balance) {
+    }
+    set setBalance(balance) {
         this.balance = balance;
-    };
-    Profile.prototype.getName = function () {
+    }
+    get getName() {
         return this.name;
-    };
-    Profile.prototype.getId = function () {
+    }
+    get getId() {
         return this.id;
-    };
-    Profile.prototype.get = function () {
+    }
+    get getBalance() {
         return this.balance;
-    };
-    return Profile;
-}());
+    }
+    addPlayer(aplayer) {
+        this.casinoProfiles.push(aplayer);
+    }
+}
+class UI {
+    constructor() {
+        UI.button.addEventListener("click", (e) => { UI._lastInput = UI.userInput.value; });
+        UI.button.addEventListener("click", (e) => { UI.userInput.value = ''; });
+    }
+    static display(input) {
+        this.window.innerText += input + '\n';
+    }
+    static clearScreen() {
+        this.window.innerText = '';
+    }
+    static get Instance() {
+        return this._instance || (this._instance = new UI());
+    }
+    static get lastInput() {
+        return this._lastInput;
+    }
+}
+UI.userInput = document.getElementById("user_input");
+UI.window = document.getElementById('display');
+UI.button = document.getElementById('submit');
 //# sourceMappingURL=app.js.map

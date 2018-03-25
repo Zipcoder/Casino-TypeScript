@@ -1,11 +1,11 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "noImplicitAny": false,
         "sourceMap": true,
         "watch": true,
-        "outDir": "js",
+        "out": "app.js",
         "module": "commonjs"
     }
 }
