@@ -1,7 +1,9 @@
-abstract class GameEngine<GameTypePlayer extends PlayerInterface, GameType extends GameInterface<GameTypePlayer>> 
-implements GameEngineInterfae<GameTypePlayer, GameType> {
+namespace Casino {
+    export abstract class GameEngine<GameTypePlayer extends PlayerInterface, GameType extends GameInterface<GameTypePlayer>>
+        implements GameEngineInterface<GameTypePlayer, GameType> {
 
-    abstract getGame(): GameType
-    abstract evaluateTurn(player: GameTypePlayer): void 
-    abstract run(): void
+        abstract getGame(): GameType
+        abstract evaluateTurn(player: GameTypePlayer): void
+        abstract run(): void
+    }
 }

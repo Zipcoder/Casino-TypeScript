@@ -1,6 +1,8 @@
-interface GameEngineInterfae<GameTypePlayer extends PlayerInterface, GameType extends GameInterface<GameTypePlayer>>{
+namespace Casino {
+    export interface GameEngineInterface<GameTypePlayer extends PlayerInterface, GameType extends GameInterface<GameTypePlayer>> {
 
-    getGame(): GameType;
-    evaluateTurn(player: GameTypePlayer): void;
-    run(): void;
+        getGame(): GameType;
+        evaluateTurn(player: GameTypePlayer): void;
+        run(): void;
+    }
 }
