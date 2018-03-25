@@ -34,23 +34,36 @@ interface GamblingInterface {
 // Player initialization had to be removed to here because this language is bleh
 var player:Profile = null;
 
-class SlotMachine implements GameInterface{
-    start() {
+class SlotMachine {
+    public static start() {
         addToDisplayText("Welcome to slot machine! Win triple your bet for 3 matching numbers or 1.5x for 2.");
         while(true) {
             var currentInput;
             var currentBalance = player.balance;
+            var payout;
             addToDisplayText("You have $" + currentBalance + ". Enter a number less than your total to bet.");
             addToDisplayText("Enter anything else to quit.");
-            button.addEventListener("click", (e: Event) => currentInput = userInput.value);
+            button.addEventListener("click", (e: Event) => currentInput = +userInput.value);
+            player.balance = currentBalance - currentInput;
             addToDisplayText("You entered " + currentInput + ".");
             if ((!isNaN(currentInput)) && (currentInput <= currentBalance)) {
                 addToDisplayText("Valid input! Spinning reels...");
                 var firstReel = Math.floor(Math.random() * 5) + 1;
                 var secondReel = Math.floor(Math.random() * 5) + 1;
                 var thirdReel = Math.floor(Math.random() * 5) + 1;
-
-            // More logic please
+                addToDisplayText("|| " + firstReel + " | " + secondReel + " | " + thirdReel + " ||");
+                if (firstReel == secondReel && thirdReel) {
+                    payout = currentInput * 3;
+                    addToDisplayText("JACKPOT!!")
+                } else if (((firstReel == secondReel) && (firstReel != thirdReel)) || 
+                            ((firstReel == thirdReel) && (firstReel != secondReel)) || 
+                            ((secondReel == thirdReel) && (secondReel != firstReel))) {
+                                payout = Math.floor(currentInput * 1.5);
+                            } else {
+                                payout = 0;
+                            }
+                addToDisplayText("Your payout: $" + payout);
+                player.balance += payout;
             } else {
                 addToDisplayText("Invalid input! Bye-bye!");
                 break;
@@ -66,12 +79,12 @@ class Startup {
         addToDisplayText("Please enter how many dollary doos you want to start with:")
         button.addEventListener("click", (e: Event) => player.balance = +userInput.value);
         addToDisplayText("My girlfriend cut her hand and we spent all weekend in the hospital so there is only a slot machine lol");
-        
     }
 }
 
 webWindow.innerText = "Welcome to the worst casino you've ever seen!";
 Startup.main();
+SlotMachine.start();
 
 
 

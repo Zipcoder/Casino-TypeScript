@@ -35,21 +35,37 @@ var player = null;
 var SlotMachine = /** @class */ (function () {
     function SlotMachine() {
     }
-    SlotMachine.prototype.start = function () {
+    SlotMachine.start = function () {
         addToDisplayText("Welcome to slot machine! Win triple your bet for 3 matching numbers or 1.5x for 2.");
         while (true) {
             var currentInput;
             var currentBalance = player.balance;
+            var payout;
             addToDisplayText("You have $" + currentBalance + ". Enter a number less than your total to bet.");
             addToDisplayText("Enter anything else to quit.");
-            button.addEventListener("click", function (e) { return currentInput = userInput.value; });
+            button.addEventListener("click", function (e) { return currentInput = +userInput.value; });
+            player.balance = currentBalance - currentInput;
             addToDisplayText("You entered " + currentInput + ".");
             if ((!isNaN(currentInput)) && (currentInput <= currentBalance)) {
                 addToDisplayText("Valid input! Spinning reels...");
                 var firstReel = Math.floor(Math.random() * 5) + 1;
                 var secondReel = Math.floor(Math.random() * 5) + 1;
                 var thirdReel = Math.floor(Math.random() * 5) + 1;
-                // More logic please
+                addToDisplayText("|| " + firstReel + " | " + secondReel + " | " + thirdReel + " ||");
+                if (firstReel == secondReel && thirdReel) {
+                    payout = currentInput * 3;
+                    addToDisplayText("JACKPOT!!");
+                }
+                else if (((firstReel == secondReel) && (firstReel != thirdReel)) ||
+                    ((firstReel == thirdReel) && (firstReel != secondReel)) ||
+                    ((secondReel == thirdReel) && (secondReel != firstReel))) {
+                    payout = Math.floor(currentInput * 1.5);
+                }
+                else {
+                    payout = 0;
+                }
+                addToDisplayText("Your payout: $" + payout);
+                player.balance += payout;
             }
             else {
                 addToDisplayText("Invalid input! Bye-bye!");
@@ -73,6 +89,7 @@ var Startup = /** @class */ (function () {
 }());
 webWindow.innerText = "Welcome to the worst casino you've ever seen!";
 Startup.main();
+SlotMachine.start();
 // Here for posterity
 // button.addEventListener("click", (e: Event) => addToDisplayText(userInput.value));
 //# sourceMappingURL=app.js.map
