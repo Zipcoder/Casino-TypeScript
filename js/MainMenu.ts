@@ -1,19 +1,19 @@
+namespace Casino {
+    export class MainMenu {
+        displayElement: HTMLElement = document.getElementById("display");
+        submitButton: HTMLElement = document.getElementById("submit_button");
+        private userPrfoile: Profile;
+        
+        public menuStart() {
+            this.displayElement.textContent = "Please enter your name";
+            this.submitButton.addEventListener("click", this.createProfile);
+        }
 
-class MainMenu{
-    displayElement = document.getElementById("display");
-    public menuStart(){
-        var test: string = getInput();
-        var playingGame: boolean = true;
-        while(playingGame){
-            this.displayElement.textContent = "Please enter your name or exit to quit";
-            var userInput = getInput();
-            if(userInput == "exit"){
-                playingGame = false;
-                break;
-            } 
-            var userProfile: Profile = new Profile(userInput);
-            
-
+        public createProfile(){
+            this.displayElement.textContent = "Your name is ";
+            this.submitButton.removeEventListener("click", this.createProfile);
+            this.userPrfoile = new Profile(Input.getInput());
+            this.displayElement.textContent = "Your name is " + this.userPrfoile.getuserName();
         }
     }
 }
