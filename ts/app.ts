@@ -1,38 +1,54 @@
-// import { sumTwoNumbers } from "./sumTwoNumbers";
+class UserInterface {
+    public userInput: HTMLInputElement = <HTMLInputElement>document.getElementById('user_input');
+    public window: HTMLDivElement = <HTMLDivElement>document.getElementById('display');
+    public button: HTMLDivElement = <HTMLDivElement>document.getElementById('submit');
+    public _lastInput: string;
+    // private static _instance: UI;
 
-class Student {
-    fullName: string;
-    constructor(public firstName: string, public middleInitial: string, public lastName: string) {
-        this.fullName = firstName + " " + middleInitial + " " + lastName;
+    constructor() {
+        this.button.addEventListener("click", (e: Event) => { this._lastInput = this.userInput.value });
+        this.button.addEventListener("click", (e:Event) => console.log(this._lastInput));
+        this.button.addEventListener("click", (e: Event) => { this.userInput.value = '' });
+        this.chooseGame = this.chooseGame.bind(this);
     }
+
+    display(input: string): void {
+        this.window.innerText += input + '\n';
+    }
+
+    clearScreen(): void {
+        this.window.innerText = '';
+    }
+
+    // public static get Instance(): UI {
+    //     return this._instance || (this._instance = new UI());
+    // }
+
+    lastInput(): string {
+        return this._lastInput;
+    }
+
+    start() {
+        this.display("What game do you want to play?");
+        this.display("Black Jack or Go Fish?");
+        this.button.addEventListener("click", (e:Event) => this.chooseGame());
+    }
+    
+    chooseGame(): void {
+        this.button.removeEventListener("click", (e:Event) => this.chooseGame());
+        if (this.lastInput() === "Black Jack") {
+            this.display("Black Jack worked");
+        }
+        else if (this.lastInput() === "Go Fish") {
+            this.display("Go Fish worked");
+        }
+        else {
+            this.button.addEventListener("click", (e:Event) => this.chooseGame());
+        }
+    }
+
 }
 
-interface Person {
-    firstName: string;
-    lastName: string;
-}
-
-function greeter(person: Person) {
-    return "Hello, " + person.firstName +  " " + person.lastName;
-}
-
-let user = new Student("Luis", "J.", "Romero;");
-
-let submitInput: HTMLInputElement = <HTMLInputElement>document.getElementById("user_input");
-let newString: string = submitInput.value;
-
-let userInput0 = prompt("Please enter something: ", "type0");
-let userInput1 = prompt("Please enter something: ", "type1");
-
-console.log(userInput0);
-console.log(userInput1);
-
-document.getElementById("display").innerHTML = 
-"<h3>Blackjack</h3><br>" +
-user.fullName + 
-"<h3>User input: " + userInput0 + "</h3>" +
-"<h3>User input: " + userInput1 + "</h3>";
-
-
-// let num: number = sumTwoNumbers(1, 2);
-// console.log(num);
+let UI: UserInterface = new UserInterface();
+UI.start();
+// UI.chooseGame();

@@ -1,11 +1,14 @@
-{
+{   
+    "compileOnSave": true,
     "compilerOptions": {
         "module": "system",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "outFile": "./js/app.js",
-        "sourceMap": true
+        "sourceMap": true,
+        "target": "es5",
+        "watch": true
     },
     "include": [
         "./**/*"
