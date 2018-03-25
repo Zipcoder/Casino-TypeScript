@@ -1,4 +1,4 @@
-interface GameInterface<PlayerType extends PlayerInterface> {
+export interface GameInterface<PlayerType extends PlayerInterface> {
     getPlayers(): PlayerType[];
     getPlayer(playerId: number): PlayerType;
     addPlayer(player: PlayerType): void;

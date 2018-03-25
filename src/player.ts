@@ -1,4 +1,4 @@
-/// <reference path="profile.ts" /s>
+import { Profile } from './profile';
 
 class Player implements PlayerInterface {
     private profile: Profile;
