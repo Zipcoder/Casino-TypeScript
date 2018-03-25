@@ -51,12 +51,39 @@ var MathOps = /** @class */ (function () {
     };
     return MathOps;
 }());
-var Suit;
-(function (Suit) {
-    Suit["CLUBS"] = "clubs";
-    Suit["DIAMONDS"] = "diamonds";
-    Suit["HEARTS"] = "hearts";
-    Suit["SPADES"] = "spades";
-})(Suit || (Suit = {}));
+var SuitString;
+(function (SuitString) {
+    SuitString["CLUBS"] = "clubs";
+    SuitString["DIAMONDS"] = "diamonds";
+    SuitString["HEARTS"] = "hearts";
+    SuitString["SPADES"] = "spades";
+})(SuitString || (SuitString = {}));
+var SuitUnicode;
+(function (SuitUnicode) {
+    SuitUnicode["CLUBS"] = "\u2663";
+    SuitUnicode["DIAMONDS"] = "\u2666";
+    SuitUnicode["HEARTS"] = "\u2665";
+    SuitUnicode["SPADES"] = "\u2660";
+})(SuitUnicode || (SuitUnicode = {}));
+// enum Rank {
+//     DEUCE(2,"2"),
+//     THREE(3,"3"),
+//     FOUR(4,"4"),
+//     FIVE(5,"5"),
+//     SIX(6,"6"),
+//     SEVEN(7,"7"),
+//     EIGHT(8,"8"),
+//     NINE(9,"9"),
+//     TEN(10,"10"),
+//     JACK(11,"J"),
+//     QUEEN(12,"Q"),
+//     KING(13,"K"),
+//     ACE(1,"A");
+// }
 var UI = new UserInterface();
 UI.start();
+UI.display(SuitString.CLUBS);
+UI.display(SuitUnicode.CLUBS);
+UI.display(SuitUnicode.DIAMONDS);
+UI.display(SuitUnicode.HEARTS);
+UI.display(SuitUnicode.SPADES);

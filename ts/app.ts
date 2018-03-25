@@ -57,12 +57,41 @@ class MathOps {
     }
 }
 
-enum Suit {
+enum SuitString {
     CLUBS = "clubs",
     DIAMONDS = "diamonds",
     HEARTS = "hearts",
     SPADES = "spades"
 }
 
+enum SuitUnicode {
+    CLUBS = "\u2663",
+    DIAMONDS = "\u2666",
+    HEARTS = "\u2665",
+    SPADES = "\u2660"
+}
+
+// enum Rank {
+//     DEUCE(2,"2"),
+//     THREE(3,"3"),
+//     FOUR(4,"4"),
+//     FIVE(5,"5"),
+//     SIX(6,"6"),
+//     SEVEN(7,"7"),
+//     EIGHT(8,"8"),
+//     NINE(9,"9"),
+//     TEN(10,"10"),
+//     JACK(11,"J"),
+//     QUEEN(12,"Q"),
+//     KING(13,"K"),
+//     ACE(1,"A");
+// }
+
 let UI: UserInterface = new UserInterface();
 UI.start();
+UI.display(SuitString.CLUBS);
+UI.display(SuitUnicode.CLUBS);
+UI.display(SuitUnicode.DIAMONDS);
+UI.display(SuitUnicode.HEARTS);
+UI.display(SuitUnicode.SPADES);
+

@@ -46,13 +46,25 @@ var MathOps = (function () {
     };
     return MathOps;
 }());
-var Suit;
-(function (Suit) {
-    Suit["CLUBS"] = "clubs";
-    Suit["DIAMONDS"] = "diamonds";
-    Suit["HEARTS"] = "hearts";
-    Suit["SPADES"] = "spades";
-})(Suit || (Suit = {}));
+var SuitString;
+(function (SuitString) {
+    SuitString["CLUBS"] = "clubs";
+    SuitString["DIAMONDS"] = "diamonds";
+    SuitString["HEARTS"] = "hearts";
+    SuitString["SPADES"] = "spades";
+})(SuitString || (SuitString = {}));
+var SuitUnicode;
+(function (SuitUnicode) {
+    SuitUnicode["CLUBS"] = "\u2663";
+    SuitUnicode["DIAMONDS"] = "\u2666";
+    SuitUnicode["HEARTS"] = "\u2665";
+    SuitUnicode["SPADES"] = "\u2660";
+})(SuitUnicode || (SuitUnicode = {}));
 var UI = new UserInterface();
 UI.start();
+UI.display(SuitString.CLUBS);
+UI.display(SuitUnicode.CLUBS);
+UI.display(SuitUnicode.DIAMONDS);
+UI.display(SuitUnicode.HEARTS);
+UI.display(SuitUnicode.SPADES);
 //# sourceMappingURL=app.js.map
