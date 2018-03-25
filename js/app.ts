@@ -16,7 +16,7 @@ namespace Casino {
     document.getElementById("submit_button").addEventListener("click",(e: Event) => Input.getInputFromBox());
 
     function loadMainMenu() {
-        var menu: MainMenu = new MainMenu;
+        var menu: MainMenu = new MainMenu();
         menu.menuStart();
     }
 }
