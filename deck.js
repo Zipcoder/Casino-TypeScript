@@ -1,25 +1,38 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var card_1 = require("./card");
-var Deck = /** @class */ (function (_super) {
-    __extends(Deck, _super);
-    function Deck(card) {
-        return _super.call(this, card) || this;
+var Deck = /** @class */ (function () {
+    function Deck() {
+        this.cards = [];
+        this.currentCard = 0;
+        for (var i = 0; i < 13; i++) {
+            for (var suit = 0; suit < 4; suit++) {
+                this.cards.push(new card_1.Card(Deck.RANKS[i], Deck.SUITS[suit]));
+            }
+        }
+        this.shuffle(3);
     }
-    Deck.prototype.passOutCards = function (numberCard) {
-        console.log("I am passing out " + numberCard + "and they are " + this.getCard);
+    Deck.prototype.shuffle = function (times) {
+        for (var i = 0; i < (times || 1); i++) {
+            this.cards.sort(function () {
+                return (0.5 - Math.random());
+            });
+        }
     };
+    Deck.prototype.printDeck = function () {
+        this.cards.forEach(function (card) {
+            console.log(card.cardToString());
+        });
+    };
+    Deck.prototype.draw = function () {
+        if (this.currentCard === this.cards.length - 1) {
+            this.shuffle();
+            this.currentCard = 0;
+        }
+        return this.cards[this.currentCard++];
+    };
+    Deck.SUITS = ['♥', '♦', '♠', '♣'];
+    Deck.RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
     return Deck;
-}(card_1.Card));
-var myDeck = new card_1.Card("Goobly");
-myDeck.passOutCards(3);
+}());
+exports.Deck = Deck;

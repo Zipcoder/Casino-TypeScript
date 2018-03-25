@@ -1,30 +1,54 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Card = /** @class */ (function () {
-    function Card(card) {
-        this.firstName = "Ezio";
-        this.card = card;
+    function Card(rank, suit) {
+        this.rank = rank;
+        this.suit = suit;
+        switch (rank) {
+            case 'A':
+                this.value = 11;
+                break;
+            case 'K':
+            case 'Q':
+            case 'J':
+                this.value = 10;
+                break;
+            default:
+                this.value = parseInt(rank);
+                break;
+        }
     }
-    Card.prototype.getCard = function () {
-        return this.card;
+    Card.prototype.rankToString = function () {
+        switch (this.rank) {
+            case 'A':
+                return "Ace";
+            case 'K':
+                return "King";
+            case 'Q':
+                return "Queen";
+            case 'J':
+                return "Jack";
+            default:
+                return this.value.toString();
+        }
     };
-    Card.prototype.passOutCards = function (numCards) {
-        console.log("I am passing out " + numCards + "and they are " + this.card);
+    Card.prototype.suitToString = function () {
+        switch (this.suit) {
+            case '♥':
+                return "Hearts";
+            case '♦':
+                return "Diamonds";
+            case '♣':
+                return "Clubs";
+            case '♠':
+                return "Spades";
+            default:
+                return this.value.toString();
+        }
     };
-    Card.prototype.sayHello = function () {
-        var _this = this;
-        setTimeout(function () {
-            console.log("Hello, " + _this.firstName);
-        }, 500);
+    Card.prototype.cardToString = function () {
+        return this.rankToString() + " of " + this.suitToString();
     };
     return Card;
 }());
 exports.Card = Card;
-var myCard = new Card("Hearts");
-myCard.passOutCards(4);
-myCard.sayHello();
-function greet(firstName, lastName) {
-    if (lastName === void 0) { lastName = "Wu"; }
-    console.log("Hello, my name is " + firstName + " " + lastName);
-}
-greet("Lawrence", "Stu");

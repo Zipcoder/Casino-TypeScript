@@ -1,35 +1,54 @@
-class Card {
-    private card: string;
-    firstName = "Ezio";
-
-    constructor(card: string) {
-        this.card = card;
-    }
+export class Card{
+    rank: string;
+    suit: string;
+    value: number;
     
-    getCard(){
-        return this.card;
+    constructor(rank: string, suit: string){
+        this.rank = rank;
+        this.suit = suit;
+        switch(rank){
+            case 'A':
+                this.value = 11;
+            break;
+            case 'K':
+            case 'Q':
+            case 'J':
+                this.value = 10;
+                break;
+            default: 
+                this.value = parseInt(rank);
+                break;
+        }
     }
-
-    passOutCards(numCards: number){
-        console.log("I am passing out " + numCards + " and they are " + this.card);
+    rankToString(): string {
+        switch (this.rank){
+            case 'A':
+                return "Ace";
+            case 'K':
+                return "King";
+            case 'Q':
+                return "Queen";
+            case 'J':
+                return "Jack";
+            default:
+                return this.value.toString();
+        }
     }
-
-    sayHello(){
-        setTimeout(() => 
-        { console.log("Hello, " + this.firstName);
-            }
-        , 500);
+    suitToString(): string {
+        switch (this.suit){
+            case '♥':
+                return "Hearts";
+            case '♦':
+                return "Diamonds";
+            case '♣':
+                return "Clubs";
+            case '♠':
+                return "Spades";
+            default:
+                return this.value.toString();
+        }
+    }
+    cardToString(): string {
+        return `${this.rankToString()} of ${this.suitToString()}`;
     }
 }
-
-let myCard = new Card("Hearts");
-myCard.passOutCards(4);
-myCard.sayHello();
-
-function greet(firstName: string, lastName : string = "Wu"): void{
-    console.log("Hello, my name is " + firstName + " " + lastName);
-    
-}
-greet("Lawrence", "Stu");
-
-export {Card}
