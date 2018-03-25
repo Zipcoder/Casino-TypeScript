@@ -78,7 +78,6 @@ class Startup {
         button.addEventListener("click", (e: Event) => player.name = userInput.value);
         addToDisplayText("Please enter how many dollary doos you want to start with:")
         button.addEventListener("click", (e: Event) => player.balance = +userInput.value);
-        addToDisplayText("My girlfriend cut her hand and we spent all weekend in the hospital so there is only a slot machine lol");
     }
 }
 
