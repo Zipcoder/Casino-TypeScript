@@ -23,11 +23,25 @@ var Startup = /** @class */ (function () {
         // UI.display(heart);
         // UI.display(spade);
         // UI.display(diamond);
-        var deck = new Deck();
-        deck.shuffle();
-        for (var i = 0; i <= 51; i++) {
-            UI.display(deck.deal());
-        }
+        // var deck = new Deck();
+        // deck.shuffle();
+        // for (var i = 0; i <= 51; i++) {
+        //     UI.display(deck.deal());
+        // }
+        var profile = new Profile('Eric', 10000);
+        var player = new BlackJackPlayer(profile);
+        var ace = new Card(Rank.ACE, Suit.SPADES);
+        var king = new Card(Rank.KING, Suit.SPADES);
+        var seven = new Card(Rank.SEVEN, Suit.SPADES);
+        var two = new Card(Rank.TWO, Suit.SPADES);
+        var five = new Card(Rank.FIVE, Suit.SPADES);
+        player.takeCard(ace);
+        player.takeCard(five);
+        player.takeCard(seven);
+        player.takeCard(ace);
+        player.calculateScore();
+        UI.display(player.hand.cards);
+        UI.display(player.score);
     };
     return Startup;
 }());
@@ -156,6 +170,81 @@ var BlackJackPlayer = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    BlackJackPlayer.prototype.isBusted = function () {
+        if (this._score > 21) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    BlackJackPlayer.prototype.calculateScore = function () {
+        var hasAce = false;
+        var tempScore = 0;
+        this.hand.cards.forEach(function (element) {
+            if (element.rank === Rank.TWO)
+                tempScore += 2;
+            else if (element.rank === Rank.THREE)
+                tempScore += 3;
+            else if (element.rank === Rank.FOUR)
+                tempScore += 4;
+            else if (element.rank === Rank.FIVE)
+                tempScore += 5;
+            else if (element.rank === Rank.SIX)
+                tempScore += 6;
+            else if (element.rank === Rank.SEVEN)
+                tempScore += 7;
+            else if (element.rank === Rank.EIGHT)
+                tempScore += 8;
+            else if (element.rank === Rank.NINE)
+                tempScore += 9;
+            else if (element.rank === Rank.TEN)
+                tempScore += 10;
+            else if (element.rank === Rank.JACK)
+                tempScore += 10;
+            else if (element.rank === Rank.QUEEN)
+                tempScore += 10;
+            else if (element.rank === Rank.KING)
+                tempScore += 10;
+            else if (element.rank === Rank.ACE) {
+                tempScore += 11;
+                hasAce = true;
+            }
+        });
+        if (tempScore > 21 && hasAce) {
+            tempScore = 0;
+            this.hand.cards.forEach(function (element) {
+                if (element.rank === Rank.TWO)
+                    tempScore += 2;
+                else if (element.rank === Rank.THREE)
+                    tempScore += 3;
+                else if (element.rank === Rank.FOUR)
+                    tempScore += 4;
+                else if (element.rank === Rank.FIVE)
+                    tempScore += 5;
+                else if (element.rank === Rank.SIX)
+                    tempScore += 6;
+                else if (element.rank === Rank.SEVEN)
+                    tempScore += 7;
+                else if (element.rank === Rank.EIGHT)
+                    tempScore += 8;
+                else if (element.rank === Rank.NINE)
+                    tempScore += 9;
+                else if (element.rank === Rank.TEN)
+                    tempScore += 10;
+                else if (element.rank === Rank.JACK)
+                    tempScore += 10;
+                else if (element.rank === Rank.QUEEN)
+                    tempScore += 10;
+                else if (element.rank === Rank.KING)
+                    tempScore += 10;
+                else if (element.rank === Rank.ACE) {
+                    tempScore += 1;
+                }
+            });
+        }
+        this._score = tempScore;
+    };
     return BlackJackPlayer;
 }(CardPlayer));
 var Escrow = /** @class */ (function () {
@@ -272,19 +361,15 @@ var Hand = /** @class */ (function () {
     return Hand;
 }());
 var GameEngine = /** @class */ (function () {
-    function GameEngine(game) {
-        this._game = game;
+    function GameEngine() {
     }
-    GameEngine.prototype.getGame = function () {
-        return this._game;
-    };
     return GameEngine;
 }());
 var CardGame = /** @class */ (function (_super) {
     __extends(CardGame, _super);
-    function CardGame(game) {
-        var _this = _super.call(this, game) || this;
-        _this._players = new Array;
+    function CardGame() {
+        var _this = _super.call(this) || this;
+        _this._players = new Array();
         _this._deck = new Deck();
         return _this;
     }

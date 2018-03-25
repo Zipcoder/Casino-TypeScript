@@ -14,11 +14,27 @@ class Startup {
         // UI.display(heart);
         // UI.display(spade);
         // UI.display(diamond);
-        var deck = new Deck();
-        deck.shuffle();
-        for (var i = 0; i <= 51; i++) {
-            UI.display(deck.deal());
-        }
+        // var deck = new Deck();
+        // deck.shuffle();
+        // for (var i = 0; i <= 51; i++) {
+        //     UI.display(deck.deal());
+        // }
+
+        var profile = new Profile('Eric',10000);
+        var player = new BlackJackPlayer(profile);
+        var ace = new Card(Rank.ACE, Suit.SPADES);
+        var king = new Card(Rank.KING, Suit.SPADES);
+        var seven = new Card(Rank.SEVEN, Suit.SPADES);
+        var two = new Card(Rank.TWO, Suit.SPADES);
+        var five = new Card(Rank.FIVE, Suit.SPADES);
+
+        player.takeCard(ace);
+        player.takeCard(five);
+        player.takeCard(seven);
+        player.takeCard(ace);
+        player.calculateScore();
+        UI.display(player.hand.cards);
+        UI.display(player.score);
 
     }
 }
@@ -162,6 +178,60 @@ class BlackJackPlayer extends CardPlayer implements Gamble {
     public set score(amount:number){
         this._score=amount;
     }
+
+    public isBusted():boolean{
+        if(this._score>21){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public calculateScore():void{
+        let hasAce : boolean = false;
+        let tempScore : number = 0;
+        this.hand.cards.forEach(element => {
+            if(element.rank === Rank.TWO) tempScore += 2;
+            else if (element.rank === Rank.THREE) tempScore +=3;
+            else if (element.rank === Rank.FOUR) tempScore +=4;
+            else if (element.rank === Rank.FIVE) tempScore +=5;
+            else if (element.rank === Rank.SIX) tempScore +=6;
+            else if (element.rank === Rank.SEVEN) tempScore +=7;
+            else if (element.rank === Rank.EIGHT) tempScore +=8;
+            else if (element.rank === Rank.NINE) tempScore +=9;
+            else if (element.rank === Rank.TEN) tempScore +=10;
+            else if (element.rank === Rank.JACK) tempScore +=10;
+            else if (element.rank === Rank.QUEEN) tempScore +=10;
+            else if (element.rank === Rank.KING) tempScore +=10;
+            else if (element.rank === Rank.ACE) {
+                tempScore +=11;
+                hasAce = true;
+            }
+        });
+        if(tempScore >21 && hasAce){
+            tempScore = 0;
+            this.hand.cards.forEach(element => {
+                if(element.rank === Rank.TWO) tempScore += 2;
+                else if (element.rank === Rank.THREE) tempScore +=3;
+                else if (element.rank === Rank.FOUR) tempScore +=4;
+                else if (element.rank === Rank.FIVE) tempScore +=5;
+                else if (element.rank === Rank.SIX) tempScore +=6;
+                else if (element.rank === Rank.SEVEN) tempScore +=7;
+                else if (element.rank === Rank.EIGHT) tempScore +=8;
+                else if (element.rank === Rank.NINE) tempScore +=9;
+                else if (element.rank === Rank.TEN) tempScore +=10;
+                else if (element.rank === Rank.JACK) tempScore +=10;
+                else if (element.rank === Rank.QUEEN) tempScore +=10;
+                else if (element.rank === Rank.KING) tempScore +=10;
+                else if (element.rank === Rank.ACE) {
+                    tempScore +=1;
+                }
+            });
+        }
+        this._score=tempScore;
+    }
+
 }
 
 class Escrow{
@@ -305,25 +375,17 @@ interface GameInterface<PlayerInterface> {
 interface GameEngineInterface<GameInterface, PlayerInterface> {
 
     run(): void;
-    getGame(): GameInterface;
     evaluateTurn(player: PlayerInterface): void;
 
 }
 
 abstract class GameEngine implements GameEngineInterface<GameInterface<PlayerInterface>, PlayerInterface>{
 
-    private _game: GameInterface<PlayerInterface>;
-
-    constructor(game: GameInterface<PlayerInterface>) {
-        this._game = game;
-
-    }
+    
     abstract run(): void;
     abstract evaluateTurn(player: PlayerInterface): void;
 
-    public getGame(): GameInterface<PlayerInterface> {
-        return this._game;
-    }
+
 
 }
 
@@ -343,11 +405,10 @@ abstract class CardGame extends GameEngine implements GameInterface<CardPlayer> 
     private _players: CardPlayer[];
     private _deck: Deck;
 
-    constructor(game: CardGame) {
-        super(game);
-        this._players = new Array;
+    constructor() {
+        super();
+        this._players = new Array<CardPlayer>();
         this._deck = new Deck();
-
     }
 
 
