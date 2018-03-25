@@ -1,12 +1,14 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
         "module": "system",
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
         "outFile": "../../built/local/tsc.js",
         "sourceMap": true,
         "target":"es2017",
+        "watch":true,
     },
     "include": [
         "src/**/*"

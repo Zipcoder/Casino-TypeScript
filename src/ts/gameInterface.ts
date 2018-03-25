@@ -1,8 +1,8 @@
-interface GameInterface<T extends PlayerInterface> {
+interface GameInterface {
     
-    getPlayers(): T[];
-    getPlayer(id:number): T;
-    addPlayer(player:T): void;
-    removePlayer(player:T): void;
-    contains(player:T): boolean;
+    getPlayers(): Player[];
+    getPlayer(id:number): Player;
+    addPlayer(player:Player): void;
+    removePlayer(player:Player): void;
+    contains(player:Player): boolean;
 }
