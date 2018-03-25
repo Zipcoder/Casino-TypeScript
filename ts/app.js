@@ -45,4 +45,3 @@ var UserInterface = /** @class */ (function () {
 }());
 var UI = new UserInterface();
 UI.start();
-// UI.chooseGame();

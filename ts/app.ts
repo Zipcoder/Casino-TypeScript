@@ -51,4 +51,3 @@ class UserInterface {
 
 let UI: UserInterface = new UserInterface();
 UI.start();
-// UI.chooseGame();
