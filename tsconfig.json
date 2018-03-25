@@ -4,9 +4,12 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "strictNullChecks": true,
-        "outDir": "js",
+        "outFile": "js/app.js",
         "watch": true
     },
+    "files": [
+        "src/app.ts"
+    ],
     "compileOnSave": true, 
     "exclude": [
         "node_modules"

@@ -8,4 +8,6 @@ class Profile {
         this._name = name;
         this._balance = balance;
     }
+
+
 }

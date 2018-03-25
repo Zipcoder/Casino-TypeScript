@@ -1,3 +1,4 @@
+
 function startGame(): void {
     log("game start");
     display("game start");

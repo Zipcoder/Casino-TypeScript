@@ -1,3 +1,5 @@
+/// <reference path="profile.ts" /s>
+
 class Player implements PlayerInterface {
     private profile: Profile;
 
