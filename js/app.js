@@ -1,11 +1,12 @@
-document.getElementById("submit_button").addEventListener("click", testFunction);
-document.getElementById("display").addEventListener("mouseover", testFunction2);
-function testFunction() {
+document.getElementById("submit_button").addEventListener("click", getInput);
+window.addEventListener("DOMContentLoaded", testFunction2);
+function getInput() {
     var element = document.getElementById("user_input");
-    var test = element.value;
-    document.getElementById("display").textContent = test;
+    var userInput = element.value;
     element.value = "";
+    return userInput;
 }
 function testFunction2() {
-    document.getElementById("display").innerHTML = "Press the button to start";
+    var menu = new MainMenu;
+    menu.menuStart();
 }
