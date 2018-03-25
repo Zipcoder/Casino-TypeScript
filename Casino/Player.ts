@@ -1,11 +1,21 @@
 class Player implements PlayerInterface {
-   get getProfile(): Profile {
-        throw new Error("Method not implemented.");
+    
+    private playerProfile: Profile;
+
+    constructor(profile: Profile){
+        this.playerProfile = profile;
     }
-    get getName(): string {
-        throw new Error("Method not implemented.");
+    getProfile(): Profile {
+        return this.playerProfile;
+    }
+    getName(): string {
+       return this.playerProfile.getName;
     }
     getId(): number {
-        throw new Error("Method not implemented.");
+        return this.playerProfile.getId;
+    }
+
+    getBalance(): number{
+        return this.playerProfile.getBalance;
     }
 }
