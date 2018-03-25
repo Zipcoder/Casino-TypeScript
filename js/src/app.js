@@ -3,7 +3,8 @@ function startGame() {
     display("game start");
 }
 function display(content) {
-    document.getElementById('display').innerText = content;
+    let displayElement = document.getElementById('display');
+    displayElement.innerText = content;
 }
 function log(msg) {
     console.log(msg);

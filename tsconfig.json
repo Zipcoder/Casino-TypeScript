@@ -3,6 +3,7 @@
         "target": "es2017",
         "noImplicitAny": false,
         "sourceMap": true,
+        "strictNullChecks": true,
         "outDir": "js",
         "watch": true
     },

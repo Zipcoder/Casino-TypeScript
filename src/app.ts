@@ -4,14 +4,15 @@ function startGame(): void {
 }
 
 function display(content: string) {
-    document.getElementById('display').innerText = content;
+    let displayElement: HTMLElement | null = document.getElementById('display');
+    displayElement!.innerText = content;
 }
 
 function log(msg: any) {
     console.log(msg);
 }
 
-document.getElementById('submit').addEventListener('click', {
+document.getElementById('submit')!.addEventListener('click', {
     handleEvent: (event) => {
         startGame();
     }
