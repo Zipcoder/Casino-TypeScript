@@ -16,53 +16,32 @@ var inquirer = require('inquirer');
 var BlackJack = /** @class */ (function (_super) {
     __extends(BlackJack, _super);
     function BlackJack() {
-        var _this = _super.call(this) || this;
-        _this.userPrompts = [
-            {
-                type: "list",
-                name: "turn",
-                message: "Hit or Stay?",
-                userChoice: ["Hit", "Stay"]
-            }
-        ];
-        return _this;
+        return _super.call(this) || this;
     }
     BlackJack.prototype.turnPrompt = function () {
         var turn = this;
-        inquirer.prompt(this.userPrompts, function (answers) {
-            switch (answers.turn) {
-                case 'Hit':
-                    turn.hit();
-                    break;
-                case 'Stay':
-                    turn.stay();
-                    break;
-            }
-        });
+        var answer = "";
+        switch (answer) {
+            case 'Hit':
+                turn.hit();
+                break;
+            case 'Stay':
+                turn.stay();
+                break;
+        }
     };
     BlackJack.prototype.roundPrompt = function () {
         var game = this;
-        inquirer.prompt([
-            {
-                type: "list",
-                name: "keepPlaying",
-                message: "Do you want to keep playing?",
-                userChoice: [
-                    "Yes",
-                    "No"
-                ]
-            }
-        ], function (answers) {
-            switch (answers.keepPlaying) {
-                case 'Yes':
-                    game.newHand();
-                    game.start();
-                    break;
-                case 'No':
-                    console.log('Peace out');
-                    break;
-            }
-        });
+        var answer = "";
+        switch (answer) {
+            case 'Yes':
+                game.newHand();
+                game.start();
+                break;
+            case 'No':
+                console.log('Peace out');
+                break;
+        }
     };
     BlackJack.prototype.start = function () {
         this.currentPlayer = 1;
@@ -94,7 +73,7 @@ var BlackJack = /** @class */ (function (_super) {
         this.players[this.currentPlayer].handScore = this.calculateHandScores(this.players[this.currentPlayer].hand);
     };
     BlackJack.prototype.evaluateState = function () {
-        var winner = new player_1.Player("No One"), draw = false;
+        var winner = new player_1.Player("???"), draw = false;
         // If turns have gone back around to the dealer
         if (this.currentPlayer === 0) {
             // The dealer takes his actions
@@ -133,7 +112,7 @@ var BlackJack = /** @class */ (function (_super) {
                 this.roundPrompt();
             }
             else if (this.players[this.currentPlayer].handScore > 21) {
-                console.log('Busted! You lose that one.');
+                console.log('Busted! You lost');
                 this.players[this.currentPlayer].handScore = 0;
                 this.currentPlayer++;
                 this.roundPrompt();

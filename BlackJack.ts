@@ -7,24 +7,16 @@ declare function require(name:string);
 var inquirer = require('inquirer');
 
 export class BlackJack extends CardGame{
-    userPrompts: Object[];
+    
 
     constructor(){
         super();
-        this.userPrompts = [
-            {
-            type: "list",
-            name: "turn",
-            message: "Hit or Stay?",
-            userChoice: ["Hit", "Stay"]
-            }
-        ];
+        
     }
     turnPrompt() {
 		var turn = this;
-        inquirer.prompt( this.userPrompts, 
-            function(answers) {
-			switch(answers.turn){
+		var answer: string = "";
+			switch(answer){
 				case 'Hit':
 					turn.hit();
 					break;
@@ -32,23 +24,13 @@ export class BlackJack extends CardGame{
 					turn.stay();
 					break;
 			}
-		});	
+		
 	}
 	
 	roundPrompt() {
 		var game = this;
-		inquirer.prompt([
-			{
-			    type: "list",
-			    name: "keepPlaying",
-			    message: "Do you want to keep playing?",
-			    userChoice: [
-			      "Yes",
-			      "No"
-			    ]
-			}
-		], function(answers){
-			switch(answers.keepPlaying){
+		var answer: string = ""; 
+			switch(answer){
 				case 'Yes':
 					game.newHand();
 					game.start();
@@ -57,7 +39,7 @@ export class BlackJack extends CardGame{
 					console.log('Peace out');
 					break;
 			}
-		});
+		
 	}
 	
 	start() {
@@ -97,7 +79,7 @@ export class BlackJack extends CardGame{
 	
 	
 	evaluateState() {
-		var winner = new Player("No One"), draw = false;
+		var winner = new Player("???"), draw = false;
 		// If turns have gone back around to the dealer
 		if (this.currentPlayer === 0) {
 			// The dealer takes his actions
@@ -135,7 +117,7 @@ export class BlackJack extends CardGame{
 				this.roundPrompt();
 			} 
 			else if (this.players[this.currentPlayer].handScore > 21) {
-				console.log('Busted! You lose that one.');
+				console.log('Busted! You lost');
 				this.players[this.currentPlayer].handScore = 0;
 				this.currentPlayer++;
 				this.roundPrompt();
