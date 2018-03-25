@@ -93,18 +93,6 @@ var BlackJack = /** @class */ (function (_super) {
         _super.prototype.draw.call(this);
         this.players[this.currentPlayer].handScore = this.calculateHandScores(this.players[this.currentPlayer].hand);
     };
-    /**
-     * This function should evaluate the current state.
-     * Ex Flow:
-     * 		If the current player has come back around to the dealer
-     * 			Evaluate if the dealer should hit or stay
-     * 				If the dealer's hand value is under 16 then hit
-     * 				Else stay
-     * 			Evalue who won based on the hand value
-     * 		Else
-     * 			If the current player's hand value is 21 then automatically stay and go to the next player
-     * 			If the current player busted wipe out their hand value and go to the next player
-     */
     BlackJack.prototype.evaluateState = function () {
         var winner = new player_1.Player("No One"), draw = false;
         // If turns have gone back around to the dealer
@@ -148,7 +136,6 @@ var BlackJack = /** @class */ (function (_super) {
                 console.log('Busted! You lose that one.');
                 this.players[this.currentPlayer].handScore = 0;
                 this.currentPlayer++;
-                //TODO: needs to be modified to support more players
                 this.roundPrompt();
             }
             else {
@@ -166,32 +153,17 @@ var BlackJack = /** @class */ (function (_super) {
         });
         return value;
     };
-    /**
-     * Prints out the state of the dealer and the player at the start of the round.
-     */
     BlackJack.prototype.gameStartState = function () {
-        //TODO: make dynamic to handle more players
         this.printDealerState();
         this.printPlayerState(1);
     };
-    /**
-     * Prints the state of the dealer, only revealing one card.
-     */
     BlackJack.prototype.printDealerState = function () {
         console.log("The dealer has " + this.players[0].hand[0].toString() + " showing");
     };
-    /**
-     * Prints out the hand and the value of the hand for the given player.
-     * @param playerIndex		The index of the player in the list of players
-     */
     BlackJack.prototype.printPlayerState = function (playerIndex) {
-        //TODO: make dynamic to handle more players (maybe change to say the players name instead of Your).
         console.log("Your hand is: " + this.players[playerIndex].handToString());
         console.log("Your hand value is now: " + this.players[playerIndex].handScore);
     };
-    /**
-     * Prints the last drawn card to the console.
-     */
     BlackJack.prototype.printLastDraw = function () {
         console.log(this.players[this.currentPlayer].name + " drew " + this.players[this.currentPlayer].hand[this.players[this.currentPlayer].hand.length - 1]);
     };
