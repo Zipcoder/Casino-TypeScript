@@ -3,9 +3,9 @@ namespace Casino{
 
         submitButton: HTMLElement = document.getElementById("submit_button");
         displayElement: HTMLElement = document.getElementById("display");
-        private slotWheel1: number[] = [3,2,5,4,6,1];
-        private slotWheel2: number[] = [6,3,1,2,5,4];
-        private slotWheel3: number[] = [2,5,4,1,6,3];
+        private slotWheel1: string[] = ["&#x06DE","&#x2655","&#x26C4","&#x221E","&#x2126","&#x2042"];
+        private slotWheel2: string[] = ["&#x2126","&#x06DE","&#x2042","&#x2655","&#x26C4","&#x221E"];
+        private slotWheel3: string[] = ["&#x2655","&#x26C4","&#x221E","&#x2042","&#x2126","&#x06DE"];
 
 
         public startGame(){
@@ -22,16 +22,16 @@ namespace Casino{
             }
         }
 
-        private createMultipleWheelOutput(): number[][]{
-            var slotMachine: number[][] = [];
+        private createMultipleWheelOutput(): string[][]{
+            var slotMachine: string[][] = [];
             slotMachine[0] = this.createSingleWheelOutput(this.slotWheel1);
             slotMachine[1] = this.createSingleWheelOutput(this.slotWheel2);
             slotMachine[2] = this.createSingleWheelOutput(this.slotWheel3);
             return slotMachine;
         }
 
-        private createSingleWheelOutput(slotWheel: number[]): number[]{
-            var newArray: number[] = [];
+        private createSingleWheelOutput(slotWheel: string[]): string[]{
+            var newArray: string[] = [];
             var position: number = Math.floor(Math.random() * 6);
             for(var i = 0; i < 3; i++){
                 if(position == 6){
@@ -43,18 +43,18 @@ namespace Casino{
             return newArray;
         }
 
-        private displaySlotMachine(slotMachine: number[][]){
+        private displaySlotMachine(slotMachine: string[][]){
             this.displayElement.innerHTML += "<br>" + slotMachine[0][0] +" " + slotMachine[1][0] +" "+ slotMachine[2][0];
             this.displayElement.innerHTML += "<br>" + slotMachine[0][1] +" " + slotMachine[1][1] +" "+ slotMachine[2][1];
             this.displayElement.innerHTML += "<br>" + slotMachine[0][2] +" " + slotMachine[1][2] +" "+ slotMachine[2][2];
         }
 
-        private checkWinners(slotMachine: number[][]){
+        private checkWinners(slotMachine: string[][]){
             this.checkRowWinners(slotMachine);
             this.checkDiagonalWinners(slotMachine);
         }
         
-        private checkRowWinners(slotMachine: number[][]){
+        private checkRowWinners(slotMachine: string[][]){
             if(slotMachine[0][0] === slotMachine[1][0] && slotMachine[1][0]=== slotMachine[2][0]){
                 this.displayElement.innerHTML += "<br>You have won on row 1!";
             }
@@ -66,7 +66,7 @@ namespace Casino{
             }
         }
 
-        private checkDiagonalWinners(slotMachine: number[][]){
+        private checkDiagonalWinners(slotMachine: string[][]){
             if(slotMachine[0][0] === slotMachine[1][1] && slotMachine[1][1]=== slotMachine[2][2]){
                 this.displayElement.innerHTML += "<br>You have won on diagonal down!";
             }

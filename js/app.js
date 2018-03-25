@@ -97,9 +97,9 @@ var Casino;
         constructor() {
             this.submitButton = document.getElementById("submit_button");
             this.displayElement = document.getElementById("display");
-            this.slotWheel1 = [3, 2, 5, 4, 6, 1];
-            this.slotWheel2 = [6, 3, 1, 2, 5, 4];
-            this.slotWheel3 = [2, 5, 4, 1, 6, 3];
+            this.slotWheel1 = ["&#x06DE", "&#x2655", "&#x26C4", "&#x221E", "&#x2126", "&#x2042"];
+            this.slotWheel2 = ["&#x2126", "&#x06DE", "&#x2042", "&#x2655", "&#x26C4", "&#x221E"];
+            this.slotWheel3 = ["&#x2655", "&#x26C4", "&#x221E", "&#x2042", "&#x2126", "&#x06DE"];
         }
         startGame() {
             var slotMachine = this.createMultipleWheelOutput();
