@@ -1,11 +1,29 @@
 class Wheel{
+values: WheelSymbol[];
+interval: number;
 
-interval: Number;
-
-constructor(interval: Number){
+constructor(interval: number){
     this.interval = interval;
+
+const shuffledSymbolSeed = function(): WheelSymbol[]{ 
+    //create copy of the constant wheelsymbolseed
+    let arrayCopy: WheelSymbol[] = WheelSymbolSeed;
+    for(let i:number = arrayCopy.length - 1; i >0; i--){
+        //pick random index
+        const j = Math.floor(Math.random() * (i+1));
+        //destructuring assignment-two variables values can be swapped in one destructuring expression
+        [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
+    }
+    return arrayCopy;
+    }
+    //reassign values with shuffled array
+this.values = shuffledSymbolSeed();
+}
+
 }
 
 
 
-}
+
+
+

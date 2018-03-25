@@ -6,6 +6,7 @@ Diamond,
 Cherry,
 }
 
+//in java public WheelSymbol[] WheelSymbolSeed;
 const WheelSymbolSeed: WheelSymbol[] = [
     WheelSymbol.Diamond,
     WheelSymbol.Diamond,
