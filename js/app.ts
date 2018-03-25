@@ -21,20 +21,23 @@ class Startup {
         // }
 
         var profile = new Profile('Eric',10000);
-        var player = new BlackJackPlayer(profile);
-        var ace = new Card(Rank.ACE, Suit.SPADES);
-        var king = new Card(Rank.KING, Suit.SPADES);
-        var seven = new Card(Rank.SEVEN, Suit.SPADES);
-        var two = new Card(Rank.TWO, Suit.SPADES);
-        var five = new Card(Rank.FIVE, Suit.SPADES);
+        // var player = new BlackJackPlayer(profile);
+        // var ace = new Card(Rank.ACE, Suit.SPADES);
+        // var king = new Card(Rank.KING, Suit.SPADES);
+        // var seven = new Card(Rank.SEVEN, Suit.SPADES);
+        // var two = new Card(Rank.TWO, Suit.SPADES);
+        // var five = new Card(Rank.FIVE, Suit.SPADES);
 
-        player.takeCard(ace);
-        player.takeCard(five);
-        player.takeCard(seven);
-        player.takeCard(ace);
-        player.calculateScore();
-        UI.display(player.hand.cards);
-        UI.display(player.score);
+        // player.takeCard(ace);
+        // player.takeCard(five);
+        // player.takeCard(seven);
+        // player.takeCard(ace);
+        // player.calculateScore();
+        // UI.display(player.hand.cards);
+        // UI.display(player.score);
+
+        var test = new BlackJackGame(profile);
+        test.run();
 
     }
 }
@@ -451,12 +454,61 @@ abstract class CardGame extends GameEngine implements GameInterface<CardPlayer> 
 
 class BlackJackGame extends CardGame {
 
+    currentPlayer : BlackJackPlayer;
+
+    constructor(playerProfile:Profile){
+        super();
+        let dealer = new BlackJackPlayer(new Profile('Dealer',0));
+        this.currentPlayer = new BlackJackPlayer(playerProfile);
+        this.addPlayer(dealer);
+        this.addPlayer(this.currentPlayer);
+        this.startRound = this.startRound.bind(this);
+        this.placeBet = this.placeBet.bind(this);
+        this.run = this.run.bind(this);
+    }
+    
     run(): void {
+        this.startRound();
 
     }
 
     evaluateTurn(player: BlackJackPlayer): void {
 
+    }
+
+    private startRound(errorMessage?:string):void{
+        this.header();
+        UI.display("How much would you like to bet?");
+        UI.display("This minimum bet is $10");
+        if(typeof errorMessage !== "undefined") UI.display(errorMessage);
+        UI.button.addEventListener("click", this.placeBet);
+    }
+
+    private placeBet():void{
+        UI.button.removeEventListener("click", this.placeBet);
+        UI.clearScreen();
+        if(UI.lastInput <= this.currentPlayer.getProfile().balance && UI.lastInput >10){
+        this.currentPlayer.bet(UI.lastInput);
+        this.initialDeal();
+        }
+        else if (UI.lastInput <10){
+            this.startRound("That amount is below the minimum bet");
+        }
+        else if (UI.lastInput > this.currentPlayer.getProfile().balance){
+            this.startRound("You cannot bet more money than you have");
+        }
+        else{
+            this.startRound("You must input a number to place a bet");
+        }
+    }
+
+    private initialDeal():void{
+        UI.clearScreen();
+        UI.display("YaY!");
+    }
+
+    private header():void{
+        UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance);
     }
 
 
