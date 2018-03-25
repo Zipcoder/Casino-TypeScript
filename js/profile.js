@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Profile {
-    constructor(id, name, chips) {
+    constructor(id, name, balance) {
         this._id = id;
         this._name = name;
-        this._chips = chips;
+        this._balance = balance;
     }
     get id() {
         return this._id;
@@ -18,11 +18,11 @@ class Profile {
     set name(name) {
         this._name = name;
     }
-    get chips() {
-        return this._chips;
+    get balance() {
+        return this._balance;
     }
-    set chips(chips) {
-        this._chips = chips;
+    set balance(balance) {
+        this._balance = balance;
     }
 }
 exports.Profile = Profile;

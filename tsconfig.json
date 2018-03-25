@@ -5,7 +5,8 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "strictNullChecks": true,
-        "watch": true
+        "watch": true,
+        "outDir": "js"
     },
     "files": [
         "src/app.ts"
