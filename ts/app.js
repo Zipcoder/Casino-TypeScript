@@ -65,21 +65,38 @@ var SuitUnicode;
     SuitUnicode["HEARTS"] = "\u2665";
     SuitUnicode["SPADES"] = "\u2660";
 })(SuitUnicode || (SuitUnicode = {}));
-// enum Rank {
-//     DEUCE(2,"2"),
-//     THREE(3,"3"),
-//     FOUR(4,"4"),
-//     FIVE(5,"5"),
-//     SIX(6,"6"),
-//     SEVEN(7,"7"),
-//     EIGHT(8,"8"),
-//     NINE(9,"9"),
-//     TEN(10,"10"),
-//     JACK(11,"J"),
-//     QUEEN(12,"Q"),
-//     KING(13,"K"),
-//     ACE(1,"A");
-// }
+var RankInteger;
+(function (RankInteger) {
+    RankInteger[RankInteger["DEUCE"] = 2] = "DEUCE";
+    RankInteger[RankInteger["THREE"] = 3] = "THREE";
+    RankInteger[RankInteger["FOUR"] = 4] = "FOUR";
+    RankInteger[RankInteger["FIVE"] = 5] = "FIVE";
+    RankInteger[RankInteger["SIX"] = 6] = "SIX";
+    RankInteger[RankInteger["SEVEN"] = 7] = "SEVEN";
+    RankInteger[RankInteger["EIGHT"] = 8] = "EIGHT";
+    RankInteger[RankInteger["NINE"] = 9] = "NINE";
+    RankInteger[RankInteger["TEN"] = 10] = "TEN";
+    RankInteger[RankInteger["JACK"] = 11] = "JACK";
+    RankInteger[RankInteger["QUEEN"] = 12] = "QUEEN";
+    RankInteger[RankInteger["KING"] = 13] = "KING";
+    RankInteger[RankInteger["ACE"] = 1] = "ACE";
+})(RankInteger || (RankInteger = {}));
+var RankString;
+(function (RankString) {
+    RankString["DEUCE"] = "2";
+    RankString["THREE"] = "3";
+    RankString["FOUR"] = "4";
+    RankString["FIVE"] = "5";
+    RankString["SIX"] = "6";
+    RankString["SEVEN"] = "7";
+    RankString["EIGHT"] = "8";
+    RankString["NINE"] = "9";
+    RankString["TEN"] = "10";
+    RankString["JACK"] = "J";
+    RankString["QUEEN"] = "Q";
+    RankString["KING"] = "K";
+    RankString["ACE"] = "A";
+})(RankString || (RankString = {}));
 var UI = new UserInterface();
 UI.start();
 UI.display(SuitString.CLUBS);
