@@ -1,5 +1,5 @@
 namespace Casino {
-    window.addEventListener("DOMContentLoaded", testFunction2);
+    window.addEventListener("DOMContentLoaded",(e: Event) => loadMainMenu());
     export class Input {
         private static userinput: string;
         public static getInputFromBox() {
@@ -13,9 +13,9 @@ namespace Casino {
         }
     }
 
-    document.getElementById("submit_button").addEventListener("click", Input.getInputFromBox);
+    document.getElementById("submit_button").addEventListener("click",(e: Event) => Input.getInputFromBox());
 
-    function testFunction2() {
+    function loadMainMenu() {
         var menu: MainMenu = new MainMenu;
         menu.menuStart();
     }

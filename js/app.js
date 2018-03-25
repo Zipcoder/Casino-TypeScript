@@ -27,14 +27,14 @@ var Casino;
             this.submitButton = document.getElementById("submit_button");
         }
         MainMenu.prototype.menuStart = function () {
+            var _this = this;
             this.displayElement.textContent = "Please enter your name";
-            Casino.Input.event.addEventListener("click", this.createProfile);
+            this.submitButton.addEventListener("click", function (e) { return _this.createProfile(); });
         };
         MainMenu.prototype.createProfile = function () {
-            this.displayElement.textContent = "Your name is ";
             this.submitButton.removeEventListener("click", this.createProfile);
-            this.userPrfoile = new Casino.Profile(Casino.Input.getInput());
-            this.displayElement.textContent = "Your name is " + this.userPrfoile.getuserName();
+            this.userProfile = new Casino.Profile(Casino.Input.getInput());
+            this.displayElement.textContent = "Your name is " + this.userProfile.getuserName();
         };
         return MainMenu;
     }());
@@ -42,7 +42,7 @@ var Casino;
 })(Casino || (Casino = {}));
 var Casino;
 (function (Casino) {
-    window.addEventListener("DOMContentLoaded", testFunction2);
+    window.addEventListener("DOMContentLoaded", function (e) { return loadMainMenu(); });
     var Input = /** @class */ (function () {
         function Input() {
         }
@@ -54,11 +54,11 @@ var Casino;
         Input.getInput = function () {
             return this.userinput;
         };
-        Input.event = document.getElementById("submit_button");
         return Input;
     }());
     Casino.Input = Input;
-    function testFunction2() {
+    document.getElementById("submit_button").addEventListener("click", function (e) { return Input.getInputFromBox(); });
+    function loadMainMenu() {
         var menu = new Casino.MainMenu;
         menu.menuStart();
     }
