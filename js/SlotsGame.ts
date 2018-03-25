@@ -7,25 +7,20 @@ namespace Casino{
         private slotWheel2: number[] = [6,3,1,2,5,4];
         private slotWheel3: number[] = [2,5,4,1,6,3];
 
-        constructor(){
-           // this.endGameChecker = this.endGameChecker.bind(this);
-        }
 
         public startGame(){
             var slotMachine = this.createMultipleWheelOutput();
             this.displaySlotMachine(slotMachine);
             this.checkWinners(slotMachine);
-            // this.displayElement.innerHTML += "<br>Type exit to quit or anything else to play again."
-            // this.submitButton.addEventListener("click",(e: Event) => this.endGameChecker());
+            this.displayElement.innerHTML += "<br>Type exit to quit or anything else to play again."
+            this.submitButton.addEventListener("click",(e: Event) => this.endGameChecker(), {once:true});
         }
 
-        // private endGameChecker(){
-        //     console.log("End game");
-        //     this.submitButton.removeEventListener("click",(e: Event) => this.endGameChecker());
-        //     if(Input.getInput().toLowerCase() != 'exit'){
-        //         this.startGame();
-        //     }
-        // }
+        private endGameChecker(){
+            if(Input.getInput().toLowerCase() != 'exit'){
+                this.startGame();
+            }
+        }
 
         private createMultipleWheelOutput(): number[][]{
             var slotMachine: number[][] = [];

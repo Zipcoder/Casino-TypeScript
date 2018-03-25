@@ -36,18 +36,15 @@ var Casino;
         }
         menuStart() {
             this.displayElement.innerHTML = "Please enter your name";
-            this.submitButton.addEventListener("click", (e) => this.createProfile());
+            this.submitButton.addEventListener("click", (e) => this.createProfile(), { once: true });
         }
         createProfile() {
-            console.log("Create profile");
-            this.submitButton.removeEventListener("click", (e) => this.createProfile());
             this.userProfile = new Casino.Profile(Casino.Input.getInput());
+            this.displayElement.innerHTML += "<br>Hello " + this.userProfile.getuserName() + "!";
             this.displayElement.innerHTML += "<br>Please select a game. <br>1. Slots";
-            this.submitButton.addEventListener("click", (e) => this.gamePicker());
+            this.submitButton.addEventListener("click", (e) => this.gamePicker(), { once: true });
         }
         gamePicker() {
-            this.submitButton.removeEventListener("click", (e) => this.gamePicker());
-            console.log("game picker");
             if (Casino.Input.getInput().toLowerCase() === 'slots') {
                 var slotsGame = new Casino.SlotsGame();
                 slotsGame.startGame();
@@ -103,22 +100,19 @@ var Casino;
             this.slotWheel1 = [3, 2, 5, 4, 6, 1];
             this.slotWheel2 = [6, 3, 1, 2, 5, 4];
             this.slotWheel3 = [2, 5, 4, 1, 6, 3];
-            // this.endGameChecker = this.endGameChecker.bind(this);
         }
         startGame() {
             var slotMachine = this.createMultipleWheelOutput();
             this.displaySlotMachine(slotMachine);
             this.checkWinners(slotMachine);
-            // this.displayElement.innerHTML += "<br>Type exit to quit or anything else to play again."
-            // this.submitButton.addEventListener("click",(e: Event) => this.endGameChecker());
+            this.displayElement.innerHTML += "<br>Type exit to quit or anything else to play again.";
+            this.submitButton.addEventListener("click", (e) => this.endGameChecker(), { once: true });
         }
-        // private endGameChecker(){
-        //     console.log("End game");
-        //     this.submitButton.removeEventListener("click",(e: Event) => this.endGameChecker());
-        //     if(Input.getInput().toLowerCase() != 'exit'){
-        //         this.startGame();
-        //     }
-        // }
+        endGameChecker() {
+            if (Casino.Input.getInput().toLowerCase() != 'exit') {
+                this.startGame();
+            }
+        }
         createMultipleWheelOutput() {
             var slotMachine = [];
             slotMachine[0] = this.createSingleWheelOutput(this.slotWheel1);
