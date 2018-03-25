@@ -375,6 +375,7 @@ var CardGame = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this._players = new Array();
         _this._deck = new Deck();
+        _this._deck.shuffle();
         return _this;
     }
     Object.defineProperty(CardGame.prototype, "deck", {
@@ -415,9 +416,9 @@ var BlackJackGame = /** @class */ (function (_super) {
     __extends(BlackJackGame, _super);
     function BlackJackGame(playerProfile) {
         var _this = _super.call(this) || this;
-        var dealer = new BlackJackPlayer(new Profile('Dealer', 0));
+        _this.dealer = new BlackJackPlayer(new Profile('Dealer', 0));
         _this.currentPlayer = new BlackJackPlayer(playerProfile);
-        _this.addPlayer(dealer);
+        _this.addPlayer(_this.dealer);
         _this.addPlayer(_this.currentPlayer);
         _this.startRound = _this.startRound.bind(_this);
         _this.placeBet = _this.placeBet.bind(_this);
@@ -456,10 +457,36 @@ var BlackJackGame = /** @class */ (function (_super) {
     };
     BlackJackGame.prototype.initialDeal = function () {
         UI.clearScreen();
+        this.currentPlayer.takeCard(this.deck.deal());
+        this.dealer.takeCard(this.deck.deal());
+        this.currentPlayer.takeCard(this.deck.deal());
+        this.dealer.takeCard(this.deck.deal());
         this.header();
+        this.showCards();
     };
     BlackJackGame.prototype.header = function () {
         UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance + "\t|\t Amount Wagered: $" + this.currentPlayer.escrow.escrowBalance);
+        UI.display("");
+    };
+    BlackJackGame.prototype.score = function () {
+        this.currentPlayer.calculateScore();
+        UI.display("Current Score: " + this.currentPlayer.score);
+    };
+    BlackJackGame.prototype.showCards = function () {
+        UI.display("Your Cards");
+        var yourCards = this.currentPlayer.hand.cards[0].toString() + ' ';
+        for (var i = 1; i < this.currentPlayer.hand.cards.length; i++) {
+            yourCards += "| " + this.currentPlayer.hand.cards[i];
+        }
+        UI.display(yourCards);
+        this.score();
+        UI.display('');
+        UI.display("Dealer Cards");
+        var dealerCards = "UNKNOWN ";
+        for (var i = 1; i < this.dealer.hand.cards.length; i++) {
+            dealerCards += "| " + this.dealer.hand.cards[i];
+        }
+        UI.display(dealerCards);
     };
     return BlackJackGame;
 }(CardGame));

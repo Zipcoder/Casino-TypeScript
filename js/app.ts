@@ -414,6 +414,7 @@ abstract class CardGame extends GameEngine implements GameInterface<CardPlayer> 
         super();
         this._players = new Array<CardPlayer>();
         this._deck = new Deck();
+        this._deck.shuffle();
     }
 
 
@@ -457,12 +458,13 @@ abstract class CardGame extends GameEngine implements GameInterface<CardPlayer> 
 class BlackJackGame extends CardGame {
 
     currentPlayer : BlackJackPlayer;
+    dealer : BlackJackPlayer;
 
     constructor(playerProfile:Profile){
         super();
-        let dealer = new BlackJackPlayer(new Profile('Dealer',0));
+        this.dealer = new BlackJackPlayer(new Profile('Dealer',0));
         this.currentPlayer = new BlackJackPlayer(playerProfile);
-        this.addPlayer(dealer);
+        this.addPlayer(this.dealer);
         this.addPlayer(this.currentPlayer);
         this.startRound = this.startRound.bind(this);
         this.placeBet = this.placeBet.bind(this);
@@ -506,14 +508,46 @@ class BlackJackGame extends CardGame {
 
     private initialDeal():void{
         UI.clearScreen();
+        this.currentPlayer.takeCard(this.deck.deal());
+        this.dealer.takeCard(this.deck.deal());
+        this.currentPlayer.takeCard(this.deck.deal());
+        this.dealer.takeCard(this.deck.deal());
+        
         this.header();
+        this.showCards();
+
         
        
     }
 
     private header():void{
         UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance + "\t|\t Amount Wagered: $"+ this.currentPlayer.escrow.escrowBalance);
+        UI.display("");
     }
+
+    private score():void{
+        this.currentPlayer.calculateScore();
+        UI.display("Current Score: " + this.currentPlayer.score)
+    }
+
+    private showCards():void{
+        UI.display("Your Cards");
+        let yourCards : string = this.currentPlayer.hand.cards[0].toString() + ' ';
+        for(let i = 1; i <this.currentPlayer.hand.cards.length; i++){
+            yourCards += "| " + this.currentPlayer.hand.cards[i];
+        }
+        UI.display(yourCards);
+        this.score();
+        UI.display('');
+        UI.display("Dealer Cards");
+        let dealerCards : string = "UNKNOWN ";
+        for(let i = 1; i <this.dealer.hand.cards.length; i++){
+            dealerCards += "| " + this.dealer.hand.cards[i];
+        }
+        UI.display(dealerCards);
+
+    }
+
 
 }
 
