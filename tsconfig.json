@@ -1,0 +1,13 @@
+{
+    "compilerOptions": { 
+        "target": "es2017",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "outDir": "js",
+        "watch": true
+    },
+    "compileOnSave": true, 
+    "exclude": [
+        "node_modules"
+    ]
+}
