@@ -1,0 +1,11 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es6",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "watch": true,
+        "out": "app.js",
+        "module": "commonjs"
+    }
+}
