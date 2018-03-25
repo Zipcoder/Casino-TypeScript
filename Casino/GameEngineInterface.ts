@@ -1,0 +1,3 @@
+interface GameEngineInterface<GameType, GameTypePlayer>{
+
+}

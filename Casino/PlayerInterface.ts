@@ -1,5 +1,5 @@
 interface PlayerInterface{
-    getProfie(): string 
-    getName(): string
-    getId(): number
-}
+  getProfile(): Profile;
+  getName(): string;
+  getId(): number;
+} 
