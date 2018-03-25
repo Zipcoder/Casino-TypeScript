@@ -12,7 +12,7 @@ function waitAndGetUserInputString(): string {
     while (theNumber = null) {
         button.addEventListener("click", (e: Event) => theNumber = userInput.value);
     }
-    button.removeEventListener("click", (e: Event) => userInput);
+    button.removeEventListener("click", (e: Event) => userInput.value);
     return theNumber;
 }
 

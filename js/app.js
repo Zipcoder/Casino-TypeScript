@@ -10,7 +10,7 @@ function waitAndGetUserInputString() {
     while (theNumber = null) {
         button.addEventListener("click", function (e) { return theNumber = userInput.value; });
     }
-    button.removeEventListener("click", function (e) { return userInput; });
+    button.removeEventListener("click", function (e) { return userInput.value; });
     return theNumber;
 }
 function waitAndGetUserInputNumber() {
