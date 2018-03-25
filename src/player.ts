@@ -1,6 +1,7 @@
 import { Profile } from './profile';
+import { PlayerInterface } from './playerInterface';
 
-class Player implements PlayerInterface {
+export class Player implements PlayerInterface {
     private profile: Profile;
 
     constructor(profile: Profile) {

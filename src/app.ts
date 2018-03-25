@@ -1,3 +1,4 @@
+import { Player } from './player';
 
 function startGame(): void {
     log("game start");

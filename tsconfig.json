@@ -1,10 +1,10 @@
 {
     "compilerOptions": { 
         "target": "es2017",
+        "module": "commonjs",
         "noImplicitAny": true,
         "sourceMap": true,
         "strictNullChecks": true,
-        "outFile": "js/app.js",
         "watch": true
     },
     "files": [
