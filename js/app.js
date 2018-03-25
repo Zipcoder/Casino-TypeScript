@@ -264,7 +264,9 @@ var Escrow = /** @class */ (function () {
         configurable: true
     });
     Escrow.prototype.addToEscrowBalance = function (amount) {
-        this._escrowBalance += amount;
+        this._escrowBalance;
+        amount;
+        this.escrowBalance = this.escrowBalance + amount;
     };
     return Escrow;
 }());
@@ -439,7 +441,7 @@ var BlackJackGame = /** @class */ (function (_super) {
         UI.button.removeEventListener("click", this.placeBet);
         UI.clearScreen();
         if (UI.lastInput <= this.currentPlayer.getProfile().balance && UI.lastInput > 10) {
-            this.currentPlayer.bet(UI.lastInput);
+            this.currentPlayer.bet(parseInt(UI.lastInput));
             this.initialDeal();
         }
         else if (UI.lastInput < 10) {
@@ -454,10 +456,10 @@ var BlackJackGame = /** @class */ (function (_super) {
     };
     BlackJackGame.prototype.initialDeal = function () {
         UI.clearScreen();
-        UI.display("YaY!");
+        this.header();
     };
     BlackJackGame.prototype.header = function () {
-        UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance);
+        UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance + "\t|\t Amount Wagered: $" + this.currentPlayer.escrow.escrowBalance);
     };
     return BlackJackGame;
 }(CardGame));

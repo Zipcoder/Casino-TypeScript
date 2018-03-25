@@ -254,7 +254,9 @@ class Escrow{
     }
 
     public addToEscrowBalance(amount:number){
-        this._escrowBalance+=amount;
+        <number>this._escrowBalance; 
+        <number>amount;
+        this.escrowBalance = this.escrowBalance + amount;
     }
 
     
@@ -488,7 +490,7 @@ class BlackJackGame extends CardGame {
         UI.button.removeEventListener("click", this.placeBet);
         UI.clearScreen();
         if(UI.lastInput <= this.currentPlayer.getProfile().balance && UI.lastInput >10){
-        this.currentPlayer.bet(UI.lastInput);
+        this.currentPlayer.bet(parseInt(UI.lastInput));
         this.initialDeal();
         }
         else if (UI.lastInput <10){
@@ -504,14 +506,14 @@ class BlackJackGame extends CardGame {
 
     private initialDeal():void{
         UI.clearScreen();
-        UI.display("YaY!");
+        this.header();
+        
+       
     }
 
     private header():void{
-        UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance);
+        UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance + "\t|\t Amount Wagered: $"+ this.currentPlayer.escrow.escrowBalance);
     }
-
-
 
 }
 
