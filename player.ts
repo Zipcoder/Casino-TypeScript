@@ -1,5 +1,3 @@
-declare function require(name:string);
-var Observer = require('observed');
 import { Card } from "./card";
 
 export class Player {
