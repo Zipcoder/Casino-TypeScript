@@ -1,9 +1,12 @@
 class Casino {
-  
-
+    
+    
+    
     constructor(){
         this.chooseGame = this.chooseGame.bind(this);
+        
     }
+    
 
     start() {
         UI.display("Thank you for coming to my Blackjack Casino")
@@ -22,6 +25,7 @@ class Casino {
         }
 
     }
+    
 
     
 }

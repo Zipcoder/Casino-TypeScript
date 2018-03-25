@@ -79,7 +79,9 @@ class DeckOfCards {
 class GambleEngine {
 }
 class MainApp {
-    MainApp() {
+    constructor() {
+        let casino = new Casino();
+        casino.start();
     }
 }
 class PitBoss {
