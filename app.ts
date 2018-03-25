@@ -7,6 +7,24 @@ function addToDisplayText(text: string) {
     webWindow.innerText += text;
 }
 
+function waitAndGetUserInputString(): string {
+    var theNumber;
+    while (theNumber = null) {
+        button.addEventListener("click", (e: Event) => theNumber = userInput.value);
+    }
+    button.removeEventListener("click", (e: Event) => userInput);
+    return theNumber;
+}
+
+function waitAndGetUserInputNumber(): number {
+    var theNumber;
+    while (theNumber = null) {
+        button.addEventListener("click", (e: Event) => theNumber = +userInput.value);
+    }
+    button.removeEventListener("click", (e: Event) => userInput);
+    return theNumber;
+}
+
 class Profile {
     private id: number = 1;
     private _name: string = null;
@@ -23,6 +41,7 @@ class Profile {
     }
 }
 
+// sigh
 interface GameInterface {
     start();
 }
@@ -75,9 +94,11 @@ class SlotMachine {
 class Startup {
     public static main(): void {
         addToDisplayText("Please enter your name:");
-        button.addEventListener("click", (e: Event) => player.name = userInput.value);
+        player.name = waitAndGetUserInputString();
+        // button.addEventListener("click", (e: Event) => player.name = userInput.value);
         addToDisplayText("Please enter how many dollary doos you want to start with:")
-        button.addEventListener("click", (e: Event) => player.balance = +userInput.value);
+        player.balance = waitAndGetUserInputNumber();
+        // button.addEventListener("click", (e: Event) => player.balance = +userInput.value);
     }
 }
 

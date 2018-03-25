@@ -5,6 +5,22 @@ function addToDisplayText(text) {
     webWindow.innerText += '\n';
     webWindow.innerText += text;
 }
+function waitAndGetUserInputString() {
+    var theNumber;
+    while (theNumber = null) {
+        button.addEventListener("click", function (e) { return theNumber = userInput.value; });
+    }
+    button.removeEventListener("click", function (e) { return userInput; });
+    return theNumber;
+}
+function waitAndGetUserInputNumber() {
+    var theNumber;
+    while (theNumber = null) {
+        button.addEventListener("click", function (e) { return theNumber = +userInput.value; });
+    }
+    button.removeEventListener("click", function (e) { return userInput; });
+    return theNumber;
+}
 var Profile = /** @class */ (function () {
     function Profile() {
         this.id = 1;
@@ -80,9 +96,11 @@ var Startup = /** @class */ (function () {
     }
     Startup.main = function () {
         addToDisplayText("Please enter your name:");
-        button.addEventListener("click", function (e) { return player.name = userInput.value; });
+        player.name = waitAndGetUserInputString();
+        // button.addEventListener("click", (e: Event) => player.name = userInput.value);
         addToDisplayText("Please enter how many dollary doos you want to start with:");
-        button.addEventListener("click", function (e) { return player.balance = +userInput.value; });
+        player.balance = waitAndGetUserInputNumber();
+        // button.addEventListener("click", (e: Event) => player.balance = +userInput.value);
     };
     return Startup;
 }());
