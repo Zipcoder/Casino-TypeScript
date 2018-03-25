@@ -51,36 +51,22 @@ var MathOps = /** @class */ (function () {
     };
     return MathOps;
 }());
-var SuitString;
-(function (SuitString) {
-    SuitString["CLUBS"] = "clubs";
-    SuitString["DIAMONDS"] = "diamonds";
-    SuitString["HEARTS"] = "hearts";
-    SuitString["SPADES"] = "spades";
-})(SuitString || (SuitString = {}));
-var SuitUnicode;
-(function (SuitUnicode) {
-    SuitUnicode["CLUBS"] = "\u2663";
-    SuitUnicode["DIAMONDS"] = "\u2666";
-    SuitUnicode["HEARTS"] = "\u2665";
-    SuitUnicode["SPADES"] = "\u2660";
-})(SuitUnicode || (SuitUnicode = {}));
-var RankInteger;
-(function (RankInteger) {
-    RankInteger[RankInteger["DEUCE"] = 2] = "DEUCE";
-    RankInteger[RankInteger["THREE"] = 3] = "THREE";
-    RankInteger[RankInteger["FOUR"] = 4] = "FOUR";
-    RankInteger[RankInteger["FIVE"] = 5] = "FIVE";
-    RankInteger[RankInteger["SIX"] = 6] = "SIX";
-    RankInteger[RankInteger["SEVEN"] = 7] = "SEVEN";
-    RankInteger[RankInteger["EIGHT"] = 8] = "EIGHT";
-    RankInteger[RankInteger["NINE"] = 9] = "NINE";
-    RankInteger[RankInteger["TEN"] = 10] = "TEN";
-    RankInteger[RankInteger["JACK"] = 11] = "JACK";
-    RankInteger[RankInteger["QUEEN"] = 12] = "QUEEN";
-    RankInteger[RankInteger["KING"] = 13] = "KING";
-    RankInteger[RankInteger["ACE"] = 1] = "ACE";
-})(RankInteger || (RankInteger = {}));
+var RankNumber;
+(function (RankNumber) {
+    RankNumber[RankNumber["DEUCE"] = 2] = "DEUCE";
+    RankNumber[RankNumber["THREE"] = 3] = "THREE";
+    RankNumber[RankNumber["FOUR"] = 4] = "FOUR";
+    RankNumber[RankNumber["FIVE"] = 5] = "FIVE";
+    RankNumber[RankNumber["SIX"] = 6] = "SIX";
+    RankNumber[RankNumber["SEVEN"] = 7] = "SEVEN";
+    RankNumber[RankNumber["EIGHT"] = 8] = "EIGHT";
+    RankNumber[RankNumber["NINE"] = 9] = "NINE";
+    RankNumber[RankNumber["TEN"] = 10] = "TEN";
+    RankNumber[RankNumber["JACK"] = 11] = "JACK";
+    RankNumber[RankNumber["QUEEN"] = 12] = "QUEEN";
+    RankNumber[RankNumber["KING"] = 13] = "KING";
+    RankNumber[RankNumber["ACE"] = 1] = "ACE";
+})(RankNumber || (RankNumber = {}));
 var RankString;
 (function (RankString) {
     RankString["DEUCE"] = "2";
@@ -97,10 +83,40 @@ var RankString;
     RankString["KING"] = "K";
     RankString["ACE"] = "A";
 })(RankString || (RankString = {}));
+var SuitString;
+(function (SuitString) {
+    SuitString["CLUBS"] = "clubs";
+    SuitString["DIAMONDS"] = "diamonds";
+    SuitString["HEARTS"] = "hearts";
+    SuitString["SPADES"] = "spades";
+})(SuitString || (SuitString = {}));
+var SuitSymbol;
+(function (SuitSymbol) {
+    SuitSymbol["CLUBS"] = "\u2663";
+    SuitSymbol["DIAMONDS"] = "\u2666";
+    SuitSymbol["HEARTS"] = "\u2665";
+    SuitSymbol["SPADES"] = "\u2660";
+})(SuitSymbol || (SuitSymbol = {}));
+var Card = /** @class */ (function () {
+    function Card(suitSymbol, rankNumber, rankString) {
+        this.suitSymbol = suitSymbol;
+        this.rankNumber = rankNumber;
+        this.rankString = rankString;
+    }
+    Card.prototype.getSuitSymbol = function () {
+        return this.suitSymbol;
+    };
+    Card.prototype.getRankNumber = function () {
+        return this.rankNumber;
+    };
+    Card.prototype.getRankString = function () {
+        return this.rankString;
+    };
+    Card.prototype.toString = function () {
+        return this.suitSymbol + this.rankString;
+    };
+    return Card;
+}());
 var UI = new UserInterface();
+var card = new Card(SuitSymbol.HEARTS, RankNumber.KING, RankString.KING);
 UI.start();
-UI.display(SuitString.CLUBS);
-UI.display(SuitUnicode.CLUBS);
-UI.display(SuitUnicode.DIAMONDS);
-UI.display(SuitUnicode.HEARTS);
-UI.display(SuitUnicode.SPADES);

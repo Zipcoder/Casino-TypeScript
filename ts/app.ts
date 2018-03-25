@@ -57,21 +57,7 @@ class MathOps {
     }
 }
 
-enum SuitString {
-    CLUBS = "clubs",
-    DIAMONDS = "diamonds",
-    HEARTS = "hearts",
-    SPADES = "spades"
-}
-
-enum SuitUnicode {
-    CLUBS = "\u2663",
-    DIAMONDS = "\u2666",
-    HEARTS = "\u2665",
-    SPADES = "\u2660"
-}
-
-enum RankInteger {
+enum RankNumber {
     DEUCE = 2,
     THREE = 3,
     FOUR = 4,
@@ -103,11 +89,52 @@ enum RankString {
     ACE = "A"
 }
 
+enum SuitString {
+    CLUBS = "clubs",
+    DIAMONDS = "diamonds",
+    HEARTS = "hearts",
+    SPADES = "spades"
+}
+
+enum SuitSymbol {
+    CLUBS = "\u2663",
+    DIAMONDS = "\u2666",
+    HEARTS = "\u2665",
+    SPADES = "\u2660"
+}
+
+class Card {
+    private suitSymbol: SuitSymbol;
+    private rankNumber: RankNumber;
+    private rankString: RankString;
+
+    constructor(suitSymbol: SuitSymbol, rankNumber: RankNumber, rankString: RankString) {
+        this.suitSymbol = suitSymbol;
+        this.rankNumber = rankNumber;
+        this.rankString = rankString;
+    }
+
+    getSuitSymbol(): string {
+        return this.suitSymbol;
+    }
+
+    getRankNumber(): number {
+        return this.rankNumber;
+    }
+
+    getRankString(): string {
+        return this.rankString;
+    }
+
+    toString(): string {
+        return this.suitSymbol + this.rankString;
+    }
+}
+
 let UI: UserInterface = new UserInterface();
+let card: Card = new Card(SuitSymbol.HEARTS, RankNumber.KING, RankString.KING);
+
 UI.start();
-UI.display(SuitString.CLUBS);
-UI.display(SuitUnicode.CLUBS);
-UI.display(SuitUnicode.DIAMONDS);
-UI.display(SuitUnicode.HEARTS);
-UI.display(SuitUnicode.SPADES);
+
+
 
