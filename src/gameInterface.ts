@@ -1,3 +1,5 @@
+import { PlayerInterface } from './playerInterface';
+
 export interface GameInterface<PlayerType extends PlayerInterface> {
     getPlayers(): PlayerType[];
     getPlayer(playerId: number): PlayerType;
