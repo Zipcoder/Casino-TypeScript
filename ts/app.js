@@ -1,5 +1,4 @@
 var UserInterface = /** @class */ (function () {
-    // private static _instance: UI;
     function UserInterface() {
         var _this = this;
         this.userInput = document.getElementById('user_input');
@@ -8,7 +7,7 @@ var UserInterface = /** @class */ (function () {
         this.button.addEventListener("click", function (e) { _this._lastInput = _this.userInput.value; });
         this.button.addEventListener("click", function (e) { return console.log(_this._lastInput); });
         this.button.addEventListener("click", function (e) { _this.userInput.value = ''; });
-        this.chooseGame = this.chooseGame.bind(this);
+        // this.chooseGame = this.chooseGame.bind(this);
     }
     UserInterface.prototype.display = function (input) {
         this.window.innerText += input + '\n';
@@ -16,32 +15,48 @@ var UserInterface = /** @class */ (function () {
     UserInterface.prototype.clearScreen = function () {
         this.window.innerText = '';
     };
-    // public static get Instance(): UI {
-    //     return this._instance || (this._instance = new UI());
-    // }
     UserInterface.prototype.lastInput = function () {
         return this._lastInput;
     };
     UserInterface.prototype.start = function () {
         var _this = this;
-        this.display("What game do you want to play?");
-        this.display("Black Jack or Go Fish?");
+        this.display("Do you want to play Blackjack? (y/n)");
         this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
     };
     UserInterface.prototype.chooseGame = function () {
         var _this = this;
-        this.button.removeEventListener("click", function (e) { return _this.chooseGame(); });
-        if (this.lastInput() === "Black Jack") {
-            this.display("Black Jack worked");
+        // this.button.removeEventListener("click", (e:Event) => this.chooseGame());
+        if (this.lastInput() === "y") {
+            this.clearScreen();
+            this.display("Ok, let's play Blackjack.");
+            // this.button.removeEventListener("click", (e:Event) => this.chooseGame());
         }
-        else if (this.lastInput() === "Go Fish") {
-            this.display("Go Fish worked");
+        else if (this.lastInput() === "n") {
+            this.clearScreen();
+            this.display("All right, good-bye. Live your best life.");
+            // this.button.removeEventListener("click", (e:Event) => this.chooseGame());
         }
         else {
             this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
+            // this.display("Please try again");
         }
     };
     return UserInterface;
 }());
+var MathOps = /** @class */ (function () {
+    function MathOps() {
+    }
+    MathOps.sum = function (number1, number2) {
+        return (number1 + number2);
+    };
+    return MathOps;
+}());
+var Suit;
+(function (Suit) {
+    Suit["CLUBS"] = "clubs";
+    Suit["DIAMONDS"] = "diamonds";
+    Suit["HEARTS"] = "hearts";
+    Suit["SPADES"] = "spades";
+})(Suit || (Suit = {}));
 var UI = new UserInterface();
 UI.start();

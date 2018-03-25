@@ -1,27 +1,3 @@
-constructor();
-{
-    this.chooseGame = this.chooseGame.bind(this);
-}
-start();
-{
-    UI.display("What game do you want to play?");
-    UI.display("Black Jack or Go Fish?");
-    UI.button.addEventListener("click", this.chooseGame);
-}
-chooseGame();
-void {
-    UI: .button.removeEventListener("click", this.chooseGame),
-    if: function (UI, lastInput) { }
-} === "Black Jack";
-{
-    BlackJack.start();
-}
-if (UI.lastInput === "Go Fish") {
-    GoFish.start();
-}
-else {
-    UI.button.addEventListener("click", this.chooseGame);
-}
 var UserInterface = (function () {
     function UserInterface() {
         var _this = this;
@@ -31,7 +7,6 @@ var UserInterface = (function () {
         this.button.addEventListener("click", function (e) { _this._lastInput = _this.userInput.value; });
         this.button.addEventListener("click", function (e) { return console.log(_this._lastInput); });
         this.button.addEventListener("click", function (e) { _this.userInput.value = ''; });
-        this.chooseGame = this.chooseGame.bind(this);
     }
     UserInterface.prototype.display = function (input) {
         this.window.innerText += input + '\n';
@@ -44,18 +19,18 @@ var UserInterface = (function () {
     };
     UserInterface.prototype.start = function () {
         var _this = this;
-        this.display("What game do you want to play?");
-        this.display("Black Jack or Go Fish?");
+        this.display("Do you want to play Blackjack? (y/n)");
         this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
     };
     UserInterface.prototype.chooseGame = function () {
         var _this = this;
-        this.button.removeEventListener("click", function (e) { return _this.chooseGame(); });
-        if (this.lastInput() === "Black Jack") {
-            this.display("Black Jack worked");
+        if (this.lastInput() === "y") {
+            this.clearScreen();
+            this.display("Ok, let's play Blackjack.");
         }
-        else if (this.lastInput() === "Go Fish") {
-            this.display("Go Fish worked");
+        else if (this.lastInput() === "n") {
+            this.clearScreen();
+            this.display("All right, good-bye. Live your best life.");
         }
         else {
             this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
@@ -63,6 +38,21 @@ var UserInterface = (function () {
     };
     return UserInterface;
 }());
+var MathOps = (function () {
+    function MathOps() {
+    }
+    MathOps.sum = function (number1, number2) {
+        return (number1 + number2);
+    };
+    return MathOps;
+}());
+var Suit;
+(function (Suit) {
+    Suit["CLUBS"] = "clubs";
+    Suit["DIAMONDS"] = "diamonds";
+    Suit["HEARTS"] = "hearts";
+    Suit["SPADES"] = "spades";
+})(Suit || (Suit = {}));
 var UI = new UserInterface();
 UI.start();
 //# sourceMappingURL=app.js.map
