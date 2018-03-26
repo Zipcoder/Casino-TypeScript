@@ -14,7 +14,7 @@ class BlackJack {
     //if player stay:: deal two cards to dealer.
     //if dealer below 17: deal again. 
     public println(input){
-        display.innerHTML += input;
+        display.innerHTML = input;
     }
 
     public startGameDealTwoToPlayer() {
@@ -32,8 +32,8 @@ class BlackJack {
         this.startGameDealTwoToDealer();
         let gameOver = this.checkBlackJack();
         if(!gameOver){
-            this.println('<br>' +"Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>');
-            this.println('<br>' + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+'<br>');
+            this.println('<br>' +"Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>'
+             + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+'<br>');
         }
     }
 
@@ -58,12 +58,35 @@ class BlackJack {
     }
 
     public stay(){
+        this.println('<br>' +"Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+        + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+ '<br>');
         
+        if(this.dealerHand.handValue() < 17){
+            this.dealerHand.addCard(this.gameDeck.draw());
+            this.println('<br>' +"Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+             + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+ '<br>');
+        }  else if(this.dealerHand.handValue() > 17){
+            this.println('<br>' +"Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+             + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+'<br>');
+        }
 
+        if(this.dealerHand.handValue() < 22 && this.dealerHand.handValue() > this.playerHand.handValue()){
+            this.println('<br>' +"Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+             + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+ '<br>'
+            + "You Lose");
+        } else if(this.playerHand.handValue() < 22 && this.playerHand.handValue() > this.dealerHand.handValue()){
+                this.println('<br>' +"Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+                 + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+ '<br>'
+                + "You Win");
+        } else if(this.playerHand.handValue() == this.dealerHand.handValue()){
+            this.println('<br>' +"Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+             + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+ '<br>'
+            + "It's a tie"); 
+        }
     }
 
     public checkPlayerBlackJack(){
-        return this.dealerHand.handValue() === 21;
+        return this.playerHand.handValue() === 21;
     }
 
     public checkDealerBlackJack(){
@@ -72,10 +95,15 @@ class BlackJack {
 
     public hit(){
         this.playerHand.addCard(this.gameDeck.draw());
-        let gameOver = this.checkBlackJack();
+        let gameOver = this.checkBlackJack() || this.playerHand.handValue() > 21;
         if(!gameOver){
-            this.println('<br>'+ "Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>');
-            this.println('<br>'+ "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()) + '<br>';
+            this.println('<br>' +"Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>'
+             + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+'<br>');
+        }
+        if(this.playerHand.handValue() > 21){
+            this.println('<br>' +"Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>'
+             + "Your cards: " + this.playerHand.handToString()+" Your hand value = "+ this.playerHand.handValue()+'<br>'
+             + "Bust! You lose!");
         }
     }
 }

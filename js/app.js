@@ -11,7 +11,7 @@ var BlackJack = /** @class */ (function () {
     //if player stay:: deal two cards to dealer.
     //if dealer below 17: deal again. 
     BlackJack.prototype.println = function (input) {
-        display.innerHTML += input;
+        display.innerHTML = input;
     };
     BlackJack.prototype.startGameDealTwoToPlayer = function () {
         this.playerHand.addCard(this.gameDeck.draw());
@@ -26,8 +26,8 @@ var BlackJack = /** @class */ (function () {
         this.startGameDealTwoToDealer();
         var gameOver = this.checkBlackJack();
         if (!gameOver) {
-            this.println('<br>' + "Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>');
-            this.println('<br>' + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>');
+            this.println('<br>' + "Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>');
         }
     };
     BlackJack.prototype.checkBlackJack = function () {
@@ -52,19 +52,50 @@ var BlackJack = /** @class */ (function () {
         var gameOver = this.checkBlackJack();
     };
     BlackJack.prototype.stay = function () {
+        this.println('<br>' + "Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+            + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>');
+        if (this.dealerHand.handValue() < 17) {
+            this.dealerHand.addCard(this.gameDeck.draw());
+            this.println('<br>' + "Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>');
+        }
+        else if (this.dealerHand.handValue() > 17) {
+            this.println('<br>' + "Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>');
+        }
+        if (this.dealerHand.handValue() < 22 && this.dealerHand.handValue() > this.playerHand.handValue()) {
+            this.println('<br>' + "Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>'
+                + "You Lose");
+        }
+        else if (this.playerHand.handValue() < 22 && this.playerHand.handValue() > this.dealerHand.handValue()) {
+            this.println('<br>' + "Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>'
+                + "You Win");
+        }
+        else if (this.playerHand.handValue() == this.dealerHand.handValue()) {
+            this.println('<br>' + "Dealer's cards:" + this.dealerHand.handToString() + this.dealerHand.handValue() + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>'
+                + "It's a tie");
+        }
     };
     BlackJack.prototype.checkPlayerBlackJack = function () {
-        return this.dealerHand.handValue() === 21;
+        return this.playerHand.handValue() === 21;
     };
     BlackJack.prototype.checkDealerBlackJack = function () {
         return this.dealerHand.handValue() === 21;
     };
     BlackJack.prototype.hit = function () {
         this.playerHand.addCard(this.gameDeck.draw());
-        var gameOver = this.checkBlackJack();
+        var gameOver = this.checkBlackJack() || this.playerHand.handValue() > 21;
         if (!gameOver) {
-            this.println('<br>' + "Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>');
-            this.println('<br>' + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue()) + '<br>';
+            this.println('<br>' + "Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>');
+        }
+        if (this.playerHand.handValue() > 21) {
+            this.println('<br>' + "Dealer's face up card is a " + this.dealerHand.handOfCards[0].toCardName + '<br>'
+                + "Your cards: " + this.playerHand.handToString() + " Your hand value = " + this.playerHand.handValue() + '<br>'
+                + "Bust! You lose!");
         }
     };
     return BlackJack;
