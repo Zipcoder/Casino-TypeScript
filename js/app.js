@@ -1,36 +1,33 @@
-var webWindow = document.getElementById("display");
-var userInput = document.getElementById("user_input");
-var button = document.getElementById("submitButton");
-var TEST_INPUT;
-function addToDisplayText(text) {
-    webWindow.innerText += '\n';
-    webWindow.innerText += text;
-}
-function EVENT_TO_INPUT() {
-    TEST_INPUT = userInput.value;
-}
-function waitAndGetUserInputString() {
-    var theNumber;
-    button.addEventListener("onclick", function (e) { return theNumber = userInput.value; });
-    while (theNumber == null) {
-        if (theNumber != null) {
-            break;
-        }
-    }
-    button.removeEventListener("onclick", waitAndGetUserInputString);
-    return theNumber;
-}
-function waitAndGetUserInputNumber() {
-    var theNumber;
-    button.addEventListener("click", function (e) { return theNumber = +userInput.value; });
-    while (theNumber == null) {
-        if (theNumber != null) {
-            break;
-        }
-    }
-    button.removeEventListener("click", waitAndGetUserInputNumber);
-    return theNumber;
-}
+// var window = document.getElementById("display");
+// var userInput = <HTMLInputElement>document.getElementById("user_input");
+// var button = document.getElementById("submitButton");
+// var TEST_INPUT;
+// function addToDisplayText(text: string) {
+//     window.innerText += '\n';
+//     window.innerText += text;
+// }
+// function waitAndGetUserInputString(): string {
+//     var theNumber;
+//     button.addEventListener("onclick", (e: Event) => theNumber = userInput.value);
+//     while (theNumber == null) {
+//         if (theNumber != null) {
+//             break;
+//         }
+//     }
+//     button.removeEventListener("onclick", waitAndGetUserInputString);
+//     return theNumber;
+// }
+// function waitAndGetUserInputNumber(): number {
+//     var theNumber;
+//     button.addEventListener("click", (e: Event) => theNumber = +userInput.value);
+//     while (theNumber == null) {
+//         if (theNumber != null) {
+//             break;
+//         }
+//     }
+//     button.removeEventListener("click", waitAndGetUserInputNumber);
+//     return theNumber;
+// }
 var Profile = /** @class */ (function () {
     function Profile() {
         this.id = 1;
@@ -62,25 +59,25 @@ var SlotMachine = /** @class */ (function () {
     function SlotMachine() {
     }
     SlotMachine.start = function () {
-        addToDisplayText("Welcome to slot machine! Win triple your bet for 3 matching numbers or 1.5x for 2.");
+        UI.display("Welcome to slot machine! Win triple your bet for 3 matching numbers or 1.5x for 2.");
         while (true) {
             var currentInput;
             var currentBalance = player.balance;
             var payout;
-            addToDisplayText("You have $" + currentBalance + ". Enter a number less than your total to bet.");
-            addToDisplayText("Enter anything else to quit.");
-            button.addEventListener("click", function (e) { return currentInput = +userInput.value; });
+            UI.display("You have $" + currentBalance + ". Enter a number less than your total to bet.");
+            UI.display("Enter anything else to quit.");
+            currentInput = UI.lastInput;
             player.balance = currentBalance - currentInput;
-            addToDisplayText("You entered " + currentInput + ".");
+            UI.display("You entered " + currentInput + ".");
             if ((!isNaN(currentInput)) && (currentInput <= currentBalance)) {
-                addToDisplayText("Valid input! Spinning reels...");
+                UI.display("Valid input! Spinning reels...");
                 var firstReel = Math.floor(Math.random() * 5) + 1;
                 var secondReel = Math.floor(Math.random() * 5) + 1;
                 var thirdReel = Math.floor(Math.random() * 5) + 1;
-                addToDisplayText("|| " + firstReel + " | " + secondReel + " | " + thirdReel + " ||");
+                UI.display("|| " + firstReel + " | " + secondReel + " | " + thirdReel + " ||");
                 if (firstReel == secondReel && thirdReel) {
                     payout = currentInput * 3;
-                    addToDisplayText("JACKPOT!!");
+                    UI.display("JACKPOT!!");
                 }
                 else if (((firstReel == secondReel) && (firstReel != thirdReel)) ||
                     ((firstReel == thirdReel) && (firstReel != secondReel)) ||
@@ -90,11 +87,11 @@ var SlotMachine = /** @class */ (function () {
                 else {
                     payout = 0;
                 }
-                addToDisplayText("Your payout: $" + payout);
+                UI.display("Your payout: $" + payout);
                 player.balance += payout;
             }
             else {
-                addToDisplayText("Invalid input! Bye-bye!");
+                UI.display("Invalid input! Bye-bye!");
                 break;
             }
         }
@@ -105,18 +102,47 @@ var Startup = /** @class */ (function () {
     function Startup() {
     }
     Startup.main = function () {
-        addToDisplayText("Please enter your name:");
-        player.name = waitAndGetUserInputString();
+        UI.display("Welcome to the worst casino you've ever seen!");
+        UI.display("Please enter your name:");
+        player.name = UI.lastInput;
         // button.addEventListener("click", (e: Event) => player.name = userInput.value);
-        addToDisplayText("Please enter how many dollary doos you want to start with:");
-        player.balance = waitAndGetUserInputNumber();
+        UI.display("Please enter how many dollary doos you want to start with:");
+        player.balance = UI.lastInput;
         // button.addEventListener("click", (e: Event) => player.balance = +userInput.value);
     };
     return Startup;
 }());
-webWindow.innerText = "Welcome to the worst casino you've ever seen!";
+var UI = /** @class */ (function () {
+    function UI() {
+        UI.button.addEventListener("click", function (e) { UI._lastInput = UI.userInput.value; });
+        UI.button.addEventListener("click", function (e) { UI.userInput.value = ''; });
+    }
+    UI.display = function (input) {
+        this.window.innerText += input + '\n';
+    };
+    UI.clearScreen = function () {
+        this.window.innerText = '';
+    };
+    Object.defineProperty(UI, "Instance", {
+        get: function () {
+            return this._instance || (this._instance = new UI());
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UI, "lastInput", {
+        get: function () {
+            return this._lastInput;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    UI.userInput = document.getElementById("user_input");
+    UI.window = document.getElementById('display');
+    UI.button = document.getElementById('submit');
+    return UI;
+}());
+var UIInstance = UI.Instance;
 Startup.main();
 SlotMachine.start();
-// Here for posterity
-// button.addEventListener("click", (e: Event) => addToDisplayText(userInput.value));
 //# sourceMappingURL=app.js.map
