@@ -19,20 +19,19 @@ var BlackJack = /** @class */ (function (_super) {
         return _super.call(this) || this;
     }
     BlackJack.prototype.turnPrompt = function () {
-        var turn = this;
-        var answer = "";
+        var answer = "yes";
         switch (answer) {
             case 'Hit':
-                turn.hit();
+                this.hit();
                 break;
             case 'Stay':
-                turn.stay();
+                this.stay();
                 break;
         }
     };
     BlackJack.prototype.roundPrompt = function () {
         var game = this;
-        var answer = "";
+        var answer = "Yes";
         switch (answer) {
             case 'Yes':
                 game.newHand();

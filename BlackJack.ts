@@ -13,21 +13,21 @@ export class BlackJack extends CardGame{
 	
     }
     turnPrompt() {
-		var turn = this;
-		var answer: string = "";
+		var answer: string = "yes";
 			switch(answer){
 				case 'Hit':
-					turn.hit();
+					this.hit();
 					break;
 				case 'Stay':
-					turn.stay();
+					this.stay();
 					break;
 			}
 		
 	}
 	roundPrompt() {
 		var game = this;
-		var answer: string = ""; 
+		var answer: string = "Yes"; 
+		
 			switch(answer){
 				case 'Yes':
 					game.newHand();
