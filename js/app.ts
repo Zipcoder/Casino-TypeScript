@@ -149,7 +149,7 @@ class BlackJackPlayer extends CardPlayer implements Gamble {
         this.escrow.addToEscrowBalance(amount);
         this.getProfile().balance -= amount;
     }
-    win(amount: number, multiplier: number): void {
+    win(multiplier: number): void {
         let winnings:number = this.escrow.escrowBalance + (this.escrow.escrowBalance * multiplier);
         this.getProfile().addToBalance(winnings);
         this.escrow.escrowBalance=0;
@@ -388,7 +388,7 @@ abstract class GameEngine implements GameEngineInterface<GameInterface<PlayerInt
 
     
     abstract run(): void;
-    abstract evaluateTurn(player: PlayerInterface): void;
+    abstract evaluateTurn(): void;
 
 
 
@@ -399,7 +399,7 @@ interface Gamble {
     escrow:Escrow;
 
     bet(amount: number): void;
-    win(amount: number, multiplier: number): void;
+    win(multiplier: number): void;
     lose(): void;
 
 }
@@ -469,6 +469,11 @@ class BlackJackGame extends CardGame {
         this.startRound = this.startRound.bind(this);
         this.placeBet = this.placeBet.bind(this);
         this.run = this.run.bind(this);
+        this.initialDeal = this.initialDeal.bind(this);
+        this.restart = this.restart.bind(this);
+        this.naturalCheck = this.naturalCheck.bind(this);
+        this.nextMove = this.nextMove.bind(this);
+        this.hitOrStand = this.hitOrStand.bind(this);
     }
     
     run(): void {
@@ -476,14 +481,52 @@ class BlackJackGame extends CardGame {
 
     }
 
-    evaluateTurn(player: BlackJackPlayer): void {
+    evaluateTurn(): void {
+        UI.clearScreen();
+        this.tallyScores();
+        this.dealerTurn();
+        this.header();
+        this.showCards();
+        if(!this.isWinner()){
+        this.nextMove(false);
+        }
 
     }
 
+    private isWinner():boolean{
+        if(this.currentPlayer.isBusted() && this.dealer.isBusted()){
+            UI.display("You and the Dealer are both Bust");
+            UI.display("You break even");
+            this.currentPlayer.win(0);
+            this.restart();
+            return true;
+        }
+        else if (this.currentPlayer.isBusted()){
+            UI.display("You went Bust");
+            UI.display("You lose your bet");
+            this.currentPlayer.lose();
+            this.restart();
+            return true;
+        }
+        else if (this.dealer.isBusted()){
+            UI.display("The Dealer went Bust!");
+            UI.display("Your bet pays even money!");
+            this.currentPlayer.win(1);
+            this.restart();
+            return true;
+        }
+        else if (this.currentPlayer.stand && this.dealer.stand){
+            
+        }
+    }
+
     private startRound(errorMessage?:string):void{
+        this.currentPlayer.discardAll();
+        this.dealer.discardAll();
+        UI.clearScreen();
         this.header();
         UI.display("How much would you like to bet?");
-        UI.display("This minimum bet is $10");
+        UI.display("The minimum bet is $10");
         if(typeof errorMessage !== "undefined") UI.display(errorMessage);
         UI.button.addEventListener("click", this.placeBet);
     }
@@ -512,12 +555,55 @@ class BlackJackGame extends CardGame {
         this.dealer.takeCard(this.deck.deal());
         this.currentPlayer.takeCard(this.deck.deal());
         this.dealer.takeCard(this.deck.deal());
-        
+        this.tallyScores();
         this.header();
         this.showCards();
+        let natural:boolean = this.naturalCheck();
+        if(!natural){
+            this.nextMove(false);
+        }
 
         
        
+    }
+
+    private dealerTurn():void{
+        if(this.dealer.score<17){
+            this.dealer.takeCard(this.deck.deal());
+        }
+        else{
+            this.dealer.stand=true;
+        }
+    }
+
+    private nextMove(secondTime:boolean){
+       if (secondTime === true){
+        UI.clearScreen();
+        this.header();
+        this.showCards();
+        UI.display("Invalid input detected");
+        UI.display("Would you like to [hit] or [stand]?");
+        UI.button.addEventListener("click",this.hitOrStand);
+       }
+       else{
+        UI.display("Would you like to [hit] or [stand]?");
+        UI.button.addEventListener("click",this.hitOrStand);
+       }
+
+    }
+
+    private hitOrStand():void{
+        UI.button.removeEventListener("click",this.hitOrStand);
+        if(UI.lastInput === 'hit'){
+            this.currentPlayer.takeCard(this.deck.deal());
+            this.evaluateTurn();
+        }
+        else if (UI.lastInput === 'stand'){
+            this.currentPlayer.stand=true;
+            this.evaluateTurn();
+        }
+        else{this.nextMove(true)}
+
     }
 
     private header():void{
@@ -526,7 +612,6 @@ class BlackJackGame extends CardGame {
     }
 
     private score():void{
-        this.currentPlayer.calculateScore();
         UI.display("Current Score: " + this.currentPlayer.score)
     }
 
@@ -545,7 +630,42 @@ class BlackJackGame extends CardGame {
             dealerCards += "| " + this.dealer.hand.cards[i];
         }
         UI.display(dealerCards);
+        UI.display('');
+    }
 
+    private tallyScores(){
+        this.dealer.calculateScore();
+        this.currentPlayer.calculateScore();
+    }
+
+    private naturalCheck(): boolean{
+        if(this.currentPlayer.score === 21 && this.dealer.score === 21){
+            UI.display("Improbably, both you and the Dealer got natural Black Jack");
+            UI.display("You break even");
+            this.currentPlayer.win(0);
+            this.restart();
+            return true;
+        }
+        else if(this.currentPlayer.score === 21){
+            UI.display("You got a natural Black Jack!");
+            UI.display("Your bet pays 3:2!");
+            this.currentPlayer.win(1.5);
+            this.restart();
+            return true;
+        }
+        else if (this.dealer.score === 21){
+            UI.display("The Dealer got a natural Black Jack");
+            UI.display("You lose your bet");
+            this.currentPlayer.lose();
+            this.restart();
+            return true;
+        }
+        else{return false;}
+    }
+
+    private restart():void{
+        UI.display("Press [submit] to play again");
+        UI.button.addEventListener("click", this.run,{once:true})
     }
 
 

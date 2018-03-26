@@ -134,7 +134,7 @@ var BlackJackPlayer = /** @class */ (function (_super) {
         this.escrow.addToEscrowBalance(amount);
         this.getProfile().balance -= amount;
     };
-    BlackJackPlayer.prototype.win = function (amount, multiplier) {
+    BlackJackPlayer.prototype.win = function (multiplier) {
         var winnings = this.escrow.escrowBalance + (this.escrow.escrowBalance * multiplier);
         this.getProfile().addToBalance(winnings);
         this.escrow.escrowBalance = 0;
@@ -423,17 +423,58 @@ var BlackJackGame = /** @class */ (function (_super) {
         _this.startRound = _this.startRound.bind(_this);
         _this.placeBet = _this.placeBet.bind(_this);
         _this.run = _this.run.bind(_this);
+        _this.initialDeal = _this.initialDeal.bind(_this);
+        _this.restart = _this.restart.bind(_this);
+        _this.naturalCheck = _this.naturalCheck.bind(_this);
+        _this.nextMove = _this.nextMove.bind(_this);
+        _this.hitOrStand = _this.hitOrStand.bind(_this);
         return _this;
     }
     BlackJackGame.prototype.run = function () {
         this.startRound();
     };
-    BlackJackGame.prototype.evaluateTurn = function (player) {
+    BlackJackGame.prototype.evaluateTurn = function () {
+        UI.clearScreen();
+        this.tallyScores();
+        this.dealerTurn();
+        this.header();
+        this.showCards();
+        if (!this.isWinner()) {
+            this.nextMove(false);
+        }
+    };
+    BlackJackGame.prototype.isWinner = function () {
+        if (this.currentPlayer.isBusted() && this.dealer.isBusted()) {
+            UI.display("You and the Dealer are both Bust");
+            UI.display("You break even");
+            this.currentPlayer.win(0);
+            this.restart();
+            return true;
+        }
+        else if (this.currentPlayer.isBusted()) {
+            UI.display("You went Bust");
+            UI.display("You lose your bet");
+            this.currentPlayer.lose();
+            this.restart();
+            return true;
+        }
+        else if (this.dealer.isBusted()) {
+            UI.display("The Dealer went Bust!");
+            UI.display("Your bet pays even money!");
+            this.currentPlayer.win(1);
+            this.restart();
+            return true;
+        }
+        else if (this.currentPlayer.stand && this.dealer.stand) {
+        }
     };
     BlackJackGame.prototype.startRound = function (errorMessage) {
+        this.currentPlayer.discardAll();
+        this.dealer.discardAll();
+        UI.clearScreen();
         this.header();
         UI.display("How much would you like to bet?");
-        UI.display("This minimum bet is $10");
+        UI.display("The minimum bet is $10");
         if (typeof errorMessage !== "undefined")
             UI.display(errorMessage);
         UI.button.addEventListener("click", this.placeBet);
@@ -461,15 +502,55 @@ var BlackJackGame = /** @class */ (function (_super) {
         this.dealer.takeCard(this.deck.deal());
         this.currentPlayer.takeCard(this.deck.deal());
         this.dealer.takeCard(this.deck.deal());
+        this.tallyScores();
         this.header();
         this.showCards();
+        var natural = this.naturalCheck();
+        if (!natural) {
+            this.nextMove(false);
+        }
+    };
+    BlackJackGame.prototype.dealerTurn = function () {
+        if (this.dealer.score < 17) {
+            this.dealer.takeCard(this.deck.deal());
+        }
+        else {
+            this.dealer.stand = true;
+        }
+    };
+    BlackJackGame.prototype.nextMove = function (secondTime) {
+        if (secondTime === true) {
+            UI.clearScreen();
+            this.header();
+            this.showCards();
+            UI.display("Invalid input detected");
+            UI.display("Would you like to [hit] or [stand]?");
+            UI.button.addEventListener("click", this.hitOrStand);
+        }
+        else {
+            UI.display("Would you like to [hit] or [stand]?");
+            UI.button.addEventListener("click", this.hitOrStand);
+        }
+    };
+    BlackJackGame.prototype.hitOrStand = function () {
+        UI.button.removeEventListener("click", this.hitOrStand);
+        if (UI.lastInput === 'hit') {
+            this.currentPlayer.takeCard(this.deck.deal());
+            this.evaluateTurn();
+        }
+        else if (UI.lastInput === 'stand') {
+            this.currentPlayer.stand = true;
+            this.evaluateTurn();
+        }
+        else {
+            this.nextMove(true);
+        }
     };
     BlackJackGame.prototype.header = function () {
         UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance + "\t|\t Amount Wagered: $" + this.currentPlayer.escrow.escrowBalance);
         UI.display("");
     };
     BlackJackGame.prototype.score = function () {
-        this.currentPlayer.calculateScore();
         UI.display("Current Score: " + this.currentPlayer.score);
     };
     BlackJackGame.prototype.showCards = function () {
@@ -487,6 +568,41 @@ var BlackJackGame = /** @class */ (function (_super) {
             dealerCards += "| " + this.dealer.hand.cards[i];
         }
         UI.display(dealerCards);
+        UI.display('');
+    };
+    BlackJackGame.prototype.tallyScores = function () {
+        this.dealer.calculateScore();
+        this.currentPlayer.calculateScore();
+    };
+    BlackJackGame.prototype.naturalCheck = function () {
+        if (this.currentPlayer.score === 21 && this.dealer.score === 21) {
+            UI.display("Improbably, both you and the Dealer got natural Black Jack");
+            UI.display("You break even");
+            this.currentPlayer.win(0);
+            this.restart();
+            return true;
+        }
+        else if (this.currentPlayer.score === 21) {
+            UI.display("You got a natural Black Jack!");
+            UI.display("Your bet pays 3:2!");
+            this.currentPlayer.win(1.5);
+            this.restart();
+            return true;
+        }
+        else if (this.dealer.score === 21) {
+            UI.display("The Dealer got a natural Black Jack");
+            UI.display("You lose your bet");
+            this.currentPlayer.lose();
+            this.restart();
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    BlackJackGame.prototype.restart = function () {
+        UI.display("Press [submit] to play again");
+        UI.button.addEventListener("click", this.run, { once: true });
     };
     return BlackJackGame;
 }(CardGame));
