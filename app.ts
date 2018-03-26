@@ -1,10 +1,15 @@
 var webWindow = document.getElementById("display");
 var userInput = <HTMLInputElement>document.getElementById("user_input");
 var button = document.getElementById("submitButton");
+var TEST_INPUT;
 
 function addToDisplayText(text: string) {
     webWindow.innerText += '\n';
     webWindow.innerText += text;
+}
+
+function EVENT_TO_INPUT() {
+    TEST_INPUT = userInput.value;
 }
 
 function waitAndGetUserInputString(): string {
