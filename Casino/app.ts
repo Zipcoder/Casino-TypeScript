@@ -38,22 +38,21 @@ class UI{
 }
 
 class Craps{
-    
+        setOfDice: Dice;
         crapsPlayer: Player;
         betAmount: any;
         betUserPlaces: any;
-    
+        rollValue: number;
+
         constructor(player: Player){
             this.crapsPlayer = player;
             this.userPlacesBet = this.userPlacesBet.bind(this);
-             
-
         }
 
         userPlacesBet(){
             UI.submitButton.removeEventListener("click", this.userPlacesBet);
             if (UI.lastInput === "Pass Line"){
-              UI.display("Hello");  
+              this.passLineBetTurnSequence(this.rollValue); 
             } else{
                 UI.display("Bye");
             }
@@ -65,11 +64,56 @@ class Craps{
             if(this.betAmount > this.crapsPlayer.getBalance()){
                     UI.display("You can't bet that much!");
             } else{
-              //event handler here for bet amount      
+                    this.betAmount = UI.lastInput();
             }
             UI.clearScreen();
         }
-        
+
+        addDiceTogether(): number{
+            UI.display("Rolling Dice");
+            this.rollValue = this.setOfDice.rollDice() + this.setOfDice.rollDice();
+            return this.rollValue;
+        }
+
+        passLineBetTurnSequence(rollValue: number): void {
+            if (rollValue === 7 || rollValue === 11) {
+                this.playerWins();
+            } else if (rollValue === 2 || rollValue === 3 || rollValue === 12) {
+                this.playerLoses();
+            } else {
+                this.passLineBetRollsNonWinOrLoseNumber(rollValue);
+            }
+        }
+
+        passLineBetRollsNonWinOrLoseNumber(rollValue: number): void {
+          let currentRoll= 0;
+            do {
+                currentRoll = this.addDiceTogether();
+    
+                if (currentRoll === 7) {
+                    this.playerLoses();
+                    break;
+    
+                } else if (currentRoll === this.rollValue) {
+    
+                    this.playerWins();
+                    break;
+                }
+            } while (currentRoll != 7 || currentRoll != this.rollValue);
+    
+        }
+
+        playerWins(){
+            UI.display("You Win!");
+        }
+
+        playerLoses(){
+            UI.display("You Lose!");
+        }
+
+        willUserPlayAgain(){
+            UI.display("Do you want to play again? Y/N")
+        }
         startGame(){
         UI.display("Hello!, please enter in Pass Line or Don't pass line for you bet below");
         UI.submitButton.addEventListener("click", this.userPlacesBet);
@@ -181,5 +225,24 @@ class Profile{
      
 }
 
+class Wallet{
+    private balance: number;
+
+    constructor(){
+            this.balance = 0;
+    }
+
+    get Balance(){
+        return this.balance;
+    }
+
+    add(money: number): void{
+     this.balance =+ money;
+    }
+
+    subtract(money: number){
+        this.balance =+ money;
+    }
+}
 const instance = UI.Instance;
 App.main();

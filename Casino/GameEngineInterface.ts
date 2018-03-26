@@ -1,3 +1,0 @@
-interface GameEngineInterface<GameType, GameTypePlayer>{
-
-}

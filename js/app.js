@@ -48,7 +48,7 @@ var Craps = /** @class */ (function () {
     Craps.prototype.userPlacesBet = function () {
         UI.submitButton.removeEventListener("click", this.userPlacesBet);
         if (UI.lastInput === "Pass Line") {
-            UI.display("Hello");
+            this.passLineBetTurnSequence(this.rollValue);
         }
         else {
             UI.display("Bye");
@@ -61,9 +61,48 @@ var Craps = /** @class */ (function () {
             UI.display("You can't bet that much!");
         }
         else {
-            //event handler here for bet amount      
+            this.betAmount = UI.lastInput();
         }
         UI.clearScreen();
+    };
+    Craps.prototype.addDiceTogether = function () {
+        UI.display("Rolling Dice");
+        this.rollValue = this.setOfDice.rollDice() + this.setOfDice.rollDice();
+        return this.rollValue;
+    };
+    Craps.prototype.passLineBetTurnSequence = function (rollValue) {
+        if (rollValue === 7 || rollValue === 11) {
+            this.playerWins();
+        }
+        else if (rollValue === 2 || rollValue === 3 || rollValue === 12) {
+            this.playerLoses();
+        }
+        else {
+            this.passLineBetRollsNonWinOrLoseNumber(rollValue);
+        }
+    };
+    Craps.prototype.passLineBetRollsNonWinOrLoseNumber = function (rollValue) {
+        var currentRoll = 0;
+        do {
+            currentRoll = this.addDiceTogether();
+            if (currentRoll === 7) {
+                this.playerLoses();
+                break;
+            }
+            else if (currentRoll === this.rollValue) {
+                this.playerWins();
+                break;
+            }
+        } while (currentRoll != 7 || currentRoll != this.rollValue);
+    };
+    Craps.prototype.playerWins = function () {
+        UI.display("You Win!");
+    };
+    Craps.prototype.playerLoses = function () {
+        UI.display("You Lose!");
+    };
+    Craps.prototype.willUserPlayAgain = function () {
+        UI.display("Do you want to play again? Y/N");
     };
     Craps.prototype.startGame = function () {
         UI.display("Hello!, please enter in Pass Line or Don't pass line for you bet below");
@@ -173,6 +212,25 @@ var Profile = /** @class */ (function () {
         this.listOfProfiles.push(profile);
     };
     return Profile;
+}());
+var Wallet = /** @class */ (function () {
+    function Wallet() {
+        this.balance = 0;
+    }
+    Object.defineProperty(Wallet.prototype, "Balance", {
+        get: function () {
+            return this.balance;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Wallet.prototype.add = function (money) {
+        this.balance = +money;
+    };
+    Wallet.prototype.subtract = function (money) {
+        this.balance = +money;
+    };
+    return Wallet;
 }());
 var instance = UI.Instance;
 App.main();
