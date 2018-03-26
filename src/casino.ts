@@ -12,7 +12,7 @@ export class Casino {
 
 	receiveCommand(cmd: string) {
 		if (cmd == "blackjack") {
-			console.log("Star Blackjack!");
+			console.log("Starting Blackjack!");
 			let engine = new BlackjackEngine(this.profile);
 			engine.run();
 		}

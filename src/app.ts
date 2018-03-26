@@ -2,6 +2,8 @@ import { Player } from './player';
 import { GameEngineInterface } from './gameEngineInterface';
 import { Casino } from './casino';
 
+var casino: Casino = new Casino("vince", 500);
+
 function startGame(): void {
 	log("game start");
 	display("game start");
@@ -10,8 +12,8 @@ function startGame(): void {
 function handleInput(event: KeyboardEvent): void {
 	let inputElement: HTMLInputElement = <HTMLInputElement>event.target;
 
-	// build command and dispatch to Casino
-
+	casino.receiveCommand(inputElement.value);
+	
 	inputElement.value = "";
 }
 

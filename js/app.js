@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const casino_1 = require("./casino");
+var casino = new casino_1.Casino("vince", 500);
 function startGame() {
     log("game start");
     display("game start");
 }
 function handleInput(event) {
     let inputElement = event.target;
-    // build command and dispatch to Casino
+    casino.receiveCommand(inputElement.value);
     inputElement.value = "";
 }
 function display(content) {

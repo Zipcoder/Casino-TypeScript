@@ -2,7 +2,7 @@ import { GameInterface } from '../gameInterface';
 import { BlackjackPlayer } from './blackjackPlayer';
 
 export class Blackjack implements GameInterface<BlackjackPlayer> {
-	players: BlackjackPlayer[];
+	players: BlackjackPlayer[] = [];
 
 	getPlayers(): BlackjackPlayer[] {
 		return this.players;
@@ -17,7 +17,7 @@ export class Blackjack implements GameInterface<BlackjackPlayer> {
 	}
 
 	contains(player: BlackjackPlayer): Boolean {
-		for (let p: BlackjackPlayer of this.players) {
+		for (let p of this.players) {
 			if (p.getName() == player.getName()) {
 				return true;
 			}
