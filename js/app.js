@@ -11,13 +11,13 @@ function EVENT_TO_INPUT() {
 }
 function waitAndGetUserInputString() {
     var theNumber;
-    button.addEventListener("click", function (e) { return theNumber = userInput.value; });
+    button.addEventListener("onclick", function (e) { return theNumber = userInput.value; });
     while (theNumber == null) {
         if (theNumber != null) {
             break;
         }
     }
-    button.removeEventListener("click", waitAndGetUserInputString);
+    button.removeEventListener("onclick", waitAndGetUserInputString);
     return theNumber;
 }
 function waitAndGetUserInputNumber() {

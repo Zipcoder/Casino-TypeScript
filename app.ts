@@ -14,13 +14,13 @@ function EVENT_TO_INPUT() {
 
 function waitAndGetUserInputString(): string {
     var theNumber;
-    button.addEventListener("click", (e: Event) => theNumber = userInput.value);
+    button.addEventListener("onclick", (e: Event) => theNumber = userInput.value);
     while (theNumber == null) {
         if (theNumber != null) {
             break;
         }
     }
-    button.removeEventListener("click", waitAndGetUserInputString);
+    button.removeEventListener("onclick", waitAndGetUserInputString);
     return theNumber;
 }
 
