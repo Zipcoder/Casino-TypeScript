@@ -1,0 +1,18 @@
+{
+    "compilerOptions": { 
+        "target": "es2017",
+        "module": "commonjs",
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "noImplicitAny": true,
+        "watch": true,
+        "outDir": "js"
+    },
+    "files": [
+        "src/app.ts"
+    ],
+    "compileOnSave": true, 
+    "exclude": [
+        "node_modules"
+    ]
+}
