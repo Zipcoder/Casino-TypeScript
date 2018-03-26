@@ -51,72 +51,110 @@ var MathOps = /** @class */ (function () {
     };
     return MathOps;
 }());
-var RankNumber;
-(function (RankNumber) {
-    RankNumber[RankNumber["DEUCE"] = 2] = "DEUCE";
-    RankNumber[RankNumber["THREE"] = 3] = "THREE";
-    RankNumber[RankNumber["FOUR"] = 4] = "FOUR";
-    RankNumber[RankNumber["FIVE"] = 5] = "FIVE";
-    RankNumber[RankNumber["SIX"] = 6] = "SIX";
-    RankNumber[RankNumber["SEVEN"] = 7] = "SEVEN";
-    RankNumber[RankNumber["EIGHT"] = 8] = "EIGHT";
-    RankNumber[RankNumber["NINE"] = 9] = "NINE";
-    RankNumber[RankNumber["TEN"] = 10] = "TEN";
-    RankNumber[RankNumber["JACK"] = 11] = "JACK";
-    RankNumber[RankNumber["QUEEN"] = 12] = "QUEEN";
-    RankNumber[RankNumber["KING"] = 13] = "KING";
-    RankNumber[RankNumber["ACE"] = 1] = "ACE";
-})(RankNumber || (RankNumber = {}));
-var RankString;
-(function (RankString) {
-    RankString["DEUCE"] = "2";
-    RankString["THREE"] = "3";
-    RankString["FOUR"] = "4";
-    RankString["FIVE"] = "5";
-    RankString["SIX"] = "6";
-    RankString["SEVEN"] = "7";
-    RankString["EIGHT"] = "8";
-    RankString["NINE"] = "9";
-    RankString["TEN"] = "10";
-    RankString["JACK"] = "J";
-    RankString["QUEEN"] = "Q";
-    RankString["KING"] = "K";
-    RankString["ACE"] = "A";
-})(RankString || (RankString = {}));
-var SuitString;
-(function (SuitString) {
-    SuitString["CLUBS"] = "clubs";
-    SuitString["DIAMONDS"] = "diamonds";
-    SuitString["HEARTS"] = "hearts";
-    SuitString["SPADES"] = "spades";
-})(SuitString || (SuitString = {}));
-var SuitSymbol;
-(function (SuitSymbol) {
-    SuitSymbol["CLUBS"] = "\u2663";
-    SuitSymbol["DIAMONDS"] = "\u2666";
-    SuitSymbol["HEARTS"] = "\u2665";
-    SuitSymbol["SPADES"] = "\u2660";
-})(SuitSymbol || (SuitSymbol = {}));
-var Card = /** @class */ (function () {
-    function Card(suitSymbol, rankNumber, rankString) {
-        this.suitSymbol = suitSymbol;
-        this.rankNumber = rankNumber;
-        this.rankString = rankString;
+var RankNumber = /** @class */ (function () {
+    function RankNumber() {
     }
-    Card.prototype.getSuitSymbol = function () {
-        return this.suitSymbol;
+    RankNumber.getInstance = function () {
+        if (this._INSTANCE === null) {
+            this._INSTANCE = new RankNumber();
+        }
+        return this._INSTANCE;
     };
-    Card.prototype.getRankNumber = function () {
-        return this.rankNumber;
+    RankNumber.getRankNumbers = function () {
+        return this.rankNumbers;
     };
-    Card.prototype.getRankString = function () {
-        return this.rankString;
-    };
-    Card.prototype.toString = function () {
-        return this.suitSymbol + this.rankString;
-    };
-    return Card;
+    RankNumber.rankNumbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 1];
+    return RankNumber;
 }());
+var RankString = /** @class */ (function () {
+    function RankString() {
+    }
+    RankString.getInstance = function () {
+        if (this._INSTANCE === null) {
+            this._INSTANCE = new RankString();
+        }
+        return this._INSTANCE;
+    };
+    RankString.getRankStrings = function () {
+        return this.rankStrings;
+    };
+    RankString.rankStrings = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+    return RankString;
+}());
+var SuitString = /** @class */ (function () {
+    function SuitString() {
+    }
+    SuitString.getInstance = function () {
+        if (this._INSTANCE === null) {
+            this._INSTANCE = new SuitString();
+        }
+        return this._INSTANCE;
+    };
+    SuitString.getRankStrings = function () {
+        return this.suitStrings;
+    };
+    SuitString.suitStrings = ["clubs", "diamonds", "hearts", "spades"];
+    return SuitString;
+}());
+var SuitSymbol = /** @class */ (function () {
+    function SuitSymbol() {
+    }
+    SuitSymbol.getInstance = function () {
+        if (this._INSTANCE === null) {
+            this._INSTANCE = new SuitSymbol();
+        }
+        return this._INSTANCE;
+    };
+    SuitSymbol.getSuitSymbols = function () {
+        return this.suitSymbols;
+    };
+    SuitSymbol.suitSymbols = ["\u2663", "\u2666", "\u2665", "\u2660"];
+    return SuitSymbol;
+}());
+// class Card {
+//     private rankNumber: RankNumber;
+//     private rankString: RankString;
+//     private suitSymbol: SuitSymbol;
+//     constructor(rankNumber: RankNumber, rankString: RankString, suitSymbol: SuitSymbol) {
+//         this.rankNumber = rankNumber;
+//         this.rankString = rankString;
+//         this.suitSymbol = suitSymbol;
+//     }
+//     getRankNumber(): number {
+//         return this.rankNumber;
+//     }
+//     getRankString(): string {
+//         return this.rankString;
+//     }
+//     getSuitSymbol(): string {
+//         return this.suitSymbol;
+//     }
+//     toString(): string {
+//         return this.rankString + this.suitSymbol;
+//     }
+// }
+// class Deck {
+//     private deck: Card[];
+//     private rankNumbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 1];
+//     private rankStrings = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+//     private suitSymbols = ["\u2663", "\u2666", "\u2665", "\u2660"];
+//     constructor() {
+//         this.deck = [];
+//         for (let i = 0; i < 4; i++) {
+//             for (let j = 0; j < 13; j++) {
+//                 this.deck.push(new Card(this.rankNumbers[j], this.rankStrings[j], this.suitSymbols[i]);
+//             }
+//         }
+//     }
+//     getDeck(): Card[] {
+//         return this.deck;
+//     }
+// }
 var UI = new UserInterface();
-var card = new Card(SuitSymbol.HEARTS, RankNumber.KING, RankString.KING);
+// let card: Card = new Card(RankNumber.ACE, RankString.ACE, SuitSymbol.HEARTS);
+// let deck: Deck = new Deck();
 UI.start();
+var myNum = RankNumber.getRankNumbers()[12];
+UI.display(RankNumber.getRankNumbers()[0]);
+UI.display(myNum);
+// UI.display(card.toString());

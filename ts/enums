@@ -1,0 +1,45 @@
+enum RankNumber {
+    DEUCE = 2,
+    THREE = 3,
+    FOUR = 4,
+    FIVE = 5,
+    SIX = 6,
+    SEVEN = 7,
+    EIGHT = 8,
+    NINE = 9,
+    TEN = 10,
+    JACK = 11,
+    QUEEN = 12,
+    KING = 13,
+    ACE = 1
+}
+
+enum RankString {
+    DEUCE = "2",
+    THREE = "3",
+    FOUR = "4",
+    FIVE = "5",
+    SIX = "6",
+    SEVEN = "7",
+    EIGHT = "8",
+    NINE = "9",
+    TEN = "10",
+    JACK = "J",
+    QUEEN = "Q",
+    KING = "K",
+    ACE = "A"
+}
+
+enum SuitString {
+    CLUBS = "clubs",
+    DIAMONDS = "diamonds",
+    HEARTS = "hearts",
+    SPADES = "spades"
+}
+
+enum SuitSymbol {
+    CLUBS = "\u2663",
+    DIAMONDS = "\u2666",
+    HEARTS = "\u2665",
+    SPADES = "\u2660"
+}
