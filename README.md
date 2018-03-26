@@ -14,7 +14,7 @@
 
 ### `Profile` class
 * **Description:**
-	* `Profile` stores a casino-visitor's `id`, `name`, and `balance`.
+* `Profile` stores a casino-visitor's `id`, `name`, and `balance`.
 * `Profile` objects should be created within the context of a casino.
 * `Profile` objects store `profileId`, `username`, and `balance`.
 
