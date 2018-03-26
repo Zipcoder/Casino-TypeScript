@@ -1,26 +1,14 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var cardplayer_1 = require("../cardplayer");
-var escrow_1 = require("../../escrow");
-var BlackJackPlayer = /** @class */ (function (_super) {
-    __extends(BlackJackPlayer, _super);
-    function BlackJackPlayer(someProfile) {
-        var _this = _super.call(this, someProfile) || this;
-        _this._escrow = new escrow_1.Escrow();
-        return _this;
+const cardplayer_1 = require("../cardplayer");
+const escrow_1 = require("../../escrow");
+class BlackJackPlayer extends cardplayer_1.CardPlayer {
+    constructor(someProfile) {
+        super(someProfile);
+        this._escrow = new escrow_1.Escrow();
     }
-    BlackJackPlayer.prototype.bet = function (betAmount) {
-        var accountBalance = this.profile.balance;
+    bet(betAmount) {
+        let accountBalance = this.profile.balance;
         if (betAmount > accountBalance) {
             // print insufficient funds
             return false;
@@ -30,20 +18,20 @@ var BlackJackPlayer = /** @class */ (function (_super) {
             this.escrow.balance = betAmount;
             return true;
         }
-    };
-    BlackJackPlayer.prototype.win = function () {
+    }
+    win() {
         this.profile.balance = this.profile.balance + (this._escrow.balance * 2);
         this.escrow.balance = 0;
-    };
-    BlackJackPlayer.prototype.lose = function () {
+    }
+    lose() {
         this.escrow.balance = 0;
-    };
-    BlackJackPlayer.prototype.push = function () {
+    }
+    push() {
         this.profile.balance = this.profile.balance + this._escrow.balance;
         this._escrow.balance = 0;
-    };
-    BlackJackPlayer.prototype.scoreHand = function () {
-        var handScore = 0;
+    }
+    scoreHand() {
+        let handScore = 0;
         for (var i = 0; i < this.hand.length; i++) {
             handScore += this.scoreCard(this.hand[i]);
         }
@@ -51,9 +39,9 @@ var BlackJackPlayer = /** @class */ (function (_super) {
             this.isBusted = true;
         }
         return handScore;
-    };
-    BlackJackPlayer.prototype.scoreCard = function (anyCard) {
-        var cardScore = 0;
+    }
+    scoreCard(anyCard) {
+        let cardScore = 0;
         switch (anyCard.rank) {
             case "A":
                 cardScore = 11;
@@ -96,37 +84,24 @@ var BlackJackPlayer = /** @class */ (function (_super) {
                 break;
         }
         return cardScore;
-    };
-    Object.defineProperty(BlackJackPlayer.prototype, "hasStood", {
-        get: function () {
-            return this.hasStood;
-        },
-        set: function (stoodStatus) {
-            this.hasStood = stoodStatus;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BlackJackPlayer.prototype, "isBusted", {
-        get: function () {
-            return this.isBusted;
-        },
-        set: function (bustedStatus) {
-            this.isBusted = bustedStatus;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BlackJackPlayer.prototype, "escrow", {
-        get: function () {
-            return this._escrow;
-        },
-        set: function (newEscrow) {
-            this._escrow = newEscrow;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return BlackJackPlayer;
-}(cardplayer_1.CardPlayer));
+    }
+    get hasStood() {
+        return this.hasStood;
+    }
+    set hasStood(stoodStatus) {
+        this.hasStood = stoodStatus;
+    }
+    get isBusted() {
+        return this.isBusted;
+    }
+    set isBusted(bustedStatus) {
+        this.isBusted = bustedStatus;
+    }
+    get escrow() {
+        return this._escrow;
+    }
+    set escrow(newEscrow) {
+        this._escrow = newEscrow;
+    }
+}
 exports.BlackJackPlayer = BlackJackPlayer;

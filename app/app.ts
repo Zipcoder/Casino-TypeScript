@@ -1,14 +1,4 @@
 // python -m SimpleHTTPServer 8000
-// import {Deck} from "./cardgames/utilities/deck"
-
-// function legend() {
-//     let first = "Larry";
-//     let last = "Legend";
-//     let full = first + " " + last;
-//     document.getElementById("display")!.innerHTML = full;
-// }
-
-// legend();
 
 import { House } from "./house";
 import { UI } from "./ui";

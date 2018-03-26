@@ -1,19 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Escrow = /** @class */ (function () {
-    function Escrow() {
+class Escrow {
+    constructor() {
         this._balance = 0;
     }
-    Object.defineProperty(Escrow.prototype, "balance", {
-        get: function () {
-            return this._balance;
-        },
-        set: function (newBalance) {
-            this._balance = newBalance;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Escrow;
-}());
+    get balance() {
+        return this._balance;
+    }
+    set balance(newBalance) {
+        this._balance = newBalance;
+    }
+}
 exports.Escrow = Escrow;

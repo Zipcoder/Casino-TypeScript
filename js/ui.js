@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var UI = /** @class */ (function () {
-    function UI() {
+class UI {
+    constructor() {
     }
-    UI.prototype.display = function (someString) {
+    display(someString) {
         document.getElementById("display").innerHTML = someString;
-    };
-    return UI;
-}());
+    }
+}
 exports.UI = UI;
