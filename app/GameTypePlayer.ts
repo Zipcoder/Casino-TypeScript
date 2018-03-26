@@ -1,0 +1,3 @@
+interface GameTypePlayer extends PlayerInterface{
+    
+}

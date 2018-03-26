@@ -1,5 +1,4 @@
 class Player implements PlayerInterface {
-    
     id: number;
     name: string;
     profile: Profile;
