@@ -7,6 +7,7 @@ class CasinoApp {
 
     private constructor() {
         CasinoApp.button.addEventListener("click", (e: Event) => { CasinoApp._lastInput = CasinoApp.userInput.value });
+        CasinoApp.button.addEventListener("click", (e: Event) => console.log(CasinoApp.lastInput));
         CasinoApp.button.addEventListener("click", (e: Event) => { CasinoApp.userInput.value = '' });
     }
 
@@ -25,14 +26,21 @@ class CasinoApp {
     public static get lastInput(): any {
         return this._lastInput;
     }
+    public chooseGame(){
+        if(CasinoApp._lastInput=="GoFish"|| CasinoApp._lastInput=="goFish"){
+            CasinoApp.display("Go Fish game is not finished yet.")
+        }
+    }
 
-   
 
 }
+ 
 
 class App{
     public static main(): void{
         CasinoApp.display("Welcome To KT Casino");
+        CasinoApp.display("choose a game");
+        
     }
 }
 const instance = CasinoApp.Instance;
