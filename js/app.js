@@ -10,7 +10,7 @@ function waitAndGetUserInputString() {
     while (theNumber = null) {
         button.addEventListener("click", function (e) { return theNumber = userInput.value; });
     }
-    button.removeEventListener("click", function (e) { return userInput.value; });
+    button.removeEventListener("click", waitAndGetUserInputString);
     return theNumber;
 }
 function waitAndGetUserInputNumber() {
@@ -18,7 +18,7 @@ function waitAndGetUserInputNumber() {
     while (theNumber = null) {
         button.addEventListener("click", function (e) { return theNumber = +userInput.value; });
     }
-    button.removeEventListener("click", function (e) { return userInput; });
+    button.removeEventListener("click", waitAndGetUserInputNumber);
     return theNumber;
 }
 var Profile = /** @class */ (function () {
