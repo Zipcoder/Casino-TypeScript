@@ -5,14 +5,13 @@ function startGame() {
     display("game start");
 }
 function handleInput(event) {
-    if (event !== null) {
-        let text = event.srcElement.innerHTML;
-        display(text);
-    }
+    let inputElement = event.target;
+    // build command and dispatch to Casino
+    inputElement.value = "";
 }
 function display(content) {
     let displayElement = document.getElementById('display');
-    displayElement.innerText = content;
+    displayElement.innerHTML = content;
 }
 function log(msg) {
     console.log(msg);
@@ -24,7 +23,9 @@ document.getElementById('submit').addEventListener('click', {
 });
 document.getElementById('user_input').addEventListener('keypress', {
     handleEvent: (event) => {
-        console.log(event);
+        if (event.key == 'Enter') {
+            handleInput(event);
+        }
     }
 });
 //# sourceMappingURL=app.js.map

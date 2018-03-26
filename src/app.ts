@@ -6,16 +6,17 @@ function startGame(): void {
 	display("game start");
 }
 
-function handleInput(event: Event): void {
-	if (event !== null) {
-		let text: string = event.srcElement!.innerHTML;
-		display(text);
-	}
+function handleInput(event: KeyboardEvent): void {
+	let inputElement: HTMLInputElement = <HTMLInputElement>event.target;
+
+	// build command and dispatch to Casino
+
+	inputElement.value = "";
 }
 
 function display(content: string) {
 	let displayElement: HTMLElement | null = document.getElementById('display');
-	displayElement!.innerText = content;
+	displayElement!.innerHTML = content;
 }
 
 function log(msg: any) {
@@ -29,7 +30,9 @@ document.getElementById('submit')!.addEventListener('click', {
 });
 
 document.getElementById('user_input')!.addEventListener('keypress', {
-	handleEvent: (event) => {
-		console.log(event);
+	handleEvent: (event: KeyboardEvent) => {
+		if (event.key == 'Enter') {
+			handleInput(event);
+		}
 	}
 });

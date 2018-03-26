@@ -12,14 +12,18 @@
         "@types/jest": "^22.2.2",
         "jest": "^22.4.3",
         "ts-jest": "^22.4.2",
+        "ts-loader": "^4.1.0",
         "tslint": "^5.9.1",
         "typescript": "^2.7.2",
-        "webpack": "^4.2.0"
+        "webpack": "^4.2.0",
+        "webpack-cli": "^2.0.13",
+        "webpack-dev-server": "^3.1.1"
     },
     "scripts": {
         "test": "tsc --noEmit -p . && jest --no-cache",
         "lint": "tsc --noEmit -p . && tslint \"*.ts?(x)\"",
-        "lintci": "tslint \"*.ts?(x)\" --force"
+        "lintci": "tslint \"*.ts?(x)\" --force",
+        "s": "node_modules/.bin/webpack-dev-server"
     },
     "jest": {
         "transform": {
