@@ -5,21 +5,21 @@ class Blackjack {
     public playerHand = [];
     public deck = new Deck();
 
-    newHand(hand:Card []){
+    newHand(){
         var card1 =this.deck.dealCard;
         var card2 = this.deck.dealCard;
-        hand.push(card1);
-        return hand;
+        var cards = [card1, card2];
+        return cards;
     }
 
     getHand(hand : Card[]){
         return hand.toString
     }
 
-    hit(hand : Card[]){
-        var addedCard = this.deck.dealCard;
-        hand.push(this.deck.dealCard);
-    }
+    // hit(hand : Card[]){
+    //     var addedCard = this.deck.dealCard;
+    //     hand.push(addedCard);
+    // }
     getWinner(){
 
     }

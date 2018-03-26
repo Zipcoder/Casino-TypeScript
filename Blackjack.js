@@ -7,14 +7,7 @@ var Blackjack = /** @class */ (function () {
         this.playerHand = [];
         this.deck = new Deck();
     }
-    // getWinner(dealer.ge)
-    // playAsDealer(){
-    //     var dealer = new Hand();
-    //     while(dealer.score() < 17){
-    //         dealer.hitMe();
-    //     }
-    //     return dealer;
-    // }
+
     Blackjack.prototype.newHand = function (hand) {
         var card1 = this.deck.dealCard;
         var card2 = this.deck.dealCard;

@@ -11,5 +11,19 @@ class Profile{
     
     }
 
+    getId(){
+        return this.id;
+    }
+
+    getName(){
+        return this.name;
+    }
+
+    getBalance(){
+        return this.balance;
+    }
+
 }
 
+var username = document.getElementById("username");
+console.log(username);
