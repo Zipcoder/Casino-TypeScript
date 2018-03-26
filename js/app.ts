@@ -485,39 +485,78 @@ class BlackJackGame extends CardGame {
         UI.clearScreen();
         this.tallyScores();
         this.dealerTurn();
+        this.tallyScores();
         this.header();
-        this.showCards();
+        this.showCards(false);
         if(!this.isWinner()){
         this.nextMove(false);
+        }
+        if(this.currentPlayer.stand){
+            this.evaluateTurn();
         }
 
     }
 
     private isWinner():boolean{
         if(this.currentPlayer.isBusted() && this.dealer.isBusted()){
+            this.currentPlayer.win(0);
+            this.endScreen();
             UI.display("You and the Dealer are both Bust");
             UI.display("You break even");
-            this.currentPlayer.win(0);
             this.restart();
             return true;
         }
         else if (this.currentPlayer.isBusted()){
+            this.currentPlayer.lose();
+            this.endScreen();
             UI.display("You went Bust");
             UI.display("You lose your bet");
-            this.currentPlayer.lose();
             this.restart();
             return true;
         }
         else if (this.dealer.isBusted()){
+            this.currentPlayer.win(1);
+            this.endScreen();
             UI.display("The Dealer went Bust!");
             UI.display("Your bet pays even money!");
-            this.currentPlayer.win(1);
             this.restart();
             return true;
         }
         else if (this.currentPlayer.stand && this.dealer.stand){
-            
+            if(this.currentPlayer.score === this.dealer.score){
+                this.currentPlayer.win(0);
+                this.endScreen();
+                UI.display("The Dealer has the same score as you. You push");
+                UI.display("You break even");
+                this.restart();
+                return true;
+            }
+            else if (this.currentPlayer.score > this.dealer.score){
+                this.currentPlayer.win(1);
+                this.endScreen();
+                UI.display("You have a higher score. You win!");
+                UI.display("Yor bet pays even money!");
+                this.restart();
+                return true;
+            }
+            else if (this.currentPlayer.score < this.dealer.score){
+                this.currentPlayer.lose();
+                this.endScreen();
+                UI.display("The Dealer has a higher score. You lose");
+                UI.display("You lose your bet");
+                this.restart();
+                return true;
+            }
         }
+        else{
+            return false;
+        }
+    }
+
+    private endScreen():void{
+        UI.clearScreen();
+        this.header();
+        this.showCards(true);
     }
 
     private startRound(errorMessage?:string):void{
@@ -557,7 +596,7 @@ class BlackJackGame extends CardGame {
         this.dealer.takeCard(this.deck.deal());
         this.tallyScores();
         this.header();
-        this.showCards();
+        this.showCards(false);
         let natural:boolean = this.naturalCheck();
         if(!natural){
             this.nextMove(false);
@@ -580,7 +619,7 @@ class BlackJackGame extends CardGame {
        if (secondTime === true){
         UI.clearScreen();
         this.header();
-        this.showCards();
+        this.showCards(false);
         UI.display("Invalid input detected");
         UI.display("Would you like to [hit] or [stand]?");
         UI.button.addEventListener("click",this.hitOrStand);
@@ -615,7 +654,7 @@ class BlackJackGame extends CardGame {
         UI.display("Current Score: " + this.currentPlayer.score)
     }
 
-    private showCards():void{
+    private showCards(showHole: boolean):void{
         UI.display("Your Cards");
         let yourCards : string = this.currentPlayer.hand.cards[0].toString() + ' ';
         for(let i = 1; i <this.currentPlayer.hand.cards.length; i++){
@@ -625,11 +664,21 @@ class BlackJackGame extends CardGame {
         this.score();
         UI.display('');
         UI.display("Dealer Cards");
+        if(showHole === false){
         let dealerCards : string = "UNKNOWN ";
         for(let i = 1; i <this.dealer.hand.cards.length; i++){
             dealerCards += "| " + this.dealer.hand.cards[i];
         }
         UI.display(dealerCards);
+        }
+        else if(showHole === true){
+            let dealerCards : string = this.dealer.hand.cards[0].toString() + ' ';
+        for(let i = 1; i <this.dealer.hand.cards.length; i++){
+            dealerCards += "| " + this.dealer.hand.cards[i];
+        }
+        UI.display(dealerCards);
+        UI.display("Dealer Score: " + this.dealer.score);
+        }   
         UI.display('');
     }
 
@@ -640,23 +689,26 @@ class BlackJackGame extends CardGame {
 
     private naturalCheck(): boolean{
         if(this.currentPlayer.score === 21 && this.dealer.score === 21){
+            this.currentPlayer.win(0);
+            this.endScreen();
             UI.display("Improbably, both you and the Dealer got natural Black Jack");
             UI.display("You break even");
-            this.currentPlayer.win(0);
             this.restart();
             return true;
         }
         else if(this.currentPlayer.score === 21){
+            this.currentPlayer.win(1.5);
+            this.endScreen();
             UI.display("You got a natural Black Jack!");
             UI.display("Your bet pays 3:2!");
-            this.currentPlayer.win(1.5);
             this.restart();
             return true;
         }
         else if (this.dealer.score === 21){
+            this.currentPlayer.lose();
+            this.endScreen();
             UI.display("The Dealer got a natural Black Jack");
             UI.display("You lose your bet");
-            this.currentPlayer.lose();
             this.restart();
             return true;
         }
@@ -665,6 +717,8 @@ class BlackJackGame extends CardGame {
 
     private restart():void{
         UI.display("Press [submit] to play again");
+        this.currentPlayer.stand=false;
+        this.dealer.stand=false;
         UI.button.addEventListener("click", this.run,{once:true})
     }
 
