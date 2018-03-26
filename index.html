@@ -19,13 +19,42 @@
     <h1>TypeScript Casino</h1>
 
     <section id="main">
-    	<div id="display"></div>
+            
+        <div id="display">
+                <body>
+                        <script type="text/javascript" src="Profile.js"></script>
+                        <form name="username"></form>
+                        <label>UserName:</label>
+                        <input id="username" type="text" class="Profile" name="username" />
+                        <label>Amount To Recharge:</label>
+                        <input type= "text" name ="lastname"/>
+                        <input type="submit" value=" submit ">
+
+                        </form>
+                    </body>
+                <h2>Blackjack</h2>
+                <script type="text/javascript" src="Blackjack.js"></script>
+              
+
+                
+                <div id="dealerHand"></div>
+                <div id="yourHand"></div>
+                <div id="yourScore">Your Score: <span class="digits">0</span> Record: <span id="wins">0</span>&nbsp;/&nbsp;<span id="losses">0</span></div>
+                <button id="deal">Deal</button>
+                <button id="hitMe">Hit</button>
+                <button id="stand">Stand</button>
+        </div>
+        
 			<div id="input">
 				<input type="text" name="user_input" id="user_input">
 				<input type="submit" value="submit">
 			</div>
     </section>
 
- 	<script type="text/javascript" src="js/app.js"></script>
+
+     <script type="text/javascript" src="js/app.js"></script>
+     <body>
+         <button onclick="deal()">Deal</button>
+     </body>
 </body>
 </html>
