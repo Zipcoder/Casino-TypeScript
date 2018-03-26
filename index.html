@@ -20,9 +20,19 @@
 
     <section id="main">
         <div id="display">
-            <p>
-                <input type="button" value="Click Here To Spin" onClick="refresh()">
-            </p>
+                <p class="title">As the Reels Turn</p>
+                <div class="container">
+                    <div class="slot-wrapper">
+                        <div id="slot1" class="slot"></div>
+                        <div id="slot2" class="slot"></div>
+                        <div id="slot3" class="slot"></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div id="result"></div>
+                    <input type="button" value="Click Here To Spin" onClick="refresh()">
+                    <div><button id="control">Start</button></div>
+                </div>
+                <input type="button" id="control" value="Click Here To Spin" onClick="refresh()">
         </div>
         
 			<div id="input">
@@ -34,3 +44,10 @@
  	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
