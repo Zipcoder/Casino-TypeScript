@@ -4,9 +4,9 @@
         "removeComments": true,
         "module": "commonjs",
         "moduleResolution": "node",
-        "traceResolution": false
+        "traceResolution": false,
     },
     "files": [
-        "./app.ts"
+        "*/**.ts"
     ]
 }
