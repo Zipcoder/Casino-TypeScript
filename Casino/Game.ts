@@ -4,3 +4,4 @@ interface Game {
     endGame();
     
 }
+export default Game;

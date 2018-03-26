@@ -16,9 +16,6 @@ let getNextCard = function*() {
     }
 };
 
-let cardSequence: IterableIterator<Cards> = getNextCard();
-
-
 class Deck implements DeckofCards{
     cardShuffler: CardShuffler;
     privateCards: Cards[];
@@ -38,7 +35,7 @@ class Deck implements DeckofCards{
     }
 
     dealCard(): Cards {
-        return cardSequence.next().value;
+        return privateCards[0];
     }
 }
 export default Deck;

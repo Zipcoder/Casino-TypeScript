@@ -17,7 +17,7 @@ let buildStandardDeck = function(): Cards[] {
 };
 
 export class CardFactory {
-    public static CreateStandardDeck(): Deck {
+    public static createStandardDeck(): Deck {
         return new Deck(buildStandardDeck(), new CardShuffler());
     }
 }
