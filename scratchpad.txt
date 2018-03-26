@@ -1,0 +1,30 @@
+add text input on keyup, wait a second for them to stop typing
+inputField.onkeyup = function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            userInput = inputField.value;
+            addToDisplayText(inputField.value);
+        }, 1000);
+    }
+
+
+
+aceadjust, check for ace and reduce value by 10
+
+    if (handValue > 21) {
+            if (this.aceAdjust()) {
+                
+            } else {
+                console.log('bust')
+                return true;
+            }
+        }
+
+        aceAdjust(){
+        this.hand.forEach(element => {
+            if (element.value == 'A') {
+                return true;
+            }
+        });
+        return false;
+    }
