@@ -1,19 +1,13 @@
-// class GoFish{
-//     player: Player;
-//     dealer: Player;
-//     deck: CardDeck[] = [];
+class GoFish{
+    player: Player;
+    dealer: Player;
+    deck: Deck;
 
-//     constructor(player: Player, dealer:Player, deck:CardDeck[]=[], players:Player[]=[]){
-//     };
+    constructor(player: Player, dealer:Player, deck:Deck, players:Player[]=[]){
+    };
 
-//     buildDeck(deck: CardDeck[]):void{
-//         for
-
-//         }
-//     }
-
-//     static start():void{
+    static start():void{
         
-//     }
+    }
 
-// }
+}

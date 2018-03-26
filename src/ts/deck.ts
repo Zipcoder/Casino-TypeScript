@@ -3,11 +3,12 @@ interface Card{
     rank: number;
 }
 
-class Deck{
-    card:Card;
+class Deck implements Card{
+    suit: string;
+    rank: number;
+    card: Card;
     _deck: Card[]=[];
-    constructor(card:Card,deck:Card[]=[]){
-        this.card = card;
+    constructor(deck:Card[]=[]){
         this._deck = deck;
         this._deck.push({suit: "Clubs", rank:2},{suit:"Clubs",rank:3},{suit:"Clubs",rank:4},{suit:"Clubs",rank:5},{suit:"Clubs",rank:6},{suit:"Clubs",rank:7},{suit:"Clubs",rank:8},
     {suit:"Clubs",rank:9},{suit:"Clubs",rank:10},{suit:"Clubs",rank:11},{suit:"Clubs",rank:12},{suit:"Clubs",rank:13}, {suit:"Clubs",rank:14});
@@ -32,8 +33,11 @@ class Deck{
     }
 
     drawCard():Card{
-        console.log(this._deck.pop());
         return this._deck.pop();
+    }
+
+    splitDeck():Card[]{
+        return this._deck.splice(0, (this._deck.length-1)/2);
     }
 }
 

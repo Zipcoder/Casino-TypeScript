@@ -1,53 +1,87 @@
-class App{
-    constructor(){
-        this.chooseGame = this.chooseGame.bind(this);
+
+class UserInterface {
+    war: War;
+    public userInput: HTMLInputElement = <HTMLInputElement>document.getElementById('user_input');
+    public displayWindow: HTMLDivElement = <HTMLDivElement>document.getElementById('display');
+    public button: HTMLDivElement = <HTMLDivElement>document.getElementById('submit');
+    public _lastInput: any;
+
+    constructor() {
+        this.button.addEventListener("click", (e: Event) => { this._lastInput = this.userInput.value });
+        this.button.addEventListener("click", (e: Event) => { this.userInput.value = '' });
     }
 
-    start(){
-        UI.display("Do you want to play BlackJack?");
-        UI.button.addEventListener("click", this.chooseGame);
+    display(input: any): void {
+        this.displayWindow.innerText += input + '\n';
     }
 
-    chooseGame(): void{
-        UI.button.removeEventListener("click", this.chooseGame);
-        if(UI.Input == "BlackJack"){
-//            BlackJack.start();
+    clearScreen(): void {
+        this.displayWindow.innerText = '';
+    }
+
+    lastInput(): any {
+        return this._lastInput;
+    }
+
+    start() {
+        this.display("Do you want to play War? (yes/no)");
+        this.button.addEventListener("click", (e:Event) => this.chooseGame());
+    }
+    
+    chooseGame(): void {
+
+        if (this.lastInput() === "yes") {
+            this.clearScreen();
+            this.display("Let's Go To War!");
+            this.war.start();
+
         }
-        else{
-            
-            UI.button.addEventListener("click", this.chooseGame);
+        else if (this.lastInput() === "no") {
+            this.clearScreen();
+            this.display("Well fine then, be that way.  Bye.");
+
+        }
+        else {
+            this.button.addEventListener("click", (e:Event) => this.chooseGame());
+
         }
     }
+
 }
+let UI: UserInterface = new UserInterface();
+UI.start();
 
+class War{
+    ui: UserInterface;
+    private isGameRunning: boolean;
+    private dealer: Player;
+    private player: Player;
+    private deck: Deck
+    private dealerHand: Card[] = [];
+    private playerHand: Card[] = [];
+    private dealerPlayedCards: Card[] = [];
+    private playerPlayedCards: Card[] = [];
 
-class UI{
-    static input = <HTMLInputElement>document.getElementById("user_input");
-    static displayWindow = <HTMLDivElement>document.getElementById('display');
-    static button = <HTMLDivElement>document.getElementById('submit');
-    private static _instance: UI;
-    static _lastInput: any;
-
-    private constructor(){
-        UI.button.addEventListener("click", (e:Event)=> UI.input.value = "");
-        UI.button.addEventListener("click", (e:Event)=> UI._lastInput = UI.input.value);
+    public start():void{
+        this.isGameRunning = true;
+        this.dealerHand = this.deck.shuffleDeck();
+        this.playerHand = this.deck.splitDeck();
+        this.dealerHand = this.deck.shuffleDeck();
+        this.ui.display("War commensing");
     }
 
-     static display(input:string):void{
-         this.displayWindow.innerText = "";
-     }
+    // engine():void{
+    //     if()
+    // }
 
-     static clear():void{
-         this.displayWindow.innerText = "";
-     }
+    // checkIfGameIsOver():void{
 
-     public static get Instance(): UI{
-         return this._instance || (this._instance = new UI());
-     }
-     public static get Input():any{
-         return this._lastInput;
-     }
+    // }
+
+    // handOfPersonIsEmpty(person: Player):boolean{
+    //     return false;
+    // }
+
+    // announceWinner()
+
 }
-
-var x = UI.Instance;
-UI.display;

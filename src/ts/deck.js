@@ -1,8 +1,7 @@
 var Deck = /** @class */ (function () {
-    function Deck(card, deck) {
+    function Deck(deck) {
         if (deck === void 0) { deck = []; }
         this._deck = [];
-        this.card = card;
         this._deck = deck;
         this._deck.push({ suit: "Clubs", rank: 2 }, { suit: "Clubs", rank: 3 }, { suit: "Clubs", rank: 4 }, { suit: "Clubs", rank: 5 }, { suit: "Clubs", rank: 6 }, { suit: "Clubs", rank: 7 }, { suit: "Clubs", rank: 8 }, { suit: "Clubs", rank: 9 }, { suit: "Clubs", rank: 10 }, { suit: "Clubs", rank: 11 }, { suit: "Clubs", rank: 12 }, { suit: "Clubs", rank: 13 }, { suit: "Clubs", rank: 14 });
         this._deck.push({ suit: "Hearts", rank: 2 }, { suit: "Hearts", rank: 3 }, { suit: "Hearts", rank: 4 }, { suit: "Hearts", rank: 5 }, { suit: "Hearts", rank: 6 }, { suit: "Hearts", rank: 7 }, { suit: "Hearts", rank: 8 }, { suit: "Hearts", rank: 9 }, { suit: "Hearts", rank: 10 }, { suit: "Hearts", rank: 11 }, { suit: "Hearts", rank: 12 }, { suit: "Hearts", rank: 13 }, { suit: "Hearts", rank: 14 });
@@ -25,8 +24,10 @@ var Deck = /** @class */ (function () {
         var _a;
     };
     Deck.prototype.drawCard = function () {
-        console.log(this._deck.pop());
         return this._deck.pop();
+    };
+    Deck.prototype.splitDeck = function () {
+        return this._deck.splice(0, (this._deck.length - 1) / 2);
     };
     return Deck;
 }());

@@ -1,13 +1,9 @@
-// class GoFish{
-//     player: Player;
-//     dealer: Player;
-//     deck: CardDeck[] = [];
-//     constructor(player: Player, dealer:Player, deck:CardDeck[]=[], players:Player[]=[]){
-//     };
-//     buildDeck(deck: CardDeck[]):void{
-//         for
-//         }
-//     }
-//     static start():void{
-//     }
-// }
+var GoFish = /** @class */ (function () {
+    function GoFish(player, dealer, deck, players) {
+        if (players === void 0) { players = []; }
+    }
+    ;
+    GoFish.start = function () {
+    };
+    return GoFish;
+}());

@@ -1,51 +1,67 @@
-var App = /** @class */ (function () {
-    function App() {
-        this.chooseGame = this.chooseGame.bind(this);
+var UserInterface = /** @class */ (function () {
+    function UserInterface() {
+        var _this = this;
+        this.userInput = document.getElementById('user_input');
+        this.displayWindow = document.getElementById('display');
+        this.button = document.getElementById('submit');
+        this.button.addEventListener("click", function (e) { _this._lastInput = _this.userInput.value; });
+        this.button.addEventListener("click", function (e) { _this.userInput.value = ''; });
     }
-    App.prototype.start = function () {
-        UI.display("Do you want to play BlackJack?");
-        UI.button.addEventListener("click", this.chooseGame);
+    UserInterface.prototype.display = function (input) {
+        this.displayWindow.innerText += input + '\n';
     };
-    App.prototype.chooseGame = function () {
-        UI.button.removeEventListener("click", this.chooseGame);
-        if (UI.Input == "BlackJack") {
-            //            BlackJack.start();
+    UserInterface.prototype.clearScreen = function () {
+        this.displayWindow.innerText = '';
+    };
+    UserInterface.prototype.lastInput = function () {
+        return this._lastInput;
+    };
+    UserInterface.prototype.start = function () {
+        var _this = this;
+        this.display("Do you want to play War? (yes/no)");
+        this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
+    };
+    UserInterface.prototype.chooseGame = function () {
+        var _this = this;
+        if (this.lastInput() === "yes") {
+            this.clearScreen();
+            this.display("Let's Go To War!");
+            this.war.start();
+        }
+        else if (this.lastInput() === "no") {
+            this.clearScreen();
+            this.display("Well fine then, be that way.  Bye.");
         }
         else {
-            UI.button.addEventListener("click", this.chooseGame);
+            this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
         }
     };
-    return App;
+    return UserInterface;
 }());
-var UI = /** @class */ (function () {
-    function UI() {
-        UI.button.addEventListener("click", function (e) { return UI.input.value = ""; });
-        UI.button.addEventListener("click", function (e) { return UI._lastInput = UI.input.value; });
+var UI = new UserInterface();
+UI.start();
+var War = /** @class */ (function () {
+    function War() {
+        this.dealerHand = [];
+        this.playerHand = [];
+        this.dealerPlayedCards = [];
+        this.playerPlayedCards = [];
+        // engine():void{
+        //     if()
+        // }
+        // checkIfGameIsOver():void{
+        // }
+        // handOfPersonIsEmpty(person: Player):boolean{
+        //     return false;
+        // }
+        // announceWinner()
     }
-    UI.display = function (input) {
-        this.displayWindow.innerText = "";
+    War.prototype.start = function () {
+        this.isGameRunning = true;
+        this.dealerHand = this.deck.shuffleDeck();
+        this.playerHand = this.deck.splitDeck();
+        this.dealerHand = this.deck.shuffleDeck();
+        this.ui.display("War commensing");
     };
-    UI.clear = function () {
-        this.displayWindow.innerText = "";
-    };
-    Object.defineProperty(UI, "Instance", {
-        get: function () {
-            return this._instance || (this._instance = new UI());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(UI, "Input", {
-        get: function () {
-            return this._lastInput;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    UI.input = document.getElementById("user_input");
-    UI.displayWindow = document.getElementById('display');
-    UI.button = document.getElementById('submit');
-    return UI;
+    return War;
 }());
-var x = UI.Instance;
-UI.display;
