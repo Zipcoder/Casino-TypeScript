@@ -36,5 +36,4 @@ var CardsClass;
         };
         return DeckOfCards;
     }());
-    okokok;
 })(CardsClass || (CardsClass = {}));
