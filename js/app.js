@@ -1,51 +1,58 @@
 var App = /** @class */ (function () {
     function App() {
-        this.newMainMenu = new MainMenu;
     }
     App.main = function () {
+        var profile = new Profile(123, "Bob", 100);
+        var newPlayer = new Player(profile);
+        var craps = new Craps(newPlayer);
+        craps.startGame();
+        craps.userPlacesBet();
     };
     return App;
 }());
 var UI = /** @class */ (function () {
     function UI() {
-        UI.submitButton.addEventListener("click", function (e) { UI._lastInput = UI.userInput.value; });
-        UI.submitButton.addEventListener("click", function (e) { UI.userInput.value = ''; });
+        UI.submitButton.addEventListener("click", function (e) { UI.actualUserInput = UI.textBox.value; });
+        UI.submitButton.addEventListener("click", function (e) { UI.textBox.value = ''; });
     }
     UI.display = function (input) {
-        this.window.innerText += input + '\n';
+        this.displayWindow.innerText += input + '\n';
     };
     UI.clearScreen = function () {
-        this.window.innerText = '';
+        this.displayWindow.innerText = '';
     };
     Object.defineProperty(UI, "Instance", {
         get: function () {
-            return this._instance || (this._instance = new UI());
+            return this.instance || (this.instance = new UI());
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(UI, "lastInput", {
         get: function () {
-            return this._lastInput;
+            return this.actualUserInput;
         },
         enumerable: true,
         configurable: true
     });
-    UI.userInput = document.getElementById("user_input");
-    UI.window = document.getElementById('display');
+    UI.textBox = document.getElementById("user_input");
+    UI.displayWindow = document.getElementById('display');
     UI.submitButton = document.getElementById('submit');
     return UI;
 }());
 var Craps = /** @class */ (function () {
     function Craps(player) {
-        this.betAmount = 0;
-        this.betUserPlaces = 0;
         this.crapsPlayer = player;
+        this.userPlacesBet = this.userPlacesBet.bind(this);
     }
     Craps.prototype.userPlacesBet = function () {
-        UI.display("Hello!, please enter in Pass Line or Don't pass line for you bet below");
-        // event handler here for the bet type
-        // set user bet places to the input
+        UI.submitButton.removeEventListener("click", this.userPlacesBet);
+        if (UI.lastInput === "Pass Line") {
+            UI.display("Hello");
+        }
+        else {
+            UI.display("Bye");
+        }
         UI.clearScreen();
     };
     Craps.prototype.userBetAmount = function () {
@@ -59,6 +66,8 @@ var Craps = /** @class */ (function () {
         UI.clearScreen();
     };
     Craps.prototype.startGame = function () {
+        UI.display("Hello!, please enter in Pass Line or Don't pass line for you bet below");
+        UI.submitButton.addEventListener("click", this.userPlacesBet);
     };
     return Craps;
 }());
@@ -67,6 +76,8 @@ var Dice = /** @class */ (function () {
         this.sides = 6;
     }
     Dice.prototype.rollDice = function () {
+        var randNumber = Math.floor(Math.random() * this.sides) + 1;
+        return randNumber;
     };
     return Dice;
 }());

@@ -1,53 +1,62 @@
 class App {
-        newMainMenu = new MainMenu;
    public static main(): void{
-
+      var profile = new Profile(123,"Bob", 100);
+      var  newPlayer = new Player(profile);
+       var craps : Craps = new Craps(newPlayer)
+       craps.startGame();
+       craps.userPlacesBet();
+   
    }
 }
 class UI{
-    static userInput = <HTMLInputElement>document.getElementById("user_input");
-        static window = <HTMLDivElement>document.getElementById('display');
+        static textBox = <HTMLInputElement>document.getElementById("user_input");
+        static displayWindow = <HTMLDivElement>document.getElementById('display');
         static submitButton = <HTMLDivElement>document.getElementById('submit');
-        static _lastInput: any;
-        private static _instance: UI;
+        static actualUserInput: any;
+        private static instance: UI;
     
         private constructor() {
-            UI.submitButton.addEventListener("click", (e: Event) => { UI._lastInput = UI.userInput.value });
-            UI.submitButton.addEventListener("click", (e: Event) => { UI.userInput.value = '' });
+            UI.submitButton.addEventListener("click", (e: Event) => { UI.actualUserInput = UI.textBox.value });
+            UI.submitButton.addEventListener("click", (e: Event) => { UI.textBox.value = '' });
         }
     
         static display(input: string): void {
-            this.window.innerText += input + '\n';
+            this.displayWindow.innerText += input + '\n';
         }
     
         static clearScreen(): void {
-            this.window.innerText = '';
+            this.displayWindow.innerText = '';
         }
     
         public static get Instance(): UI {
-            return this._instance || (this._instance = new UI());
+            return this.instance || (this.instance = new UI());
         }
     
         public static get lastInput(): any {
-            return this._lastInput;
+            return this.actualUserInput;
         }  
 }
 
 class Craps{
     
         crapsPlayer: Player;
-        betAmount: number = 0;
-        betUserPlaces: any = 0;
+        betAmount: any;
+        betUserPlaces: any;
     
         constructor(player: Player){
             this.crapsPlayer = player;
+            this.userPlacesBet = this.userPlacesBet.bind(this);
+             
+
         }
-        
+
         userPlacesBet(){
-            UI.display("Hello!, please enter in Pass Line or Don't pass line for you bet below");
-            // event handler here for the bet type
-            // set user bet places to the input
-    
+            UI.submitButton.removeEventListener("click", this.userPlacesBet);
+            if (UI.lastInput === "Pass Line"){
+              UI.display("Hello");  
+            } else{
+                UI.display("Bye");
+            }
             UI.clearScreen();
         }
     
@@ -62,14 +71,16 @@ class Craps{
         }
         
         startGame(){
-                
+        UI.display("Hello!, please enter in Pass Line or Don't pass line for you bet below");
+        UI.submitButton.addEventListener("click", this.userPlacesBet);
         }
 }
 
 class Dice{
     sides = 6;
     rollDice(){
-        
+        var randNumber = Math.floor(Math.random()* this.sides) + 1;
+        return randNumber;
     }
 }
 
