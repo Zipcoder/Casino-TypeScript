@@ -4,11 +4,6 @@ import { Casino } from './casino';
 
 var casino: Casino = new Casino("vince", 500);
 
-function startGame(): void {
-	log("game start");
-	display("game start");
-}
-
 function handleInput(event: KeyboardEvent): void {
 	let inputElement: HTMLInputElement = <HTMLInputElement>event.target;
 
@@ -25,12 +20,6 @@ function display(content: string) {
 function log(msg: any) {
 	console.log(msg);
 }
-
-document.getElementById('submit')!.addEventListener('click', {
-	handleEvent: (event) => {
-		startGame();
-	}
-});
 
 document.getElementById('user_input')!.addEventListener('keypress', {
 	handleEvent: (event: KeyboardEvent) => {
