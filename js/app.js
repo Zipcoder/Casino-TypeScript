@@ -13,37 +13,6 @@ var Startup = /** @class */ (function () {
     function Startup() {
     }
     Startup.main = function () {
-        // var casino = new Casino();
-        // casino.start();
-        // var club = new Card(Rank.ACE, Suit.CLUBS);
-        // var diamond = new Card(Rank.FIVE, Suit.DIAMONDS);
-        // var spade = new Card(Rank.QUEEN, Suit.SPADES);
-        // var heart = new Card(Rank.JACK, Suit.HEARTS);
-        // UI.display(club);
-        // UI.display(heart);
-        // UI.display(spade);
-        // UI.display(diamond);
-        // var deck = new Deck();
-        // deck.shuffle();
-        // for (var i = 0; i <= 51; i++) {
-        //     UI.display(deck.deal());
-        // }
-        // var profile = new Profile('Eric', 10000);
-        // var player = new BlackJackPlayer(profile);
-        // var ace = new Card(Rank.ACE, Suit.SPADES);
-        // var king = new Card(Rank.KING, Suit.SPADES);
-        // var seven = new Card(Rank.SEVEN, Suit.SPADES);
-        // var two = new Card(Rank.TWO, Suit.SPADES);
-        // var five = new Card(Rank.FIVE, Suit.SPADES);
-        // player.takeCard(ace);
-        // player.takeCard(five);
-        // player.takeCard(seven);
-        // player.takeCard(ace);
-        // player.calculateScore();
-        // UI.display(player.hand.cards);
-        // UI.display(player.score);
-        // var test = new BlackJackGame(profile);
-        // test.run();
         var casino = new Casino();
         casino.start();
     };
@@ -351,6 +320,9 @@ var Deck = /** @class */ (function () {
             }
         }
     };
+    Deck.prototype.getSize = function () {
+        return this._cards.length;
+    };
     return Deck;
 }());
 var Hand = /** @class */ (function () {
@@ -387,6 +359,10 @@ var CardGame = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    CardGame.prototype.replaceDeck = function () {
+        this._deck = new Deck();
+        this._deck.shuffle();
+    };
     CardGame.prototype.getPlayers = function () {
         return this._players;
     };
@@ -665,7 +641,13 @@ var BlackJackGame = /** @class */ (function (_super) {
         UI.display("Press [submit] to play again");
         this.currentPlayer.stand = false;
         this.dealer.stand = false;
+        this.newDeck();
         UI.button.addEventListener("click", this.run, { once: true });
+    };
+    BlackJackGame.prototype.newDeck = function () {
+        if (this.deck.getSize() <= 20) {
+            this.replaceDeck();
+        }
     };
     return BlackJackGame;
 }(CardGame));

@@ -316,6 +316,10 @@ class Deck {
         }
     }
 
+    public getSize():number{
+        return this._cards.length;
+    }
+
 }
 
 class Hand {
@@ -386,6 +390,11 @@ abstract class CardGame extends GameEngine implements GameInterface<CardPlayer> 
         return this._deck;
     }
 
+    public replaceDeck(){
+        this._deck = new Deck();
+        this._deck.shuffle();
+    }
+
 
     getPlayers(): CardPlayer[] {
         return this._players;
@@ -450,7 +459,6 @@ class BlackJackGame extends CardGame {
     
     run(): void {
         this.startRound();
-
     }
 
     evaluateTurn(): void {
@@ -691,13 +699,18 @@ class BlackJackGame extends CardGame {
         UI.display("Press [submit] to play again");
         this.currentPlayer.stand = false;
         this.dealer.stand = false;
+        this.newDeck();
         UI.button.addEventListener("click", this.run, { once: true })
+    }
+
+    private newDeck(){
+        if(this.deck.getSize()<=20){
+            this.replaceDeck();
+        }
     }
 
 
 }
-
-
 
 class Casino {
 
@@ -785,7 +798,6 @@ class Casino {
         }
     }
 }
-
 
 class UI {
     static userInput = <HTMLInputElement>document.getElementById("user_input");
