@@ -1,8 +1,8 @@
 import { PlayerInterface } from './playerInterface';
 
-export interface GameInterface<PlayerType extends PlayerInterface> {
-    getPlayers(): PlayerType[];
-    getPlayer(playerId: number): PlayerType;
-    addPlayer(player: PlayerType): void;
-    contains(player: PlayerType): Boolean;
+export interface GameInterface<GameTypePlayer extends PlayerInterface> {
+    getPlayers(): GameTypePlayer[];
+    getPlayer(playerId: number): GameTypePlayer;
+    addPlayer(player: GameTypePlayer): void;
+    contains(player: GameTypePlayer): Boolean;
 }

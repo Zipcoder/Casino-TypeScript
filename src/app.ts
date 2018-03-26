@@ -1,5 +1,6 @@
 import { Player } from './player';
 import { GameEngineInterface } from './gameEngineInterface';
+import { Casino } from './casino';
 
 function startGame(): void {
 	log("game start");
