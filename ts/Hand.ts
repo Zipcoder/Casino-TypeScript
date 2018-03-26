@@ -27,4 +27,5 @@ class Hand{
     public sortArray(){
         return this.cards.sort();
     }
+
 }
