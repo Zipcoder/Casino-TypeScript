@@ -1,3 +1,0 @@
-class GoFish extends CardGame{
-    
-}

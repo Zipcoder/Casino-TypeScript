@@ -56,6 +56,9 @@
     "outDir": "js"
   },
   "files": [
-    "app.ts", "Profile.ts", ""
+    "app.ts", "Profile.ts", "BlackJack.ts", "Card.ts",
+    "CardGame.ts", "Deck.ts", "Gamble.ts", "GameEngine.ts",
+    "GameEngineInterface.ts", "GameInterface.ts", "GameType.ts", "GameTypePlayer.ts",
+    "Player.ts", "PlayerInterface.ts",
   ]
 }

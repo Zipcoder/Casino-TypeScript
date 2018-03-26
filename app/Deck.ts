@@ -1,9 +1,9 @@
 class Deck{
-    private fullDeck: Collections.LinkedList<Card>;
-    private deckInPlay: Collections.LinkedList<Card>;
+    private fullDeck: Card[];
+    private deckInPlay: Card[];
 
     constructor(){
-        this.fullDeck = new Collections.LinkedList<Card>();
+        this.fullDeck = new Card[52];
         this.buildDeck();
         this.deckInPlay = this.fullDeck;
     }
@@ -13,9 +13,11 @@ class Deck{
         "SEVEN", "EIGHT", "NINE", "TEN",
         "JACK(", "QUEEN(", "KING"];
         let suit = ["HEARTS", "CLUBS", "SPADES", "DIAMONDS"];
+        let counter = 0;
         for(let i = 0; i < 13; i++){
             for(let j = 0; j < 4; j++){
-            this.fullDeck.add(new Card(rank[i], suit[j]));
+                this.fullDeck[counter] = new Card(rank[i], suit[j]);
+            counter++;
             }
         }
     }
