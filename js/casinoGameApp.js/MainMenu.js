@@ -13,17 +13,17 @@ var Casino;
         MainMenu.prototype.menuStart = function () {
             var _this = this;
             this.displayElement.innerHTML = "Enter your name here";
-            this.submitButton.addEventLister("click", function (e) { return _this.createProfile(); }, { once: true });
+            this.submitButton.addEventListener("click", function (e) { return _this.createProfile(); }, { once: true });
         };
         MainMenu.prototype.createProfile = function () {
             var _this = this;
             this.userProfile = new Casino.Profile(Casino.Input.getInput());
-            this.displayElement.innerHTML += "<br>Hello " + this.userProfile.getName() + "!";
+            this.displayElement.innerHTML += "<br>Hello " + this.userProfile.getUserName() + "!";
             this.displayElement.innerHTML += "<br>Please select a game. <br>1. Slots";
-            this.submitButton.addEventLister("click", function (e) { return _this.gamePicker(); }, { once: once, true:  });
+            this.submitButton.addEventListener("click", function (e) { return _this.gamePicker(); }, { once: true });
         };
         MainMenu.prototype.gamePicker = function () {
-            if (Casino.Input.getInput().toLowerCase === 'gofish') {
+            if (Casino.Input.getInput().toLowerCase() === 'gofish') {
                 var gofishGame = new gofishGame();
                 gofishGame.startGame();
             }
