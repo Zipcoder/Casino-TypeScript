@@ -54,7 +54,7 @@ export class BlackjackEngine implements GameEngineInterface<BlackjackPlayer, Bla
 		}
 
 		let output: HTMLParagraphElement = document.createElement('p');
-		output.innerHTML = "<br />You win...or lose. IDK there isn't any real game logic. I'm deleting this repo and starting from scratch with React.";
+		output.innerHTML = "<br />You win...or lose. IDK there isn't any real game logic.";
 		UI.appendChild(output);
 	}
 

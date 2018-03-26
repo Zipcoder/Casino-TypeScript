@@ -38,7 +38,7 @@ class BlackjackEngine {
             UI.appendChild(e);
         }
         let output = document.createElement('p');
-        output.innerHTML = "<br />You win...or lose. IDK there isn't any real game logic. I'm deleting this repo and starting from scratch with React.";
+        output.innerHTML = "<br />You win...or lose. IDK there isn't any real game logic.";
         UI.appendChild(output);
     }
     run() {
