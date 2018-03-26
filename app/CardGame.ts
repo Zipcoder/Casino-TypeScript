@@ -1,5 +1,5 @@
 abstract class CardGame{
-    protected deck: Deck;
+    protected deck = Deck;
 
     abstract buildHand();
 }
