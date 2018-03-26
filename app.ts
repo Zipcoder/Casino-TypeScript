@@ -9,8 +9,11 @@ function addToDisplayText(text: string) {
 
 function waitAndGetUserInputString(): string {
     var theNumber;
-    while (theNumber = null) {
-        button.addEventListener("click", (e: Event) => theNumber = userInput.value);
+    button.addEventListener("click", (e: Event) => theNumber = userInput.value);
+    while (theNumber == null) {
+        if (theNumber != null) {
+            break;
+        }
     }
     button.removeEventListener("click", waitAndGetUserInputString);
     return theNumber;
@@ -18,8 +21,11 @@ function waitAndGetUserInputString(): string {
 
 function waitAndGetUserInputNumber(): number {
     var theNumber;
-    while (theNumber = null) {
-        button.addEventListener("click", (e: Event) => theNumber = +userInput.value);
+    button.addEventListener("click", (e: Event) => theNumber = +userInput.value);
+    while (theNumber == null) {
+        if (theNumber != null) {
+            break;
+        }
     }
     button.removeEventListener("click", waitAndGetUserInputNumber);
     return theNumber;

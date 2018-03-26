@@ -7,16 +7,22 @@ function addToDisplayText(text) {
 }
 function waitAndGetUserInputString() {
     var theNumber;
-    while (theNumber = null) {
-        button.addEventListener("click", function (e) { return theNumber = userInput.value; });
+    button.addEventListener("click", function (e) { return theNumber = userInput.value; });
+    while (theNumber == null) {
+        if (theNumber != null) {
+            break;
+        }
     }
     button.removeEventListener("click", waitAndGetUserInputString);
     return theNumber;
 }
 function waitAndGetUserInputNumber() {
     var theNumber;
-    while (theNumber = null) {
-        button.addEventListener("click", function (e) { return theNumber = +userInput.value; });
+    button.addEventListener("click", function (e) { return theNumber = +userInput.value; });
+    while (theNumber == null) {
+        if (theNumber != null) {
+            break;
+        }
     }
     button.removeEventListener("click", waitAndGetUserInputNumber);
     return theNumber;
