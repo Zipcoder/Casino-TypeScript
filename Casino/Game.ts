@@ -1,0 +1,6 @@
+interface Game {
+
+    startGame();
+    endGame();
+    
+}
