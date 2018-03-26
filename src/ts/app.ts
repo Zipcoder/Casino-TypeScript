@@ -1,6 +1,7 @@
 
+
 class UserInterface {
-    war: War;
+    war:War;
     public userInput: HTMLInputElement = <HTMLInputElement>document.getElementById('user_input');
     public displayWindow: HTMLDivElement = <HTMLDivElement>document.getElementById('display');
     public button: HTMLDivElement = <HTMLDivElement>document.getElementById('submit');
@@ -9,6 +10,8 @@ class UserInterface {
     constructor() {
         this.button.addEventListener("click", (e: Event) => { this._lastInput = this.userInput.value });
         this.button.addEventListener("click", (e: Event) => { this.userInput.value = '' });
+        this.chooseGame = this.chooseGame.bind(this);
+        this.war = new War();
     }
 
     display(input: any): void {
@@ -24,17 +27,17 @@ class UserInterface {
     }
 
     start() {
-        this.display("Do you want to play War? (yes/no)");
+        this.display("Do you want to play? (yes/no)");
         this.button.addEventListener("click", (e:Event) => this.chooseGame());
     }
     
     chooseGame(): void {
-
         if (this.lastInput() === "yes") {
+            this.button.removeEventListener("click",(e:Event)=>this.chooseGame());
             this.clearScreen();
             this.display("Let's Go To War!");
-            this.war.start();
-
+            this.button.addEventListener("click",(e:Event)=>war.start());
+        
         }
         else if (this.lastInput() === "no") {
             this.clearScreen();
@@ -48,40 +51,6 @@ class UserInterface {
     }
 
 }
+
 let UI: UserInterface = new UserInterface();
 UI.start();
-
-class War{
-    ui: UserInterface;
-    private isGameRunning: boolean;
-    private dealer: Player;
-    private player: Player;
-    private deck: Deck
-    private dealerHand: Card[] = [];
-    private playerHand: Card[] = [];
-    private dealerPlayedCards: Card[] = [];
-    private playerPlayedCards: Card[] = [];
-
-    public start():void{
-        this.isGameRunning = true;
-        this.dealerHand = this.deck.shuffleDeck();
-        this.playerHand = this.deck.splitDeck();
-        this.dealerHand = this.deck.shuffleDeck();
-        this.ui.display("War commensing");
-    }
-
-    // engine():void{
-    //     if()
-    // }
-
-    // checkIfGameIsOver():void{
-
-    // }
-
-    // handOfPersonIsEmpty(person: Player):boolean{
-    //     return false;
-    // }
-
-    // announceWinner()
-
-}
