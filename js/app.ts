@@ -1,47 +1,8 @@
 class Startup {
 
     public static main(): void {
-        // var casino = new Casino();
-        // casino.start();
-
-        // var club = new Card(Rank.ACE, Suit.CLUBS);
-        // var diamond = new Card(Rank.FIVE, Suit.DIAMONDS);
-        // var spade = new Card(Rank.QUEEN, Suit.SPADES);
-        // var heart = new Card(Rank.JACK, Suit.HEARTS);
-
-
-        // UI.display(club);
-        // UI.display(heart);
-        // UI.display(spade);
-        // UI.display(diamond);
-        // var deck = new Deck();
-        // deck.shuffle();
-        // for (var i = 0; i <= 51; i++) {
-        //     UI.display(deck.deal());
-        // }
-
-        // var profile = new Profile('Eric', 10000);
-        // var player = new BlackJackPlayer(profile);
-        // var ace = new Card(Rank.ACE, Suit.SPADES);
-        // var king = new Card(Rank.KING, Suit.SPADES);
-        // var seven = new Card(Rank.SEVEN, Suit.SPADES);
-        // var two = new Card(Rank.TWO, Suit.SPADES);
-        // var five = new Card(Rank.FIVE, Suit.SPADES);
-
-        // player.takeCard(ace);
-        // player.takeCard(five);
-        // player.takeCard(seven);
-        // player.takeCard(ace);
-        // player.calculateScore();
-        // UI.display(player.hand.cards);
-        // UI.display(player.score);
-
-        // var test = new BlackJackGame(profile);
-        // test.run();
         var casino = new Casino();
         casino.start();
-
-
     }
 }
 
