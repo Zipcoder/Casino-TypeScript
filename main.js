@@ -1,19 +1,17 @@
 "use strict";
-var Startup = /** @class */ (function () {
-    function Startup() {
-    }
-    Startup.main = function () {
-        var button = document.getElementById("submit");
-        var userInput = document.getElementById("user_input");
-        var button = document.getElementById("submit_button");
-        var welcomeCasino = document.getElementById("display");
-        button.addEventListener("click", function (e) { return putToDisplay(userInput.value); });
-    };
-    return Startup;
-}());
-var webElement = document.getElementById("display");
+// import { BlackJack } from "./BlackJack";
+var button = document.getElementById("submit");
+var userInput = document.getElementById("user_input");
+var button = document.getElementById("submit_button");
+var hitButton = document.getElementById("hit_button");
+var startButton = document.getElementById("start_button");
+button.addEventListener("click", function (e) { return putToDisplay(userInput.value); });
+// var blackJack: BlackJack = new BlackJack();
+// startButton.addEventListener("click", (e:Event)=> blackJack.start());
 function putToDisplay(text) {
     webElement.innerText += "\n";
     webElement.innerText += text;
 }
-Startup.main();
+function playGame() {
+    webElement.innerText += "damn";
+}

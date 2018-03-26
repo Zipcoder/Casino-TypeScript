@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var player_1 = require("./player");
 var CardGame_1 = require("./CardGame");
-var inquirer = require('inquirer');
+var webElement = document.getElementById("display");
 var BlackJack = /** @class */ (function (_super) {
     __extends(BlackJack, _super);
     function BlackJack() {
@@ -45,6 +45,7 @@ var BlackJack = /** @class */ (function (_super) {
     };
     BlackJack.prototype.start = function () {
         this.currentPlayer = 1;
+        this.addNewPlayer("PLAYER_1");
         this.dealCards(2);
         this.gameStartState();
         this.evaluateState();
@@ -55,7 +56,8 @@ var BlackJack = /** @class */ (function (_super) {
     BlackJack.prototype.hit = function () {
         this.draw();
         this.printLastDraw();
-        console.log("Your hand value is now: " + this.players[this.currentPlayer].handScore);
+        // console.log(`Your hand value is now: ${this.players[this.currentPlayer].handScore}`);
+        webElement.innerText += "Your hand value is now: " + this.players[this.currentPlayer].handScore;
         this.evaluateState();
     };
     BlackJack.prototype.stay = function () {
@@ -77,12 +79,14 @@ var BlackJack = /** @class */ (function (_super) {
         // If turns have gone back around to the dealer
         if (this.currentPlayer === 0) {
             // The dealer takes his actions
-            console.log("The dealer has " + this.players[0].handToString());
+            //console.log(`The dealer has ${this.players[0].handToString()}`);
+            webElement.innerText += "The dealer has " + this.players[0].handToString();
             while (this.players[0].handScore < 16) {
                 this.draw();
                 this.printLastDraw();
                 if (this.players[0].handScore > 21) {
                     console.log('The Dealer busted!');
+                    webElement.innerText += 'The Dealer busted!';
                     this.players[0].handScore = 0;
                     break;
                 }
@@ -137,11 +141,14 @@ var BlackJack = /** @class */ (function (_super) {
         this.printPlayerState(1);
     };
     BlackJack.prototype.printDealerState = function () {
-        console.log("The dealer has " + this.players[0].hand[0].toString() + " showing");
+        //console.log(`The dealer has ${this.players[0].hand[0].cardToString()}`);
+        webElement.innerText += "The dealer has " + this.players[0].hand[0].cardToString();
     };
     BlackJack.prototype.printPlayerState = function (playerIndex) {
         console.log("Your hand is: " + this.players[playerIndex].handToString());
         console.log("Your hand value is now: " + this.players[playerIndex].handScore);
+        webElement.innerText += "Your hand is: " + this.players[playerIndex].handToString();
+        webElement.innerText += "Your hand value is now: " + this.players[playerIndex].handScore;
     };
     BlackJack.prototype.printLastDraw = function () {
         console.log(this.players[this.currentPlayer].name + " drew " + this.players[this.currentPlayer].hand[this.players[this.currentPlayer].hand.length - 1]);
@@ -149,3 +156,5 @@ var BlackJack = /** @class */ (function (_super) {
     return BlackJack;
 }(CardGame_1.CardGame));
 exports.BlackJack = BlackJack;
+var jack = new BlackJack();
+jack.start();

@@ -3,15 +3,14 @@ import { Deck } from "./deck";
 import { CardGame } from "./CardGame";
 import { Dealer } from "./dealer";
 import { Card } from "./card";
-declare function require(name:string);
-var inquirer = require('inquirer');
+
+var webElement = document.getElementById("display");
 
 export class BlackJack extends CardGame{
-    
-
+	
     constructor(){
-        super();
-        
+		super();
+	
     }
     turnPrompt() {
 		var turn = this;
@@ -26,7 +25,6 @@ export class BlackJack extends CardGame{
 			}
 		
 	}
-	
 	roundPrompt() {
 		var game = this;
 		var answer: string = ""; 
@@ -41,12 +39,13 @@ export class BlackJack extends CardGame{
 			}
 		
 	}
-	
 	start() {
 		this.currentPlayer = 1;
+		this.addNewPlayer("PLAYER_1");
 		this.dealCards(2);
 		this.gameStartState();
 		this.evaluateState();
+		
 	}
 	
 	quit() {
@@ -56,8 +55,10 @@ export class BlackJack extends CardGame{
 	hit() {
 		this.draw();
 		this.printLastDraw();
-		console.log(`Your hand value is now: ${this.players[this.currentPlayer].handScore}`);
+		// console.log(`Your hand value is now: ${this.players[this.currentPlayer].handScore}`);
+		webElement.innerText += `Your hand value is now: ${this.players[this.currentPlayer].handScore}`;
 		this.evaluateState();
+		
 	}
 	
 	stay() {
@@ -83,12 +84,14 @@ export class BlackJack extends CardGame{
 		// If turns have gone back around to the dealer
 		if (this.currentPlayer === 0) {
 			// The dealer takes his actions
-			console.log(`The dealer has ${this.players[0].handToString()}`);
+			//console.log(`The dealer has ${this.players[0].handToString()}`);
+			webElement.innerText += `The dealer has ${this.players[0].handToString()}`;
 			while (this.players[0].handScore < 16) {
 				this.draw();
 				this.printLastDraw();
 				if(this.players[0].handScore > 21) {
 					console.log('The Dealer busted!');
+					webElement.innerText += 'The Dealer busted!';
 					this.players[0].handScore = 0;
 					break;
 				}
@@ -126,7 +129,6 @@ export class BlackJack extends CardGame{
 			}
 		}
 	}
-	
 	calculateHandScores(cards: Card[]): number {
 		var value = 0;
 		cards.forEach(function(card){
@@ -137,23 +139,24 @@ export class BlackJack extends CardGame{
 		});
 		return value;
 	}
-	
-
 	gameStartState() {
 		this.printDealerState();
 		this.printPlayerState(1);
 	}
-
 	printDealerState() {
-		console.log(`The dealer has ${this.players[0].hand[0].toString()} showing`);
+		//console.log(`The dealer has ${this.players[0].hand[0].cardToString()}`);
+		webElement.innerText += `The dealer has ${this.players[0].hand[0].cardToString()}`;
 	}
-	
 	printPlayerState(playerIndex:number) {
-		console.log(`Your hand is: ${this.players[playerIndex].handToString()}`);
+		console.log("Your hand is: " + this.players[playerIndex].handToString());
 		console.log(`Your hand value is now: ${this.players[playerIndex].handScore}`);
+		webElement.innerText += "Your hand is: " + this.players[playerIndex].handToString();
+		webElement.innerText += `Your hand value is now: ${this.players[playerIndex].handScore}`;
 	}
-	
 	printLastDraw() {
 		console.log(`${this.players[this.currentPlayer].name} drew ${this.players[this.currentPlayer].hand[this.players[this.currentPlayer].hand.length-1]}`);
 	}
+	
 }
+var jack = new BlackJack();
+jack.start();

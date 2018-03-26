@@ -5,6 +5,7 @@ var Player = /** @class */ (function () {
         this.name = name;
         this.hand = [];
         this.handScore = 0;
+        this.money = 1000;
     }
     Player.prototype.playerNameToString = function () {
         return this.name;
@@ -12,7 +13,7 @@ var Player = /** @class */ (function () {
     Player.prototype.handToString = function () {
         var handString = "";
         for (var i = 0; i < this.hand.length; i++) {
-            handString += this.hand[i].cardToString + " ";
+            handString += this.hand[i].cardToString() + " ";
         }
         return handString;
     };

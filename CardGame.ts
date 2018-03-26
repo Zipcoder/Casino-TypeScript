@@ -1,6 +1,7 @@
 import { Player } from "./player";
 import { Deck } from "./deck";
 import { Dealer } from "./dealer";
+import { Card } from "./card";
 
 export class CardGame{
     players: Player[];
