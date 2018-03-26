@@ -4,9 +4,9 @@ var App = /** @class */ (function () {
     App.main = function () {
         var profile = new Profile(123, "Bob", 100);
         var newPlayer = new Player(profile);
+        var mainMenu = new MainMenu;
         var craps = new Craps(newPlayer);
-        craps.startGame();
-        craps.userPlacesBet();
+        mainMenu.start();
     };
     return App;
 }());
@@ -50,8 +50,8 @@ var Craps = /** @class */ (function () {
         if (UI.lastInput === "Pass Line") {
             this.passLineBetTurnSequence(this.rollValue);
         }
-        else {
-            UI.display("Bye");
+        else if (UI.lastInput === "Don't Pass Line") {
+            this.dontPassLineBetTurnSequence(this.rollValue);
         }
         UI.clearScreen();
     };
@@ -93,7 +93,32 @@ var Craps = /** @class */ (function () {
                 this.playerWins();
                 break;
             }
-        } while (currentRoll != 7 || currentRoll != this.rollValue);
+        } while (currentRoll !== 7 || currentRoll !== this.rollValue);
+    };
+    Craps.prototype.dontPassLineBetTurnSequence = function (rollValue) {
+        if (rollValue == 2 || rollValue == 3) {
+            this.playerWins();
+        }
+        else if (rollValue == 7 || rollValue == 11) {
+            this.playerLoses();
+        }
+        else {
+            this.dontPassLineBetRollNonWinLoseNumber(rollValue);
+        }
+    };
+    Craps.prototype.dontPassLineBetRollNonWinLoseNumber = function (rollValue) {
+        var currentRoll = 0;
+        do {
+            currentRoll = this.addDiceTogether();
+            if (rollValue === 7) {
+                this.playerWins();
+                break;
+            }
+            else if (currentRoll === rollValue) {
+                this.playerLoses();
+                break;
+            }
+        } while (currentRoll !== 7 || currentRoll !== rollValue);
     };
     Craps.prototype.playerWins = function () {
         UI.display("You Win!");
@@ -105,8 +130,10 @@ var Craps = /** @class */ (function () {
         UI.display("Do you want to play again? Y/N");
     };
     Craps.prototype.startGame = function () {
-        UI.display("Hello!, please enter in Pass Line or Don't pass line for you bet below");
+        UI.display("Hello! Please enter in Pass Line or Don't Pass Line for you bet below");
         UI.submitButton.addEventListener("click", this.userPlacesBet);
+        this.rollValue = this.addDiceTogether();
+        this.userPlacesBet();
     };
     return Craps;
 }());
@@ -136,8 +163,7 @@ var MainMenu = /** @class */ (function () {
             this.newCrapsGame.startGame();
         }
         else {
-            UI.display("Too bad you're playing Craps!");
-            this.newCrapsGame.startGame();
+            UI.display("Ok, that's cool. Good Bye!");
         }
     };
     return MainMenu;
