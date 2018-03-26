@@ -38,9 +38,10 @@
 ### `GameInterface` interface
 * **Description:**
 	* Represents a game which handles some type of player.
-* should implement `Runnable`
-* should be parameterized with a generic type whose upper bound is `PlayerInterface` that enforces the types of players this game can interact with.
-* `GameInterface` should enforce an aspect of
+* should be parameterized with a generic type whose upper bound is `PlayerInterface`.
+	* e.g. - `SomePlayerType` is a subclass of `PlayerInterface`.
+	* This restricts the types of players this game can interact with.
+* `GameInterface` should declare each of the following methods:
 	* `TypeOfPlayer[] getPlayers()`
 	* `TypeOfPlayer getPlayer(Long playerId)`
 	* `void addPlayer(TypeOfPlayer player)`
@@ -50,7 +51,7 @@
 
 ### `GameEngineInterface` interface
 * **Description:**
-	* `GameEngineInterface` is a contract which ensures all `GameEngine` can perform basic `GameEngine` operations.
+	* `GameEngineInterface` is a contract which ensures a specific type of `GameEngine` operates on a specific type of `Player` and a specific type of `Game`
 
 * should be parameterized with two generic types
 	* `GameTypePlayer` a sub class of `PlayerInterface`
