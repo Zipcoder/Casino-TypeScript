@@ -3,6 +3,6 @@ import { Player } from '../player';
 import { Card } from './card';
 
 export class BlackjackPlayer extends Player implements GameTypePlayer {
-	hand: Card[];	
+	hand: Card[] = [];	
 	bet: number;
 }

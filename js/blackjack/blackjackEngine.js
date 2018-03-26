@@ -13,12 +13,37 @@ class BlackjackEngine {
         return this.game;
     }
     evaluateTurn(player) {
+        this.player.hand.push(this.deck.draw());
+        this.player.hand.push(this.deck.draw());
+        let dealerHand = [];
+        dealerHand.push(this.deck.draw());
+        dealerHand.push(this.deck.draw());
+        let UI = document.getElementById('display');
+        let header = document.createElement('p');
+        header.innerHTML = "Dealer Hand:";
+        UI.appendChild(header);
+        for (let card of dealerHand) {
+            let e = document.createElement('span');
+            e.classList.add('card');
+            e.innerHTML = card.toString() + ' | ';
+            UI.appendChild(e);
+        }
+        let playerHeader = document.createElement('p');
+        playerHeader.innerHTML = "<br />Player Hand:";
+        UI.appendChild(playerHeader);
+        for (let card of this.player.hand) {
+            let e = document.createElement('span');
+            e.classList.add('card');
+            e.innerHTML = card.toString() + ' | ';
+            UI.appendChild(e);
+        }
+        let output = document.createElement('p');
+        output.innerHTML = "<br />You win...or lose. IDK there isn't any real game logic. I'm deleting this repo and starting from scratch with React.";
+        UI.appendChild(output);
     }
     run() {
-        //add player
         this.game.addPlayer(this.player);
-        // deal cards
-        console.log(this.deck.draw().toString());
+        this.evaluateTurn(this.player);
     }
 }
 exports.BlackjackEngine = BlackjackEngine;
