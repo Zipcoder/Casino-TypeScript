@@ -1,25 +1,25 @@
 
 namespace Casino{
     export class Profile {
-        private id: string;
-        private name: string;
+        private userId: number;
+        private userName: string;
         private balance: number;
 
-        constructor(profileId: string, username: string, balance: number){
-            this.id = profileId;
-            this.name = username;
-            this.balance = balance;
+        constructor(userName: string){
+            this.userId = Math.random()*100;
+            this.userName = userName;
+            this.balance = 250;
          }
 
-        get id(){
-        return this._id;
+        public getUserId(){
+        return this.userId;
         }
 
-        get name(){
-        return this._name;
+        public getUserName(){
+        return this.userName;
         }
 
-        get balance(){
+        public getUserBalance(){
         return this.balance;
         }
     

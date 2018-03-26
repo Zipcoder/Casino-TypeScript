@@ -1,6 +1,6 @@
 namespace Casino{
     class Player implements PlayerInterface {
-        pivate playerProfile: Profile;
+        private playerProfile: Profile;
 
         //constructor
         constructor(playerProfile: Profile){
@@ -16,11 +16,11 @@ namespace Casino{
         getProfile(): Profile {
             return this.playerProfile;
         }
-        getName(): String {
-            return this.playerProfile.getName();
+        getName(): string {
+            return this.playerProfile.getUserName();
         }
         getId(): number {
-            return this.playerProfile.getId();
+            return this.playerProfile.getUserId();
         }
 
     

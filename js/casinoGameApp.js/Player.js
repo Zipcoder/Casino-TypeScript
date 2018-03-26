@@ -14,10 +14,10 @@ var Casino;
             return this.playerProfile;
         };
         Player.prototype.getName = function () {
-            return this.playerProfile.getName();
+            return this.playerProfile.getUserName();
         };
         Player.prototype.getId = function () {
-            return this.playerProfile.getId();
+            return this.playerProfile.getUserId();
         };
         return Player;
     }());

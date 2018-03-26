@@ -2,32 +2,20 @@
 var Casino;
 (function (Casino) {
     var Profile = /** @class */ (function () {
-        function Profile(profileId, username, balance) {
-            this.id = profileId;
-            this.name = username;
-            this.balance = balance;
+        function Profile(userName) {
+            this.userId = Math.random() * 100;
+            this.userName = userName;
+            this.balance = 250;
         }
-        Object.defineProperty(Profile.prototype, "id", {
-            get: function () {
-                return this._id;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Profile.prototype, "name", {
-            get: function () {
-                return this._name;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Profile.prototype, "balance", {
-            get: function () {
-                return this.balance;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        Profile.prototype.getUserId = function () {
+            return this.userId;
+        };
+        Profile.prototype.getUserName = function () {
+            return this.userName;
+        };
+        Profile.prototype.getUserBalance = function () {
+            return this.balance;
+        };
         return Profile;
     }());
     Casino.Profile = Profile;

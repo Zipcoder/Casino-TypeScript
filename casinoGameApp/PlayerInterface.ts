@@ -11,7 +11,7 @@ namespace Casino{
     //how do you make a method in typescript 
         getProfile(): Profile;
 
-        getName(): String;
+        getName(): string;
 
         getId(): number;
     }
