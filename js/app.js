@@ -28,7 +28,7 @@ var Startup = /** @class */ (function () {
         // for (var i = 0; i <= 51; i++) {
         //     UI.display(deck.deal());
         // }
-        var profile = new Profile('Eric', 10000);
+        // var profile = new Profile('Eric', 10000);
         // var player = new BlackJackPlayer(profile);
         // var ace = new Card(Rank.ACE, Suit.SPADES);
         // var king = new Card(Rank.KING, Suit.SPADES);
@@ -42,8 +42,10 @@ var Startup = /** @class */ (function () {
         // player.calculateScore();
         // UI.display(player.hand.cards);
         // UI.display(player.score);
-        var test = new BlackJackGame(profile);
-        test.run();
+        // var test = new BlackJackGame(profile);
+        // test.run();
+        var casino = new Casino();
+        casino.start();
     };
     return Startup;
 }());
@@ -430,6 +432,13 @@ var BlackJackGame = /** @class */ (function (_super) {
         _this.hitOrStand = _this.hitOrStand.bind(_this);
         return _this;
     }
+    BlackJackGame.prototype.start = function () {
+        UI.clearScreen();
+        this.header();
+        UI.display("Welcome to Black Jack");
+        UI.display("Press [submit] to begin");
+        UI.button.addEventListener("click", this.run, { once: true });
+    };
     BlackJackGame.prototype.run = function () {
         this.startRound();
     };
@@ -662,21 +671,73 @@ var BlackJackGame = /** @class */ (function (_super) {
 }(CardGame));
 var Casino = /** @class */ (function () {
     function Casino() {
+        this.profiles = new Array();
         this.chooseGame = this.chooseGame.bind(this);
+        this.stepTwo = this.stepTwo.bind(this);
+        this.mainMenu = this.mainMenu.bind(this);
+        this.register = this.register.bind(this);
+        this.start = this.start.bind(this);
+        this.stepOne = this.stepOne.bind(this);
     }
     Casino.prototype.start = function () {
-        UI.display("What game do you want to play?");
-        UI.display("Black Jack or Go Fish?");
+        UI.display("Welcome to Casino Royale With Cheese!");
+        UI.display("Let's start by registering your profile");
+        UI.display("What is your name?");
+        UI.button.addEventListener("click", this.stepOne, { once: true });
+    };
+    Casino.prototype.stepOne = function () {
+        this.name = UI.lastInput;
+        this.stepTwo();
+    };
+    Casino.prototype.stepTwo = function (errorMessage) {
+        //UI.button.removeEventListener("click", this.stepOne);
+        UI.clearScreen();
+        UI.display("Nice to meet you " + this.name);
+        UI.display("How much money would you like to change into chips?");
+        UI.display("The minimum desposit is $1000");
+        if (typeof errorMessage !== "undefined")
+            UI.display(errorMessage);
+        UI.button.addEventListener("click", this.register);
+    };
+    Casino.prototype.register = function () {
+        UI.button.removeEventListener("click", this.register);
+        if (parseInt(UI.lastInput) > 1000) {
+            this.amount = parseInt(UI.lastInput);
+            this.currentPlayer = new Profile(this.name, this.amount);
+            this.profiles.push(this.currentPlayer);
+            this.mainMenu();
+        }
+        else if (parseInt(UI.lastInput) < 1000) {
+            // UI.button.addEventListener("Click", this.register);
+            this.stepTwo("You must change at least $1000 into chips to play in our casino");
+        }
+        else {
+            //UI.button.addEventListener("Click", this.register);
+            this.stepTwo("You must enter a number for your deposit");
+        }
+    };
+    Casino.prototype.mainMenu = function (errorMessage) {
+        UI.clearScreen();
+        this.header();
+        UI.display("What game would you like to play?");
+        UI.display("[Black Jack]");
+        UI.display('');
+        if (typeof errorMessage !== "undefined")
+            UI.display(errorMessage);
         UI.button.addEventListener("click", this.chooseGame);
+    };
+    Casino.prototype.header = function () {
+        UI.display("Current Player: " + this.currentPlayer.name + "\t|\tCurrent Balance: $" + this.currentPlayer.balance);
+        UI.display("");
     };
     Casino.prototype.chooseGame = function () {
         UI.button.removeEventListener("click", this.chooseGame);
         if (UI.lastInput === "Black Jack") {
-        }
-        else if (UI.lastInput === "Go Fish") {
+            var currentGame = new BlackJackGame(this.currentPlayer);
+            currentGame.start();
         }
         else {
-            UI.button.addEventListener("click", this.chooseGame);
+            this.mainMenu("I'm sorry. We don't have that game yet.");
         }
     };
     return Casino;

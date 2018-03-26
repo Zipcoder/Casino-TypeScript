@@ -20,7 +20,7 @@ class Startup {
         //     UI.display(deck.deal());
         // }
 
-        var profile = new Profile('Eric',10000);
+        // var profile = new Profile('Eric', 10000);
         // var player = new BlackJackPlayer(profile);
         // var ace = new Card(Rank.ACE, Suit.SPADES);
         // var king = new Card(Rank.KING, Suit.SPADES);
@@ -36,8 +36,11 @@ class Startup {
         // UI.display(player.hand.cards);
         // UI.display(player.score);
 
-        var test = new BlackJackGame(profile);
-        test.run();
+        // var test = new BlackJackGame(profile);
+        // test.run();
+        var casino = new Casino();
+        casino.start();
+
 
     }
 }
@@ -72,7 +75,7 @@ class Profile {
         this._balance = newBalance;
     }
 
-    public addToBalance(amount:number):void{
+    public addToBalance(amount: number): void {
         this._balance += amount;
     }
 
@@ -127,139 +130,139 @@ abstract class CardPlayer extends Player {
         }
     }
 
-    public get hand():Hand{
+    public get hand(): Hand {
         return this._hand;
     }
 
 }
 
 class BlackJackPlayer extends CardPlayer implements Gamble {
-    
-    escrow:Escrow;
-    private _busted:boolean;
-    private _stand:boolean;
-    private _score:number;
-    
-    constructor(profile:Profile){
+
+    escrow: Escrow;
+    private _busted: boolean;
+    private _stand: boolean;
+    private _score: number;
+
+    constructor(profile: Profile) {
         super(profile);
         this.escrow = new Escrow();
     }
-    
+
     bet(amount: number): void {
         this.escrow.addToEscrowBalance(amount);
         this.getProfile().balance -= amount;
     }
     win(multiplier: number): void {
-        let winnings:number = this.escrow.escrowBalance + (this.escrow.escrowBalance * multiplier);
+        let winnings: number = this.escrow.escrowBalance + (this.escrow.escrowBalance * multiplier);
         this.getProfile().addToBalance(winnings);
-        this.escrow.escrowBalance=0;
+        this.escrow.escrowBalance = 0;
     }
     lose(): void {
-        this.escrow.escrowBalance=0;
+        this.escrow.escrowBalance = 0;
     }
 
-    public get busted():boolean{
+    public get busted(): boolean {
         return this.busted;
     }
 
-    public set busted(state:boolean){
-        this._busted=state;
+    public set busted(state: boolean) {
+        this._busted = state;
     }
 
-    public get stand():boolean{
+    public get stand(): boolean {
         return this._stand;
     }
 
-    public set stand(state:boolean){
-        this._stand=state;
+    public set stand(state: boolean) {
+        this._stand = state;
     }
 
-    public get score():number{
+    public get score(): number {
         return this._score;
     }
 
-    public set score(amount:number){
-        this._score=amount;
+    public set score(amount: number) {
+        this._score = amount;
     }
 
-    public isBusted():boolean{
-        if(this._score>21){
+    public isBusted(): boolean {
+        if (this._score > 21) {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
 
-    public calculateScore():void{
-        let hasAce : boolean = false;
-        let tempScore : number = 0;
+    public calculateScore(): void {
+        let hasAce: boolean = false;
+        let tempScore: number = 0;
         this.hand.cards.forEach(element => {
-            if(element.rank === Rank.TWO) tempScore += 2;
-            else if (element.rank === Rank.THREE) tempScore +=3;
-            else if (element.rank === Rank.FOUR) tempScore +=4;
-            else if (element.rank === Rank.FIVE) tempScore +=5;
-            else if (element.rank === Rank.SIX) tempScore +=6;
-            else if (element.rank === Rank.SEVEN) tempScore +=7;
-            else if (element.rank === Rank.EIGHT) tempScore +=8;
-            else if (element.rank === Rank.NINE) tempScore +=9;
-            else if (element.rank === Rank.TEN) tempScore +=10;
-            else if (element.rank === Rank.JACK) tempScore +=10;
-            else if (element.rank === Rank.QUEEN) tempScore +=10;
-            else if (element.rank === Rank.KING) tempScore +=10;
+            if (element.rank === Rank.TWO) tempScore += 2;
+            else if (element.rank === Rank.THREE) tempScore += 3;
+            else if (element.rank === Rank.FOUR) tempScore += 4;
+            else if (element.rank === Rank.FIVE) tempScore += 5;
+            else if (element.rank === Rank.SIX) tempScore += 6;
+            else if (element.rank === Rank.SEVEN) tempScore += 7;
+            else if (element.rank === Rank.EIGHT) tempScore += 8;
+            else if (element.rank === Rank.NINE) tempScore += 9;
+            else if (element.rank === Rank.TEN) tempScore += 10;
+            else if (element.rank === Rank.JACK) tempScore += 10;
+            else if (element.rank === Rank.QUEEN) tempScore += 10;
+            else if (element.rank === Rank.KING) tempScore += 10;
             else if (element.rank === Rank.ACE) {
-                tempScore +=11;
+                tempScore += 11;
                 hasAce = true;
             }
         });
-        if(tempScore >21 && hasAce){
+        if (tempScore > 21 && hasAce) {
             tempScore = 0;
             this.hand.cards.forEach(element => {
-                if(element.rank === Rank.TWO) tempScore += 2;
-                else if (element.rank === Rank.THREE) tempScore +=3;
-                else if (element.rank === Rank.FOUR) tempScore +=4;
-                else if (element.rank === Rank.FIVE) tempScore +=5;
-                else if (element.rank === Rank.SIX) tempScore +=6;
-                else if (element.rank === Rank.SEVEN) tempScore +=7;
-                else if (element.rank === Rank.EIGHT) tempScore +=8;
-                else if (element.rank === Rank.NINE) tempScore +=9;
-                else if (element.rank === Rank.TEN) tempScore +=10;
-                else if (element.rank === Rank.JACK) tempScore +=10;
-                else if (element.rank === Rank.QUEEN) tempScore +=10;
-                else if (element.rank === Rank.KING) tempScore +=10;
+                if (element.rank === Rank.TWO) tempScore += 2;
+                else if (element.rank === Rank.THREE) tempScore += 3;
+                else if (element.rank === Rank.FOUR) tempScore += 4;
+                else if (element.rank === Rank.FIVE) tempScore += 5;
+                else if (element.rank === Rank.SIX) tempScore += 6;
+                else if (element.rank === Rank.SEVEN) tempScore += 7;
+                else if (element.rank === Rank.EIGHT) tempScore += 8;
+                else if (element.rank === Rank.NINE) tempScore += 9;
+                else if (element.rank === Rank.TEN) tempScore += 10;
+                else if (element.rank === Rank.JACK) tempScore += 10;
+                else if (element.rank === Rank.QUEEN) tempScore += 10;
+                else if (element.rank === Rank.KING) tempScore += 10;
                 else if (element.rank === Rank.ACE) {
-                    tempScore +=1;
+                    tempScore += 1;
                 }
             });
         }
-        this._score=tempScore;
+        this._score = tempScore;
     }
 
 }
 
-class Escrow{
+class Escrow {
 
-    private _escrowBalance:number;
-    
-    constructor(){
+    private _escrowBalance: number;
+
+    constructor() {
         this._escrowBalance = 0;
     }
 
-    public get escrowBalance():number{
+    public get escrowBalance(): number {
         return this._escrowBalance;
     }
 
-    public set escrowBalance(amount:number){
-        this._escrowBalance=amount;
+    public set escrowBalance(amount: number) {
+        this._escrowBalance = amount;
     }
 
-    public addToEscrowBalance(amount:number){
-        <number>this._escrowBalance; 
+    public addToEscrowBalance(amount: number) {
+        <number>this._escrowBalance;
         <number>amount;
         this.escrowBalance = this.escrowBalance + amount;
     }
 
-    
+
 
 }
 
@@ -386,7 +389,7 @@ interface GameEngineInterface<GameInterface, PlayerInterface> {
 
 abstract class GameEngine implements GameEngineInterface<GameInterface<PlayerInterface>, PlayerInterface>{
 
-    
+
     abstract run(): void;
     abstract evaluateTurn(): void;
 
@@ -396,7 +399,7 @@ abstract class GameEngine implements GameEngineInterface<GameInterface<PlayerInt
 
 interface Gamble {
 
-    escrow:Escrow;
+    escrow: Escrow;
 
     bet(amount: number): void;
     win(multiplier: number): void;
@@ -457,12 +460,12 @@ abstract class CardGame extends GameEngine implements GameInterface<CardPlayer> 
 
 class BlackJackGame extends CardGame {
 
-    currentPlayer : BlackJackPlayer;
-    dealer : BlackJackPlayer;
+    currentPlayer: BlackJackPlayer;
+    dealer: BlackJackPlayer;
 
-    constructor(playerProfile:Profile){
+    constructor(playerProfile: Profile) {
         super();
-        this.dealer = new BlackJackPlayer(new Profile('Dealer',0));
+        this.dealer = new BlackJackPlayer(new Profile('Dealer', 0));
         this.currentPlayer = new BlackJackPlayer(playerProfile);
         this.addPlayer(this.dealer);
         this.addPlayer(this.currentPlayer);
@@ -474,6 +477,14 @@ class BlackJackGame extends CardGame {
         this.naturalCheck = this.naturalCheck.bind(this);
         this.nextMove = this.nextMove.bind(this);
         this.hitOrStand = this.hitOrStand.bind(this);
+    }
+
+    start():void{
+        UI.clearScreen();
+        this.header();
+        UI.display("Welcome to Black Jack");
+        UI.display("Press [submit] to begin");
+        UI.button.addEventListener("click", this.run, { once: true });
     }
     
     run(): void {
@@ -488,17 +499,17 @@ class BlackJackGame extends CardGame {
         this.tallyScores();
         this.header();
         this.showCards(false);
-        if(!this.isWinner()){
-        this.nextMove(false);
+        if (!this.isWinner()) {
+            this.nextMove(false);
         }
-        if(this.currentPlayer.stand){
+        if (this.currentPlayer.stand) {
             this.evaluateTurn();
         }
 
     }
 
-    private isWinner():boolean{
-        if(this.currentPlayer.isBusted() && this.dealer.isBusted()){
+    private isWinner(): boolean {
+        if (this.currentPlayer.isBusted() && this.dealer.isBusted()) {
             this.currentPlayer.win(0);
             this.endScreen();
             UI.display("You and the Dealer are both Bust");
@@ -506,7 +517,7 @@ class BlackJackGame extends CardGame {
             this.restart();
             return true;
         }
-        else if (this.currentPlayer.isBusted()){
+        else if (this.currentPlayer.isBusted()) {
             this.currentPlayer.lose();
             this.endScreen();
             UI.display("You went Bust");
@@ -514,7 +525,7 @@ class BlackJackGame extends CardGame {
             this.restart();
             return true;
         }
-        else if (this.dealer.isBusted()){
+        else if (this.dealer.isBusted()) {
             this.currentPlayer.win(1);
             this.endScreen();
             UI.display("The Dealer went Bust!");
@@ -522,8 +533,8 @@ class BlackJackGame extends CardGame {
             this.restart();
             return true;
         }
-        else if (this.currentPlayer.stand && this.dealer.stand){
-            if(this.currentPlayer.score === this.dealer.score){
+        else if (this.currentPlayer.stand && this.dealer.stand) {
+            if (this.currentPlayer.score === this.dealer.score) {
                 this.currentPlayer.win(0);
                 this.endScreen();
                 UI.display("The Dealer has the same score as you. You push");
@@ -531,7 +542,7 @@ class BlackJackGame extends CardGame {
                 this.restart();
                 return true;
             }
-            else if (this.currentPlayer.score > this.dealer.score){
+            else if (this.currentPlayer.score > this.dealer.score) {
                 this.currentPlayer.win(1);
                 this.endScreen();
                 UI.display("You have a higher score. You win!");
@@ -539,7 +550,7 @@ class BlackJackGame extends CardGame {
                 this.restart();
                 return true;
             }
-            else if (this.currentPlayer.score < this.dealer.score){
+            else if (this.currentPlayer.score < this.dealer.score) {
                 this.currentPlayer.lose();
                 this.endScreen();
                 UI.display("The Dealer has a higher score. You lose");
@@ -548,47 +559,47 @@ class BlackJackGame extends CardGame {
                 return true;
             }
         }
-        else{
+        else {
             return false;
         }
     }
 
-    private endScreen():void{
+    private endScreen(): void {
         UI.clearScreen();
         this.header();
         this.showCards(true);
     }
 
-    private startRound(errorMessage?:string):void{
+    private startRound(errorMessage?: string): void {
         this.currentPlayer.discardAll();
         this.dealer.discardAll();
         UI.clearScreen();
         this.header();
         UI.display("How much would you like to bet?");
         UI.display("The minimum bet is $10");
-        if(typeof errorMessage !== "undefined") UI.display(errorMessage);
+        if (typeof errorMessage !== "undefined") UI.display(errorMessage);
         UI.button.addEventListener("click", this.placeBet);
     }
 
-    private placeBet():void{
+    private placeBet(): void {
         UI.button.removeEventListener("click", this.placeBet);
         UI.clearScreen();
-        if(UI.lastInput <= this.currentPlayer.getProfile().balance && UI.lastInput >10){
-        this.currentPlayer.bet(parseInt(UI.lastInput));
-        this.initialDeal();
+        if (UI.lastInput <= this.currentPlayer.getProfile().balance && UI.lastInput > 10) {
+            this.currentPlayer.bet(parseInt(UI.lastInput));
+            this.initialDeal();
         }
-        else if (UI.lastInput <10){
+        else if (UI.lastInput < 10) {
             this.startRound("That amount is below the minimum bet");
         }
-        else if (UI.lastInput > this.currentPlayer.getProfile().balance){
+        else if (UI.lastInput > this.currentPlayer.getProfile().balance) {
             this.startRound("You cannot bet more money than you have");
         }
-        else{
+        else {
             this.startRound("You must input a number to place a bet");
         }
     }
 
-    private initialDeal():void{
+    private initialDeal(): void {
         UI.clearScreen();
         this.currentPlayer.takeCard(this.deck.deal());
         this.dealer.takeCard(this.deck.deal());
@@ -597,98 +608,98 @@ class BlackJackGame extends CardGame {
         this.tallyScores();
         this.header();
         this.showCards(false);
-        let natural:boolean = this.naturalCheck();
-        if(!natural){
+        let natural: boolean = this.naturalCheck();
+        if (!natural) {
             this.nextMove(false);
         }
 
-        
-       
+
+
     }
 
-    private dealerTurn():void{
-        if(this.dealer.score<17){
+    private dealerTurn(): void {
+        if (this.dealer.score < 17) {
             this.dealer.takeCard(this.deck.deal());
         }
-        else{
-            this.dealer.stand=true;
+        else {
+            this.dealer.stand = true;
         }
     }
 
-    private nextMove(secondTime:boolean){
-       if (secondTime === true){
-        UI.clearScreen();
-        this.header();
-        this.showCards(false);
-        UI.display("Invalid input detected");
-        UI.display("Would you like to [hit] or [stand]?");
-        UI.button.addEventListener("click",this.hitOrStand);
-       }
-       else{
-        UI.display("Would you like to [hit] or [stand]?");
-        UI.button.addEventListener("click",this.hitOrStand);
-       }
+    private nextMove(secondTime: boolean) {
+        if (secondTime === true) {
+            UI.clearScreen();
+            this.header();
+            this.showCards(false);
+            UI.display("Invalid input detected");
+            UI.display("Would you like to [hit] or [stand]?");
+            UI.button.addEventListener("click", this.hitOrStand);
+        }
+        else {
+            UI.display("Would you like to [hit] or [stand]?");
+            UI.button.addEventListener("click", this.hitOrStand);
+        }
 
     }
 
-    private hitOrStand():void{
-        UI.button.removeEventListener("click",this.hitOrStand);
-        if(UI.lastInput === 'hit'){
+    private hitOrStand(): void {
+        UI.button.removeEventListener("click", this.hitOrStand);
+        if (UI.lastInput === 'hit') {
             this.currentPlayer.takeCard(this.deck.deal());
             this.evaluateTurn();
         }
-        else if (UI.lastInput === 'stand'){
-            this.currentPlayer.stand=true;
+        else if (UI.lastInput === 'stand') {
+            this.currentPlayer.stand = true;
             this.evaluateTurn();
         }
-        else{this.nextMove(true)}
+        else { this.nextMove(true) }
 
     }
 
-    private header():void{
-        UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance + "\t|\t Amount Wagered: $"+ this.currentPlayer.escrow.escrowBalance);
+    private header(): void {
+        UI.display("Current Player: " + this.currentPlayer.getProfile().name + "\t|\tCurrent Balance: $" + this.currentPlayer.getProfile().balance + "\t|\t Amount Wagered: $" + this.currentPlayer.escrow.escrowBalance);
         UI.display("");
     }
 
-    private score():void{
+    private score(): void {
         UI.display("Current Score: " + this.currentPlayer.score)
     }
 
-    private showCards(showHole: boolean):void{
+    private showCards(showHole: boolean): void {
         UI.display("Your Cards");
-        let yourCards : string = this.currentPlayer.hand.cards[0].toString() + ' ';
-        for(let i = 1; i <this.currentPlayer.hand.cards.length; i++){
+        let yourCards: string = this.currentPlayer.hand.cards[0].toString() + ' ';
+        for (let i = 1; i < this.currentPlayer.hand.cards.length; i++) {
             yourCards += "| " + this.currentPlayer.hand.cards[i];
         }
         UI.display(yourCards);
         this.score();
         UI.display('');
         UI.display("Dealer Cards");
-        if(showHole === false){
-        let dealerCards : string = "UNKNOWN ";
-        for(let i = 1; i <this.dealer.hand.cards.length; i++){
-            dealerCards += "| " + this.dealer.hand.cards[i];
+        if (showHole === false) {
+            let dealerCards: string = "UNKNOWN ";
+            for (let i = 1; i < this.dealer.hand.cards.length; i++) {
+                dealerCards += "| " + this.dealer.hand.cards[i];
+            }
+            UI.display(dealerCards);
         }
-        UI.display(dealerCards);
+        else if (showHole === true) {
+            let dealerCards: string = this.dealer.hand.cards[0].toString() + ' ';
+            for (let i = 1; i < this.dealer.hand.cards.length; i++) {
+                dealerCards += "| " + this.dealer.hand.cards[i];
+            }
+            UI.display(dealerCards);
+            UI.display("Dealer Score: " + this.dealer.score);
         }
-        else if(showHole === true){
-            let dealerCards : string = this.dealer.hand.cards[0].toString() + ' ';
-        for(let i = 1; i <this.dealer.hand.cards.length; i++){
-            dealerCards += "| " + this.dealer.hand.cards[i];
-        }
-        UI.display(dealerCards);
-        UI.display("Dealer Score: " + this.dealer.score);
-        }   
         UI.display('');
     }
 
-    private tallyScores(){
+    private tallyScores() {
         this.dealer.calculateScore();
         this.currentPlayer.calculateScore();
     }
 
-    private naturalCheck(): boolean{
-        if(this.currentPlayer.score === 21 && this.dealer.score === 21){
+    private naturalCheck(): boolean {
+        if (this.currentPlayer.score === 21 && this.dealer.score === 21) {
             this.currentPlayer.win(0);
             this.endScreen();
             UI.display("Improbably, both you and the Dealer got natural Black Jack");
@@ -696,7 +707,7 @@ class BlackJackGame extends CardGame {
             this.restart();
             return true;
         }
-        else if(this.currentPlayer.score === 21){
+        else if (this.currentPlayer.score === 21) {
             this.currentPlayer.win(1.5);
             this.endScreen();
             UI.display("You got a natural Black Jack!");
@@ -704,7 +715,7 @@ class BlackJackGame extends CardGame {
             this.restart();
             return true;
         }
-        else if (this.dealer.score === 21){
+        else if (this.dealer.score === 21) {
             this.currentPlayer.lose();
             this.endScreen();
             UI.display("The Dealer got a natural Black Jack");
@@ -712,14 +723,14 @@ class BlackJackGame extends CardGame {
             this.restart();
             return true;
         }
-        else{return false;}
+        else { return false; }
     }
 
-    private restart():void{
+    private restart(): void {
         UI.display("Press [submit] to play again");
-        this.currentPlayer.stand=false;
-        this.dealer.stand=false;
-        UI.button.addEventListener("click", this.run,{once:true})
+        this.currentPlayer.stand = false;
+        this.dealer.stand = false;
+        UI.button.addEventListener("click", this.run, { once: true })
     }
 
 
@@ -729,35 +740,91 @@ class BlackJackGame extends CardGame {
 
 class Casino {
 
-
+    private name: string;
+    private amount: number;
+    private profiles: Profile[];
+    private currentPlayer: Profile;
     constructor() {
+        this.profiles = new Array<Profile>();
         this.chooseGame = this.chooseGame.bind(this);
+        this.stepTwo = this.stepTwo.bind(this);
+        this.mainMenu = this.mainMenu.bind(this);
+        this.register = this.register.bind(this);
+        this.start = this.start.bind(this);
+        this.stepOne = this.stepOne.bind(this);
     }
 
     start() {
-        UI.display("What game do you want to play?");
-        UI.display("Black Jack or Go Fish?");
-        UI.button.addEventListener("click", this.chooseGame);
+        UI.display("Welcome to Casino Royale With Cheese!");
+        UI.display("Let's start by registering your profile");
+        UI.display("What is your name?")
+        UI.button.addEventListener("click", this.stepOne,{once:true});
     }
+
+    stepOne(): void {
+        this.name = UI.lastInput;
+        this.stepTwo();
+    }
+
+    stepTwo(errorMessage?: string): void {
+         //UI.button.removeEventListener("click", this.stepOne);
+        UI.clearScreen();
+        UI.display("Nice to meet you " + this.name);
+        UI.display("How much money would you like to change into chips?")
+        UI.display("The minimum desposit is $1000");
+        if (typeof errorMessage !== "undefined") UI.display(errorMessage);
+        UI.button.addEventListener("click", this.register);
+    }
+
+    register(): void {
+        UI.button.removeEventListener("click", this.register);
+        if (parseInt(UI.lastInput) > 1000) {
+            this.amount = parseInt(UI.lastInput);
+            this.currentPlayer = new Profile(this.name, this.amount);
+            this.profiles.push(this.currentPlayer);
+            this.mainMenu();
+        }
+        else if (parseInt(UI.lastInput) < 1000) {
+           // UI.button.addEventListener("Click", this.register);
+            this.stepTwo("You must change at least $1000 into chips to play in our casino");
+        }
+        else {
+            //UI.button.addEventListener("Click", this.register);
+            this.stepTwo("You must enter a number for your deposit");
+        }
+
+    }
+
+    mainMenu(errorMessage?: string): void {
+        UI.clearScreen();
+        this.header();
+        UI.display("What game would you like to play?")
+        UI.display("[Black Jack]");
+        UI.display('');
+        if (typeof errorMessage !== "undefined") UI.display(errorMessage);
+        UI.button.addEventListener("click", this.chooseGame);
+
+    }
+
+    private header(): void {
+        UI.display("Current Player: " + this.currentPlayer.name + "\t|\tCurrent Balance: $" + this.currentPlayer.balance);
+        UI.display("");
+    }
+
 
     chooseGame(): void {
         UI.button.removeEventListener("click", this.chooseGame);
         if (UI.lastInput === "Black Jack") {
-
-
-
+            var currentGame = new BlackJackGame(this.currentPlayer);
+            currentGame.start();
         }
-        else if (UI.lastInput === "Go Fish") {
 
-
-        }
         else {
-            UI.button.addEventListener("click", this.chooseGame);
+            this.mainMenu("I'm sorry. We don't have that game yet.");
         }
     }
-
-
 }
+
 
 class UI {
     static userInput = <HTMLInputElement>document.getElementById("user_input");
