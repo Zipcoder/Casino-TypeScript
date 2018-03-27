@@ -19,4 +19,12 @@ function rotate(idx: number, next: WheelSymbol): void {
     }
 }
 
+function winner(): void{
+    document.getElementById("winLose").innerText = "WINNER";
+}
+
+function looser(): void{
+    document.getElementById("winLose").innerText = "Play Again";
+}
+
 const slotMachine: SlotMachine = new SlotMachine();

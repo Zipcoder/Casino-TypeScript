@@ -2,6 +2,7 @@ class SlotMachine {
     wheels: Wheel[];
     private running: boolean;
     private stoppedWheels: number;
+    finalSymbols: WheelSymbol[];
 
     constructor() {
         this.wheels = [
@@ -11,6 +12,7 @@ class SlotMachine {
         ];
         this.running = false;
         this.stoppedWheels = 0;
+        this.finalSymbols = [];
     }
 
     // WheelDelegate interface implementation
@@ -22,6 +24,7 @@ class SlotMachine {
     // WheelDelegate interface implementation
     wheelDidStop(wheel: Wheel, symbol: WheelSymbol): void {
         this.stoppedWheels++;
+        this.finalSymbols.push(symbol);
         if (this.stoppedWheels >= this.wheels.length) {
             this.running = false;
             for (let i: number = 0; i < this.wheels.length; i++) {
@@ -29,9 +32,20 @@ class SlotMachine {
                 this.wheels[i].shuffle();
             }
             this.stoppedWheels = 0;
-            // check here for winner and reply
+            this.checkWinner();
+            this.finalSymbols = [];
+         }         
+     }
+
+        checkWinner(): void{
+            console.log(this.finalSymbols);
+        if(this.finalSymbols[0]==this.finalSymbols[1] && 
+            this.finalSymbols[0]==this.finalSymbols[2]){
+                winner();
+        }else{
+           looser();
+            }
         }
-    }
 
     run(): void {
         if (this.running) {
