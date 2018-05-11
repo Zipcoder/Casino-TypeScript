@@ -18,7 +18,7 @@ var UserInterface = /** @class */ (function () {
     };
     UserInterface.prototype.start = function () {
         var _this = this;
-        this.display("Do you want to play War? (yes/no)");
+        this.display("Do you want to play? (yes/no)");
         this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
     };
     UserInterface.prototype.chooseGame = function () {

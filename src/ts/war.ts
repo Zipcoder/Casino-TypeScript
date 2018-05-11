@@ -1,5 +1,5 @@
-
-class War{
+namespace game{
+export class War{
 
     private isGameRunning: boolean;
     private dealer: Player;
@@ -38,9 +38,9 @@ class War{
     engine():void{
         while(((this.dealerHand.length + this.dealerPlayedCards.length) < 52) 
         && ((this.playerHand.length + this.playerPlayedCards.length) <52)){
-            if(this.playerHand.length == 0 && this.playerPlayedCards.length>0){
-                this.playerHand.
-            }
+            // if(this.playerHand.length == 0 && this.playerPlayedCards.length>0){
+            //     this.playerHand.
+            // }
             let card1 = this.dealerHand.pop();
             let card2 = this.playerHand.pop();
             if(card1.rank>card2.rank){
@@ -62,3 +62,4 @@ class War{
 
 let war: War = new War();
 war.start();
+}
