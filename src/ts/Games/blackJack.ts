@@ -1,21 +1,20 @@
-class BlackJack implements GameInterface, Card{
-    suit: string;
-    rank: number;
+namespace game{
+
+export class BlackJack implements GameInterface{
+    
+
     player: Player;
     dealer: Player;
     deck: Deck;
     players: Player[] = [];
     isGameRunning: boolean;
-    playerH
 
-    constructor(player: Player, dealer:Player, deck:Deck, players:Player[]=[]){
+    constructor(){
+        this.deck = new Deck();
+        this.players = new Array<Player>(this.player,this.dealer);
     };
 
-    playerArray(players:Player[]):void{
-        this.players.push(this.player);
-        this.players.push(this.dealer);
-    }
-    
+
     static start(): void{
         throw new Error("Method not implemented.");
     }
@@ -31,13 +30,26 @@ class BlackJack implements GameInterface, Card{
         return playerById;
     }
     addPlayer(player: Player): void {
-        
+        this.players.push(player);
     }
+
     removePlayer(player: Player): void {
-        throw new Error("Method not implemented.");
+        if(this.players.includes(player)){
+            let index: number = this.players.indexOf(player);
+            this.players.splice(index,1);
+        }
     }
-    contains(player: Player): boolean {
+
+    start(): void {
         throw new Error("Method not implemented.");
     }
 
+    engine(): void {
+        throw new Error("Method not implemented.");
+    }
+    end(): void {
+        throw new Error("Method not implemented.");
+    }
+
+}
 }

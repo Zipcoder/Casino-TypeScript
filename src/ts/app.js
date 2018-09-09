@@ -1,67 +1,47 @@
-var UserInterface = /** @class */ (function () {
-    function UserInterface() {
-        var _this = this;
-        this.userInput = document.getElementById('user_input');
-        this.displayWindow = document.getElementById('display');
-        this.button = document.getElementById('submit');
-        this.button.addEventListener("click", function (e) { _this._lastInput = _this.userInput.value; });
-        this.button.addEventListener("click", function (e) { _this.userInput.value = ''; });
+var game;
+(function (game) {
+    class UserInterface {
+        constructor() {
+            this.userInput = document.getElementById('user_input');
+            this.displayWindow = document.getElementById('display');
+            this.button = document.getElementById('submit');
+            this.button.addEventListener("click", (e) => { this._lastInput = this.userInput.value; });
+            this.button.addEventListener("click", (e) => { this.userInput.value = ''; });
+            this.chooseGame = this.chooseGame.bind(this);
+            this.war = new game.War();
+            this.blackJack = new game.BlackJack();
+        }
+        display(input) {
+            this.displayWindow.innerText += input + '\n';
+        }
+        clearScreen() {
+            this.displayWindow.innerText = '';
+        }
+        lastInput() {
+            return this._lastInput;
+        }
+        start() {
+            this.display("Do you want to play? (yes/no)");
+            this.button.addEventListener("click", (e) => this.chooseGame());
+        }
+        chooseGame() {
+            if (this.lastInput() === "yes") {
+                this.button.removeEventListener("click", (e) => this.chooseGame());
+                this.clearScreen();
+                this.display("Let's Go To War!");
+                this.button.addEventListener("click", (e) => this.war.start());
+            }
+            else if (this.lastInput() === "no") {
+                this.clearScreen();
+                this.display("Well fine then, be that way.  Bye.");
+            }
+            else {
+                this.button.addEventListener("click", (e) => this.chooseGame());
+            }
+        }
     }
-    UserInterface.prototype.display = function (input) {
-        this.displayWindow.innerText += input + '\n';
-    };
-    UserInterface.prototype.clearScreen = function () {
-        this.displayWindow.innerText = '';
-    };
-    UserInterface.prototype.lastInput = function () {
-        return this._lastInput;
-    };
-    UserInterface.prototype.start = function () {
-        var _this = this;
-        this.display("Do you want to play? (yes/no)");
-        this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
-    };
-    UserInterface.prototype.chooseGame = function () {
-        var _this = this;
-        if (this.lastInput() === "yes") {
-            this.clearScreen();
-            this.display("Let's Go To War!");
-            this.war.start();
-        }
-        else if (this.lastInput() === "no") {
-            this.clearScreen();
-            this.display("Well fine then, be that way.  Bye.");
-        }
-        else {
-            this.button.addEventListener("click", function (e) { return _this.chooseGame(); });
-        }
-    };
-    return UserInterface;
-}());
-var UI = new UserInterface();
-UI.start();
-var War = /** @class */ (function () {
-    function War() {
-        this.dealerHand = [];
-        this.playerHand = [];
-        this.dealerPlayedCards = [];
-        this.playerPlayedCards = [];
-        // engine():void{
-        //     if()
-        // }
-        // checkIfGameIsOver():void{
-        // }
-        // handOfPersonIsEmpty(person: Player):boolean{
-        //     return false;
-        // }
-        // announceWinner()
-    }
-    War.prototype.start = function () {
-        this.isGameRunning = true;
-        this.dealerHand = this.deck.shuffleDeck();
-        this.playerHand = this.deck.splitDeck();
-        this.dealerHand = this.deck.shuffleDeck();
-        this.ui.display("War commensing");
-    };
-    return War;
-}());
+    game.UserInterface = UserInterface;
+    let UI = new UserInterface();
+    UI.start();
+})(game || (game = {}));
+//# sourceMappingURL=app.js.map

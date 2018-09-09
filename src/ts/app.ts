@@ -1,6 +1,9 @@
 namespace game{
+
 export class UserInterface {
+    
     war:War;
+    blackJack:BlackJack;
     public userInput: HTMLInputElement = <HTMLInputElement>document.getElementById('user_input');
     public displayWindow: HTMLDivElement = <HTMLDivElement>document.getElementById('display');
     public button: HTMLDivElement = <HTMLDivElement>document.getElementById('submit');
@@ -11,6 +14,7 @@ export class UserInterface {
         this.button.addEventListener("click", (e: Event) => { this.userInput.value = '' });
         this.chooseGame = this.chooseGame.bind(this);
         this.war = new War();
+        this.blackJack = new BlackJack();
     }
 
     display(input: any): void {
@@ -51,63 +55,7 @@ export class UserInterface {
 
 }
 
-
 let UI: UserInterface = new UserInterface();
 UI.start();
-
-// class War{
-
-//     private isGameRunning: boolean;
-//     private dealer: Player;
-//     private player: Player;
-//     private deck: Deck;
-//     private dealerHand: Card[] = [];
-//     private playerHand: Card[] = [];
-//     private dealerPlayedCards: Card[] = [];
-//     private playerPlayedCards: Card[] = [];
-
-
-//     public start():void{
-
-// //        this.display("Welcome to War");
-//         this.isGameRunning = true;
-//         this.dealerHand = this.deck.shuffleDeck();
-//         this.playerHand = this.deck.splitDeck();
-//  //       console.log(this.dealerHand.length);
-//         this.engine();
-//     }
-
-//     // display(input: any): void {
-//     //     this.displayWindow.innerText += input + '\n';
-//     // }
-
-//     engine():void{
-//         while(((this.dealerHand.length + this.dealerPlayedCards.length) < 52) 
-//         && ((this.playerHand.length + this.playerPlayedCards.length) <52)){
-//             // if(this.playerHand.length == 0 && this.playerPlayedCards.length>0){
-//             //     this.playerHand = this.playerPlayedCards;
-//             //     this.playerPlayedCards = 
-//             // }
-//             let card1 = this.dealerHand.pop();
-//             let card2 = this.playerHand.pop();
-//             if(card1.rank>card2.rank){
-//                   this.dealerPlayedCards.push(card1, card2);
-//                 } else if(card1.rank == card2.rank){
-//                     this.iDeclareWar();
-//                 }
-//                 else{
-//                     this.playerPlayedCards.push(card1, card2);
-//                 }
-//         }
-//     }
-
-//     private iDeclareWar():void{
-
-//     }
-
-// }
-
-// // let war: War = new War();
-// // war.start();
 
 }
