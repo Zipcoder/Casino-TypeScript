@@ -24,4 +24,4 @@ var game;
     }
     game.Player = Player;
 })(game || (game = {}));
-//# sourceMappingURL=playerClass.js.map
+//# sourceMappingURL=tsc.js.map

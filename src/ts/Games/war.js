@@ -51,4 +51,4 @@ var game;
     let war = new War();
     war.start();
 })(game || (game = {}));
-//# sourceMappingURL=war.js.map
+//# sourceMappingURL=tsc.js.map

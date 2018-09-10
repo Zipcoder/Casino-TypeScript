@@ -1,1 +1,1 @@
-//# sourceMappingURL=gameInterface.js.map
+//# sourceMappingURL=tsc.js.map

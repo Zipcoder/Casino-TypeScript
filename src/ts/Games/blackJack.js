@@ -44,4 +44,4 @@ var game;
     let blackJack = new BlackJack();
     blackJack.start();
 })(game || (game = {}));
-//# sourceMappingURL=blackJack.js.map
+//# sourceMappingURL=tsc.js.map

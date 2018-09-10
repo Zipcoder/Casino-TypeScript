@@ -1,6 +1,7 @@
 namespace game{
-    
+
     export interface GameInterface {
+
     players: Array<Player>;
 
     start():void;
