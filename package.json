@@ -1,0 +1,23 @@
+{
+  "name": "cr-macrolabs-typescript-casino",
+  "version": "1.0.0",
+  "description": "* **Objective:**   * To create a casino simulation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carolynnmarie/CR-MacroLabs-TypeScript-Casino.git"
+  },
+  "author": "carolynn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carolynnmarie/CR-MacroLabs-TypeScript-Casino/issues"
+  },
+  "homepage": "https://github.com/carolynnmarie/CR-MacroLabs-TypeScript-Casino#readme",
+  "dependencies": {
+    "typescript": "^3.0.3",
+    "typescript-cli": "^0.1.0"
+  }
+}

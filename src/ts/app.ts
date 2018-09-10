@@ -1,3 +1,5 @@
+
+
 namespace game{
 
 export class UserInterface {
@@ -6,7 +8,7 @@ export class UserInterface {
     blackJack:BlackJack;
     public userInput: HTMLInputElement = <HTMLInputElement>document.getElementById('user_input');
     public displayWindow: HTMLDivElement = <HTMLDivElement>document.getElementById('display');
-    public button: HTMLDivElement = <HTMLDivElement>document.getElementById('submit');
+    public button: HTMLButtonElement = <HTMLButtonElement>document.getElementById('submit');
     public _lastInput: any;
 
     constructor() {

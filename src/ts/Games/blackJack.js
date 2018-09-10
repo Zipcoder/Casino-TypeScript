@@ -3,35 +3,35 @@ var game;
     class BlackJack {
         constructor() {
             this.players = [];
+            this.userInput = document.getElementById('user_input');
+            this.displayWindow = document.getElementById('display');
+            this.button = document.getElementById('submit');
+            this.button.addEventListener("click", (e) => { this._lastInput = this.userInput.value; });
+            this.button.addEventListener("click", (e) => { this.userInput.value = ''; });
+            this.start = this.start.bind(this);
             this.deck = new game.Deck();
             this.players = new Array(this.player, this.dealer);
         }
         ;
-        static start() {
-            throw new Error("Method not implemented.");
+        start() {
+            this.button.removeEventListener("click", (e) => blackJack.start());
+            this.display("Welcome to War");
+            this.isGameRunning = true;
+        }
+        display(input) {
+            this.displayWindow.innerText += input + '\n';
         }
         getPlayers() {
             return this.players;
         }
         getPlayer(id) {
-            var playerById;
-            this.players.forEach(player => {
-                if (player.getId() == id)
-                    playerById = player;
-            });
-            return playerById;
+            return this.players.find(p => p.getId() == id);
         }
         addPlayer(player) {
             this.players.push(player);
         }
         removePlayer(player) {
-            if (this.players.includes(player)) {
-                let index = this.players.indexOf(player);
-                this.players.splice(index, 1);
-            }
-        }
-        start() {
-            throw new Error("Method not implemented.");
+            this.players = this.players.filter(p => p.getId() != player.getId());
         }
         engine() {
             throw new Error("Method not implemented.");
@@ -41,5 +41,7 @@ var game;
         }
     }
     game.BlackJack = BlackJack;
+    let blackJack = new BlackJack();
+    blackJack.start();
 })(game || (game = {}));
 //# sourceMappingURL=blackJack.js.map

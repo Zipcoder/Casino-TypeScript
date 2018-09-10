@@ -8,38 +8,43 @@ var game;
             this.button.addEventListener("click", (e) => { this._lastInput = this.userInput.value; });
             this.button.addEventListener("click", (e) => { this.userInput.value = ''; });
             this.start = this.start.bind(this);
-        }
-        start() {
-            this.button.removeEventListener("click", (e) => war.start());
-            this.display("Welcome to War");
             this.isGameRunning = true;
-            this.engine();
+            this.players = new Array(new game.Player("dealer"), new game.Player("player"));
+            let deck = new game.Deck();
+            this.userHand = deck.splitDeck();
+            this.dealerHand = deck.getDeck();
+            this.tableCards = new Array();
         }
-        display(input) {
-            this.displayWindow.innerText += input + '\n';
-        }
-        engine() { }
         getPlayers() {
             return this.players;
         }
         getPlayer(id) {
-            var playerById;
-            this.players.forEach(player => {
-                if (player.getId() == id)
-                    playerById = player;
-            });
-            return playerById;
+            return this.players.find(p => p.getId() == id);
         }
         addPlayer(player) {
             this.players.push(player);
         }
         removePlayer(player) {
-            let index;
-            index = this.players.indexOf(player);
-            this.players.splice(index, 1);
+            this.players = this.players.filter(p => p.getId() != player.getId());
+        }
+        start() {
+            this.button.removeEventListener("click", (e) => war.start());
+            this.display("Welcome to War");
+            do {
+                this.engine();
+            } while (this.dealerHand.length < 52 && this.userHand.length < 52);
+        }
+        display(input) {
+            this.displayWindow.innerText += input + '\n';
+        }
+        engine() {
+            let dealerTableCard;
+            let userTableCard;
+        }
+        iDeclareWar() {
         }
         end() {
-            throw new Error("Method not implemented.");
+            this.isGameRunning = false;
         }
     }
     game.War = War;

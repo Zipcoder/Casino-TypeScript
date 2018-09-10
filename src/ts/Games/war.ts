@@ -2,55 +2,73 @@ namespace game{
 
 export class War implements GameInterface{
 
-    private isGameRunning: boolean;
+    isGameRunning: boolean;
     players: Player[];
+    userHand: Card[];
+    dealerHand: Card[];
+    tableCards: Card[];
 
     public userInput: HTMLInputElement = <HTMLInputElement>document.getElementById('user_input');
     public displayWindow: HTMLDivElement = <HTMLDivElement>document.getElementById('display');
-    public button: HTMLDivElement = <HTMLDivElement>document.getElementById('submit');
+    public button: HTMLButtonElement = <HTMLButtonElement>document.getElementById('submit');
     public _lastInput: any;
 
     constructor() {
         this.button.addEventListener("click", (e: Event) => { this._lastInput = this.userInput.value });
         this.button.addEventListener("click", (e: Event) => { this.userInput.value = '' });
         this.start = this.start.bind(this);
-    }
 
-    public start():void{
-        this.button.removeEventListener("click",(e:Event)=>war.start());
-        this.display("Welcome to War");
         this.isGameRunning = true;
-        this.engine();
+        this.players = new Array<Player>(new Player("dealer") ,new Player("player"));
+        let deck: Deck = new Deck();
+        this.userHand = deck.splitDeck();
+        this.dealerHand = deck.getDeck();
+        this.tableCards = new Array<Card>();
     }
-
-    display(input: any): void {
-        this.displayWindow.innerText += input + '\n';
-    }
-
-    engine():void{}
-
 
     getPlayers(): Player[] {
         return this.players;
     }
+
     getPlayer(id: number): Player {
-        var playerById;
-        this.players.forEach(player => {
-            if(player.getId()==id) playerById = player;
-        });
-        return playerById;
+        return this.players.find(p => p.getId() == id);
     }
+
     addPlayer(player: Player): void {
         this.players.push(player);
     }
+
     removePlayer(player: Player): void {
-        let index: number;
-        index = this.players.indexOf(player);
-        this.players.splice(index,1);
+        this.players = this.players.filter(p => p.getId() != player.getId());
     }
 
-    end(): void {
-        throw new Error("Method not implemented.");
+    public start():void{
+        this.button.removeEventListener("click",(e:Event)=>war.start());
+
+        this.display("Welcome to War");
+        do{
+            this.engine();
+        } while (this.dealerHand.length<52 && this.userHand.length<52);
+        
+    }
+
+    public display(input: any): void {
+        this.displayWindow.innerText += input + '\n';
+    }
+
+    public engine():void{
+        let dealerTableCard: Card;
+        let userTableCard: Card;
+        
+    }
+
+    public iDeclareWar():void{
+
+    }
+
+
+    public end(): void {
+        this.isGameRunning = false;
     }
 }
 

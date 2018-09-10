@@ -5,7 +5,7 @@
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
- //       "outFile": "../../built/local/tsc.js",
+        "outFile": "../../built/local/tsc.js",
         "sourceMap": true,
         "target":"es2017",
         "watch":true,
@@ -16,7 +16,7 @@
     "exclude": [
         "node_modules",
         "**/*.spec.ts",
-        "**/*.js.map",
-        "**/*.js"
+        "**/*.js.map"
+
     ]
 }

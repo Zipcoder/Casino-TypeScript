@@ -2,10 +2,10 @@ var game;
 (function (game) {
     let Suit;
     (function (Suit) {
-        Suit["HEARTS"] = "Hearts";
-        Suit["CLUBS"] = "Clubs";
-        Suit["SPADES"] = "Spades";
-        Suit["DIAMONDS"] = "Diamonds";
+        Suit["HEARTS"] = "\u2665";
+        Suit["CLUBS"] = "\u2663";
+        Suit["SPADES"] = "\u2660";
+        Suit["DIAMONDS"] = "\u2666";
     })(Suit = game.Suit || (game.Suit = {}));
     let Rank;
     (function (Rank) {
@@ -31,10 +31,8 @@ var game;
         constructor() {
             super();
             this._deck = new Array();
-            let fullSuit = new Array();
-            let fullRank = new Array();
-            fullSuit.push(Suit.HEARTS, Suit.DIAMONDS, Suit.CLUBS, Suit.SPADES);
-            fullRank.push(Rank.ACE, Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX, Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING);
+            let fullSuit = new Array(Suit.HEARTS, Suit.DIAMONDS, Suit.CLUBS, Suit.SPADES);
+            let fullRank = new Array(Rank.ACE, Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX, Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING);
             for (let suit of fullSuit) {
                 for (let rank of fullRank) {
                     this._deck.push({ suit, rank });
@@ -47,15 +45,15 @@ var game;
                 this._deck[randomI] = temp;
             }
         }
-        getdeck() {
+        getDeck() {
             return this._deck;
         }
         shuffleDeck() {
             for (let i = this._deck.length - 1; i >= 0; i--) {
                 let randomI = Math.floor(Math.random() * (i + 1));
-                let tem = this._deck[i];
+                let temp = this._deck[i];
                 this._deck[i] = this._deck[randomI];
-                this._deck[randomI] = tem;
+                this._deck[randomI] = temp;
             }
             return this._deck;
         }
