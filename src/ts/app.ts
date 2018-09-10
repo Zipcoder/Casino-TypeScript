@@ -1,5 +1,3 @@
-
-
 namespace game{
 
 export class UserInterface {
@@ -59,5 +57,6 @@ export class UserInterface {
 
 let UI: UserInterface = new UserInterface();
 UI.start();
+
 
 }
