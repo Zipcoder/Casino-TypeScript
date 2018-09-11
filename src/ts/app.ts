@@ -1,7 +1,7 @@
 namespace game{
 
 export class UserInterface {
-    
+
     war:War;
     blackJack:BlackJack;
     public userInput: HTMLInputElement = <HTMLInputElement>document.getElementById('user_input');
@@ -57,6 +57,5 @@ export class UserInterface {
 
 let UI: UserInterface = new UserInterface();
 UI.start();
-
 
 }

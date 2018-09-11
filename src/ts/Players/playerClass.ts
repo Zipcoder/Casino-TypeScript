@@ -1,6 +1,6 @@
 namespace game{
     
-interface PlayerInterface{
+export interface PlayerInterface{
     name: string;
     id: number;
     wallet: number;
