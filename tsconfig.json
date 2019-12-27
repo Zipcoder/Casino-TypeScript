@@ -1,0 +1,30 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outFile": "/Users/carolynn/dev/post-ZCW-projects/Casinos/CR-MacroLabs-TypeScript-Casino/built/local/tsc.js",
+        "sourceMap": true,
+        "target":"es5",
+        "watch":true,
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "jsx": "react",
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts",
+
+
+    ]
+}
