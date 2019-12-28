@@ -19,13 +19,24 @@
     <h1>TypeScript Casino</h1>
 
     <section id="main">
-    	<div id="display"></div>
+        <div id="display">   
+        </div>
+    
+        <div id="buttons">
+            <!--    <button type="button" class="btn btn-primary" onclick="blackJack.hit()">HIT</button>
+                <button type="button" class="btn btn-primary" onclick="blackJack.stay()">STAY</button>
+                <button type="button" class="btn btn-primary" onclick="blackJack.play(), style.display = 'none'">START GAME</button> -->
+                <button id="button1" style="display:block;" type="button" class="btn btn-primary" onclick="document.getElementById('button2').style.display = 'block'; document.getElementById('button3').style.display = 'block'; document.getElementById('button4').style.display = 'block';this.style.display = 'none'; blackJack.play();">START GAME</button>
+                <button id="button2" style="display:none;" type="button" class="btn btn-primary" onclick="style.display = 'block'; blackJack.hit();">HIT</button>
+                <button id="button3" style="display:none;" type="button" class="btn btn-primary" onclick="style.display = 'block';  blackJack.stay();">STAY</button>
+                <button id="button4" style="display:none;" type="button" class="btn btn-primary" onclick="style.display = 'block'; location.reload();">NEW GAME</button>
+        </div>
 			<div id="input">
 				<input type="text" name="user_input" id="user_input">
 				<input type="submit" value="submit">
 			</div>
     </section>
-
- 	<script type="text/javascript" src="js/app.js"></script>
+     <script type="text/javascript" src="js/app.js"></script>
+    
 </body>
 </html>
